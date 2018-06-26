@@ -1,6 +1,7 @@
 import { Mongo } from 'meteor/mongo';
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
+import { Commentaires } from './commentaires';
 
 export const Chapitres = new Mongo.Collection('chapitres');
 Chapitres.attachCollectionRevisions();
@@ -17,7 +18,9 @@ Meteor.methods({
             session: session,
             titre: titre,
             auteur: auteur,
-            ouvertA: new Date(),
+            creation: new Date(),
+            edition : true,
+            archive: false,
         });
     },
 
@@ -37,5 +40,8 @@ Meteor.methods({
         return Chapitres.findOne(chapitreId).revisions.length
     },
 
-    // 'chapitres.ajouterCommentaire'
+    'chapitre.getAllCommentaires'(chapitreId) {
+        Meteor.subscribe('commentaires')
+        return Commentaires.find({chapitreId: chapitreId})
+    }
 })

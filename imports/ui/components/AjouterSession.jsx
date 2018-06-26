@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
 
-export default class AjouterSession extends Component {
+/**
+ * Component gérant la création de session.
+ * Le formulaire a une className "nouvelle-session".
+ * L'affichage est contenu dans une div "ajout-session".
+ */
+class AjouterSession extends Component {
     handleSubmit(event) {
         event.preventDefault();
         const target = event.target;
@@ -36,3 +41,5 @@ export default class AjouterSession extends Component {
         )
     }
 }
+
+export default AjouterSession;

@@ -6,12 +6,9 @@ export default class AjouterCommentaire extends Component {
         event.preventDefault();
         const target = event.target;
         const commentaire = target.contentInput.value;
-        const auteur = target.auteurInput.value;
+        const auteur = Meteor.user().username;
         const session = this.props.session;
         const chapitre = this.props.chapitre;
-        if (commentaire == "") {
-            
-        }
         Meteor.call('commentaires.insert', session, chapitre, commentaire, auteur)
 
         target.contentInput.value = "";

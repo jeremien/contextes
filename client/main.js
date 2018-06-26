@@ -11,6 +11,9 @@ import { Test } from '../imports/api/collections/test';
 import TestAPi from '../imports/ui/components/TestAPI';
 import App from '../imports/ui/components/App';
 
+/**
+ * Debut du programme
+ */
 Meteor.startup(() => {
   render(<App />, document.getElementById('root'))
 });

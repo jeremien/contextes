@@ -21,15 +21,15 @@ export default class Login extends React.Component {
         const target = event.target
         const nom = target.nom.value;
         const password = target.password.value;
+        // const role = target.role.value;
 
         Meteor.loginWithPassword(nom, password);
+        localStorage.setItem("nom", nom);
+        sessionStorage.setItem("nom", nom);
         this.props.history.push('/');
     }
     
     render() {
-        if (this.state.connecte) {
-            return <Redirect to="/"/>
-        }
         return (
             <form className="login" onSubmit={this.handleSubmit.bind(this)}>
                     <input type="text" name="nom" placeholder="nom" />
