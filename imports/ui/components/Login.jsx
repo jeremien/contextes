@@ -15,7 +15,7 @@ export default class Login extends React.Component {
         // this.state = {
         //     connecte: false
         // }
-        this.state = {value: 'transcripteur'};
+        this.state = {role: 'transcripteur'};
     }
     
     handleSubmit(event) {
@@ -27,19 +27,19 @@ export default class Login extends React.Component {
         // Meteor.loginWithPassword(nom, password);
         localStorage.setItem("nom", nom);
         Session.set('utilisateur', nom),
-        Session.set('role', this.state.value),
+        Session.set('role', this.state.role),
         Session.set('connecte', true),        // Meteor.call()
         this.props.history.push('/');
     }
     handleChange(event) {
-        this.setState({value: event.target.value});
+        this.setState({role: event.target.value});
       }
     
     render() {
         return (
             <form className="login" onSubmit={this.handleSubmit.bind(this)}>
                     <input type="text" name="nom" placeholder="nom" />
-                    <select  value={this.state.value} onChange={this.handleChange.bind(this)}>
+                    <select  value={this.state.role} onChange={this.handleChange.bind(this)}>
                         <option value="transcripteur">Transcripteur</option>
                         <option value="correcteur">Correcteur</option>
                         <option value="conformateur">Conformateur</option>

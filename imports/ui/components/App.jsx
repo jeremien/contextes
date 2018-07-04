@@ -15,8 +15,12 @@ import IndexSession from './IndexSession';
 import Login from './Login';
 import Inscriptiion from './Inscription';
 import MainLayout from '../layout/MainLayout';
+import FullSession from './FullSession';
+import TestAPI from './TestAPI';
 import Chapitre from './Chapitre';
 import AjouterSession from './AjouterSession';
+
+import TableauDeBord from './TableauDeBord';
 
 /**
  * Composant principal de l'application. Gère les routes publiques.
@@ -41,10 +45,10 @@ class App extends Component {
         <MainLayout
           topbar={<div>
             <li><Link to="/">Home</Link></li>
+            <li><Link to="/test">TEst</Link></li>
             {!!this.props.connecte ?
               <div>
                   <p>Bienvenue, {Session.get('utilisateur')}. Vous êtes connecté en tant que {Session.get('role')}</p>
-                  {/* <button className="logout" onClick={this.handleLogOut(this.props.history)}>Se déconnecter</button> */}
                   <LogOut/> 
               </div>
               :
@@ -55,12 +59,14 @@ class App extends Component {
             }
             </div>
           } >
-          
+
+          <Route exact path="/session/:id" component={FullSession} />
           <Route exact path="/" name="home" component={IndexSession} />
           <Route excat path="/login" component={Login}/>
           <Route exact path="/inscription" component={Inscriptiion} />
-          {/* <Route path="/chapitre/" component={Chapitre} /> */}
-          {/* <Route path="/chapitre/:id" component={Chapitre}/> */}
+          <Route exact path="/test/:param" component={TestAPI} />
+          <Route exact path="/session/:id/admin" component={TableauDeBord} />
+          <Route exact path="/chapitre/:id" component={Chapitre} />
           {/* Exemple d'une route avec un layout + components enfants
           <Route name="exemple" path="/exemple" component={Layout}>
             <IndexRoute components={{ enfant1: Component, enfant2: Component }} />

@@ -39,11 +39,11 @@ class IndexChapitres extends Component {
   
   render() {
         return (
-        <Router>
-          <Switch>
         <div className="chapitres">
             <h2>Ajouter un chapitre</h2>
+            {!!Session.get('connecte') && 
             <AjouterChapitre session={this.props.session} />
+            }
             <br />
             {!!this.props.chapitres ?
             <div>
@@ -59,10 +59,8 @@ class IndexChapitres extends Component {
               :
               <h3>Auncun chapitre pour l'instant</h3>
             }
-            <Route path="/chapitre/:id" component={Chapitre} />
             </div>
-            </Switch>
-            </Router>
+            
           );
       }
 }

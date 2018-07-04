@@ -7,7 +7,7 @@ import { withTracker } from 'meteor/react-meteor-data';
 class Chapitre extends React.Component {
     componentDidMount() {
         Meteor.call('chapitres.connexion', this.props.match.params.id, Session.get('utilisateur'));
-        // console.log('Component will mount');
+        console.log('Component will mount');
         // console.log(this.props.chapitre.utilisateurs_connectes)
     };
 
@@ -23,8 +23,13 @@ class Chapitre extends React.Component {
     render() {
         return (
             <div>
+            {!!this.props.chapitre &&
+            <div>
+                
                 <p>Chapitre : {this.props.chapitre.titre}</p>
-                    <h3 >Modificiation en cours : {this.props.chapitre.utilisateurs_connectes}</h3>
+                    <h3 >Modificiation en cours : {this.props.chapitre.utilisateurs_connectes}</h3>  
+            </div>
+            }
             </div>
         )
     }

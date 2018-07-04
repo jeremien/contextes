@@ -51,12 +51,16 @@ Meteor.methods({
      * Retourne tous les chapitres appartenant à la session sessionId.
      * @param {OdbjectId} sessionId - Identifiant de la session
      */
-    // 'session.getAllChapitres'(sessionId) {
-    //     return Chapitres.find({sessionId: sessionId});
-    // },
+    'session.getAllChapitres'(session) {
+        return Chapitres.find({session: session});
+    },
 
     'sessions.connexion'(sessionId, utilisateur) {
         Session.update(sessionId, {$add})
+    },
+
+    'sessions.deconnexion'(sessionId, utilisateur) {
+
     },
 
     // 'sessions.getEditionEnCours'(session) {

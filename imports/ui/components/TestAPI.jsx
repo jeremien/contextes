@@ -1,4 +1,6 @@
 import React from 'react';
+import {withTracker } from 'meteor/react-meteor-data'
+import { Meteor } from 'meteor/meteor'
 
 import { Sessions } from '../../api/collections/sessions';
 import { Chapitres } from '../../api/collections/chapitres';
@@ -10,10 +12,10 @@ import IndexChapitre from './IndexChapitre';
 
 class TestAPI extends React.Component {
     render() {
+        console.log(Meteor.call('session.getAllChapitres', this.props.match.params.param))
         return(
             <div>
-            <AjouterCommentaire {...this.props}/>
-                {this.props.children}
+                <h1>TestAPI</h1>
             </div>            
         )
     }
@@ -40,5 +42,10 @@ function logProps(WrappedComponent) {
   }
 
 
-export default logProps(TestAPI)
+  export default withTracker((props) => {
+    Meteor.subscribe('sessions');
+    return({
+        sessions : Sessions.find().fetch(),
+    })
+  })(TestAPI);
   
