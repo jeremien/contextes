@@ -1,5 +1,6 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
+import { Session } from 'meteor/session';
 import { Router,
     Route,
     Link,
@@ -11,29 +12,39 @@ import { Router,
 export default class Login extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            connecte: false
-        }
+        // this.state = {
+        //     connecte: false
+        // }
+        this.state = {value: 'transcripteur'};
     }
     
     handleSubmit(event) {
         event.preventDefault();
         const target = event.target
         const nom = target.nom.value;
-        const password = target.password.value;
         // const role = target.role.value;
 
-        Meteor.loginWithPassword(nom, password);
+        // Meteor.loginWithPassword(nom, password);
         localStorage.setItem("nom", nom);
-        sessionStorage.setItem("nom", nom);
+        Session.set('utilisateur', nom),
+        Session.set('role', this.state.value),
+        Session.set('connecte', true),        // Meteor.call()
         this.props.history.push('/');
     }
+    handleChange(event) {
+        this.setState({value: event.target.value});
+      }
     
     render() {
         return (
             <form className="login" onSubmit={this.handleSubmit.bind(this)}>
                     <input type="text" name="nom" placeholder="nom" />
-                    <input type="text" name="password" placeholder="Mot de passe" />
+                    <select  value={this.state.value} onChange={this.handleChange.bind(this)}>
+                        <option value="transcripteur">Transcripteur</option>
+                        <option value="correcteur">Correcteur</option>
+                        <option value="conformateur">Conformateur</option>
+                        <option value="editeur">Editeur</option>
+                    </select>
                     <input type="submit" value="connexion" />
             </form>
             

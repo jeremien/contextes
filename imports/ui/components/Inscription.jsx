@@ -17,6 +17,7 @@ export default class Inscriptiion extends React.Component {
 
         const user = {
             username: nom,
+            password: password,
         }
 
         Accounts.createUser(user, function(err) {
@@ -24,7 +25,7 @@ export default class Inscriptiion extends React.Component {
                 alert(err.reason)
             }
             else {
-                    return <Redirect to={{pathname: "home"}} />
+                history.push('/');
             }
         })
     }

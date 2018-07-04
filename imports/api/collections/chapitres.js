@@ -13,6 +13,12 @@ if (Meteor.isServer) {
 }
 
 Meteor.methods({
+    /**
+     * 
+     * @param {object} session Object de la forme {sessionId, sessionTitre}
+     * @param {*} titre Titre du chapitre
+     * @param {*} auteur Personne qui a créer le chapitre par défaut
+     */
     'chapitres.insert'(session, titre, auteur) {
         Chapitres.insert({
             session: session,
@@ -21,6 +27,7 @@ Meteor.methods({
             creation: new Date(),
             edition : true,
             archive: false,
+            utilisateurs_connectes: [],
         });
     },
 
@@ -40,8 +47,16 @@ Meteor.methods({
         return Chapitres.findOne(chapitreId).revisions.length
     },
 
-    'chapitre.getAllCommentaires'(chapitreId) {
+    'chapitres.getAllCommentaires'(chapitre) {
         Meteor.subscribe('commentaires')
-        return Commentaires.find({chapitreId: chapitreId})
-    }
+        return Commentaires.find({chapitre: chapitre})
+    },
+
+    'chapitres.connexion'(chapitreId, utilisateur) {
+        Chapitres.update({_id: chapitreId}, {$addToSet: {utilisateurs_connectes: utilisateur}})
+    },
+
+    'chapitres.deconnexion'(chapitreId, utilisateur) {
+        Chapitres.update({_id: chapitreId}, {$pull: {utilisateurs_connectes: utilisateur}})
+    },
 })

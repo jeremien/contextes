@@ -7,7 +7,6 @@ import { Commentaires } from '../../api/collections/commentaires';
 import AjouterCommentaire from './AjouterCommentaire';
 import Commentaire from './Commentaire';
 import IndexChapitre from './IndexChapitre';
-import IndexSeance from './IndexSeance';
 
 class TestAPI extends React.Component {
     render() {

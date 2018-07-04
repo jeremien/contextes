@@ -10,15 +10,11 @@ class AjouterSession extends Component {
     handleSubmit(event) {
         event.preventDefault();
         const target = event.target;
-        const titre = target.contentInput.value;
-        const auteur = target.titreInput.value;
-        if (session == "") {
-            
-        }
-        Meteor.call('sessions.insert', titre, auteur)
+        const titre = target.titre.value;
+        const auteur = Session.get('utilisateur') || inconnu;
 
-        target.contentInput.value = "";
-        target.auteurInput.value = "";
+        Meteor.call('sessions.insert', titre, auteur)
+        target.reset()
     }
     
     render() {
@@ -27,12 +23,7 @@ class AjouterSession extends Component {
             <form className="nouvelle-session" onSubmit={this.handleSubmit.bind(this)} >
             <input
                 type="text"
-                name="titreInput"
-                placeholder="Entrer le titre de la session"
-            />
-            <input
-                type="text"
-                name="auteurInput"
+                name="titre"
                 placeholder="Entrer le titre de la session"
             />
             <input type="submit" value="Enregistrer" />

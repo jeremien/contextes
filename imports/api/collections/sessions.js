@@ -26,6 +26,7 @@ Meteor.methods({
             creation: new Date(),
             edition: false,
             archive: false,
+            utilisateurs_connectes: [],
 
         });
     },
@@ -50,7 +51,15 @@ Meteor.methods({
      * Retourne tous les chapitres appartenant à la session sessionId.
      * @param {OdbjectId} sessionId - Identifiant de la session
      */
-    'session.getAllChapitres'(sessionId) {
-        return Chapitres.find({sessionId: sessionId})
-    }
+    // 'session.getAllChapitres'(sessionId) {
+    //     return Chapitres.find({sessionId: sessionId});
+    // },
+
+    'sessions.connexion'(sessionId, utilisateur) {
+        Session.update(sessionId, {$add})
+    },
+
+    // 'sessions.getEditionEnCours'(session) {
+    //     return Chapitres.find({session: session}, {_id: 0, titre: 1, utilisateurs_connectes: 1})
+    // },
 })
