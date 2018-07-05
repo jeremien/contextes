@@ -1,13 +1,10 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { Sessions } from '../../api/collections/sessions';
 import AjouterSession from './AjouterSession';
-import FullSession from './FullSession';
-import TableauDeBord from './TableauDeBord';
-
 
 class IndexSession extends React.Component {
     constructor(props) {
@@ -15,45 +12,23 @@ class IndexSession extends React.Component {
         this.state = {
             session_active: null,
         }
-        this.handleClick=this.handleClick.bind(this);
     }
-    
-    handleClick(event, session) {
-        this.setState({session_active: session});
-    }
-
-    // getChapitre() {
-    //     if (!!this.state.session_active) {
-    //         return (
-    //             <div>
-    //                 <h3>Session choisie : {this.state.session_active.sessionTitre}</h3>
-                    
-    //                 <br />
-                    
-    //             </div>
-    //         )
-    //     }
-    //     else {
-    //         return <h2>Choisir une session à afficher</h2>
-    //     }
-    // }
 
     render() {
-        return(
+        return (
             <div className="session">
                 <div className="index-session">
-                    Sessions
-                    
+                    <h2>Sessions</h2>
                     <ul>
-                    {this.props.sessions.map((session) => (
+                        {this.props.sessions.map((session) => (
                             <Link to={`/session/${session._id}`} key={session._id}>
                                 {session.titre}
                                 <br />
                             </Link>
-                    ))}
+                        ))}
                     </ul>
-                    {!!Session.get('connecte') &&                    
-                    <AjouterSession />
+                    {(!!Session.get('connecte') && Session.get('role') == "editeur") &&
+                        <AjouterSession />
                     }
                 </div>
             </div>

@@ -1,35 +1,49 @@
 import React from 'react';
 import { Session } from 'meteor/session';
 import { Meteor } from 'meteor/meteor';
-import { Chapitres } from '../../api/collections/chapitres';
 import { withTracker } from 'meteor/react-meteor-data';
+import { Link } from 'react-router-dom'
+
+import { Commentaires } from '../../api/collections/commentaires';
+import { Chapitres } from '../../api/collections/chapitres';
+import AjouterCommentaire from './AjouterCommentaire';
+import Commentaire from './Commentaire';
 
 class Chapitre extends React.Component {
-    componentDidMount() {
-        Meteor.call('chapitres.connexion', this.props.match.params.id, Session.get('utilisateur'));
-        console.log('Component will mount');
-        // console.log(this.props.chapitre.utilisateurs_connectes)
+    componentWillUpdate() {
+        if (Session.get('connecte')) {
+            Meteor.call('chapitres.connexion', this.props.match.params.id, Session.get('utilisateur'));
+        }
     };
 
-  componentWillUnmount() {
-    Meteor.call('chapitres.deconnexion', this.props.match.params.id, Session.get('utilisateur'));
-        console.log('Component will unmount');
-        console.log(this.props.chapitre.utilisateurs_connectes)
-  }
+    componentWillUnmount() {
+        Meteor.call('chapitres.deconnexion', this.props.match.params.id, Session.get('utilisateur'));
+    };
 
+    componentWillMount() {
+        if (Session.get('connecte')) {
+            Meteor.call('chapitres.connexion', this.props.match.params.id, Session.get('utilisateur'));
+        }
+    };
 
-
-    
     render() {
         return (
             <div>
-            {!!this.props.chapitre &&
-            <div>
-                
-                <p>Chapitre : {this.props.chapitre.titre}</p>
-                    <h3 >Modificiation en cours : {this.props.chapitre.utilisateurs_connectes}</h3>  
-            </div>
-            }
+                {!!this.props.chapitre &&
+                    <div>
+                        <h3>Chapitre : {this.props.chapitre.titre}</h3>
+                        <ul>
+                            {this.props.commentaires.map((commentaire) => (
+                                <Commentaire commentaire={commentaire} key={commentaire._id} />
+                            ))}
+                        </ul>
+                        {(!!Session.get('connecte') && Session.get('role') == "transcripteur") &&
+                            <AjouterCommentaire chapitreId={this.props.chapitre._id} sessionId={this.props.chapitre.session} />
+                        }
+                        <Link to={`/session/${this.props.chapitre.session}`}>Retourner à l'index de la session</Link>
+                    </div>
+                }
+
             </div>
         )
     }
@@ -37,12 +51,9 @@ class Chapitre extends React.Component {
 
 export default withTracker((props) => {
     Meteor.subscribe('chapitres');
-    console.log(Chapitres.find({_id: props.match.params.id}).fetch())
+    Meteor.subscribe('commentaires');
     return {
-        chapitre : Chapitres.findOne({_id: props.match.params.id}),
-      };
-    })(Chapitre);
-
-    //4eQn66hfiqWsCFZLp
-    // db.chapitres.update({_id: "MgqqdEhyhne8LhxLh"}, {$addToSet: {utilisateurs_connectes: "perceval"}})
-    //db.chapitres.update({_id: "a4pnPMEH3682wrWnt"}, {$pull: {utilisateurs_connectes: "perceval"}})
+        chapitre: Chapitres.findOne({ _id: props.match.params.id }),
+        commentaires: Commentaires.find({ chapitre: props.match.params.id }).fetch(),
+    };
+})(Chapitre);

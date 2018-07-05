@@ -19,18 +19,20 @@ class FullSession extends React.Component {
 
 
 
-    
+
     render() {
         return (
             <div>
-                Une session
-            {!!this.props.sessions &&
-                <div>                        
-                    <h1>Sessions : {this.props.sessions.titre}</h1>
-                    <Link to={`/session/${this.props.match.params.id}/admin`}>Tableau de bord</Link>
-                    <IndexChapitre session={this.props.match.params.id} {...this.props}/>
-                </div>
-            }
+                {!!this.props.sessions &&
+                    <div>
+                        <h1>Sessions : {this.props.sessions.titre}</h1>
+                        {(!!Session.get('connecte') && Session.get('role') == "editeur") &&
+                            <Link to={`/session/${this.props.match.params.id}/admin`}>Tableau de bord</Link>
+                        }
+                        <IndexChapitre session={this.props.match.params.id} {...this.props} />
+                    </div>
+                }
+                
             </div>
         )
     }
@@ -39,6 +41,6 @@ class FullSession extends React.Component {
 export default withTracker((props) => {
     Meteor.subscribe('sessions');
     return {
-        sessions : Sessions.findOne({_id: props.match.params.id}),
-      };
+        sessions: Sessions.findOne({ _id: props.match.params.id }),
+    };
 })(FullSession);

@@ -13,19 +13,20 @@ export default class AjouterChapitre extends Component {
 
         target.reset();
     }
-    
+
     render() {
-        return(
-        <div className="ajout-titre">
-            <form className="nouveau-chapitre" onSubmit={this.handleSubmit.bind(this)} >
-            <input
-                type="text"
-                name="titre"
-                placeholder="Titre du chapitre"
-            />
-            <input type="submit" value="Enregistrer" />
-            </form>
-        </div>
+        return (
+            <div className="ajout-chapitre">
+                <h2>Ajouter un chapitre</h2>
+                <form className="nouveau-chapitre" onSubmit={this.handleSubmit.bind(this)} >
+                    <input
+                        type="text"
+                        name="titre"
+                        placeholder="Titre du chapitre"
+                    />
+                    <input type="submit" value="Enregistrer" />
+                </form>
+            </div>
         )
     }
 }

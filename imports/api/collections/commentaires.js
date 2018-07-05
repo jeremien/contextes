@@ -6,7 +6,6 @@ export const Commentaires = new Mongo.Collection('commentaires');
 /**
  * Effectue une sauvegarde à chaque modification. 
  * Les différentes version sont stockées par ordre chronologique dans une array accessible depuis le champs révision.
- * 
  */
 Commentaires.attachCollectionRevisions();
 

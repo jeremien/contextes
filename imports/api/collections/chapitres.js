@@ -14,7 +14,6 @@ if (Meteor.isServer) {
 
 Meteor.methods({
     /**
-     * 
      * @param {string} session Identifiant de la session parente
      * @param {*} titre Titre du chapitre
      * @param {*} auteur Personne qui a créer le chapitre par défaut

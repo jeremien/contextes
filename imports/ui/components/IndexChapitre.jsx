@@ -5,43 +5,17 @@ import { Chapitres } from '../../api/collections/chapitres.js';
 import { withTracker } from 'meteor/react-meteor-data';
 
 import AjouterChapitre from './AjouterChapitre';
-import Chapitre from './Chapitre';
 
 /**
  * Affiche tous les commentaires liés à la session passées en props lors de l'appel du component.
  * props.seance : Id de la session passé en props par le component parent.
  */
 class IndexChapitres extends Component { 
-  // componentWillUnmount() {
-  //   console.log("Will unmount activé  ")
-  // }
-  
-  // componentWillUpdate() {
-  //   console.log("Will update activé")
-  // }
-
-  // componentDidMount() {
-  //   console.log("Did mount")
-  //   console.log(this.props)
-  // }
-
-  // componentWillMount() {
-  //   console.log("Will mount")
-  // }
-
-  // componentDidCatch() {
-  //   console.log("Did catch")
-  // }
-
-  componentDidUpdate() {
-
-  }
   
   render() {
         return (
-        <div className="chapitres">
-            <h2>Ajouter un chapitre</h2>
-            {!!Session.get('connecte') && 
+        <div className="chapitres">            
+            {(!!Session.get('connecte') && Session.get('role') == "editeur") && 
             <AjouterChapitre session={this.props.session} />
             }
             <br />
