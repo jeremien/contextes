@@ -13,7 +13,6 @@ import { Session } from 'meteor/session';
 
 import IndexSession from './IndexSession';
 import Login from './Login';
-import Inscriptiion from './Inscription';
 import MainLayout from '../layout/MainLayout';
 import FullSession from './FullSession';
 import TestAPI from './TestAPI';
@@ -51,7 +50,6 @@ class App extends Component {
               :
               <div>
                 <li><Link to="/login">Login</Link></li>
-                <li><Link to="/inscription">Inscription</Link></li>
               </div>
             }
             </div>
@@ -59,7 +57,6 @@ class App extends Component {
 
           <Route exact path="/" name="home" component={IndexSession} />
           <Route excat path="/login" component={Login}/>
-          <Route exact path="/inscription" component={Inscriptiion} />
           <Route exact path="/test/:param" component={TestAPI} />
           <Route exact path="/session/:id" component={FullSession} />
           <Route exact path="/session/:id/admin" component={TableauDeBord} />
