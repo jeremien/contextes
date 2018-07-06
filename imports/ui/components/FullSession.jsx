@@ -10,11 +10,11 @@ import Chapitre from './Chapitre';
 
 class FullSession extends React.Component {
     componentDidMount() {
-        Meteor.call('chapitres.connexion', this.props.match.params.id, Session.get('utilisateur'));
+        Meteor.call('connexions.session', Session.get('utilisateur'), this.props.match.params.id);
     };
 
     componentWillUnmount() {
-        Meteor.call('sessions.deconnexion', this.props.match.params.id, Session.get('utilisateur'));
+        Meteor.call('sessions.deconnexion', Session.get('utilisateur'));
     }
 
 
@@ -22,7 +22,9 @@ class FullSession extends React.Component {
 
     render() {
         return (
+            <Router>
             <div>
+                <div>
                 {!!this.props.sessions &&
                     <div>
                         <h1>Sessions : {this.props.sessions.titre}</h1>
@@ -32,8 +34,10 @@ class FullSession extends React.Component {
                         <IndexChapitre session={this.props.match.params.id} {...this.props} />
                     </div>
                 }
-                
+                </div>
+                <Route exact path={`${this.props.match.path}/chapitre/:id`} component={Chapitre} />
             </div>
+            </Router>
         )
     }
 }

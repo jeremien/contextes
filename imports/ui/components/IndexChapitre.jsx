@@ -13,6 +13,7 @@ import AjouterChapitre from './AjouterChapitre';
 class IndexChapitres extends Component { 
   
   render() {
+    console.log(this.props.chapitres)
         return (
         <div className="chapitres">            
             {(!!Session.get('connecte') && Session.get('role') == "editeur") && 
@@ -25,7 +26,7 @@ class IndexChapitres extends Component {
               {this.props.chapitres.map((chapitre) => (
                 <li key={chapitre._id}>
                    
-                  <Link to={`/chapitre/${chapitre._id}`}>{chapitre.titre}</Link>
+                  <Link to={`${this.props.match.url}/chapitre/${chapitre._id}`}>{chapitre.titre}</Link>
                   
                 </li>
               ))}

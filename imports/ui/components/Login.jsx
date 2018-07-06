@@ -9,6 +9,8 @@ import { Router,
     withHistory
   } from "react-router-dom";
 
+  import { Connexions } from '../../api/collections/connexions';
+
 export default class Login extends React.Component {
     constructor(props) {
         super(props);
@@ -22,13 +24,11 @@ export default class Login extends React.Component {
         event.preventDefault();
         const target = event.target
         const nom = target.nom.value;
-        // const role = target.role.value;
-
-        // Meteor.loginWithPassword(nom, password);
-        localStorage.setItem("nom", nom);
+        // localStorage.setItem("nom", nom);
         Session.set('utilisateur', nom),
         Session.set('role', this.state.role),
-        Session.set('connecte', true),        // Meteor.call()
+        Session.set('connecte', true),
+        Meteor.call('connexions.insert', nom, this.state.role);
         this.props.history.push('/');
     }
     handleChange(event) {

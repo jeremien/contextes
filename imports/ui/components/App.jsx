@@ -27,13 +27,8 @@ import TableauDeBord from './TableauDeBord';
 class App extends Component {
   constructor(props) {
     super(props);
-    this.handleLogOut = this.handleLogOut.bind(this)
   }
-  
-  handleLogOut(history) {
-    Session.set("connecte", false);
-    history.push('/');
-  }
+
   render() {
     return(
       <Router {...this.props}>
@@ -58,9 +53,9 @@ class App extends Component {
           <Route exact path="/" name="home" component={IndexSession} />
           <Route excat path="/login" component={Login}/>
           <Route exact path="/test/:param" component={TestAPI} />
-          <Route exact path="/session/:id" component={FullSession} />
-          <Route exact path="/session/:id/admin" component={TableauDeBord} />
-          <Route exact path="/chapitre/:id" component={Chapitre} />
+          {/* <Route exact path="/session/:id" component={FullSession} />
+          <Route exact path="/session/:id/admin" component={TableauDeBord} /> */}
+          {/* <Route exact path="/chapitre/:id" component={Chapitre} /> */}
           {/* Exemple d'une route avec un layout + components enfants
           <Route name="exemple" path="/exemple" component={Layout}>
             <IndexRoute components={{ enfant1: Component, enfant2: Component }} />
@@ -78,6 +73,7 @@ const LogOut = withRouter(({ history }) => (
     type='button'
     onClick={() => {
       Session.set("connecte", false);
+      Meteor.call('connexions.remove', Session.get('utilisateur'));
       history.push('/');
      }}
   >

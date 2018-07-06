@@ -10,19 +10,15 @@ import AjouterCommentaire from './AjouterCommentaire';
 import Commentaire from './Commentaire';
 
 class Chapitre extends React.Component {
-    componentWillUpdate() {
-        if (Session.get('connecte')) {
-            Meteor.call('chapitres.connexion', this.props.match.params.id, Session.get('utilisateur'));
-        }
-    };
-
     componentWillUnmount() {
-        Meteor.call('chapitres.deconnexion', this.props.match.params.id, Session.get('utilisateur'));
+        Meteor.call('deconnection.chapitre', Session.get('utilisateur'));
+        console.log('deconnection')
     };
 
     componentWillMount() {
-        if (Session.get('connecte')) {
-            Meteor.call('chapitres.connexion', this.props.match.params.id, Session.get('utilisateur'));
+        if (Session.get('connecte') && !!this.props.chapitre) {
+            Meteor.call('connexions.chapitre', Session.get('utilisateur'), this.props.chapitre.session, this.props.chapitre._id );
+            console.log('connexion essayée')
         }
     };
 

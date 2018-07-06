@@ -25,9 +25,6 @@ Meteor.methods({
      * @param {object} auteur Auteur du commentaire sous la forme {auteurId: ObjetId, auteurNom: string}.
      */
     'commentaires.insert'(session, chapitre, contenu, auteur) {
-        check(contenu, String);
-        check(auteur, String);
-
         Commentaires.insert({
             session: session,
             chapitre: chapitre,
@@ -40,7 +37,7 @@ Meteor.methods({
     },
 
     /**
-     * Permet de "suppriemr en commentaire" en le modifiant. Le contenu est vider et les métadatas sont conservées.
+     * Permet de "supprimer un commentaire" en le modifiant. Le contenu est vider et les métadatas sont conservées.
      * La version précédente est sauvagardée automatiquement dans le champs revisions.
      * @param {ObjectId} commentaireId Identifiant Mongo du commentaire à supprimer
      */

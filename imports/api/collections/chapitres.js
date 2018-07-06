@@ -4,7 +4,12 @@ import { check } from 'meteor/check';
 import { Commentaires } from './commentaires';
 
 export const Chapitres = new Mongo.Collection('chapitres');
-Chapitres.attachCollectionRevisions();
+
+CollectionRevisions.Chapitres = {
+    debug: true,
+  }
+
+Chapitres.attachCollectionRevisions(CollectionRevisions.Chapitres);
 
 if (Meteor.isServer) {
     Meteor.publish('chapitres', function chapitresPublication(){
