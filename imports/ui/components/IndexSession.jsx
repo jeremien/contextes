@@ -39,7 +39,7 @@ class IndexSession extends React.Component {
                     </div>
 
                     <Route exact path="/session/:id" component={FullSession} />
-                    <Route exact path="/session/:id/admin" component={TableauDeBord} />
+                    {/* <Route exact path="/session/:id/admin" component={TableauDeBord} /> */}
 
                 </div>
             </Router>

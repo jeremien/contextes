@@ -8,6 +8,8 @@ import { Sessions } from '../../api/collections/sessions';
 import IndexChapitre from './IndexChapitre';
 import Chapitre from './Chapitre';
 
+import TableauDeBord from './TableauDeBord';
+
 class FullSession extends React.Component {
     componentDidMount() {
         Meteor.call('connexions.session', Session.get('utilisateur'), this.props.match.params.id);
@@ -36,6 +38,8 @@ class FullSession extends React.Component {
                 }
                 </div>
                 <Route exact path={`${this.props.match.path}/chapitre/:id`} component={Chapitre} />
+             
+                <Route exact path="/session/:id/admin" component={TableauDeBord} />
             </div>
             </Router>
         )

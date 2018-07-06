@@ -15,7 +15,8 @@ class Chapitre extends React.Component {
         console.log('deconnection')
     };
 
-    componentWillMount() {
+    //Méthode à changer avec willMount selon l'endroit où sera définie la route
+    componentWillUpdate() {
         if (Session.get('connecte') && !!this.props.chapitre) {
             Meteor.call('connexions.chapitre', Session.get('utilisateur'), this.props.chapitre.session, this.props.chapitre._id );
             console.log('connexion essayée')
