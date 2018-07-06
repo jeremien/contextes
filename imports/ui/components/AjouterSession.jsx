@@ -12,51 +12,53 @@ class AjouterSession extends Component {
         const titre = target.titre.value;
         const auteur = Session.get('utilisateur') || inconnu;
         const roles = {
-            transcripteurs: target.transcripteurs,
-            correcteurs: target.correcteurs,
-            conformateurs: target.conformateurs,
+            transcripteurs: target.transcripteurs.value,
+            correcteurs: target.correcteurs.value,
+            conformateurs: target.conformateurs.value,
         };
+
         Meteor.call('sessions.insert', titre, auteur, roles)
         target.reset()
     }
-    
+
     render() {
-        if(!!Session.get('connecte')) {
-        return(
-        <div className="ajout-session">
-            <form className="nouvelle-session" onSubmit={this.handleSubmit.bind(this)} >
-            <input
-                type="text"
-                name="titre"
-                placeholder="Entrer le titre de la session"
-            />
-            <label>Nombre de transcripteurs</label>
-            <input
-                type="number"
-                name="nombre-transcripteurs"
-                placeholder="1"
-                min="1"
-            />
-            <label>Nombre de correcteurs</label>
-            <input
-                type="number"
-                name="nombre-correcteurs"
-                placeholder="1"
-                min="1"
-            />
-            <label>Nombre de conformateurs</label>
-            <input
-                type="number"
-                name="nombre-conformateurs"
-                placeholder="Nombre de conformateurs"
-                min="1"
-            />
-            <input type="submit" value="Enregistrer" />
-            </form>
-        </div>
-        )}
+        if (!!Session.get('connecte')) {
+            return (
+                <div className="ajout-session">
+                    <form className="nouvelle-session" onSubmit={this.handleSubmit.bind(this)} >
+                        <input
+                            type="text"
+                            name="titre"
+                            placeholder="Entrer le titre de la session"
+                        />
+                        <label>Nombre de transcripteurs</label>
+                        <input
+                            type="number"
+                            name="transcripteurs"
+                            placeholder="1"
+                            min="1"
+                        />
+                        <label>Nombre de correcteurs</label>
+                        <input
+                            type="number"
+                            name="correcteurs"
+                            placeholder="1"
+                            min="1"
+                        />
+                        <label>Nombre de conformateurs</label>
+                        <input
+                            type="number"
+                            name="conformateurs"
+                            placeholder="Nombre de conformateurs"
+                            min="1"
+                        />
+                        <input type="submit" value="Enregistrer" />
+                    </form>
+                </div>
+            )
+        }
         else {
-            return(
+            return (
                 <h1>Vous devez être connecté.e</h1>
             )
         }

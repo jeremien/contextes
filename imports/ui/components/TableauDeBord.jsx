@@ -8,8 +8,7 @@ import { Chapitres } from '../../api/collections/chapitres'
 import { Connexions } from '../../api/collections/connexions';
 
 class TableauDeBord extends React.Component {
-
-    afficheChap(chapitre) {
+    afficheModifications(chapitre) {
         return (
             <ul>
                 {this.props.connexions.map((connexion) => (
@@ -20,29 +19,36 @@ class TableauDeBord extends React.Component {
                             </li>
                         }
                     </div>
-
                 ))}
             </ul>
         )
     }
 
     render() {
-        return (
-            <div className="tableau-de-bord">
-                <h2>Tableau de bord</h2>
-                <h3>Personne en train de modifier :</h3>
-                <ul>
-                    {this.props.chapitres.map((chapitre) => (
-                        <li key={chapitre._id}>
-                            {chapitre.titre}
-                            <br />
-                            {this.afficheChap(chapitre._id)}
-                        </li>
-                    ))}
-                </ul>
-                <Link to={`/session/${this.props.match.params.id}`}>Retourner à l'index de la session</Link>
-            </div>
-        )
+        if (!!this.props.session) {
+            return (
+                <div className="tableau-de-bord">
+                    <h2>{this.props.session.titre} : tableau de bord</h2>
+                    <h3>Rôles autorisés :</h3>
+                    <ul>
+                        {Object.entries(this.props.session.roles).map(([role, nombre]) => (
+                            <li key={role}>{role} : {nombre}</li>
+                        ))}
+                    </ul>
+                    <h3>Personne en train de modifier :</h3>
+                    <ul>
+                        {this.props.chapitres.map((chapitre) => (
+                            <li key={chapitre._id}>
+                                {chapitre.titre}
+                                <br />
+                                {this.afficheModifications(chapitre._id)}
+                            </li>
+                        ))}
+                    </ul>
+                    <Link to={`/session/${this.props.match.params.id}`}>Retourner à l'index de la session</Link>
+                </div>
+            )
+        }
     }
 }
 
@@ -51,7 +57,7 @@ export default withTracker((props) => {
     Meteor.subscribe('chapitres');
     Meteor.subscribe('connexions');
     return {
-        sessions: Sessions.findOne({ _id: props.match.params.id }),
+        session: Sessions.findOne({ _id: props.match.params.id }),
         chapitres: Chapitres.find({ session: props.match.params.id }).fetch(),
         connexions: Connexions.find({ session: props.match.params.id }).fetch(),
     }
