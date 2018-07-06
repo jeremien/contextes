@@ -1,7 +1,7 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
-import { Route, Link, BrowserRouter as Router } from "react-router-dom";
+import { Switch, Route, Link, BrowserRouter as Router } from "react-router-dom";
 
 import { Sessions } from '../../api/collections/sessions';
 import AjouterSession from './AjouterSession';
@@ -21,26 +21,27 @@ class IndexSession extends React.Component {
         return (
             <Router>
                 <div>
-                <div className="session">
-                    <div className="index-session">
-                        <h2>Sessions</h2>
-                        <ul>
-                            {this.props.sessions.map((session) => (
-                                <Link to={`/session/${session._id}`} key={session._id}>
-                                    {session.titre}
-                                    <br />
-                                </Link>
-                            ))}
-                        </ul>
-                        {(!!Session.get('connecte') && Session.get('role') == "editeur") &&
-                            <AjouterSession />
-                        }
-                    </div>
-                    </div>
+                    
+                        <div className="session">
+                                <h2>Sessions</h2>
+                                <ul>
+                                    {this.props.sessions.map((session) => (
+                                        <Link to={`/session/${session._id}`} key={session._id}>
+                                            {session.titre}
+                                            <br />
+                                        </Link>
+                                    ))}
+                                </ul>
+                                {(!!Session.get('connecte') && Session.get('role') == "editeur") &&
+                                    <Link to="/session/creer">Ajouter une session</Link>
+                                }
+                        </div>
 
-                    <Route exact path="/session/:id" component={FullSession} />
-                    {/* <Route exact path="/session/:id/admin" component={TableauDeBord} /> */}
+                        <Route exact path="/session/creer" component={AjouterSession} />
+                        <Route exact path="/session/:id" component={FullSession} />
+                        {/* <Route exact path="/session/:id/admin" component={TableauDeBord} /> */}
 
+                    
                 </div>
             </Router>
         )

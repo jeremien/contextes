@@ -13,7 +13,6 @@ import AjouterChapitre from './AjouterChapitre';
 class IndexChapitres extends Component { 
   
   render() {
-    console.log(this.props.chapitres)
         return (
         <div className="chapitres">            
             {(!!Session.get('connecte') && Session.get('role') == "editeur") && 

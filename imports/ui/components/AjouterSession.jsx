@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
 
+
 /**
  * Component gérant la création de session.
- * Le formulaire a une className "nouvelle-session".
- * L'affichage est contenu dans une div "ajout-session".
  */
 class AjouterSession extends Component {
     handleSubmit(event) {
@@ -12,12 +11,17 @@ class AjouterSession extends Component {
         const target = event.target;
         const titre = target.titre.value;
         const auteur = Session.get('utilisateur') || inconnu;
-
-        Meteor.call('sessions.insert', titre, auteur)
+        const roles = {
+            transcripteurs: target.transcripteurs,
+            correcteurs: target.correcteurs,
+            conformateurs: target.conformateurs,
+        };
+        Meteor.call('sessions.insert', titre, auteur, roles)
         target.reset()
     }
     
     render() {
+        if(!!Session.get('connecte')) {
         return(
         <div className="ajout-session">
             <form className="nouvelle-session" onSubmit={this.handleSubmit.bind(this)} >
@@ -26,10 +30,36 @@ class AjouterSession extends Component {
                 name="titre"
                 placeholder="Entrer le titre de la session"
             />
+            <label>Nombre de transcripteurs</label>
+            <input
+                type="number"
+                name="nombre-transcripteurs"
+                placeholder="1"
+                min="1"
+            />
+            <label>Nombre de correcteurs</label>
+            <input
+                type="number"
+                name="nombre-correcteurs"
+                placeholder="1"
+                min="1"
+            />
+            <label>Nombre de conformateurs</label>
+            <input
+                type="number"
+                name="nombre-conformateurs"
+                placeholder="Nombre de conformateurs"
+                min="1"
+            />
             <input type="submit" value="Enregistrer" />
             </form>
         </div>
-        )
+        )}
+        else {
+            return(
+                <h1>Vous devez être connecté.e</h1>
+            )
+        }
     }
 }
 
