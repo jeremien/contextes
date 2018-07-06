@@ -6,6 +6,7 @@ import {
   IndexRoute,
   Switch,
   withRouter,
+  Prompt,
 } from 'react-router-dom';
 import { withTracker } from 'meteor/react-meteor-data';
 import { Session } from 'meteor/session';
@@ -27,41 +28,55 @@ import TableauDeBord from './TableauDeBord';
 class App extends Component {
   constructor(props) {
     super(props);
+    this.handleLeavePage = this.handleLeavePage.bind(this);
+  }
+
+  componentDidMount() {
+    window.addEventListener("beforeunload", this.handleLeavePage);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('beforeunload', this.handleLeavePage);
+  }
+
+  handleLeavePage(e) {
+    Meteor.call('connexions.remove', Session.get('utilisateur'))
   }
 
   render() {
-    return(
+    return (
       <Router {...this.props}>
-      <Switch>
-        <MainLayout
-          topbar={<div>
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/test">TEst</Link></li>
-            {!!this.props.connecte ?
-              <div>
+        <Switch>
+          <MainLayout
+            topbar={<div>
+              <li><Link to="/">Home</Link></li>
+              <li><Link to="/test">TEst</Link></li>
+              <button onClick={() => Streamy.broadcast('hello', { data: 'world!' })}>Broadcast</button>
+              {!!this.props.connecte ?
+                <div>
                   <p>Bienvenue, {Session.get('utilisateur')}. Vous êtes connecté en tant que {Session.get('role')}</p>
-                  <LogOut/> 
-              </div>
-              :
-              <div>
-                <li><Link to="/login">Login</Link></li>
-              </div>
-            }
+                  <LogOut />
+                </div>
+                :
+                <div>
+                  <li><Link to="/login">Login</Link></li>
+                </div>
+              }
             </div>
-          } >
+            } >
 
-          <Route exact path="/" name="home" component={IndexSession} />
-          <Route excat path="/login" component={Login}/>
-          <Route exact path="/test/:param" component={TestAPI} />
-          {/* <Route exact path="/session/:id" component={FullSession} />
+            <Route exact path="/" name="home" component={IndexSession} />
+            <Route excat path="/login" component={Login} />
+            <Route exact path="/test/:param" component={TestAPI} />
+            {/* <Route exact path="/session/:id" component={FullSession} />
           <Route exact path="/session/:id/admin" component={TableauDeBord} /> */}
-          {/* <Route exact path="/chapitre/:id" component={Chapitre} /> */}
-          {/* Exemple d'une route avec un layout + components enfants
+            {/* <Route exact path="/chapitre/:id" component={Chapitre} /> */}
+            {/* Exemple d'une route avec un layout + components enfants
           <Route name="exemple" path="/exemple" component={Layout}>
             <IndexRoute components={{ enfant1: Component, enfant2: Component }} />
           </Route>
         */}
-        </MainLayout>
+          </MainLayout>
         </Switch>
       </Router>
     )
@@ -75,7 +90,7 @@ const LogOut = withRouter(({ history }) => (
       Session.set("connecte", false);
       Meteor.call('connexions.remove', Session.get('utilisateur'));
       history.push('/');
-     }}
+    }}
   >
     Se déconnecter
   </button>
@@ -88,7 +103,7 @@ const LogOut = withRouter(({ history }) => (
 
 export default withTracker((props) => {
   return {
-      connecte: !!Session.get('connecte')
-    }
-  })(App);
+    connecte: !!Session.get('connecte')
+  }
+})(App);
 
