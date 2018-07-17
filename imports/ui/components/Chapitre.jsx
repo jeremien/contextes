@@ -13,6 +13,7 @@ class Chapitre extends React.Component {
     constructor(props) {
         super(props);
         this.startTimer = this.startTimer.bind(this);
+        this.stopTimer = this.stopTimer.bind(this)
     }
 
     componentWillUnmount() {
@@ -32,9 +33,6 @@ class Chapitre extends React.Component {
      * L'id de setIntervalle est stocké dans le state "timer" pour pouvori être arrêté ensuite
      */
     startTimer(chapitreId, tempsTimer) {
-        console.log('debut timer')
-        console.log(chapitreId)
-        console.log(tempsTimer)
         Session.set('timerId', Meteor.setInterval(function () {
             Meteor.call('chapitres.timer.update', chapitreId, tempsTimer)
         }, 1000));
@@ -43,6 +41,7 @@ class Chapitre extends React.Component {
 
     stopTimer() {
         Meteor.clearInterval(Session.get('timerId'))
+        Meteor.call('chapitres.timer.reset', this.props.chapitre._id)
     }
 
     render() {

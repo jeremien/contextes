@@ -63,6 +63,10 @@ Meteor.methods({
         Chapitres.update({_id: chapitreId}, {$set: {timer: newTimer}})
     },
 
+    'chapitres.timer.reset'(chapitreId) {
+        Chapitres.update({_id: chapitreId}, {$set: {timer: 0}})
+    }
+
     // 'chapitres.pause'(chapitreId){
     //     Chapitres.update({_id: chapitreId}, {$set: {edition : false}})
     // },
