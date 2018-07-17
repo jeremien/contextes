@@ -14,6 +14,9 @@ class Chapitre extends React.Component {
         super(props);
         this.startTimer = this.startTimer.bind(this);
         this.stopTimer = this.stopTimer.bind(this)
+        this.state = {
+            timer: false,
+        }
     }
 
     componentWillUnmount() {
@@ -33,15 +36,20 @@ class Chapitre extends React.Component {
      * L'id de setIntervalle est stocké dans le state "timer" pour pouvori être arrêté ensuite
      */
     startTimer(chapitreId, tempsTimer) {
-        Session.set('timerId', Meteor.setInterval(function () {
-            Meteor.call('chapitres.timer.update', chapitreId, tempsTimer)
-        }, 1000));
-        Meteor.setTimeout(function () { Meteor.clearInterval(Session.get('timerId')) }, this.props.chapitre.duree_chapitre * 60 * 1000);
+        if (!this.state.timer) {
+            Session.set('timerId', Meteor.setInterval(function () {
+                Meteor.call('chapitres.timer.update', chapitreId, tempsTimer)
+            }, 1000));
+            Meteor.setTimeout(function () { Meteor.clearInterval(Session.get('timerId')) }, this.props.chapitre.duree_chapitre * 60 * 1000);
+            this.setState({ timer: true })
+        }
+
     }
 
     stopTimer() {
         Meteor.clearInterval(Session.get('timerId'))
         Meteor.call('chapitres.timer.reset', this.props.chapitre._id)
+        this.setState({ timer: false })
     }
 
     render() {
@@ -52,7 +60,7 @@ class Chapitre extends React.Component {
                         <h3>Chapitre : {this.props.chapitre.titre}</h3>
                         {Session.get('role') == "editeur" &&
                             <div className="timer">
-                                <button className="start-timer" onClick={() => {this.startTimer(this.props.chapitre._id, 120)}}>Démarrer le timer</button>
+                                <button className="start-timer" onClick={() => { this.startTimer(this.props.chapitre._id, 120) }}>Démarrer le timer</button>
                                 <button className="start-timer" onClick={this.stopTimer}>Arreter le timer</button>
                             </div>
                         }
