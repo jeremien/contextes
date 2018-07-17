@@ -19,33 +19,22 @@ class IndexSession extends React.Component {
 
     render() {
         return (
-            // <Router>
             <div>
-                    <h2>Sessions</h2>
-                    <ul>
-                        {this.props.sessions.map((session) => (
-                            <Link to={`/session/${session._id}`} key={session._id}>
-                                {session.titre}
-                                <br />
-                                <button onClick={() => Meteor.call('sessions.remove', session._id)}>Supprimer la session</button>
-                                <br />
-                            </Link>
-                        ))}
-                    </ul>
-                    {(!!Session.get('connecte') && Session.get('role') == "editeur") &&
-                        <Link to="/session/creer">Ajouter une session</Link>
-                    }
-                
-
-                {/* <Route exact path="/session/creer" component={AjouterSession} /> */}
-                {/* <Route exact path="/session/:id" component={FullSession} /> */}
-                {/* <Route exact path="/session/:id/admin" component={TableauDeBord} /> */}
-
-                {/* <Route path="/session/:id" component={FullSession} /> */}
-                {/* <Route path="/session/:id/admin" component={TableauDeBord} /> */}
-                <Route path="/chapitre/:id" component={Chapitre} />
+                <h2>Sessions</h2>
+                <ul>
+                    {this.props.sessions.map((session) => (
+                        <Link to={`/session/${session._id}`} key={session._id}>
+                            {session.titre}
+                            <br />
+                            <button onClick={() => Meteor.call('sessions.remove', session._id)}>Supprimer la session</button>
+                            <br />
+                        </Link>
+                    ))}
+                </ul>
+                {(!!Session.get('connecte') && Session.get('role') == "editeur") &&
+                    <Link to="/session/creer">Ajouter une session</Link>
+                }
             </div>
-            // </Router>
         )
     }
 }

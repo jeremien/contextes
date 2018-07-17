@@ -39,7 +39,7 @@ class App extends Component {
     window.removeEventListener('beforeunload', this.handleLeavePage);
   }
 
-  handleLeavePage(e) {
+  handleLeavePage() {
     Meteor.call('connexions.remove', Session.get('utilisateur'))
   }
 
@@ -47,31 +47,27 @@ class App extends Component {
     return (
       <Router {...this.props}>
         <Switch>
-            <MainLayout
+          <MainLayout
             topbar={
-            <div>
-              <li><Link to="/">Home</Link></li>
-              <li><Link to="/test">TEst</Link></li>
-              {!!this.props.connecte ?
-                <div>
-                  <p>Bienvenue, {Session.get('utilisateur')}. Vous êtes connecté en tant que {Session.get('role')}</p>
-                  <LogOut />
-                </div>
-                :
-                <div>
-                  <li><Link to="/login">Login</Link></li>
-                </div>
-              }
-            </div>
-             } > 
-
-
+              <div>
+                <li><Link to="/">Home</Link></li>
+                <li><Link to="/test">TEst</Link></li>
+                {!!this.props.connecte ?
+                  <div>
+                    <p>Bienvenue, {Session.get('utilisateur')}. Vous êtes connecté en tant que {Session.get('role')}</p>
+                    <LogOut />
+                  </div>
+                  :
+                  <div>
+                    <li><Link to="/login">Login</Link></li>
+                  </div>
+                }
+              </div>
+            } >
             {/* Exemple d'une route avec un layout + components enfants
           <Route name="exemple" path="/exemple" component={Layout}>
             <IndexRoute components={{ enfant1: Component, enfant2: Component }} />
           </Route> */}
-
-
 
             <Route exact path="/" name="home" component={IndexSession} />
             <Route path="/login" component={Login} />
@@ -79,6 +75,7 @@ class App extends Component {
             <Route exact path="/session/creer" component={AjouterSession} />
             <Route path="/session/:id" component={FullSession} />
             <Route path="/session/:id/admin" component={TableauDeBord} />
+            <Route path="/chapitre/:id" component={Chapitre} />
           </MainLayout>
         </Switch>
       </Router>
