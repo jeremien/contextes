@@ -41,9 +41,8 @@ Meteor.methods({
      * La version précédente est sauvagardée automatiquement dans le champs revisions.
      * @param {ObjectId} commentaireId Identifiant Mongo du commentaire à supprimer
      */
-    'commentaire.remove'(commentaireId) {
-        check(commentaireId, String);
-        Commentaires.update(commentaireId, {$set: {contenu: null}}); 
+    'commentaires.remove'(commentaireId) {
+        Commentaires.remove({_id: commentaireId})
     },
     /**
      * La sauvegarde de la version précédente est faire grâce au module todda00:collection-revisions

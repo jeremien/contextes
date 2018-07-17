@@ -33,11 +33,7 @@ Meteor.methods({
     },
 
     'sessions.remove'(sessionId){
-        const session = Sessions.findOne(sessionId)
-        /**
-         * Définir ce qu'est une supression de session
-         */
-        // sessions.update(sessionId, {$set: })
+        Sessions.remove({_id: sessionId})
     },
 
     'sessions.update'(sessionId, titre){
@@ -72,5 +68,9 @@ Meteor.methods({
         Meteor.subscribe('chapitres')
         const chapitres = Chapitres.find({session : sessionId}).fetch()
         chapitres.map((chapitre) => Metoer.call('chapitres.pause', chapitre._id))
-    }
+    },
+
+    'sessions.ouvrir'(sessionId) {
+        Sessions.update({_id: sessionId}, {$set: {edition: true}})
+    },
 })

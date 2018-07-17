@@ -29,6 +29,8 @@ class IndexSession extends React.Component {
                                         <Link to={`/session/${session._id}`} key={session._id}>
                                             {session.titre}
                                             <br />
+                                            <button onClick={() => Meteor.call('sessions.remove', session._id)}>Supprimer la session</button>
+                                            <br />
                                         </Link>
                                     ))}
                                 </ul>

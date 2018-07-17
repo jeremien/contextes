@@ -26,7 +26,7 @@ class IndexChapitres extends Component {
                 <li key={chapitre._id}>
                    
                   <Link to={`${this.props.match.url}/chapitre/${chapitre._id}`}>{chapitre.titre}</Link>
-                  
+                  <button onClick={() => Meteor.call('chapitres.remove', chapitre._id)}>Supprimer le chapitre</button>
                 </li>
               ))}
               </div>

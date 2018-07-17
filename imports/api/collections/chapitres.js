@@ -4,11 +4,6 @@ import { check } from 'meteor/check';
 import { Commentaires } from './commentaires';
 
 export const Chapitres = new Mongo.Collection('chapitres');
-
-CollectionRevisions.Chapitres = {
-    debug: true,
-  }
-
 // Chapitres.attachCollectionRevisions(CollectionRevisions.Chapitres);
 
 if (Meteor.isServer) {
@@ -22,6 +17,7 @@ Meteor.methods({
      * @param {string} session Identifiant de la session parente
      * @param {*} titre Titre du chapitre
      * @param {*} auteur Personne qui a créer le chapitre par défaut
+     * @param {integer} duree Durée du chapitre en minutes
      */
     'chapitres.insert'(session, titre, auteur, duree) {
         Chapitres.insert({
@@ -38,11 +34,7 @@ Meteor.methods({
     },
 
     'chapitres.remove'(chapitreId){
-        const chapitre = Chapitres.findOne(chapitreId)
-        /**
-         * Définir ce qu'est une supression de chapitre
-         */
-        // Chapitres.update(chapitreId, {$set: })
+        Chapitres.remove({_id: chapitreId})
     },
 
     'chapitres.update'(chapitreId, titre){
@@ -71,7 +63,7 @@ Meteor.methods({
         Chapitres.update({_id: chapitreId}, {$set: {timer: newTimer}})
     },
 
-    'chapitres.pause'(chapitreId){
-        Chapitres.update({_id: chapitreId}, {$set: {edition : false}})
-    },
+    // 'chapitres.pause'(chapitreId){
+    //     Chapitres.update({_id: chapitreId}, {$set: {edition : false}})
+    // },
 })

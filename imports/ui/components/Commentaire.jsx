@@ -13,6 +13,7 @@ export default class Commentaire extends Component {
         <li>À {this.props.commentaire.creation.toLocaleTimeString()} par {this.props.commentaire.auteur} : </li>
         <p>{this.props.commentaire.contenu}</p>
         <br />
+        <button onClick={() => Meteor.call('commentaires.remove', this.props.commentaire._id)}>Supprimer le commentaire</button>
       </ul>);
   }
 }

@@ -39,10 +39,12 @@ class TableauDeBord extends React.Component {
     render() {
         
         if (!!this.props.session) {
-            // console.log(this.getJauges());
             return (
                 <div className="tableau-de-bord">
                     <h2>{this.props.session.titre} : tableau de bord</h2>
+                    <br />
+                    <h3>Rendre la session éditable</h3>
+                    <button onClick={() => Meteor.call('sessions.ouvrir', this.props.session._id)}>Rendre la session éditable</button>
                     <h3>Rôles autorisés :</h3>
                     <ul>
                         {Object.entries(this.props.session.roles).map(([role, nombre]) => (
