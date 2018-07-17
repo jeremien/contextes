@@ -51,7 +51,6 @@ class App extends Component {
             topbar={<div>
               <li><Link to="/">Home</Link></li>
               <li><Link to="/test">TEst</Link></li>
-              <button onClick={() => Streamy.broadcast('hello', { data: 'world!' })}>Broadcast</button>
               {!!this.props.connecte ?
                 <div>
                   <p>Bienvenue, {Session.get('utilisateur')}. Vous êtes connecté en tant que {Session.get('role')}</p>

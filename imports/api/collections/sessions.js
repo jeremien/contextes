@@ -67,4 +67,10 @@ Meteor.methods({
     // 'sessions.getEditionEnCours'(session) {
     //     return Chapitres.find({session: session}, {_id: 0, titre: 1, utilisateurs_connectes: 1})
     // },
+
+    'sesions.pause'(sessionId) {
+        Meteor.subscribe('chapitres')
+        const chapitres = Chapitres.find({session : sessionId}).fetch()
+        chapitres.map((chapitre) => Metoer.call('chapitres.pause', chapitre._id))
+    }
 })

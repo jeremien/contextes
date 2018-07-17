@@ -10,18 +10,40 @@ import AjouterCommentaire from './AjouterCommentaire';
 import Commentaire from './Commentaire';
 
 class Chapitre extends React.Component {
+    constructor(props) {
+        super(props);
+        this.startTimer = this.startTimer.bind(this);
+    }
+
     componentWillUnmount() {
         Meteor.call('deconnection.chapitre', Session.get('utilisateur'));
-        console.log('deconnection')
     };
 
-    //Méthode à changer avec willMount selon l'endroit où sera définie la route
-    componentWillUpdate() {
+    //Méthode à changer avec willMount/update selon l'endroit où sera définie la route
+    componentDidMount() {
         if (Session.get('connecte') && !!this.props.chapitre) {
-            Meteor.call('connexions.chapitre', Session.get('utilisateur'), this.props.chapitre.session, this.props.chapitre._id );
+            Meteor.call('connexions.chapitre', Session.get('utilisateur'), this.props.chapitre.session, this.props.chapitre._id);
             console.log('connexion essayée')
         }
     };
+    /**
+     * Appele de la méthode d'update du timer automatique.
+     * Appelée ici toutes les secondes (1000 millisecondes)
+     * L'id de setIntervalle est stocké dans le state "timer" pour pouvori être arrêté ensuite
+     */
+    startTimer(chapitreId, tempsTimer) {
+        console.log('debut timer')
+        console.log(chapitreId)
+        console.log(tempsTimer)
+        Session.set('timerId', Meteor.setInterval(function () {
+            Meteor.call('chapitres.timer.update', chapitreId, tempsTimer)
+        }, 1000));
+        Meteor.setTimeout(function () { Meteor.clearInterval(Session.get('timerId')) }, this.props.chapitre.duree_chapitre * 60 * 1000);
+    }
+
+    stopTimer() {
+        Meteor.clearInterval(Session.get('timerId'))
+    }
 
     render() {
         return (
@@ -29,6 +51,13 @@ class Chapitre extends React.Component {
                 {!!this.props.chapitre &&
                     <div>
                         <h3>Chapitre : {this.props.chapitre.titre}</h3>
+                        {Session.get('role') == "editeur" &&
+                            <div className="timer">
+                                <button className="start-timer" onClick={() => {this.startTimer(this.props.chapitre._id, 120)}}>Démarrer le timer</button>
+                                <button className="start-timer" onClick={this.stopTimer}>Arreter le timer</button>
+                            </div>
+                        }
+                        <p>Temps restant : {this.props.chapitre.timer}</p>
                         <ul>
                             {this.props.commentaires.map((commentaire) => (
                                 <Commentaire commentaire={commentaire} key={commentaire._id} />

@@ -24,8 +24,22 @@ class TableauDeBord extends React.Component {
         )
     }
 
+    getJauges() {
+        var transcritpeurs = 0;
+        var correcteurs = 0;
+        var conformateurs = 0;
+        // this.props.connexions.map((connexion) => (
+        //     switch (connexion.role) {
+        //         case 
+        //     }
+        // ));
+        return (transcritpeurs, correcteurs, conformateurs)
+    }
+
     render() {
+        
         if (!!this.props.session) {
+            // console.log(this.getJauges());
             return (
                 <div className="tableau-de-bord">
                     <h2>{this.props.session.titre} : tableau de bord</h2>

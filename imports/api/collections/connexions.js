@@ -15,6 +15,7 @@ Meteor.methods({
         Connexions.insert({
             utilisateur: utilisateur,
             role: role,
+            socket: "",
             session: "",
             chapitre: "",
         });

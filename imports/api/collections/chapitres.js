@@ -9,7 +9,7 @@ CollectionRevisions.Chapitres = {
     debug: true,
   }
 
-Chapitres.attachCollectionRevisions(CollectionRevisions.Chapitres);
+// Chapitres.attachCollectionRevisions(CollectionRevisions.Chapitres);
 
 if (Meteor.isServer) {
     Meteor.publish('chapitres', function chapitresPublication(){
@@ -23,15 +23,17 @@ Meteor.methods({
      * @param {*} titre Titre du chapitre
      * @param {*} auteur Personne qui a créer le chapitre par défaut
      */
-    'chapitres.insert'(session, titre, auteur) {
+    'chapitres.insert'(session, titre, auteur, duree) {
         Chapitres.insert({
             session: session,
             titre: titre,
             auteur: auteur,
             creation: new Date(),
-            edition : true,
+            edition : false,
             archive: false,
             utilisateurs_connectes: [],
+            timer: 0,
+            duree_chapitre: duree,
         });
     },
 
@@ -62,5 +64,14 @@ Meteor.methods({
 
     'chapitres.deconnexion'(chapitreId, utilisateur) {
         Chapitres.update({_id: chapitreId}, {$pull: {utilisateurs_connectes: utilisateur}})
+    },
+
+    'chapitres.timer.update'(chapitreId, longueurTimer) {
+        newTimer = (Chapitres.findOne({_id: chapitreId}).timer + 1) % longueurTimer; 
+        Chapitres.update({_id: chapitreId}, {$set: {timer: newTimer}})
+    },
+
+    'chapitres.pause'(chapitreId){
+        Chapitres.update({_id: chapitreId}, {$set: {edition : false}})
     },
 })
