@@ -47,8 +47,9 @@ class App extends Component {
     return (
       <Router {...this.props}>
         <Switch>
-          <MainLayout
-            topbar={<div>
+            <MainLayout
+            topbar={
+            <div>
               <li><Link to="/">Home</Link></li>
               <li><Link to="/test">TEst</Link></li>
               {!!this.props.connecte ?
@@ -62,19 +63,22 @@ class App extends Component {
                 </div>
               }
             </div>
-            } >
+             } > 
 
-            <Route exact path="/" name="home" component={IndexSession} />
-            <Route excat path="/login" component={Login} />
-            <Route exact path="/test/:param" component={TestAPI} />
-            {/* <Route exact path="/session/:id" component={FullSession} />
-          <Route exact path="/session/:id/admin" component={TableauDeBord} /> */}
-            {/* <Route exact path="/chapitre/:id" component={Chapitre} /> */}
+
             {/* Exemple d'une route avec un layout + components enfants
           <Route name="exemple" path="/exemple" component={Layout}>
             <IndexRoute components={{ enfant1: Component, enfant2: Component }} />
-          </Route>
-        */}
+          </Route> */}
+
+
+
+            <Route exact path="/" name="home" component={IndexSession} />
+            <Route path="/login" component={Login} />
+            <Route path="/test/:param" component={TestAPI} />
+            <Route exact path="/session/creer" component={AjouterSession} />
+            <Route path="/session/:id" component={FullSession} />
+            <Route path="/session/:id/admin" component={TableauDeBord} />
           </MainLayout>
         </Switch>
       </Router>

@@ -23,6 +23,7 @@ Meteor.methods({
      * @param {object} chapitre Chapitre parent sous la forme {chapitreId: ObjectId, chapitreTitre: String} 
      * @param {string} contenu Contenu du commentaire 
      * @param {object} auteur Auteur du commentaire sous la forme {auteurId: ObjetId, auteurNom: string}.
+     * Le champ type peut être texte, image, note manuscrite, etc. Un type null correspond à un commentaire supprimé
      */
     'commentaires.insert'(session, chapitre, contenu, auteur) {
         Commentaires.insert({
@@ -31,8 +32,9 @@ Meteor.methods({
             contenu: contenu,
             auteur: auteur,
             creation: new Date(),
-            edition: true,
-            archive: false,
+            correction: true,
+            conformation: false,
+            type: "texte",
         });
     },
 
@@ -42,7 +44,7 @@ Meteor.methods({
      * @param {ObjectId} commentaireId Identifiant Mongo du commentaire à supprimer
      */
     'commentaires.remove'(commentaireId) {
-        Commentaires.remove({_id: commentaireId})
+        Commentaires.update({_id: commentaireId}, {$set: {type: null}})
     },
     /**
      * La sauvegarde de la version précédente est faire grâce au module todda00:collection-revisions

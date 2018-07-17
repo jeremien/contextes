@@ -1,7 +1,7 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
-import { Switch, Route, Link, BrowserRouter as Router } from "react-router-dom";
+import { Route, Link } from "react-router-dom";
 
 import { Sessions } from '../../api/collections/sessions';
 import AjouterSession from './AjouterSession';
@@ -19,33 +19,33 @@ class IndexSession extends React.Component {
 
     render() {
         return (
-            <Router>
-                <div>
-                    
-                        <div className="session">
-                                <h2>Sessions</h2>
-                                <ul>
-                                    {this.props.sessions.map((session) => (
-                                        <Link to={`/session/${session._id}`} key={session._id}>
-                                            {session.titre}
-                                            <br />
-                                            <button onClick={() => Meteor.call('sessions.remove', session._id)}>Supprimer la session</button>
-                                            <br />
-                                        </Link>
-                                    ))}
-                                </ul>
-                                {(!!Session.get('connecte') && Session.get('role') == "editeur") &&
-                                    <Link to="/session/creer">Ajouter une session</Link>
-                                }
-                        </div>
+            // <Router>
+            <div>
+                    <h2>Sessions</h2>
+                    <ul>
+                        {this.props.sessions.map((session) => (
+                            <Link to={`/session/${session._id}`} key={session._id}>
+                                {session.titre}
+                                <br />
+                                <button onClick={() => Meteor.call('sessions.remove', session._id)}>Supprimer la session</button>
+                                <br />
+                            </Link>
+                        ))}
+                    </ul>
+                    {(!!Session.get('connecte') && Session.get('role') == "editeur") &&
+                        <Link to="/session/creer">Ajouter une session</Link>
+                    }
+                
 
-                        <Route exact path="/session/creer" component={AjouterSession} />
-                        <Route exact path="/session/:id" component={FullSession} />
-                        {/* <Route exact path="/session/:id/admin" component={TableauDeBord} /> */}
+                {/* <Route exact path="/session/creer" component={AjouterSession} /> */}
+                {/* <Route exact path="/session/:id" component={FullSession} /> */}
+                {/* <Route exact path="/session/:id/admin" component={TableauDeBord} /> */}
 
-                    
-                </div>
-            </Router>
+                {/* <Route path="/session/:id" component={FullSession} /> */}
+                {/* <Route path="/session/:id/admin" component={TableauDeBord} /> */}
+                <Route path="/chapitre/:id" component={Chapitre} />
+            </div>
+            // </Router>
         )
     }
 }
