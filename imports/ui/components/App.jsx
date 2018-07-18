@@ -62,36 +62,15 @@ class App extends Component {
 
   render() {
     return (
-      <Router {...this.props}>
+      <Router>
         <Switch>
-          <MainLayout
-            topbar={
-              <div>
-                <li><Link to="/">Home</Link></li>
-                <li><Link to="/test">TEst</Link></li>
-                {!!this.props.connecte ?
-                  <div>
-                    <p>Bienvenue, {Session.get('utilisateur')}. Vous êtes connecté en tant que {Session.get('role')}</p>
-                    <LogOut />
-                  </div>
-                  :
-                  <div>
-                    <li><Link to="/login">Login</Link></li>
-                  </div>
-                }
-              </div>
-            } {...this.props}>
-            {/* Exemple d'une route avec un layout + components enfants
-          <Route name="exemple" path="/exemple" component={Layout}>
-            <IndexRoute components={{ enfant1: Component, enfant2: Component }} />
-          </Route> */}
-
-            <Route exact path="/" {...this.props} render={props => (
+          <MainLayout topbar={<TopBar {...this.props}/>} >
+            <Route exact path="/" ender={props => (
               <IndexSession {...props} />
             )} />
             <Route path="/login" component={Login} />
-            <Route path="/test/:param" {...this.props} render={props => (
-              <TestAPI {...props} />
+            <Route path="/test/" render={(props) => (
+              <TestAPI  {...props} />
             )} />
             <Route exact path="/session/creer" component={AjouterSession} />
             <Route path="/session/:id" component={FullSession} />
@@ -99,12 +78,29 @@ class App extends Component {
             <Route path="/chapitre/:id" component={Chapitre} />
           </MainLayout>
         </Switch>
-      </Router>
+      </Router >
     )
   }
 };
 
-
+const TopBar = (props) => {
+  return (
+    <div>
+      <li><Link to="/">Home</Link></li>
+      <li><Link to="/test">TEst</Link></li>
+      {!!props.connecte ?
+        <div>
+          <p>Bienvenue, {Session.get('utilisateur')}. Vous êtes connecté en tant que {Session.get('role')}</p>
+          <LogOut />
+        </div>
+        :
+        <div>
+          <li><Link to="/login">Login</Link></li>
+        </div>
+      }
+    </div>
+  )
+}
 
 const LogOut = withRouter(({ history }) => (
   <button

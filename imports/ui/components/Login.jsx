@@ -17,7 +17,7 @@ export default class Login extends React.Component {
         // this.state = {
         //     connecte: false
         // }
-        this.state = {role: 'transcripteur'};
+        this.state = {role: Session.get('role') || 'transcripteur'};
     }
     
     handleSubmit(event) {

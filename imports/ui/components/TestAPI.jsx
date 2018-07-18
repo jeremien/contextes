@@ -10,9 +10,9 @@ import AjouterCommentaire from './AjouterCommentaire';
 import Commentaire from './Commentaire';
 import IndexChapitre from './IndexChapitre';
 
-class TestAPI extends React.Component {
+export default class TestAPI extends React.Component {
     render() {
-        console.log(Meteor.call('session.getAllChapitres', this.props.match.params.param))
+        console.log(this.props)
         return(
             <div>
                 <h1>TestAPI</h1>
@@ -21,25 +21,25 @@ class TestAPI extends React.Component {
     }
 }
 
-function logProps(WrappedComponent) {
-    return class extends React.Component {
-        constructor(props) {
-            super(props);
-            this.state = {
-                connecte: false,
-                role: "",
-            };
-        }
+// function logProps(WrappedComponent) {
+//     return class extends React.Component {
+//         constructor(props) {
+//             super(props);
+//             this.state = {
+//                 connecte: false,
+//                 role: "",
+//             };
+//         }
 
-      render() {
-        return (
-            <WrappedComponent {...this.state}>
-            <p>HOC ok</p>
-            </WrappedComponent>
-        );
-      }
-    }
-  }
+//       render() {
+//         return (
+//             <WrappedComponent {...this.state}>
+//             <p>HOC ok</p>
+//             </WrappedComponent>
+//         );
+//       }
+//     }
+//   }
 
 
 //   export default withTracker((props) => {
