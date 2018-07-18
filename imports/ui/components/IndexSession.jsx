@@ -2,6 +2,7 @@ import React from 'react';
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
 import { Route, Link } from "react-router-dom";
+import PropTypes from 'prop-types'
 
 import { Sessions } from '../../api/collections/sessions';
 import AjouterSession from './AjouterSession';
@@ -17,18 +18,27 @@ class IndexSession extends React.Component {
         }
     }
 
+    static propTypes = {
+        sessions: PropTypes.isRequired,
+    };
+
+    static defaultProps = {
+        sessions: [{}],
+    };
+
     render() {
         return (
             <div>
                 <h2>Sessions</h2>
                 <ul>
                     {this.props.sessions.map((session) => (
-                        <Link to={`/session/${session._id}`} key={session._id}>
-                            {session.titre}
-                            <br />
+                        <li key={session._id}>
+                            <Link to={`/session/${session._id}`}>
+                                {session.titre}
+                            </Link>
                             <button onClick={() => Meteor.call('sessions.remove', session._id)}>Supprimer la session</button>
                             <br />
-                        </Link>
+                        </li>
                     ))}
                 </ul>
                 {(!!Session.get('connecte') && Session.get('role') == "editeur") &&
@@ -37,7 +47,7 @@ class IndexSession extends React.Component {
             </div>
         )
     }
-}
+};
 
 export default withTracker((props) => {
     Meteor.subscribe('sessions');

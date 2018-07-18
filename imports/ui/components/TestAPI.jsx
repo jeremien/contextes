@@ -42,10 +42,10 @@ function logProps(WrappedComponent) {
   }
 
 
-  export default withTracker((props) => {
-    Meteor.subscribe('sessions');
-    return({
-        sessions : Sessions.find().fetch(),
-    })
-  })(TestAPI);
+//   export default withTracker((props) => {
+//     Meteor.subscribe('sessions');
+//     return({
+//         sessions : Sessions.find().fetch(),
+//     })
+//   })(TestAPI);
   

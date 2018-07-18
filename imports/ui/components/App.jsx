@@ -10,6 +10,7 @@ import {
 } from 'react-router-dom';
 import { withTracker } from 'meteor/react-meteor-data';
 import { Session } from 'meteor/session';
+import PropTypes from 'prop-types'
 
 
 import IndexSession from './IndexSession';
@@ -29,6 +30,22 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.handleLeavePage = this.handleLeavePage.bind(this);
+  }
+
+  static defaultProps = {
+    connecte: false,
+    role: "",
+  }
+
+  static propTypes = {
+    connecte: PropTypes.bool.isRequired,
+    role: PropTypes.oneOf([
+      '',
+      'transcripteur',
+      'correcteur',
+      'conformateur',
+      'editeur'
+    ]).isRequired,
   }
 
   componentDidMount() {
@@ -63,15 +80,19 @@ class App extends Component {
                   </div>
                 }
               </div>
-            } >
+            } {...this.props}>
             {/* Exemple d'une route avec un layout + components enfants
           <Route name="exemple" path="/exemple" component={Layout}>
             <IndexRoute components={{ enfant1: Component, enfant2: Component }} />
           </Route> */}
 
-            <Route exact path="/" name="home" component={IndexSession} />
+            <Route exact path="/" {...this.props} render={props => (
+              <IndexSession {...props} />
+            )} />
             <Route path="/login" component={Login} />
-            <Route path="/test/:param" component={TestAPI} />
+            <Route path="/test/:param" {...this.props} render={props => (
+              <TestAPI {...props} />
+            )} />
             <Route exact path="/session/creer" component={AjouterSession} />
             <Route path="/session/:id" component={FullSession} />
             <Route path="/session/:id/admin" component={TableauDeBord} />
@@ -82,6 +103,8 @@ class App extends Component {
     )
   }
 };
+
+
 
 const LogOut = withRouter(({ history }) => (
   <button
@@ -103,7 +126,8 @@ const LogOut = withRouter(({ history }) => (
 
 export default withTracker((props) => {
   return {
-    connecte: !!Session.get('connecte')
+    connecte: !!Session.get('connecte'),
+    role: Session.get('role'),
   }
 })(App);
 

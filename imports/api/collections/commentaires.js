@@ -35,6 +35,7 @@ Meteor.methods({
             correction: true,
             conformation: false,
             type: "texte",
+            dernireModificationPar: auteur,
         });
     },
 
@@ -51,10 +52,10 @@ Meteor.methods({
      * @param {*} commentaireId 
      * @param {*} contenu 
      */
-    'commentaires.update'(commentaireId, contenu){
+    'commentaires.update'(commentaireId, contenu, utilisateur){
         // check(commentaireId, String);
         // checked(contenu, String);
-        Commentaires.update(commentaireId, {$set: {contenu: contenu}});
+        Commentaires.update(commentaireId, {$set: {contenu: contenu, dernireModificationPar: utilisateur}});
     },
 
     'commenrtaires.getVersion'(commentaireId) {
