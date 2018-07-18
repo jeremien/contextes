@@ -6,6 +6,12 @@ import { Meteor } from 'meteor/meteor';
  * Component gérant la création de session.
  */
 class AjouterSession extends Component {
+    state = { value: '' }
+
+    handleChange(event) {
+        this.setState({ value: event.target.value })
+    }
+
     handleSubmit(event) {
         event.preventDefault();
         const target = event.target;
@@ -17,7 +23,7 @@ class AjouterSession extends Component {
             conformateurs: target.conformateurs.value,
         };
 
-        Meteor.call('sessions.insert', titre, auteur, roles)
+        Meteor.call('sessions.insert', titre, auteur, this.state.value, roles)
         target.reset()
         this.props.history.push('/')
     }
@@ -32,27 +38,43 @@ class AjouterSession extends Component {
                             name="titre"
                             placeholder="Entrer le titre de la session"
                         />
+                        <br />
+                        <textarea
+                            rows="4"
+                            cols="50"
+                            form="ajout-session"
+                            placeholder="Une bref description de la session"
+                            value={this.state.value}
+                            onChange={this.handleChange.bind(this)}
+                        >
+                        </textarea>
+                        <br />
                         <label>Nombre de transcripteurs</label>
                         <input
                             type="number"
+                            defaultValue="1"
                             name="transcripteurs"
                             placeholder="1"
                             min="1"
                         />
+                        <br />
                         <label>Nombre de correcteurs</label>
                         <input
                             type="number"
+                            defaultValue="1"
                             name="correcteurs"
                             placeholder="1"
                             min="1"
                         />
+                        <br />
                         <label>Nombre de conformateurs</label>
                         <input
                             type="number"
+                            defaultValue="1"
                             name="conformateurs"
-                            placeholder="Nombre de conformateurs"
                             min="1"
                         />
+                        <br />
                         <input type="submit" value="Enregistrer" />
                     </form>
                 </div>

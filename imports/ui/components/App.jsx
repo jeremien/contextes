@@ -65,8 +65,8 @@ class App extends Component {
       <Router>
         <Switch>
           <MainLayout topbar={<TopBar {...this.props}/>} >
-            <Route exact path="/" ender={props => (
-              <IndexSession {...props} />
+            <Route exact path="/" render={props => (
+              <IndexSession {...this.props} {...props} />
             )} />
             <Route path="/login" component={Login} />
             <Route path="/test/" render={(props) => (

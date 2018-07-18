@@ -19,11 +19,12 @@ Meteor.methods({
      * @param {*} auteur Personne qui a créer le chapitre par défaut
      * @param {integer} duree Durée du chapitre en minutes
      */
-    'chapitres.insert'(session, titre, auteur, duree) {
+    'chapitres.insert'(session, titre, auteur, description, duree) {
         Chapitres.insert({
             session: session,
             titre: titre,
             auteur: auteur,
+            description, description,
             creation: new Date(),
             edition : false,
             archive: false,
@@ -33,8 +34,9 @@ Meteor.methods({
         });
     },
 
-    'chapitres.remove'(chapitreId){
-        Chapitres.remove({_id: chapitreId})
+    'chapitres.remove'(idSuppression){
+        Meteor.call('commentaires.remove', idSuppression)
+        Chapitres.remove({$or: [{_id: idSuppression}, {session: idSuppression}]})
     },
 
     'chapitres.update'(chapitreId, titre){
