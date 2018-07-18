@@ -23,6 +23,7 @@ export default class AjouterCommentaire extends Component {
                         name="contentInput"
                         placeholder="Entrer le nouveau commentaire"
                     />
+                    <br />
                     <input type="submit" value="Enregistrer" />
                 </form>
             </div>

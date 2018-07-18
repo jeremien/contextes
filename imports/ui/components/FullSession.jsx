@@ -33,6 +33,7 @@ class FullSession extends React.Component {
                         {(!!Session.get('connecte') && Session.get('role') == "editeur") &&
                             <Link to={`/session/${this.props.match.params.id}/admin`}>Tableau de bord</Link>
                         }
+                        <p>{this.props.sessions.description}</p>
                         <IndexChapitre session={this.props.match.params.id} {...this.props} />
                     </div>
                 }

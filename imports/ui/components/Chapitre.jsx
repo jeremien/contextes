@@ -58,6 +58,7 @@ class Chapitre extends React.Component {
                 {!!this.props.chapitre &&
                     <div>
                         <h3>Chapitre : {this.props.chapitre.titre}</h3>
+                        <p>{this.props.chapitre.description}</p>
                         {Session.get('role') == "editeur" &&
                             <div className="timer">
                                 <button className="start-timer" onClick={() => { this.startTimer(this.props.chapitre._id, 120) }}>Démarrer le timer</button>
