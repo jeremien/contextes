@@ -5,10 +5,6 @@ import { Route, Link } from "react-router-dom";
 import PropTypes from 'prop-types'
 
 import { Sessions } from '../../api/collections/sessions';
-import AjouterSession from './AjouterSession';
-import Chapitre from './Chapitre';
-import FullSession from './FullSession';
-import TableauDeBord from './TableauDeBord';
 
 class IndexSession extends React.Component {
     constructor(props) {
@@ -49,9 +45,14 @@ class IndexSession extends React.Component {
     }
 };
 
-export default withTracker((props) => {
-    Meteor.subscribe('sessions');
+export default IndexSessionContainer = withTracker(() => {
+    const sessionsHandle = Meteor.subscribe('sessions');
+    const loading = !sessionsHandle.ready();
+    const sessions = Sessions.find({}).fetch();
+    const sessionsExists = !loading && !!sessions;
     return {
-        sessions: Sessions.find().fetch(),
+        loading,
+        sessionsExists,
+        sessions: sessionsExists ? sessions : []
     }
 })(IndexSession);

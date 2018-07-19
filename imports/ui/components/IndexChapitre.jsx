@@ -10,38 +10,41 @@ import AjouterChapitre from './AjouterChapitre';
  * Affiche tous les commentaires liés à la session passées en props lors de l'appel du component.
  * props.seance : Id de la session passé en props par le component parent.
  */
-class IndexChapitres extends Component { 
-  
+class IndexChapitres extends Component {
+
   render() {
-        return (
-        <div className="chapitres">            
-            {(!!Session.get('connecte') && Session.get('role') == "editeur") && 
-            <AjouterChapitre session={this.props.session} />
-            }
-            <br />
-            {!!this.props.chapitres ?
-            <div>
-              <h2>Liste des chapitres existants</h2>
-              {this.props.chapitres.map((chapitre) => (
-                <li key={chapitre._id}>
-                   
-                  <Link to={`${this.props.match.url}/chapitre/${chapitre._id}`}>{chapitre.titre}</Link>
-                  <button onClick={() => Meteor.call('chapitres.remove', chapitre._id)}>Supprimer le chapitre</button>
-                </li>
-              ))}
-              </div>
-              :
+    return (
+      <div className="chapitres">
+        {(!!Session.get('connecte') && Session.get('role') == "editeur") &&
+          <AjouterChapitre session={this.props.session} />
+        }
+        <br />
+        <div>
+          <h2>Liste des chapitres existants</h2>
+          {this.props.chapitres.map((chapitre) => (
+            <li key={chapitre._id}>
+
+              <Link to={`${this.props.match.url}/chapitre/${chapitre._id}`}>{chapitre.titre}</Link>
+              <button onClick={() => Meteor.call('chapitres.remove', chapitre._id)}>Supprimer le chapitre</button>
+            </li>
+          ))}
+        </div>
+        :
               <h3>Auncun chapitre pour l'instant</h3>
-            }
-            </div>
-            
-          );
-      }
+      </div>
+
+    );
+  }
 }
 
-export default withTracker((props) => {
-  Meteor.subscribe('chapitres');
+export default IndexChapitresContainer = withTracker((props) => {
+  const chapitresHandle = Meteor.subscribe('chapitres');
+  const loading = !chapitresHandle.ready();
+  const chapitres = Chapitres.find({ session: props.session }).fetch()
+  const chapitresExists = !loading && !!chapitres;
   return {
-      chapitres : Chapitres.find({session: props.session}).fetch(),
-    };
-  })(IndexChapitres);
+    loading,
+    chapitresExists,
+    chapitres: chapitresExists ? chapitres : []
+  }
+})(IndexChapitres);

@@ -16,9 +16,9 @@ import PropTypes from 'prop-types'
 import IndexSession from './IndexSession';
 import Login from './Login';
 import MainLayout from '../layout/MainLayout';
-import FullSession from './FullSession';
+import DetailsSession from './DetailsSession';
 import TestAPI from './TestAPI';
-import Chapitre from './Chapitre';
+import DetailsChapitres from './DetailsChapitre';
 import AjouterSession from './AjouterSession';
 
 import TableauDeBord from './TableauDeBord';
@@ -73,9 +73,9 @@ class App extends Component {
               <TestAPI  {...props} />
             )} />
             <Route exact path="/session/creer" component={AjouterSession} />
-            <Route path="/session/:id" component={FullSession} />
+            <Route path="/session/:id" component={DetailsSession} />
             <Route path="/session/:id/admin" component={TableauDeBord} />
-            <Route path="/chapitre/:id" component={Chapitre} />
+            <Route path="/chapitre/:id" component={DetailsChapitres} />
           </MainLayout>
         </Switch>
       </Router >
