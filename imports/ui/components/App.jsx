@@ -13,7 +13,7 @@ import { Session } from 'meteor/session';
 import PropTypes from 'prop-types'
 
 
-import IndexSession from './IndexSession';
+import IndexSessions from './IndexSessions';
 import Login from './Login';
 import LandingPage from './LandingPage';
 import TableauDeBord from './TableauDeBord';
@@ -65,8 +65,8 @@ class App extends Component {
             <Route exact path="/" render={(props) => <TopBar {...props} {...this.props} />} />
           </div>
           <div className="index">
-            <Route path="/sessions" render={() => <IndexSession />} />
-            <Route path="/session/:idSession/chapitre/:idChapitre" render={() => <DetailsChapitre />} />
+            <Route path="/sessions" render={(props) => <IndexSessions {...props} {...this.props} />} />
+            <Route path="/session/:idSession/chapitre/:idChapitre" render={(props) => <DetailsChapitre {...props} {...this.props} />} />
           </div>
           <Route exact path="/" render={(props) => <LandingPage {...props} />} />
           <Route path="/login" render={(props) => <Login {...props} />} />
@@ -80,7 +80,7 @@ const TopBar = (props) => {
   return (
     <div className="topbar">
       <Link to="/">Home</Link>
-      <Link to="/test">TEst</Link>
+      <Link to="/test">Test</Link>
       {!!props.connecte ?
         <div>
           <p>Bienvenue, {props.utilisateur}. Vous êtes connecté en tant que {props.role}</p>
@@ -106,14 +106,9 @@ const LogOut = (props) => {
       }}
     >
       Se déconnecter
-  </button>
+    </button>
   )
 }
-
-/**
- * Higher-Order Component permettant de gérer l'état de l'identification. 
- * Nécessaire pour avoir une interface à dynamique.
- */
 
 export default withTracker((props) => {
   return {

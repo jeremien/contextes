@@ -2,44 +2,51 @@ import React from 'react';
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
-import { Session } from 'meteor/session';
 
 import { Sessions } from '../../api/collections/sessions';
 import IndexChapitre from './IndexChapitre';
-import DetailsChapitre from './DetailsChapitre';
-
-import TableauDeBord from './TableauDeBord';
 
 class DetailsSession extends React.Component {
     componentDidMount() {
-        Meteor.call('connexions.session', Session.get('utilisateur'), this.props.match.params.id);
+        Meteor.call('connexions.session', this.props.connecte, this.props.sessionId);
     };
 
     componentWillUnmount() {
-        Meteor.call('sessions.deconnexion', Session.get('utilisateur'));
+        Meteor.call('sessions.deconnexion', this.props.utilisateur);
     }
+
+    // render() {
+    //     return (
+    //         <Router>
+    //             <div>
+    //                 <div>
+    //                     {!!this.props.sessions &&
+    //                         <div>
+    //                             <h1>Session : {this.props.session.titre}</h1>
+    //                             {(!!Session.get('connecte') && Session.get('role') == "editeur") &&
+    //                                 <Link to={`/session/${this.props.sessionId}/admin`}>Tableau de bord</Link>
+    //                             }
+    //                             <p>{this.props.sessions.description}</p>
+    //                             <IndexChapitre session={this.props.sessionId} {...this.props} />
+    //                         </div>
+    //                     }
+    //                 </div>
+    //                 <Route exact path={`${this.props.match.path}/chapitre/:id`} component={DetailsChapitre} />
+
+    //                 <Route exact path="/session/:id/admin" component={TableauDeBord} />
+    //             </div>
+    //         </Router>
+    //     )
+    // }
 
     render() {
         return (
-            <Router>
-                <div>
-                    <div>
-                        {!!this.props.sessions &&
-                            <div>
-                                <h1>Sessions : {this.props.sessions.titre}</h1>
-                                {(!!Session.get('connecte') && Session.get('role') == "editeur") &&
-                                    <Link to={`/session/${this.props.match.params.id}/admin`}>Tableau de bord</Link>
-                                }
-                                <p>{this.props.sessions.description}</p>
-                                <IndexChapitre session={this.props.match.params.id} {...this.props} />
-                            </div>
-                        }
-                    </div>
-                    <Route exact path={`${this.props.match.path}/chapitre/:id`} component={DetailsChapitre} />
-
-                    <Route exact path="/session/:id/admin" component={TableauDeBord} />
+            <div className="details-session">
+                <h2>Une session détaillée</h2>
+                <div className="liste-chapitres">
+                    <IndexChapitre {...this.props} />
                 </div>
-            </Router>
+            </div>
         )
     }
 }
@@ -47,11 +54,11 @@ class DetailsSession extends React.Component {
 export default DetailsSessionContainer = withTracker((props) => {
     const sessionsHandle = Meteor.subscribe('sessions');
     const loading = !sessionsHandle.ready();
-    const sessions = Sessions.findOne({ _id: props.match.params.id });
-    const sessionsExists = !loading && !!sessions;
+    const session = Sessions.findOne({ _id: props.sessionId })
+    const sessionExists = !loading && !!session
     return {
         loading,
-        sessionsExists,
-        sessions: sessionsExists ? sessions : []
+        sessionExists,
+        session: sessionExists ? session : []
     }
 })(DetailsSession);
