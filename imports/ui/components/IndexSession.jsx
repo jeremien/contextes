@@ -1,7 +1,7 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
-import { Route, Link } from "react-router-dom";
+import { Route, Link } from 'react-router-dom';
 import PropTypes from 'prop-types'
 
 import { Sessions } from '../../api/collections/sessions';

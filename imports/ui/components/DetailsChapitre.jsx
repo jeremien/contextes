@@ -1,13 +1,11 @@
-import React from '../../../../../../../.cache/typescript/2.9/node_modules/@types/react';
+import React from 'react';
 import { Session } from 'meteor/session';
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
-import { Link } from '../../../../../../../.cache/typescript/2.9/node_modules/@types/react-router-dom'
+import { Link } from 'react-router-dom'
 
-import { Commentaires } from '../../api/collections/commentaires';
 import { Chapitres } from '../../api/collections/chapitres';
-import AjouterCommentaire from './AjouterCommentaire';
-import Commentaire from './Commentaire';
+import AjouterCommentaire from './AjouterDocument';
 
 class DetailsChapitre extends React.Component {
     constructor(props) {
@@ -66,8 +64,8 @@ class DetailsChapitre extends React.Component {
                         }
                         <p>Temps restant : {this.props.chapitre.timer}</p>
                         {/* <ul>
-                            {this.props.commentaires.map((commentaire) => (
-                                <Commentaire commentaire={commentaire} key={commentaire._id} />
+                            {this.props.documents.map((document) => (
+                                <Commentaire document={document} key={document._id} />
                             ))}
                         </ul> */}
                         {(!!Session.get('connecte') && Session.get('role') == "transcripteur") &&

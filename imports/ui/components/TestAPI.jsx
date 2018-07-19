@@ -4,10 +4,8 @@ import { Meteor } from 'meteor/meteor'
 
 import { Sessions } from '../../api/collections/sessions';
 import { Chapitres } from '../../api/collections/chapitres';
-import { Commentaires } from '../../api/collections/commentaires';
 
-import AjouterCommentaire from './AjouterCommentaire';
-import Commentaire from './Commentaire';
+import AjouterCommentaire from './AjouterDocument';
 import IndexChapitre from './IndexChapitre';
 
 export default class TestAPI extends React.Component {

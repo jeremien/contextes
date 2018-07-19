@@ -1,7 +1,7 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 import { Sessions } from '../../api/collections/sessions';
 import { Chapitres } from '../../api/collections/chapitres'

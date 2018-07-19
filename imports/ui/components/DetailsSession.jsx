@@ -1,7 +1,7 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
-import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import { Session } from 'meteor/session';
 
 import { Sessions } from '../../api/collections/sessions';
@@ -44,12 +44,6 @@ class DetailsSession extends React.Component {
     }
 }
 
-// export default withTracker((props) => {
-//     Meteor.subscribe('sessions');
-//     return {
-//         sessions: Sessions.findOne({ _id: props.match.params.id }),
-//     };
-// })(FullSession);
 export default DetailsSessionContainer = withTracker((props) => {
     const sessionsHandle = Meteor.subscribe('sessions');
     const loading = !sessionsHandle.ready();

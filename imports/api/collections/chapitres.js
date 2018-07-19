@@ -1,7 +1,7 @@
 import { Mongo } from 'meteor/mongo';
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
-import { Commentaires } from './commentaires';
+import { Commentaires } from './documents';
 
 export const Chapitres = new Mongo.Collection('chapitres');
 // Chapitres.attachCollectionRevisions(CollectionRevisions.Chapitres);
@@ -35,7 +35,7 @@ Meteor.methods({
     },
 
     'chapitres.remove'(idSuppression){
-        Meteor.call('commentaires.remove', idSuppression)
+        Meteor.call('documents.remove', idSuppression)
         Chapitres.remove({$or: [{_id: idSuppression}, {session: idSuppression}]})
     },
 
@@ -48,7 +48,7 @@ Meteor.methods({
     },
 
     'chapitres.getAllCommentaires'(chapitre) {
-        Meteor.subscribe('commentaires')
+        Meteor.subscribe('documents')
         return Commentaires.find({chapitre: chapitre})
     },
 

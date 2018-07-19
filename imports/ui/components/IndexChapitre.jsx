@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 
-import { Chapitres } from '../../api/collections/chapitres.js';
+import { Chapitres } from '../../api/collections/chapitres';
 import { withTracker } from 'meteor/react-meteor-data';
 
 import AjouterChapitre from './AjouterChapitre';
 
-/**
- * Affiche tous les commentaires liés à la session passées en props lors de l'appel du component.
- * props.seance : Id de la session passé en props par le component parent.
- */
 class IndexChapitres extends Component {
 
   render() {

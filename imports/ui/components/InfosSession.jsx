@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Meteor } from 'meteor/meteor';
 
 /**
  * Permet l'affichage des méta-data et propriétés d'une session.

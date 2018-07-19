@@ -42,7 +42,7 @@ Meteor.methods({
     },
 
     'sessions.remove' (sessionId) {
-        Meteor.call('commentaires.remove', sessionId)
+        Meteor.call('documents.remove', sessionId)
         Meteor.call('chapitres.remove', sessionId)
         Sessions.remove({
             _id: sessionId

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
 
-export default class AjouterCommentaire extends Component {
+export default class AjouterDocument extends Component {
     handleSubmit(event) {
         event.preventDefault();
         const target = event.target;
@@ -9,7 +9,7 @@ export default class AjouterCommentaire extends Component {
         const auteur = Session.get('utilisateur');
         const session = this.props.sessionId;
         const chapitre = this.props.chapitreId;
-        Meteor.call('commentaires.insert', session, chapitre, commentaire, auteur)
+        Meteor.call('documents.insert', session, chapitre, commentaire, auteur)
 
         target.reset();
     }
