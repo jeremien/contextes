@@ -8,7 +8,7 @@ import {
 
 import '../stylesheets/layout';
 
-export default class MainLayout extends React.Component {
+export default class Layout extends React.Component {
     render() {
         return(
             <div className="main">

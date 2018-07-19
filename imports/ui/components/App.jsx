@@ -15,7 +15,7 @@ import PropTypes from 'prop-types'
 
 import IndexSession from './IndexSession';
 import Login from './Login';
-import MainLayout from '../layout/MainLayout';
+import Layout from '../layout/Layout';
 import DetailsSession from './DetailsSession';
 import TestAPI from './TestAPI';
 import DetailsChapitres from './DetailsChapitre';
@@ -64,7 +64,7 @@ class App extends Component {
     return (
       <Router>
         <Switch>
-          <MainLayout topbar={<TopBar {...this.props}/>} >
+          <Layout topbar={<TopBar {...this.props}/>} >
             <Route exact path="/" render={props => (
               <IndexSession {...this.props} {...props} />
             )} />
@@ -76,7 +76,7 @@ class App extends Component {
             <Route path="/session/:id" component={DetailsSession} />
             <Route path="/session/:id/admin" component={TableauDeBord} />
             <Route path="/chapitre/:id" component={DetailsChapitres} />
-          </MainLayout>
+          </Layout>
         </Switch>
       </Router >
     )
