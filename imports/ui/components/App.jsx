@@ -15,13 +15,9 @@ import PropTypes from 'prop-types'
 
 import IndexSession from './IndexSession';
 import Login from './Login';
-import Layout from '../layout/Layout';
-import DetailsSession from './DetailsSession';
-import TestAPI from './TestAPI';
-import DetailsChapitres from './DetailsChapitre';
-import AjouterSession from './AjouterSession';
-
+import LandingPage from './LandingPage';
 import TableauDeBord from './TableauDeBord';
+import DetailsChapitre from './DetailsChapitre';
 
 /**
  * Composant principal de l'application. Gère les routes publiques.
@@ -63,35 +59,32 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <Switch>
-          <Layout topbar={<TopBar {...this.props}/>} >
-            <Route exact path="/" render={props => (
-              <IndexSession {...this.props} {...props} />
-            )} />
-            <Route path="/login" component={Login} />
-            <Route path="/test/" render={(props) => (
-              <TestAPI  {...props} />
-            )} />
-            <Route exact path="/session/creer" component={AjouterSession} />
-            <Route path="/session/:id" component={DetailsSession} />
-            <Route path="/session/:id/admin" component={TableauDeBord} />
-            <Route path="/chapitre/:id" component={DetailsChapitres} />
-          </Layout>
-        </Switch>
-      </Router >
+        <div className="main">
+          <div className="header">
+            <h1>DDRcontexte</h1>
+            <Route exact path="/" render={(props) => <TopBar {...props} {...this.props} />} />
+          </div>
+          <div className="index">
+            <Route path="/sessions" render={() => <IndexSession />} />
+            <Route path="/session/:idSession/chapitre/:idChapitre" render={() => <DetailsChapitre />} />
+          </div>
+          <Route exact path="/" render={(props) => <LandingPage {...props} />} />
+          <Route path="/login" render={(props) => <Login {...props} />} />
+        </div>
+      </Router>
     )
   }
 };
 
 const TopBar = (props) => {
   return (
-    <div>
-      <li><Link to="/">Home</Link></li>
-      <li><Link to="/test">TEst</Link></li>
+    <div className="topbar">
+      <Link to="/">Home</Link>
+      <Link to="/test">TEst</Link>
       {!!props.connecte ?
         <div>
-          <p>Bienvenue, {Session.get('utilisateur')}. Vous êtes connecté en tant que {Session.get('role')}</p>
-          <LogOut />
+          <p>Bienvenue, {props.utilisateur}. Vous êtes connecté en tant que {props.role}</p>
+          <LogOut {...props} />
         </div>
         :
         <div>
@@ -102,18 +95,20 @@ const TopBar = (props) => {
   )
 }
 
-const LogOut = withRouter(({ history }) => (
-  <button
-    type='button'
-    onClick={() => {
-      Session.set("connecte", false);
-      Meteor.call('connexions.remove', Session.get('utilisateur'));
-      history.push('/');
-    }}
-  >
-    Se déconnecter
+const LogOut = (props) => {
+  return (
+    <button
+      type='button'
+      onClick={() => {
+        Session.set("connecte", false);
+        Meteor.call('connexions.remove', props.utilisateur);
+        props.history.push('/');
+      }}
+    >
+      Se déconnecter
   </button>
-))
+  )
+}
 
 /**
  * Higher-Order Component permettant de gérer l'état de l'identification. 
@@ -123,6 +118,7 @@ const LogOut = withRouter(({ history }) => (
 export default withTracker((props) => {
   return {
     connecte: !!Session.get('connecte'),
+    utilisateur: Session.get('utilisateur'),
     role: Session.get('role'),
   }
 })(App);

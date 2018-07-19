@@ -15,8 +15,8 @@
     background-color: blueviolet;
 }
 
-.vue {
-    background-color: greenyellow;
+.header {
+    display: flex;
 }
 
 .chapitres {
