@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 /**
  * Affiche les détails et méta-data liées au docuement passé en props
  */
 export default class DetailsDocument extends Component {
   static propTypes = {
-    document: PropTypes.isRequired,
+    document: PropTypes.object.isRequired,
   };
 
   static defaultProps = {

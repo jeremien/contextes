@@ -13,29 +13,45 @@
 .topbar {
     display: flex;
     justify-content: space-between;
+    width: 100%
 }
 
-.body {
+.index-sessions {
     display: flex;
-    height: 80%;
-    background-color: orange;
+    width: 100%;
+    background-color: orangered;
 }
 
-.index {
+.index-sessions-gauche {
+    width: 50%;
+}
+
+.index-sessions-droite {
+    width: 50%;
+}
+
+.details-chapitre {
+    display: flex;
+    width: 100%;
+    background-color: yellowgreen;
+}
+
+.infos-chapitre {
+    width: 25%;
+    background-color: brown;
+    flex: none;
+}
+
+.documpents {
+    display: flex;
+    flex-direction: column;
+    width: 75%;
     background-color: blueviolet;
 }
 
-
-
-.chapitres {
-    background-color: yellow;
-}
-
-.session {
-    background-color: green;
-}
-
-/* .ajout-session {
+.index-documents {
     display: flex;
-    flex-direction: column;
-} */
+    flex-wrap: wrap;
+    align-content: flex-start;
+    width: 75%;
+}

@@ -63,7 +63,6 @@ class App extends Component {
       <Router>
         <div className="main">
           <div className="header">
-            <h1>DDRcontexte</h1>
             <Route path="/" render={(props) => <TopBar {...props} {...this.props} />} />
           </div>
           <hr />
@@ -83,8 +82,9 @@ class App extends Component {
 const TopBar = (props) => {
   return (
     <div className="topbar">
-        <Link to="/">Home</Link>
-        <Link to="/test">Test</Link>
+      <h1>DDRcontexte</h1>
+      <Link to="/">Home</Link>
+      <Link to="/test">Test</Link>
       <br />
       {!!props.connecte ?
         <div>

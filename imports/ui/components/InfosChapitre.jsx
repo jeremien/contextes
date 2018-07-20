@@ -20,7 +20,7 @@ export default class InfosChapitre extends Component {
     render() {
         return (
             <div className="infos-chapitre">
-                <h3>Chapitre : {this.props.chapitre.titre}</h3>
+                <h3 className="titre">Chapitre : {this.props.chapitre.titre}</h3>
                 <p>{this.props.chapitre.description}</p>
                 <Timer {...this.props} />
             </div>

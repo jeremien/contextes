@@ -39,8 +39,7 @@ class DetailsChapitre extends React.Component {
                         <InfosChapitre {...this.props} />
                     </div>
                     <div className="documents">
-                        <IndexDocuments sessionId={this.props.match.idSession} chapitreId={this.props.match.idChapitre} />
-
+                        <IndexDocuments {...this.props} />
                         {(this.props.connecte && this.props.role == "transcripteur") &&
                             <AjouterCommentaire chapitreId={this.props.chapitre._id} sessionId={this.props.chapitre.session} />
                         }
