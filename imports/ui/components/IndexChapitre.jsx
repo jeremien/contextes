@@ -41,6 +41,7 @@ class IndexChapitres extends Component {
     if (this.props.chapitresExists) {
       return (
         <div className="index-chapitres">
+        <h2>Liste des chapitres</h2>
           {this.props.chapitres.map((chapitre) => (
             <li key={chapitre._id}>
               <Link to={`/session/${this.props.sessionId}/chapitre/${chapitre._id}`}>{chapitre.titre}</Link>

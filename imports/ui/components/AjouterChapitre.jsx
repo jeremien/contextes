@@ -25,7 +25,7 @@ export default class AjouterChapitre extends Component {
     render() {
         return (
             <div className="ajout-chapitre">
-                <h2>Ajouter un chapitre</h2>
+                <h3>Ajouter un chapitre</h3>
                 <form className="nouveau-chapitre" onSubmit={this.handleSubmit.bind(this)} >
                     <input
                         type="text"
