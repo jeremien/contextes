@@ -19,6 +19,8 @@ import LandingPage from './LandingPage';
 import TableauDeBord from './TableauDeBord';
 import DetailsChapitre from './DetailsChapitre';
 
+import '../stylesheets/main'
+
 /**
  * Composant principal de l'application. Gère les routes publiques.
  */
@@ -64,10 +66,12 @@ class App extends Component {
             <h1>DDRcontexte</h1>
             <Route path="/" render={(props) => <TopBar {...props} {...this.props} />} />
           </div>
+          <hr />
           <div className="index">
             <Route path="/sessions" render={(props) => <IndexSessions {...props} {...this.props} />} />
             <Route path="/session/:idSession/chapitre/:idChapitre" render={(props) => <DetailsChapitre {...props} {...this.props} />} />
           </div>
+          <hr />
           <Route exact path="/" render={(props) => <LandingPage {...props} />} />
           <Route path="/login" render={(props) => <Login {...props} />} />
         </div>
@@ -79,8 +83,9 @@ class App extends Component {
 const TopBar = (props) => {
   return (
     <div className="topbar">
-      <Link to="/">Home</Link>
-      <Link to="/test">Test</Link>
+        <Link to="/">Home</Link>
+        <Link to="/test">Test</Link>
+      <br />
       {!!props.connecte ?
         <div>
           <p>Bienvenue, {props.utilisateur}. Vous êtes connecté en tant que {props.role}</p>

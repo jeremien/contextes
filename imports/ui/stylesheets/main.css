@@ -4,6 +4,16 @@
     height: 100%;
     background-color: aqua;
 }
+.header {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+}
 
 .body {
     display: flex;
@@ -15,9 +25,7 @@
     background-color: blueviolet;
 }
 
-.header {
-    display: flex;
-}
+
 
 .chapitres {
     background-color: yellow;
