@@ -13,6 +13,7 @@ class IndexSessions extends React.Component {
         this.state = {
             session_active: null,
         }
+        this.getAction = this.getAction.bind(this);
     }
 
     static propTypes = {
@@ -28,7 +29,7 @@ class IndexSessions extends React.Component {
             <div className="index-sessions">
                 <div className="index-sessions-gauche">
                     <div className="action-session">
-
+                        {this.getAction()}
                     </div>
                     <div className="liste-sessions">
                         {this.props.sessions.map((session) => (

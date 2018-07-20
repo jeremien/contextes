@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import { Meteor } from 'meteor/meteor';
+import PropTypes from 'prop-types';
+
+import Timer from './Timer'
 
 /**
  * Permet l'affichage des méta-data et propriétés d'un chapitre.
@@ -6,7 +10,7 @@ import React, { Component } from 'react';
  */
 export default class InfosChapitre extends Component {
     static propTypes = {
-        chapitre: PropTypes.isRequired,
+        chapitre: PropTypes.object.isRequired,
     };
 
     static defaultProps = {
@@ -15,8 +19,10 @@ export default class InfosChapitre extends Component {
 
     render() {
         return (
-            <div>
-                <h3>Un chapitre détaillé</h3>
+            <div className="infos-chapitre">
+                <h3>Chapitre : {this.props.chapitre.titre}</h3>
+                <p>{this.props.chapitre.description}</p>
+                <Timer {...this.props} />
             </div>
         )
     }

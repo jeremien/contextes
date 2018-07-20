@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom'
 import { Chapitres } from '../../api/collections/chapitres';
 import AjouterCommentaire from './AjouterDocument';
 import IndexDocuments from './IndexDocuments'
-import Timer from './Timer';
+import InfosChapitre from './InfosChapitre';
 
 class DetailsChapitre extends React.Component {
     componentWillUnmount() {
@@ -36,10 +36,7 @@ class DetailsChapitre extends React.Component {
             return (
                 <div className="details-chapitre">
                     <div className="infos-chapitre">
-                        <h3>Chapitre : {this.props.chapitre.titre}</h3>
-                        <p>{this.props.chapitre.description}</p>
-                        <Timer {...this.props}/>
-                        
+                        <InfosChapitre {...this.props} />
                     </div>
                     <div className="documents">
                         <IndexDocuments sessionId={this.props.match.idSession} chapitreId={this.props.match.idChapitre} />
