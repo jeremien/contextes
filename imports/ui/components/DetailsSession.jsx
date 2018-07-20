@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 
 import { Sessions } from '../../api/collections/sessions';
 import IndexChapitre from './IndexChapitre';
+import TableauDeBord from './TableauDeBord';
 
 class DetailsSession extends React.Component {
     componentDidMount() {
@@ -40,14 +41,28 @@ class DetailsSession extends React.Component {
     // }
 
     render() {
-        return (
-            <div className="details-session">
-                <h2>Une session détaillée</h2>
-                <div className="liste-chapitres">
-                    <IndexChapitre {...this.props} />
+        if (this.props.sessionId) {
+            return (
+                <div className="details-session">
+                    {(!!this.props.connecte && this.props.role == "editeur") ?
+                        <TableauDeBord sessionId={this.props.sessionId} />
+                        :
+                        <h2>Choisir un chapitre à consulter</h2>
+                    }
+                    <br />
+                    <br />
+                        <IndexChapitre sessionId={this.props.sessionId} />
+                    
                 </div>
-            </div>
-        )
+            )
+        }
+        else {
+            return (
+                <div className="details-session">
+                    <h2>Choisir une session à afficher</h2>
+                </div>
+            )
+        }
     }
 }
 

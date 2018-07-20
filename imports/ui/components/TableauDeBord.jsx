@@ -7,6 +7,8 @@ import { Sessions } from '../../api/collections/sessions';
 import { Chapitres } from '../../api/collections/chapitres'
 import { Connexions } from '../../api/collections/connexions';
 
+import AjouterChapitre from './AjouterChapitre';
+
 class TableauDeBord extends React.Component {
     afficheModifications(chapitre) {
         return (
@@ -37,8 +39,13 @@ class TableauDeBord extends React.Component {
     }
 
     render() {
-        
-        if (!!this.props.session) {
+        if (this.props.loading) {
+            return (
+                <h3>Chargement en cours</h3>
+            )
+        }
+
+        if (this.props.sessionExists) {
             return (
                 <div className="tableau-de-bord">
                     <h2>{this.props.session.titre} : tableau de bord</h2>
@@ -61,20 +68,50 @@ class TableauDeBord extends React.Component {
                             </li>
                         ))}
                     </ul>
-                    <Link to={`/session/${this.props.match.params.id}`}>Retourner à l'index de la session</Link>
+                    <AjouterChapitre sessionId={this.props.sessionId} />
                 </div>
+
             )
         }
+
+        return (
+            <div className="tableau-de-bord">
+                <h2>Choisir une session</h2>
+            </div>
+        )
     }
 }
 
-export default withTracker((props) => {
-    Meteor.subscribe('sessions');
-    Meteor.subscribe('chapitres');
-    Meteor.subscribe('connexions');
+// export default withTracker((props) => {
+//     Meteor.subscribe('sessions');
+//     Meteor.subscribe('chapitres');
+//     Meteor.subscribe('connexions');
+//     return {
+//         session: Sessions.findOne({ _id: props.match.params.id }),
+//         chapitres: Chapitres.find({ session: props.match.params.id }).fetch(),
+//         connexions: Connexions.find({ session: props.match.params.id }).fetch(),
+//     }
+// })(TableauDeBord);
+
+export default IndexSessionContainer = withTracker((props) => {
+    const sessionHandle = Meteor.subscribe('sessions');
+    const chapitresHandle = Meteor.subscribe('chapitres');
+    const connexionsHandle = Meteor.subscribe('connexions')
+
+    const loading = !sessionHandle.ready() && !chapitresHandle.ready() && !connexionsHandle.ready();
+    const session = Sessions.findOne({ _id: props.sessionId });
+    const chapitres = Chapitres.find({ session: props.sessionId }).fetch();
+    const connexions = Connexions.find({ session: props.sessionId }).fetch()
+    const sessionExists = !loading && !!session;
+    const chapitresExists = !loading && !!chapitres;
+    const connexionsExists = !loading && !!connexions;
     return {
-        session: Sessions.findOne({ _id: props.match.params.id }),
-        chapitres: Chapitres.find({ session: props.match.params.id }).fetch(),
-        connexions: Connexions.find({ session: props.match.params.id }).fetch(),
+        loading,
+        sessionExists,
+        chapitresExists,
+        connexionsExists,
+        session: sessionExists ? session : [],
+        chapitres: chapitresExists ? chapitres : [],
+        connexions: connexionsExists ? connexions : [],
     }
 })(TableauDeBord);

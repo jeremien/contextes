@@ -62,7 +62,7 @@ class App extends Component {
         <div className="main">
           <div className="header">
             <h1>DDRcontexte</h1>
-            <Route exact path="/" render={(props) => <TopBar {...props} {...this.props} />} />
+            <Route path="/" render={(props) => <TopBar {...props} {...this.props} />} />
           </div>
           <div className="index">
             <Route path="/sessions" render={(props) => <IndexSessions {...props} {...this.props} />} />

@@ -14,7 +14,7 @@ export default class AjouterChapitre extends Component {
         const target = event.target;
         const auteur = Session.get('utilisateur');
         const titre = target.titre.value;
-        const session = this.props.session;
+        const session = this.props.sessionId;
         const duree = target.duree.value || 1;
 
         Meteor.call('chapitres.insert', session, titre, auteur, this.state.value, duree)

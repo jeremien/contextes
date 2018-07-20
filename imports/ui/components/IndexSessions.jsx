@@ -59,7 +59,7 @@ class IndexSessions extends React.Component {
                     </div>
                     <div className="liste-sessions">
                         {this.props.sessions.map((session) => (
-                            <li key={session._id} onClick={() => this.setState({session_active: session._id})}>
+                            <li key={session._id} onClick={() => this.setState({ session_active: session._id })}>
                                 {session.titre}
                                 <button onClick={() => Meteor.call('sessions.remove', session._id)}>Supprimer la session</button>
                                 <br />
@@ -68,7 +68,6 @@ class IndexSessions extends React.Component {
                     </div>
                 </div>
                 <div className="index-sessions-droite">
-                    <h1>Une session détaillée</h1>
                     <DetailsSession sessionId={this.state.session_active} {...this.props} />
                 </div>
             </div>
