@@ -16,30 +16,6 @@ class DetailsSession extends React.Component {
         Meteor.call('sessions.deconnexion', this.props.utilisateur);
     }
 
-    // render() {
-    //     return (
-    //         <Router>
-    //             <div>
-    //                 <div>
-    //                     {!!this.props.sessions &&
-    //                         <div>
-    //                             <h1>Session : {this.props.session.titre}</h1>
-    //                             {(!!Session.get('connecte') && Session.get('role') == "editeur") &&
-    //                                 <Link to={`/session/${this.props.sessionId}/admin`}>Tableau de bord</Link>
-    //                             }
-    //                             <p>{this.props.sessions.description}</p>
-    //                             <IndexChapitre session={this.props.sessionId} {...this.props} />
-    //                         </div>
-    //                     }
-    //                 </div>
-    //                 <Route exact path={`${this.props.match.path}/chapitre/:id`} component={DetailsChapitre} />
-
-    //                 <Route exact path="/session/:id/admin" component={TableauDeBord} />
-    //             </div>
-    //         </Router>
-    //     )
-    // }
-
     render() {
         if (this.props.sessionId) {
             return (
@@ -51,8 +27,8 @@ class DetailsSession extends React.Component {
                     }
                     <br />
                     <br />
-                        <IndexChapitre sessionId={this.props.sessionId} />
-                    
+                    <IndexChapitre sessionId={this.props.sessionId} />
+
                 </div>
             )
         }

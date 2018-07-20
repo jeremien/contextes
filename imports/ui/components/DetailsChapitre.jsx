@@ -51,28 +51,38 @@ class DetailsChapitre extends React.Component {
     }
 
     render() {
-        return (
-            <div>
+        if (this.props.loading) {
+            return (
+                <div className="details-chapitre">
+                    <h3>Chargement en cours</h3>
+                </div>
+            )
+        }
+
+        if (this.props.chapitreExists) {
+            return (
+                <div className="details-chapitre">
                     <div>
                         <h3>Chapitre : {this.props.chapitre.titre}</h3>
                         <p>{this.props.chapitre.description}</p>
-                        {Session.get('role') == "editeur" &&
+                        {this.props.role == "editeur" &&
                             <div className="timer">
                                 <button className="start-timer" onClick={() => { this.startTimer(this.props.chapitre._id, 120) }}>Démarrer le timer</button>
                                 <button className="start-timer" onClick={this.stopTimer}>Arreter le timer</button>
                             </div>
                         }
                         <p>Temps restant : {this.props.chapitre.timer}</p>
-                        {/* <ul>
-                            {this.props.documents.map((document) => (
-                                <Commentaire document={document} key={document._id} />
-                            ))}
-                        </ul> */}
-                        {(!!Session.get('connecte') && Session.get('role') == "transcripteur") &&
+                        {(this.props.connecte && this.props.role == "transcripteur") &&
                             <AjouterCommentaire chapitreId={this.props.chapitre._id} sessionId={this.props.chapitre.session} />
                         }
-                        <Link to={`/session/${this.props.chapitre.session}`}>Retourner à l'index de la session</Link>
+                        <Link to={`/sessions/${this.props.match.idSession}`}>Retourner à l'index de la session</Link>
                     </div>
+                </div>
+            )
+        }
+        return (
+            <div className="details-chapitre">
+                <h3>Choisir un chapitre</h3>
             </div>
         )
     }
@@ -81,7 +91,7 @@ class DetailsChapitre extends React.Component {
 export default DetailsChapitre = withTracker((props) => {
     const chapitresHandle = Meteor.subscribe('chapitres');
     const loading = !chapitresHandle.ready();
-    const chapitre = Chapitres.findOne({ _id: props.match.params.id });
+    const chapitre = Chapitres.findOne({ _id: props.match.params.idChapitre });
     const chapitreExists = !loading && !!chapitre;
     return {
         loading,

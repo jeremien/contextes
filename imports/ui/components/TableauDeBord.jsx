@@ -82,17 +82,6 @@ class TableauDeBord extends React.Component {
     }
 }
 
-// export default withTracker((props) => {
-//     Meteor.subscribe('sessions');
-//     Meteor.subscribe('chapitres');
-//     Meteor.subscribe('connexions');
-//     return {
-//         session: Sessions.findOne({ _id: props.match.params.id }),
-//         chapitres: Chapitres.find({ session: props.match.params.id }).fetch(),
-//         connexions: Connexions.find({ session: props.match.params.id }).fetch(),
-//     }
-// })(TableauDeBord);
-
 export default IndexSessionContainer = withTracker((props) => {
     const sessionHandle = Meteor.subscribe('sessions');
     const chapitresHandle = Meteor.subscribe('chapitres');
