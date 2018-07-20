@@ -6,6 +6,7 @@ import PropTypes from 'prop-types'
 
 import { Sessions } from '../../api/collections/sessions';
 import DetailsSession from './DetailsSession'
+import AjouterSession from './AjouterSession'
 
 class IndexSessions extends React.Component {
     constructor(props) {
@@ -24,6 +25,14 @@ class IndexSessions extends React.Component {
         sessions: [{}],
     };
 
+    getAction() {
+        if (this.props.role == "editeur") {
+            return (
+                <AjouterSession {...this.props} />
+            )
+        }
+    }
+
     render() {
         return (
             <div className="index-sessions">
@@ -31,6 +40,7 @@ class IndexSessions extends React.Component {
                     <div className="action-session">
                         {this.getAction()}
                     </div>
+                    <hr />
                     <div className="liste-sessions">
                         {this.props.sessions.map((session) => (
                             <li key={session._id} onClick={() => this.setState({ session_active: session._id })}>
@@ -41,6 +51,7 @@ class IndexSessions extends React.Component {
                         ))}
                     </div>
                 </div>
+                <hr />
                 <div className="index-sessions-droite">
                     <DetailsSession sessionId={this.state.session_active} {...this.props} />
                 </div>

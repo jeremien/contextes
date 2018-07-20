@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
+import PropTypes from 'prop-types';
 
 
 /**
@@ -7,6 +8,10 @@ import { Meteor } from 'meteor/meteor';
  */
 class AjouterSession extends Component {
     state = { value: '' }
+
+    static propTypes = {
+        utilisateur: PropTypes.string.isRequired,
+    }
 
     handleChange(event) {
         this.setState({ value: event.target.value })
@@ -16,7 +21,7 @@ class AjouterSession extends Component {
         event.preventDefault();
         const target = event.target;
         const titre = target.titre.value;
-        const auteur = Session.get('utilisateur') || inconnu;
+        const auteur = this.props.utilisateur || inconnu;
         const roles = {
             transcripteurs: target.transcripteurs.value,
             correcteurs: target.correcteurs.value,
@@ -32,6 +37,8 @@ class AjouterSession extends Component {
         if (!!Session.get('connecte')) {
             return (
                 <div className="ajout-session">
+                <h2>Création d'une session</h2>
+                <br />
                     <form className="nouvelle-session" onSubmit={this.handleSubmit.bind(this)} >
                         <input
                             type="text"
@@ -77,6 +84,7 @@ class AjouterSession extends Component {
                         <br />
                         <input type="submit" value="Enregistrer" />
                     </form>
+                    <br />
                 </div>
             )
         }
