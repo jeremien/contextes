@@ -17,7 +17,7 @@ import IndexSessions from './IndexSessions';
 import Login from './Login';
 import LandingPage from './LandingPage';
 import TestAPI from './TestAPI';
-import DetailsChapitre from './DetailsChapitre';
+import DetailsChapitreContainer from './DetailsChapitreContainer';
 
 import '../stylesheets/main'
 
@@ -70,7 +70,7 @@ class App extends Component {
           <hr />
           <div className="index">
             <Route path="/sessions" render={(props) => <IndexSessions {...props} {...this.props} />} />
-            <Route path="/session/:idSession/chapitre/:idChapitre" render={(props) => <DetailsChapitre {...props} {...this.props} />} />
+            <Route path="/session/:idSession/chapitre/:idChapitre" render={(props) => <DetailsChapitreContainer {...props} {...this.props} />} />
           </div>
           <hr />
           <Route exact path="/" render={(props) => <LandingPage {...props} />} />

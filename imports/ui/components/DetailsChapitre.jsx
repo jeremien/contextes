@@ -9,20 +9,7 @@ import AjouterCommentaire from './AjouterDocument';
 import IndexDocuments from './IndexDocuments'
 import InfosChapitre from './InfosChapitre';
 
-class DetailsChapitre extends React.Component {
-    componentWillUnmount() {
-        Meteor.call('deconnection.chapitre', Session.get('utilisateur'));
-    };
-
-    //Méthode à changer avec willMount/update selon l'endroit où sera définie la route
-    componentDidMount() {
-        if (Session.get('connecte') && !!this.props.chapitre) {
-            Meteor.call('connexions.chapitre', Session.get('utilisateur'), this.props.chapitre.session, this.props.chapitre._id);
-        }
-    };
-
-
-
+export default class DetailsChapitre extends React.Component {
     render() {
         if (this.props.loading) {
             return (
@@ -57,14 +44,14 @@ class DetailsChapitre extends React.Component {
     }
 }
 
-export default DetailsChapitre = withTracker((props) => {
-    const chapitresHandle = Meteor.subscribe('chapitres');
-    const loading = !chapitresHandle.ready(); //vaut true si les données ne sont pas encore chargées.
-    const chapitre = Chapitres.findOne({ _id: props.match.params.idChapitre });
-    const chapitreExists = !loading && !!chapitre; //vaut false si aucun chapitre n'existe ou si aucun n'a été trouvé
-    return {
-        loading,
-        chapitreExists,
-        chapitre: chapitreExists ? chapitre : []
-    }
-})(DetailsChapitre);
+// export default DetailsChapitreContainer = withTracker((props) => {
+//     const chapitresHandle = Meteor.subscribe('chapitres');
+//     const loading = !chapitresHandle.ready(); //vaut true si les données ne sont pas encore chargées.
+//     const chapitre = Chapitres.findOne({ _id: props.match.params.idChapitre });
+//     const chapitreExists = !loading && !!chapitre; //vaut false si aucun chapitre n'existe ou si aucun n'a été trouvé
+//     return {
+//         loading,
+//         chapitreExists,
+//         chapitre: chapitreExists ? chapitre : []
+//     }
+// })(DetailsChapitre);
