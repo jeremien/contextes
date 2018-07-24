@@ -33,6 +33,7 @@ class App extends Component {
   static defaultProps = {
     connecte: false,
     role: "",
+    socket: {},
   }
 
   static propTypes = {
@@ -59,6 +60,7 @@ class App extends Component {
   }
 
   render() {
+    console.log(this.props.socket.id)
     return (
       <Router>
         <div className="main">
@@ -72,7 +74,7 @@ class App extends Component {
           </div>
           <hr />
           <Route exact path="/" render={(props) => <LandingPage {...props} />} />
-          <Route path="/login" render={(props) => <Login {...props} />} />
+          <Route path="/login" render={(props) => <Login {...props} socketId={this.props.socket.id} />} />
           <Route path="/test" render={(props) => <TestAPI {...props} {...this.props} />} />
         </div>
       </Router>

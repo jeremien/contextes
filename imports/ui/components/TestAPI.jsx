@@ -1,22 +1,31 @@
 import React from 'react';
-import {withTracker } from 'meteor/react-meteor-data'
+import { withTracker } from 'meteor/react-meteor-data'
 import { Meteor } from 'meteor/meteor'
 
 import { Sessions } from '../../api/collections/sessions';
 import { Chapitres } from '../../api/collections/chapitres';
+import { Connexions } from '../../api/collections/connexions';
 
 import AjouterCommentaire from './AjouterDocument';
 import IndexChapitre from './IndexChapitre';
 
-export default class TestAPI extends React.Component {
+class TestAPI extends React.Component {
     render() {
-        console.log(this.props.socket)
-        return(
+        console.log(this.props.connexions)
+        return (
             <div>
                 <h1>TestAPI</h1>
-                <button onClick={() => Meteor.call('test.envoie', Streamy.id())}>Test message</button>
-                <button onClick={() => Streamy.emit('test_serveur', {data: 'hello'})}>Test serveur</button>
-            </div>            
+                <h3>Utilisateur</h3>
+                {this.props.connexions.map((connexion) => (
+                    <div key={connexion._id}>
+                    <h3>Utilisateur : {connexion.utilisateur}</h3>
+                        
+                        <button onClick={() => Meteor.call('message.client', connexion.socket)}>Test message à : {connexion.utilisateur}</button>
+                    </div>
+                    
+                ))}
+                
+            </div>
         )
     }
 }
@@ -42,10 +51,9 @@ export default class TestAPI extends React.Component {
 //   }
 
 
-//   export default withTracker((props) => {
-//     Meteor.subscribe('sessions');
-//     return({
-//         sessions : Sessions.find().fetch(),
-//     })
-//   })(TestAPI);
-  
+export default withTracker((props) => {
+    Meteor.subscribe('connexions');
+    return ({
+        connexions: Connexions.find().fetch(),
+    })
+})(TestAPI);

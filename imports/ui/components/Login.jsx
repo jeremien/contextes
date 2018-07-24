@@ -25,7 +25,7 @@ export default class Login extends React.Component {
             Session.set('role', this.state.role),
             Session.set('connecte', true),
             //AJouter envoie du socket
-            Meteor.call('connexions.insert', nom, this.state.role, Streamy.id());
+            Meteor.call('connexions.insert', nom, this.state.role, this.props.socketId);
         this.props.history.push('/');
     }
     handleChange(event) {
