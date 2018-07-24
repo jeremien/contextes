@@ -30,7 +30,7 @@ Meteor.methods({
             archive: false,
             utilisateurs_connectes: [],
             timer: 0,
-            duree_chapitre: duree,
+            duree_boucle: duree,
         });
     },
 
@@ -61,7 +61,7 @@ Meteor.methods({
     },
 
     'chapitres.timer.update'(chapitreId, longueurTimer) {
-        newTimer = (Chapitres.findOne({_id: chapitreId}).timer + 1) % longueurTimer; 
+        newTimer = (Chapitres.findOne({_id: chapitreId}).timer - 1) % longueurTimer; 
         Chapitres.update({_id: chapitreId}, {$set: {timer: newTimer}})
     },
 

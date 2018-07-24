@@ -10,10 +10,12 @@ import IndexChapitre from './IndexChapitre';
 
 export default class TestAPI extends React.Component {
     render() {
-        console.log(this.props)
+        console.log(this.props.socket)
         return(
             <div>
                 <h1>TestAPI</h1>
+                <button onClick={() => Meteor.call('test.envoie', Streamy.id())}>Test message</button>
+                <button onClick={() => Streamy.emit('test_serveur', {data: 'hello'})}>Test serveur</button>
             </div>            
         )
     }

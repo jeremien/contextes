@@ -16,7 +16,7 @@ import PropTypes from 'prop-types'
 import IndexSessions from './IndexSessions';
 import Login from './Login';
 import LandingPage from './LandingPage';
-import TableauDeBord from './TableauDeBord';
+import TestAPI from './TestAPI';
 import DetailsChapitre from './DetailsChapitre';
 
 import '../stylesheets/main'
@@ -73,6 +73,7 @@ class App extends Component {
           <hr />
           <Route exact path="/" render={(props) => <LandingPage {...props} />} />
           <Route path="/login" render={(props) => <Login {...props} />} />
+          <Route path="/test" render={(props) => <TestAPI {...props} {...this.props} />} />
         </div>
       </Router>
     )

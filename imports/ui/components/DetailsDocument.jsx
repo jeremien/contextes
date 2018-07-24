@@ -20,6 +20,7 @@ export default class DetailsDocument extends Component {
         <p>{this.props.document.contenu}</p>
         <br />
         <button onClick={() => Meteor.call('documents.remove', this.props.document._id)}>Supprimer le document</button>
+        <button onClick={() => Meteor.call('documents.update', this.props.document._id, "doc revisé 2", "perceval")}>Modifier le document</button>
       </ul>);
   }
 }

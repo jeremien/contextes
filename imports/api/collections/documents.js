@@ -32,8 +32,9 @@ Meteor.methods({
             contenu: contenu,
             auteur: auteur,
             creation: new Date(),
-            correction: true,
+            correction: false,
             conformation: false,
+            rejete: false,
             type: "texte",
             dernireModificationPar: auteur,
         });
@@ -62,5 +63,6 @@ Meteor.methods({
     'commenrtaires.getVersion'(documentId) {
         return Documents.findOne(documentId).revisions.length
     },
+    
 
 })

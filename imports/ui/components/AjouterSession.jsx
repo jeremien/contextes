@@ -30,7 +30,6 @@ class AjouterSession extends Component {
 
         Meteor.call('sessions.insert', titre, auteur, this.state.value, roles)
         target.reset()
-        this.props.history.push('/')
     }
 
     render() {

@@ -11,11 +11,11 @@ if (Meteor.isServer) {
 
 Meteor.methods({
     
-    'connexions.insert'(utilisateur, role) {
+    'connexions.insert'(utilisateur, role, socket) {
         Connexions.insert({
             utilisateur: utilisateur,
             role: role,
-            socket: "",
+            socket: socket,
             session: "",
             chapitre: "",
         });

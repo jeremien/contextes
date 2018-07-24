@@ -43,7 +43,7 @@ export default class AjouterChapitre extends Component {
                     >
                     </textarea>
                     <br />
-                    <label>Durée du chapitre en minutes</label>
+                    <label>Durée des boucles en minutes</label>
                     <input
                         type="number"
                         name="duree"
