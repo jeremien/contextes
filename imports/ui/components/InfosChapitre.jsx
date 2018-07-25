@@ -18,11 +18,14 @@ export default class InfosChapitre extends Component {
     };
 
     render() {
+        console.log(this.props.role)
         return (
             <div className="infos-chapitre">
                 <h3 className="titre">Chapitre : {this.props.chapitre.titre}</h3>
                 <p>{this.props.chapitre.description}</p>
                 <Timer {...this.props} />
+                <p>Temps restant : {this.props.chapitre.timer}</p>
+
             </div>
         )
     }

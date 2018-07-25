@@ -24,14 +24,15 @@ export default function DetailsChapitre(props) {
         return (
             <div className="details-chapitre">
                 <div className="infos-chapitre">
-                    <InfosChapitre {...props} />
+                    {/* <InfosChapitre {...props} /> */}
+                    {props.outils.outilgauche}
                 </div>
                 <div className="documents">
-                    <IndexDocuments {...props} />
+                    {/* <IndexDocuments {...props} /> */}
                     {/* {(props.connecte && props.role == "transcripteur") &&
                         <AjouterCommentaire chapitreId={props.chapitre._id} sessionId={props.chapitre.session} />
                     } */}
-                    {props.outils}
+                    {props.outils.outildroit}
                 </div>
                 <Link to={"/sessions"}>Retourner à l'index de la session</Link>
             </div>
