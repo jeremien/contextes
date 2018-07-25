@@ -33,6 +33,7 @@ class App extends Component {
   static defaultProps = {
     connecte: false,
     role: "",
+    utilisateur: "",
     socket: {},
   }
 
@@ -45,6 +46,8 @@ class App extends Component {
       'conformateur',
       'editeur'
     ]).isRequired,
+    utilisateur: PropTypes.string.isRequired,
+    socket: PropTypes.object.isRequired,
   }
 
   componentDidMount() {
