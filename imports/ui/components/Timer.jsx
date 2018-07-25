@@ -15,6 +15,7 @@ export default class Timer extends Component {
         this.state = {
             timer: false,
             dureeBoucle: this.props.chapitre.duree_boucle,
+            transcripteur: 0,
         }
     }
 
@@ -47,6 +48,11 @@ export default class Timer extends Component {
         }
         
 
+    }
+    
+    actionTimer() {
+        Meteor.call('chapitres.timer.update', this.props.chapitre._id, this.props.chapitre.duree_boucle)
+        
     }
 
     stopTimer() {

@@ -22,6 +22,12 @@ export default class InfosChapitre extends Component {
             <div className="infos-chapitre">
                 <h3 className="titre">Chapitre : {this.props.chapitre.titre}</h3>
                 <p>{this.props.chapitre.description}</p>
+                
+                <ul className="online">
+                {this.props.connexions.map((connexion) => (
+                    <li key={connexion._id}>Utilisateur : {connexion.utilisateur}</li>
+                ))}
+                </ul>
                 <Timer {...this.props} />
             </div>
         )
