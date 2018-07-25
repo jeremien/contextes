@@ -20,6 +20,7 @@ export default function DetailsChapitre(props) {
     }
 
     if (props.chapitreExists) {
+        console.log(props)
         return (
             <div className="details-chapitre">
                 <div className="infos-chapitre">
