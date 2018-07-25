@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
  * Component gérant la création de session.
  */
 class AjouterSession extends Component {
-    state = { value: '' }
+    state = { value: '', categories: [], categorieCourante: "" }
 
     static propTypes = {
         utilisateur: PropTypes.string.isRequired,
@@ -15,6 +15,17 @@ class AjouterSession extends Component {
 
     handleChange(event) {
         this.setState({ value: event.target.value })
+    }
+
+    handleCategories(event) {
+        if (event.target.value.slice(-1) == " ") {
+            var prevCategorie = this.state.categories;
+            prevCategorie.push(this.state.categorieCourante);
+            this.setState({ categories: prevCategorie, categorieCourante: "" });
+        }
+        else {
+            this.setState({ categorieCourante: event.target.value });
+        }
     }
 
     handleSubmit(event) {
@@ -28,7 +39,7 @@ class AjouterSession extends Component {
             conformateurs: target.conformateurs.value,
         };
 
-        Meteor.call('sessions.insert', titre, auteur, this.state.value, roles)
+        Meteor.call('sessions.insert', titre, auteur, this.state.value, roles, this.state.categories.shift())
         target.reset()
     }
 
@@ -36,8 +47,8 @@ class AjouterSession extends Component {
         if (!!Session.get('connecte')) {
             return (
                 <div className="ajout-session">
-                <h2>Création d'une session</h2>
-                <br />
+                    <h2>Création d'une session</h2>
+                    <br />
                     <form className="nouvelle-session" onSubmit={this.handleSubmit.bind(this)} >
                         <input
                             type="text"
@@ -81,6 +92,18 @@ class AjouterSession extends Component {
                             min="1"
                         />
                         <br />
+                        <label>Choix des catégories possibles pour les chapitres</label>
+                        <input
+                            type="text"
+                            name="categorie"
+                            value={this.state.categorieCourante}
+                            onChange={this.handleCategories.bind(this)}
+                        />
+                        <ul>Catégories actuelles
+                             {Object.entries(this.state.categories).map(([key, categorie]) => (
+                                <li key={key}>{categorie}</li>
+                            ))}
+                        </ul>
                         <input type="submit" value="Enregistrer" />
                     </form>
                     <br />
