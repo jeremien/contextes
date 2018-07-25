@@ -3,10 +3,21 @@ import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 
 export default class AjouterChapitre extends Component {
-    state = { value: '' }
+    state = { value: '', tags: [], tagCourant: ""}
 
     handleChange(event) {
         this.setState({ value: event.target.value })
+    }
+
+    handleTags(event) {
+        if (event.target.value.slice(-1) == " ") {
+            var prevTag = this.state.tags;
+            prevTag.push(this.state.tagCourant);
+            this.setState({ tags: prevTag, tagCourant: "" });
+        }
+        else {
+            this.setState({ tagCourant: event.target.value });
+        }
     }
 
     handleSubmit(event) {
@@ -17,9 +28,9 @@ export default class AjouterChapitre extends Component {
         const session = this.props.sessionId;
         const duree = target.duree.value || 1;
 
-        Meteor.call('chapitres.insert', session, titre, auteur, this.state.value, duree)
-
+        Meteor.call('chapitres.insert', session, titre, auteur, this.state.value, duree, this.state.tags)
         target.reset();
+        this.setState({tgas: [], tagCourant: ""})
     }
 
     render() {
@@ -51,6 +62,18 @@ export default class AjouterChapitre extends Component {
                         min="1"
                     />
                     <br />
+                    <label>Choix des tags possibles pour les documents</label>
+                        <input
+                            type="text"
+                            name="tag"
+                            value={this.state.tagCourant}
+                            onChange={this.handleTags.bind(this)}
+                        />
+                        <ul>Tags actuels
+                             {Object.entries(this.state.tags).map(([key, tag]) => (
+                                <li key={key}>{tag}</li>
+                            ))}
+                        </ul>
                     <input type="submit" value="Enregistrer" />
                 </form>
             </div>
