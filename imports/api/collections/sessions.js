@@ -33,8 +33,11 @@ Meteor.methods({
             auteur: auteur,
             creation: new Date(),
             description: description,
-            edition: false,
-            archive: false,
+            /**
+             * Etats possibles : 
+             * edition (par défaut), prepresse, archivee
+             */
+            etat: "edition",
             roles: roles,
             utilisateurs_connectes: [],
             utilisateurs_ayant_participe: [],

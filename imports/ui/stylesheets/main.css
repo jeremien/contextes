@@ -36,22 +36,35 @@
     background-color: yellowgreen;
 }
 
-.infos-chapitre {
+.details-chapitre-gauche {
+    display: flex;
     width: 25%;
-    background-color: brown;
-    flex: none;
+    flex-direction: column;
 }
 
-.documpents {
+.details-chapitre-droite {
     display: flex;
-    flex-direction: column;
     width: 75%;
-    background-color: blueviolet;
+}
+
+.infos-chapitre {
+    width: 100%;
+    background-color: brown;
+    flex: none;
 }
 
 .index-documents {
     display: flex;
     flex-wrap: wrap;
     align-content: flex-start;
-    width: 75%;
+    justify-content: space-around;
+    width: 100%;
 }
+/* 
+.documpents {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background-color: blueviolet;
+} */
+

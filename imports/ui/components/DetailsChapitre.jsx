@@ -22,17 +22,15 @@ export default function DetailsChapitre(props) {
     if (props.chapitreExists) {
         return (
             <div className="details-chapitre">
-                <div className="infos-chapitre">
+                <div className="details-chapitre-gauche">
                     <InfosChapitre {...props} />
+                    <Link to={"/sessions"}>Retourner à l'index de la session</Link>
                 </div>
-                <div className="documents">
+                <div className="details-chapitre-droite">
                     <IndexDocuments {...props} />
-                    {/* {(props.connecte && props.role == "transcripteur") &&
-                        <AjouterCommentaire chapitreId={props.chapitre._id} sessionId={props.chapitre.session} />
-                    } */}
                     {props.outils}
                 </div>
-                <Link to={"/sessions"}>Retourner à l'index de la session</Link>
+                
             </div>
         )
     }

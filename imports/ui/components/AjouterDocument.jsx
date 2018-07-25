@@ -7,8 +7,8 @@ export default class AjouterDocument extends Component {
         const target = event.target;
         const commentaire = target.contentInput.value;
         const auteur = Session.get('utilisateur');
-        const session = this.props.sessionId;
-        const chapitre = this.props.chapitreId;
+        const session = this.props.session;
+        const chapitre = this.props.chapitre._id;
         Meteor.call('documents.insert', session, chapitre, commentaire, auteur)
 
         target.reset();
