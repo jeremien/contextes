@@ -32,6 +32,7 @@ Meteor.methods({
             timer: 0,
             id_timer: null,
             duree_boucle: duree,
+            tags: [],
         });
     },
 

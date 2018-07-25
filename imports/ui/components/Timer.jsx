@@ -14,7 +14,7 @@ export default class Timer extends Component {
         this.handleChange = this.handleChange.bind(this)
         this.state = {
             timer: false,
-            dureeBoucle: 0,
+            dureeBoucle: this.props.chapitre.duree_boucle,
         }
     }
 
@@ -25,8 +25,6 @@ export default class Timer extends Component {
     static defaultProps = {
         chapitre: {},
     };
-
-    
 
     /**
      * Appele de la méthode d'update du timer automatique.
@@ -58,8 +56,9 @@ export default class Timer extends Component {
         this.setState({ timer: false })
     }
 
+    //Memo bug : la durée enregistrée est différente d'une seconde.
     handleChange(event) {
-        this.setState({duree_boucle: event.target.value});
+        this.setState({dureeBoucle: event.target.value});
         Meteor.call('chapitres.timer.duree', this.props.chapitre._id, this.state.dureeBoucle)
       }
     

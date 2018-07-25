@@ -38,6 +38,7 @@ Meteor.methods({
             roles: roles,
             utilisateurs_connectes: [],
             utilisateurs_ayant_participe: [],
+            categories: [],
         });
     },
 
