@@ -14,7 +14,7 @@ export default class Timer extends Component {
         this.handleChange = this.handleChange.bind(this)
         this.state = {
             timer: false,
-            dureeBoucle:  60,
+            dureeBoucle: 0,
         }
     }
 
@@ -26,6 +26,8 @@ export default class Timer extends Component {
         chapitre: {},
     };
 
+    
+
     /**
      * Appele de la méthode d'update du timer automatique.
      * Appelée ici toutes les secondes (1000 millisecondes)
@@ -34,7 +36,7 @@ export default class Timer extends Component {
     startTimer() {
         
         if (!this.state.timer) {
-            // console.log('debut timer')
+            console.log('debut timer')
             const idTimer = Meteor.setInterval(() => {Meteor.call('chapitres.timer.update', this.props.chapitre._id, this.props.chapitre.duree_boucle)}, 1000);
             Meteor.call('chapitres.timer.set', this.props.chapitre._id, idTimer)
             // var idTimer = Meteor.setInterval(() => {
@@ -66,7 +68,7 @@ export default class Timer extends Component {
         return (
             <div className="timer">
                 <h3>timer</h3>
-                {/* {this.props.role == "editeur" && */}
+                {this.props.role == "editeur" &&
                     <div className="timer">
                         <button className="start-timer" onClick={() => { this.startTimer(this.props.chapitre._id, 120) }}>Démarrer le timer</button>
                         <button className="start-timer" onClick={this.stopTimer}>Arreter le timer</button>
@@ -79,7 +81,7 @@ export default class Timer extends Component {
                             onChange={this.handleChange}
                         />
                     </div>
-                {/* } */}
+                }
                 <p>Temps restant : {this.props.chapitre.timer}</p>
             </div>
         )

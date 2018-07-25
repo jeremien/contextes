@@ -38,21 +38,21 @@ class DetailsChapitreContainer extends React.Component {
     getOutils() {
         switch (this.props.role) {
             case 'transcripteur':
-                return AjouterCommentaire
+                return <AjouterCommentaire {...this.props} />
                 break;
             case 'correcteur':
             case 'conformateur':
             case 'editeur':
-                return AjouterCommentaire
+                return <AjouterCommentaire {...this.props} />
                 break;
             default:
-                return null
+                return <h2>Pas d'outil</h2>
         }
     }
 
     render() {
         const outils = this.getOutils();
-        return <DetailsChapitre outils {...this.props} />
+        return <DetailsChapitre outils={outils} {...this.props} />
     }
 };
 

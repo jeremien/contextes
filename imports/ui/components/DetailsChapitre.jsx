@@ -28,9 +28,10 @@ export default function DetailsChapitre(props) {
                 </div>
                 <div className="documents">
                     <IndexDocuments {...props} />
-                    {(props.connecte && props.role == "transcripteur") &&
+                    {/* {(props.connecte && props.role == "transcripteur") &&
                         <AjouterCommentaire chapitreId={props.chapitre._id} sessionId={props.chapitre.session} />
-                    }
+                    } */}
+                    {props.outils}
                 </div>
                 <Link to={"/sessions"}>Retourner à l'index de la session</Link>
             </div>
