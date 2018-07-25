@@ -8,7 +8,7 @@ import PropTypes from 'prop-types'
 import { Chapitres } from '../../api/collections/chapitres';
 import { Connexions } from '../../api/collections/connexions';
 import AjouterCommentaire from './AjouterDocument';
-import IndexDocuments from './IndexDocuments'
+import IndexDocuments from './IndexDocuments';
 import InfosChapitre from './InfosChapitre';
 import DetailsChapitre from './DetailsChapitre';
 
@@ -39,12 +39,18 @@ class DetailsChapitreContainer extends React.Component {
     getOutils() {
         switch (this.props.role) {
             case 'transcripteur':
-                return <AjouterCommentaire {...this.props} />
+                return {
+                    outilgauche: <InfosChapitre {...this.props} />,
+                    outildroit : <AjouterCommentaire {...this.props} />
+                }
                 break;
             case 'correcteur':
             case 'conformateur':
             case 'editeur':
-                return <AjouterCommentaire {...this.props} />
+                return {
+                    outilgauche : <InfosChapitre {...this.props} />,
+                    outildroit : <IndexDocuments {...this.props} />
+                }
                 break;
             default:
                 return <h2>Pas d'outil</h2>
@@ -72,7 +78,7 @@ export default DetailsChapitreContainer = withTracker((props) => {
     return ({
         loading,
         chapitreExists,
-        chapitre: chapitreExists ? chapitre : [],
+        chapitre: chapitreExists ? chapitre : {},
         connexions: connexionsHandle ? connexions.fetch() : [],
     })
 })(DetailsChapitreContainer);

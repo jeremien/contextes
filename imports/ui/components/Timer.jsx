@@ -70,6 +70,7 @@ export default class Timer extends Component {
     
 
     render() {
+        console.log(this.props.role)
         return (
             <div className="timer">
                 <h3>timer</h3>
@@ -87,7 +88,11 @@ export default class Timer extends Component {
                         />
                     </div>
                 }
-                <p>Temps restant : {this.props.chapitre.timer}</p>
+                {this.props.role == "transcripteur" &&
+                    <div>
+                        transcripteur
+                    </div>
+                }
             </div>
         )
     }
