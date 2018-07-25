@@ -30,6 +30,7 @@ Meteor.methods({
             archive: false,
             utilisateurs_connectes: [],
             timer: 0,
+            id_timer: null,
             duree_boucle: duree,
         });
     },
@@ -60,16 +61,21 @@ Meteor.methods({
         Chapitres.update({_id: chapitreId}, {$pull: {utilisateurs_connectes: utilisateur}})
     },
 
-    'chapitres.timer.update'(chapitreId, longueurTimer) {
-        newTimer = (Chapitres.findOne({_id: chapitreId}).timer - 1) % longueurTimer; 
+    'chapitres.timer.update'(chapitreId, dureeBoucle) {
+        newTimer = (Chapitres.findOne({_id: chapitreId}).timer + 1) % dureeBoucle; 
         Chapitres.update({_id: chapitreId}, {$set: {timer: newTimer}})
+        
     },
 
     'chapitres.timer.reset'(chapitreId) {
-        Chapitres.update({_id: chapitreId}, {$set: {timer: 0}})
-    }
+        Chapitres.update({_id: chapitreId}, {$set: {timer: 0, id_timer: null}})
+    },
 
-    // 'chapitres.pause'(chapitreId){
-    //     Chapitres.update({_id: chapitreId}, {$set: {edition : false}})
-    // },
+    'chapitres.timer.set'(chapitreId, timerId) {
+        Chapitres.update({_id: chapitreId}, {$set: {id_timer: timerId}})
+    },
+
+    'chapitres.timer.duree'(chapitreId, duree) {
+        Chapitres.update({_id: chapitreId}, {$set: {duree_boucle: duree}})
+    },
 })

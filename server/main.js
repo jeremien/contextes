@@ -5,6 +5,7 @@ import {
   Session
 } from 'meteor/session';
 
+// import './timer'
 
 import '../imports/api/collections/documents';
 import '../imports/api/collections/sessions';

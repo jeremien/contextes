@@ -9,40 +9,40 @@ import AjouterCommentaire from './AjouterDocument';
 import IndexDocuments from './IndexDocuments'
 import InfosChapitre from './InfosChapitre';
 
-export default class DetailsChapitre extends React.Component {
-    render() {
-        if (this.props.loading) {
-            return (
-                <div className="details-chapitre">
-                    <h3>Chargement en cours</h3>
-                </div>
-            )
-        }
+export default function DetailsChapitre(props) {
 
-        if (this.props.chapitreExists) {
-            return (
-                <div className="details-chapitre">
-                    <div className="infos-chapitre">
-                        <InfosChapitre {...this.props} />
-                    </div>
-                    <div className="documents">
-                        <IndexDocuments {...this.props} />
-                        {(this.props.connecte && this.props.role == "transcripteur") &&
-                            <AjouterCommentaire chapitreId={this.props.chapitre._id} sessionId={this.props.chapitre.session} />
-                        }
-                    </div>
-                    <Link to={`/sessions/${this.props.match.idSession}`}>Retourner à l'index de la session</Link>
-                </div>
-            )
-        }
-
+    if (props.loading) {
         return (
             <div className="details-chapitre">
-                <h3>Choisir un chapitre</h3>
+                <h3>Chargement en cours</h3>
             </div>
         )
     }
+
+    if (props.chapitreExists) {
+        return (
+            <div className="details-chapitre">
+                <div className="infos-chapitre">
+                    <InfosChapitre {...props} />
+                </div>
+                <div className="documents">
+                    <IndexDocuments {...props} />
+                    {(props.connecte && props.role == "transcripteur") &&
+                        <AjouterCommentaire chapitreId={props.chapitre._id} sessionId={props.chapitre.session} />
+                    }
+                </div>
+                <Link to={"/sessions"}>Retourner à l'index de la session</Link>
+            </div>
+        )
+    }
+
+    return (
+        <div className="details-chapitre">
+            <h3>Choisir un chapitre</h3>
+        </div>
+    )
 }
+
 
 // export default DetailsChapitreContainer = withTracker((props) => {
 //     const chapitresHandle = Meteor.subscribe('chapitres');
