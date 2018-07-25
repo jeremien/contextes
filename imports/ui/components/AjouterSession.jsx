@@ -39,8 +39,9 @@ class AjouterSession extends Component {
             conformateurs: target.conformateurs.value,
         };
 
-        Meteor.call('sessions.insert', titre, auteur, this.state.value, roles, this.state.categories.shift())
+        Meteor.call('sessions.insert', titre, auteur, this.state.value, roles, this.state.categories)
         target.reset()
+        this.setState({categorieCourante: "", categories: []})
     }
 
     render() {
