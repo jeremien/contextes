@@ -10,32 +10,44 @@ import { Connexions } from '../../api/collections/connexions';
 import AjouterChapitre from './AjouterChapitre';
 
 class TableauDeBord extends React.Component {
-    afficheModifications(chapitre) {
-        return (
-            <ul>
-                {this.props.connexions.map((connexion) => (
-                    <div key={connexion.utilisateur}>
-                        {connexion.chapitre == chapitre &&
-                            <li >
-                                {connexion.utilisateur}
-                            </li>
-                        }
-                    </div>
-                ))}
-            </ul>
-        )
+    state = {
+        etat: this.props.session.etat,
     }
 
-    getJauges() {
-        var transcritpeurs = 0;
-        var correcteurs = 0;
-        var conformateurs = 0;
-        // this.props.connexions.map((connexion) => (
-        //     switch (connexion.role) {
-        //         case 
-        //     }
-        // ));
-        return (transcritpeurs, correcteurs, conformateurs)
+    // afficheModifications(chapitre) {
+    //     return (
+    //         <ul>
+    //             {this.props.connexions.map((connexion) => (
+    //                 <div key={connexion.utilisateur}>
+    //                     {connexion.chapitre == chapitre &&
+    //                         <li >
+    //                             {connexion.utilisateur}
+    //                         </li>
+    //                     }
+    //                 </div>
+    //             ))}
+    //         </ul>
+    //     )
+    // }
+
+    // getJauges() {
+    //     var remplissage = {transcripteur: 0, correcteur: 0, conformateur: 0}
+    //     this.props.connexions.map((connexion) => (() => {
+    //         switch (connexion.role) {
+    //             case 'transcritpeur':
+    //                 remplissage.transcritpeur++;
+    //                 break;
+    //             case 'correcteurs':
+    //                 remplissage.correcteur++
+    //                 break;
+    //         }
+    //     }
+    //     ));
+    //     return remplissage
+    // }
+
+    handleEtat(event) {
+
     }
 
     render() {
@@ -45,11 +57,14 @@ class TableauDeBord extends React.Component {
             )
         }
 
-        if (this.props.sessionExists) {
+        else {
             return (
                 <div className="tableau-de-bord">
                     <h2>{this.props.session.titre} : tableau de bord</h2>
-                    <h3>Rendre la session éditable</h3>
+                    <h3>Etat de la session</h3>
+                    <form className="etat-session">
+                        <input type="checkbox" name="edition" />
+                    </form>
                     <button onClick={() => Meteor.call('sessions.ouvrir', this.props.session._id)}>Rendre la session éditable</button>
                     <h3>Rôles autorisés :</h3>
                     <ul>
@@ -57,49 +72,21 @@ class TableauDeBord extends React.Component {
                             <li key={role}>{role} : {nombre}</li>
                         ))}
                     </ul>
-                    <h3>Personne en train de modifier :</h3>
-                    <ul>
-                        {this.props.chapitres.map((chapitre) => (
-                            <li key={chapitre._id}>
-                                {chapitre.titre}
-                                <br />
-                                {this.afficheModifications(chapitre._id)}
-                            </li>
-                        ))}
-                    </ul>
-                    <AjouterChapitre sessionId={this.props.sessionId} />
+                    <AjouterChapitre sessionId={this.props.session._id} />
                 </div>
-
             )
         }
-
-        return (
-            <div className="tableau-de-bord">
-                <h2>Choisir une session</h2>
-            </div>
-        )
     }
 }
 
 export default IndexSessionContainer = withTracker((props) => {
-    const sessionHandle = Meteor.subscribe('sessions');
     const chapitresHandle = Meteor.subscribe('chapitres');
-    const connexionsHandle = Meteor.subscribe('connexions')
-
-    const loading = !sessionHandle.ready() && !chapitresHandle.ready() && !connexionsHandle.ready();
-    const session = Sessions.findOne({ _id: props.sessionId });
-    const chapitres = Chapitres.find({ session: props.sessionId }).fetch();
-    const connexions = Connexions.find({ session: props.sessionId }).fetch()
-    const sessionExists = !loading && !!session;
+    const loading = !chapitresHandle.ready()
+    const chapitres = Chapitres.find({ session: props.session._id }).fetch();
     const chapitresExists = !loading && !!chapitres;
-    const connexionsExists = !loading && !!connexions;
     return {
         loading,
-        sessionExists,
         chapitresExists,
-        connexionsExists,
-        session: sessionExists ? session : [],
         chapitres: chapitresExists ? chapitres : [],
-        connexions: connexionsExists ? connexions : [],
     }
 })(TableauDeBord);

@@ -19,7 +19,7 @@ Meteor.methods({
      * @param {*} auteur Personne qui a créer le chapitre par défaut
      * @param {integer} duree Durée du chapitre en minutes
      */
-    'chapitres.insert'(session, titre, auteur, description, duree) {
+    'chapitres.insert'(session, titre, auteur, description, duree, tags) {
         Chapitres.insert({
             session: session,
             titre: titre,
@@ -32,7 +32,7 @@ Meteor.methods({
             timer: 0,
             id_timer: null,
             duree_boucle: duree,
-            tags: [],
+            tags: tags,
         });
     },
 

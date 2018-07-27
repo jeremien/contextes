@@ -21,7 +21,7 @@ class DetailsSession extends React.Component {
             return (
                 <div className="details-session">
                     {(!!this.props.connecte && this.props.role == "editeur") ?
-                        <TableauDeBord sessionId={this.props.sessionId} />
+                        <TableauDeBord session={this.props.session} />
                         :
                         <h2>Choisir un chapitre à consulter</h2>
                     }
