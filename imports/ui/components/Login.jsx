@@ -21,11 +21,14 @@ export default class Login extends React.Component {
         const target = event.target
         const nom = target.nom.value;
         // localStorage.setItem("nom", nom);
-        Session.set('utilisateur', nom),
-            Session.set('role', this.state.role),
-            Session.set('connecte', true),
-            //AJouter envoie du socket
-            Meteor.call('connexions.insert', nom, this.state.role, this.props.socketId);
+        // Session.set('utilisateur', nom);
+        // Session.set('role', this.state.role);
+        // Session.set('connecte', true);
+        //Ajouter envoie du socket
+        Meteor.call('connexions.insert', nom, this.state.role, this.props.socketId, function(error, id) {
+            localStorage.setItem('userId', id)
+            Session.set('userId', id)
+        });
         this.props.history.push('/');
     }
     handleChange(event) {

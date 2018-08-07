@@ -12,6 +12,8 @@ import { withTracker } from 'meteor/react-meteor-data';
 import { Session } from 'meteor/session';
 import PropTypes from 'prop-types'
 
+import { Connexions } from '../../api/collections/connexions'
+
 
 import IndexSessions from './IndexSessions';
 import Login from './Login';
@@ -20,6 +22,7 @@ import TestAPI from './TestAPI';
 import DetailsChapitreContainer from './DetailsChapitreContainer';
 
 import '../stylesheets/main'
+import IndexSessionsContainer from './IndexSessionsContainer';
 
 /**
  * Composant principal de l'application. Gère les routes publiques.
@@ -32,25 +35,24 @@ class App extends Component {
 
   static defaultProps = {
     connecte: false,
-    role: "",
-    utilisateur: "",
     socket: {},
   }
 
   static propTypes = {
     connecte: PropTypes.bool.isRequired,
-    role: PropTypes.oneOf([
-      '',
-      'transcripteur',
-      'correcteur',
-      'conformateur',
-      'editeur'
-    ]).isRequired,
-    utilisateur: PropTypes.string.isRequired,
+    // role: PropTypes.oneOf([
+    //   '',
+    //   'transcripteur',
+    //   'correcteur',
+    //   'conformateur',
+    //   'editeur'
+    // ]).isRequired,
+    // utilisateur: PropTypes.string.isRequired,
     socket: PropTypes.object.isRequired,
   }
 
   componentDidMount() {
+    // Meteor.call('connexions.online', this.props.utilisateur)
     window.addEventListener("beforeunload", this.handleLeavePage);
   }
 
@@ -59,26 +61,28 @@ class App extends Component {
   }
 
   handleLeavePage() {
-    Meteor.call('connexions.remove', Session.get('utilisateur'))
+    Meteor.call('connexions.statut.offline', this.props.utilisateur)
   }
 
   render() {
-    console.log(this.props.socket.id)
+    const {role, utilisateur, ...rest} = this.props.connexion
+    const propsToPass = {connecte: this.props.connecte, role: role || null, utilisateur: utilisateur || null, socketId: this.props.socket.id}
+    console.log(propsToPass)
     return (
       <Router>
         <div className="main">
           <div className="header">
-            <Route path="/" render={(props) => <TopBar {...props} {...this.props} />} />
+            <Route path="/" render={(props) => <TopBar {...props} {...propsToPass} />} />
           </div>
           <hr />
           <div className="index">
-            <Route path="/sessions" render={(props) => <IndexSessions {...props} {...this.props} />} />
-            <Route path="/session/:idSession/chapitre/:idChapitre" render={(props) => <DetailsChapitreContainer {...props} {...this.props} />} />
+            <Route path="/sessions" render={(props) => <IndexSessionsContainer {...props} />} />
+            <Route path="/session/:idSession/chapitre/:idChapitre" render={(props) => <DetailsChapitreContainer {...props} {...propsToPass} />} />
           </div>
           <hr />
-          <Route exact path="/" render={(props) => <LandingPage {...props} />} />
-          <Route path="/login" render={(props) => <Login {...props} socketId={this.props.socket.id} />} />
-          <Route path="/test" render={(props) => <TestAPI {...props} {...this.props} />} />
+          <Route exact path="/" render={(props) => <LandingPage {...props} {...propsToPass} />} />
+          <Route path="/login" render={(props) => <Login {...props} {...propsToPass} />} />
+          <Route path="/test" render={(props) => <TestAPI {...props} {...propsToPass} />} />
         </div>
       </Router>
     )
@@ -111,7 +115,8 @@ const LogOut = (props) => {
     <button
       type='button'
       onClick={() => {
-        Session.set("connecte", false);
+        localStorage.clear();
+        Session.clear()
         Meteor.call('connexions.remove', props.utilisateur);
         props.history.push('/');
       }}
@@ -122,10 +127,32 @@ const LogOut = (props) => {
 }
 
 export default withTracker((props) => {
-  return {
-    connecte: !!Session.get('connecte'),
-    utilisateur: Session.get('utilisateur'),
-    role: Session.get('role'),
+  if (localStorage.getItem('userId') || Session.get('userId')) {
+    const connexionsHandle = Meteor.subscribe('connexions');
+    const loading = !connexionsHandle.ready()
+    const connexion = Connexions.findOne(localStorage.getItem('userId'))
+    const connexionExists = !loading && !!connexion
+    if (!connexionExists) {
+      return {
+        loading: false,
+        connecte: false,
+        connexion: [],
+      }
+    }
+    return {
+      loading,
+      connecte: connexionExists,
+      connexion: connexionExists ? connexion: [],
+    }
   }
+  else {
+    return {
+      loading: false,
+      connecte: false,
+      connexion: [],
+    }
+  }
+
+
 })(App);
 
