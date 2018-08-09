@@ -32,7 +32,7 @@ class DetailsChapitreContainer extends React.Component {
 
     //Méthode à changer avec willMount/update selon l'endroit où sera définie la route
     componentDidMount() {
-        if (Session.get('connecte') && !!this.props.chapitre) {
+        if (this.props.connecte && !!this.props.chapitreExists) {
             Meteor.call('connexions.chapitre', Session.get('utilisateur'), this.props.chapitre.session, this.props.chapitre._id);
         }
     };
@@ -70,10 +70,10 @@ class DetailsChapitreContainer extends React.Component {
     }
 };
 
-export default DetailsChapitreContainer = withTracker((props) => {
+export default withTracker((props) => {
     const chapitresHandle = Meteor.subscribe('chapitres');
     const connexionsHandle = Meteor.subscribe('connexions')
-    const loading = !chapitresHandle.ready() && !connexionsHandle; //vaut true si les données ne sont pas encore chargées.
+    const loading = !chapitresHandle.ready() && !connexionsHandle.ready(); //vaut true si les données ne sont pas encore chargées.
     const chapitre = Chapitres.findOne({ _id: props.match.params.idChapitre });
     const connexions = Connexions.find({ chapitre: props.match.params.idChapitre, role: 'transcripteur' });
     const chapitreExists = !loading && !!chapitre; //vaut false si aucun chapitre n'existe ou si aucun n'a été trouvé
