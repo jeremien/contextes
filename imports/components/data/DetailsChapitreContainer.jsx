@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import { Chapitres } from '../../api/collections/chapitres';
-import { Connexions } from '../../api/collections/connexions';
 
 import AjouterCommentaire from '../outils/AjouterDocument';
 import IndexDocuments from '../ui/IndexDocuments';
@@ -27,13 +26,14 @@ class DetailsChapitreContainer extends React.Component {
     }
 
     componentWillUnmount() {
-        Meteor.call('deconnection.chapitre', Session.get('utilisateur'));
+        Meteor.call('deconnection.chapitre', this.props.userId);
     };
 
     //Méthode à changer avec willMount/update selon l'endroit où sera définie la route
-    componentDidMount() {
-        if (this.props.connecte && !!this.props.chapitreExists) {
-            Meteor.call('connexions.chapitre', Session.get('utilisateur'), this.props.chapitre.session, this.props.chapitre._id);
+    componentDidUpdate() {
+        if (this.props.connecte && this.props.chapitreExists) {
+            Meteor.call('connexions.chapitre', this.props.userId, this.props.chapitre.session, this.props.chapitre._id);
+            console.log('connexion')
         }
     };
 
@@ -72,17 +72,13 @@ class DetailsChapitreContainer extends React.Component {
 
 export default withTracker((props) => {
     const chapitresHandle = Meteor.subscribe('chapitres');
-    const connexionsHandle = Meteor.subscribe('connexions')
-    const loading = !chapitresHandle.ready() && !connexionsHandle.ready(); //vaut true si les données ne sont pas encore chargées.
+    const loading = !chapitresHandle.ready(); //vaut true si les données ne sont pas encore chargées.
     const chapitre = Chapitres.findOne({ _id: props.match.params.idChapitre });
-    const connexions = Connexions.find({ chapitre: props.match.params.idChapitre, role: 'transcripteur' });
     const chapitreExists = !loading && !!chapitre; //vaut false si aucun chapitre n'existe ou si aucun n'a été trouvé
-    const connexionsExists = !loading && !!connexions;
     return ({
         loading,
         chapitreExists,
         chapitre: chapitreExists ? chapitre : [],
-        connexions: connexionsExists ? connexions.fetch() : [{}],
     })
 })(DetailsChapitreContainer);
 

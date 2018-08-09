@@ -10,7 +10,10 @@ export default function ConnexionsCourantes(props) {
         <div className="liste-connectes">
             <ul>
                 {props.connexions.map((connexion) => (
-                    <li>connexion.utilisateur</li>
+                    <li key={connexion._id}>
+                        {connexion.utilisateur} ({connexion.role})
+                    <button onClick={() => console.log('ejection')}>Ejecter</button>
+                    </li>
                 ))}
             </ul>
         </div>

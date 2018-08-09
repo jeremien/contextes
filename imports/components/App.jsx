@@ -76,7 +76,7 @@ class App extends Component {
 
   render() {
     const { role, utilisateur, ...rest } = this.props.connexion
-    const propsToPass = { connecte: this.props.connecte, userId: connexion._id, role: role || "", utilisateur: utilisateur || "", socketId: this.props.socket.id }
+    const propsToPass = { connecte: this.props.connecte, userId: this.props.connexion._id, role: role || "", utilisateur: utilisateur || "", socketId: this.props.socket.id }
     return (
       <Router>
         <div className="main">

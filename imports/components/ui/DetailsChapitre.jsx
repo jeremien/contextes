@@ -8,7 +8,6 @@ import ConnexionsCourantesContainer from '../data/ConnexionsCourantesContainer';
 
 
 export default function DetailsChapitre(props) {
-
     if (props.loading) {
         return (
             <div className="details-chapitre">
@@ -23,7 +22,7 @@ export default function DetailsChapitre(props) {
             <Link to={`/sessions/${props.chapitre.session}`}>Retour à la session</Link>
                 <div className="infos-chapitre">
                     {props.outils.outilgauche}
-                    <ConnexionsCourantesContainer chapitreId={props.chapitre._id}/>
+                    <ConnexionsCourantesContainer {...props} />
                 </div>
                 <div className="documents">
                     {props.outils.outildroit}

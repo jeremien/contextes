@@ -36,12 +36,9 @@ export default withTracker((props) => {
     const loading = !connexionsHandle.ready(); //vaut true si les données ne sont pas encore chargées.
     var connexions = Connexions.find(
         {
-            chapitre: props.chapitreId,
+            chapitre: props.chapitre._id,
             role: { $ne: 'editeur' }
         },
-        // {
-        //     sort: { role: -1 }
-        // }
     );
     const connexionsExists = !loading && !!connexions;
     return ({
@@ -50,9 +47,3 @@ export default withTracker((props) => {
         connexions: connexionsExists ? connexions.fetch() : [{}],
     })
 })(ConnexionsCourantesContainer);
-
-const TestOutil = (props) => {
-    return (
-        <h3>Outil ok</h3>
-    )
-}
