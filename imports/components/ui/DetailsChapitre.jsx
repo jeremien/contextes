@@ -4,6 +4,7 @@ import { Session } from 'meteor/session';
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
 import { Link } from 'react-router-dom'
+import ConnexionsCourantesContainer from '../data/ConnexionsCourantesContainer';
 
 
 export default function DetailsChapitre(props) {
@@ -22,6 +23,7 @@ export default function DetailsChapitre(props) {
             <Link to={`/sessions/${props.chapitre.session}`}>Retour à la session</Link>
                 <div className="infos-chapitre">
                     {props.outils.outilgauche}
+                    <ConnexionsCourantesContainer chapitreId={props.chapitre._id}/>
                 </div>
                 <div className="documents">
                     {props.outils.outildroit}
