@@ -31,7 +31,6 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.handleLeavePage = this.handleLeavePage.bind(this);
-    var logoutEditeur;
   }
 
   static defaultProps = {
@@ -49,16 +48,12 @@ class App extends Component {
     //   'editeur'
     // ]).isRequired,
     // utilisateur: PropTypes.string.isRequired,
+    connexion: PropTypes.object.isRequired,
     socket: PropTypes.object.isRequired,
   }
 
   componentDidMount() {
     // Meteor.call('connexions.online', this.props.utilisateur)
-    if (this.props.connexion.role == 'editeur') {
-      this.logoutEditeur = function() {
-        Meteor.call('deconnexion.editeur')
-      }
-    }
     window.addEventListener("beforeunload", this.handleLeavePage);
     this.props.socket.on('logoutForce', this.logoutForce.bind(this));
   }
@@ -77,11 +72,11 @@ class App extends Component {
     Meteor.call('connexions.statut.offline', this.props.connexion._id)
   }
 
-  
+
 
   render() {
-    const {role, utilisateur, ...rest} = this.props.connexion
-    const propsToPass = {connecte: this.props.connecte, role: role || "", utilisateur: utilisateur || "", socketId: this.props.socket.id}
+    const { role, utilisateur, ...rest } = this.props.connexion
+    const propsToPass = { connecte: this.props.connecte, userId: connexion._id, role: role || "", utilisateur: utilisateur || "", socketId: this.props.socket.id }
     return (
       <Router>
         <div className="main">
@@ -131,7 +126,10 @@ const LogOut = (props) => {
       onClick={() => {
         localStorage.clear();
         Session.clear()
-        Meteor.call('connexions.remove', props.utilisateur);
+        Meteor.call('connexions.remove', props.userId);
+        if (props.role == 'editeur') {
+          Meteor.call('deconnexion.editeur')
+        }
         props.history.push('/');
       }}
     >
@@ -143,7 +141,7 @@ const LogOut = (props) => {
 export default withTracker((props) => {
   if (localStorage.getItem('userId') || Session.get('userId')) {
     const id = Session.get('userId') || localStorage.getItem('userId');
-    if (!Session.get('userId')) {Session.set('userId', id)};
+    if (!Session.get('userId')) { Session.set('userId', id) };
     const connexionsHandle = Meteor.subscribe('connexions');
     const loading = !connexionsHandle.ready()
     const connexion = Connexions.findOne(localStorage.getItem('userId'))
@@ -152,20 +150,20 @@ export default withTracker((props) => {
       return {
         loading: false,
         connecte: false,
-        connexion: [],
+        connexion: {},
       }
     }
     return {
       loading,
       connecte: connexionExists,
-      connexion: connexionExists ? connexion: [],
+      connexion: connexionExists ? connexion : {},
     }
   }
   else {
     return {
       loading: false,
       connecte: false,
-      connexion: [],
+      connexion: {},
     }
   }
 

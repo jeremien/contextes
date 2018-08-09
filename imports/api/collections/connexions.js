@@ -30,7 +30,7 @@ Meteor.methods({
 
     'connexions.session' (utilisateur, session) {
         Connexions.update({
-            utilisateur: utilisateur
+            _id: utilisateur
         }, {
             $set: {
                 session: session
@@ -40,7 +40,7 @@ Meteor.methods({
 
     'connexions.chapitre' (utilisateur, session, chapitre) {
         Connexions.update({
-            utilisateur: utilisateur
+            _id: utilisateur
         }, {
             $set: {
                 session: session,
@@ -51,7 +51,7 @@ Meteor.methods({
 
     'deconnection.session' (utilisateur) {
         Connexions.update({
-            utilisateur: utilisateur
+            _id: utilisateur
         }, {
             $set: {
                 session: ""
@@ -61,7 +61,7 @@ Meteor.methods({
 
     'deconnection.chapitre' (utilisateur) {
         Connexions.update({
-            utilisateur: utilisateur
+            _id: utilisateur
         }, {
             $set: {
                 chapitre: ""
@@ -71,7 +71,7 @@ Meteor.methods({
 
     'connexions.remove' (utilisateur) {
         Connexions.remove({
-            utilisateur: utilisateur
+            _id: utilisateur
         })
     },
 
