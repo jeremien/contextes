@@ -1,13 +1,11 @@
-import React from 'react';
-import { withTracker } from 'meteor/react-meteor-data'
-import { Meteor } from 'meteor/meteor'
+import React, { Component, PropTypes } from 'react';
+import { Session } from 'meteor/session';
+import { Meteor } from 'meteor/meteor';
+import { withTracker } from 'meteor/react-meteor-data';
+import { BrowserRouter as Router, Route, Link, Switch }from 'react-router-dom'
 
-import { Sessions } from '../../api/collections/sessions';
-import { Chapitres } from '../../api/collections/chapitres';
 import { Connexions } from '../../api/collections/connexions';
 
-import AjouterCommentaire from './AjouterDocument';
-import IndexChapitre from './IndexChapitre';
 
 class TestAPI extends React.Component {
     render() {

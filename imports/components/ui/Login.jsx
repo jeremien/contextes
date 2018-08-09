@@ -1,14 +1,8 @@
-import React from 'react';
-import { Meteor } from 'meteor/meteor';
+import React, { Component, PropTypes } from 'react';
 import { Session } from 'meteor/session';
-import {
-    Router,
-    Route,
-    Link,
-    Redirect,
-    withRouter,
-    withHistory
-} from 'react-router-dom';
+import { Meteor } from 'meteor/meteor';
+import { withTracker } from 'meteor/react-meteor-data';
+import { BrowserRouter as Router, Route, Link, Switch }from 'react-router-dom'
 
 export default class Login extends React.Component {
     constructor(props) {

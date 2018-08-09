@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types'
+import { Session } from 'meteor/session';
 import { Meteor } from 'meteor/meteor';
-import PropTypes from 'prop-types';
+import { withTracker } from 'meteor/react-meteor-data';
+import { BrowserRouter as Router, Route, Link, Switch }from 'react-router-dom'
 
 import Timer from './Timer'
 

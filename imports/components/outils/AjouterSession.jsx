@@ -1,31 +1,46 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types'
 import { Meteor } from 'meteor/meteor';
-import PropTypes from 'prop-types';
-
 
 /**
  * Component gérant la création de session.
  */
 class AjouterSession extends Component {
-    state = { value: '', categories: [], categorieCourante: "" }
+    constructor(props) {
+        super(props);
+        this.deleteCategorie = this.deleteCategorie.bind(this);
+    }
+    
+    state = { description: '', categories: [], categorieCourante: "" }
 
     static propTypes = {
         utilisateur: PropTypes.string.isRequired,
     }
 
     handleChange(event) {
-        this.setState({ value: event.target.value })
+        this.setState({ description: event.target.value })
     }
 
     handleCategories(event) {
         if (event.target.value.slice(-1) == " ") {
-            var prevCategorie = this.state.categories;
-            prevCategorie.push(this.state.categorieCourante);
-            this.setState({ categories: prevCategorie, categorieCourante: "" });
+            if (event.target.value.slice(0) == " ") {
+                this.setState({ categorieCourante: "" });
+            }
+            else {
+                var prevCategorie = this.state.categories;
+                prevCategorie.push(this.state.categorieCourante);
+                this.setState({ categories: prevCategorie, categorieCourante: "" });
+            }
         }
         else {
             this.setState({ categorieCourante: event.target.value });
         }
+    }
+
+    deleteCategorie(categorie) {
+        var prevCategorie = this.state.categories;
+        prevCategorie.splice(prevCategorie.indexOf(categorie), 1);
+        this.setState({ categories: prevCategorie });
     }
 
     handleSubmit(event) {
@@ -39,13 +54,19 @@ class AjouterSession extends Component {
             conformateurs: target.conformateurs.value,
         };
 
-        Meteor.call('sessions.insert', titre, auteur, this.state.value, roles, this.state.categories)
+        if (titre && this.state.description) {
+            Meteor.call('sessions.insert', titre, auteur, this.state.description, roles, this.state.categories)
         target.reset()
-        this.setState({categorieCourante: "", categories: []})
+        this.setState({ categorieCourante: "", categories: [] })
+        }
+
+        else {
+            alert('Remplissez tous les champs')
+        }
     }
 
     render() {
-        if (!!Session.get('connecte')) {
+        if (this.props.connecte) {
             return (
                 <div className="ajout-session">
                     <h2>Création d'une session</h2>
@@ -62,7 +83,7 @@ class AjouterSession extends Component {
                             cols="50"
                             form="ajout-session"
                             placeholder="Une bref description de la session"
-                            value={this.state.value}
+                            value={this.state.description}
                             onChange={this.handleChange.bind(this)}
                         >
                         </textarea>
@@ -101,8 +122,10 @@ class AjouterSession extends Component {
                             onChange={this.handleCategories.bind(this)}
                         />
                         <ul>Catégories actuelles
-                             {Object.entries(this.state.categories).map(([key, categorie]) => (
-                                <li key={key}>{categorie}</li>
+                             {this.state.categories.map((categorie) => (
+                                <li key={categorie}>
+                                    {categorie}
+                                </li>
                             ))}
                         </ul>
                         <input type="submit" value="Enregistrer" />

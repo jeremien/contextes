@@ -1,7 +1,8 @@
-import React from 'react';
-import { Meteor } from 'meteor/meteor'
-import { withTracker } from 'meteor/react-meteor-data'
-import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
+import React, { Component, PropTypes } from 'react';
+import { Session } from 'meteor/session';
+import { Meteor } from 'meteor/meteor';
+import { withTracker } from 'meteor/react-meteor-data';
+import { BrowserRouter as Router, Route, Link, Switch }from 'react-router-dom'
 
 import { Sessions } from '../../api/collections/sessions';
 import IndexChapitre from './IndexChapitre';
@@ -17,7 +18,7 @@ class DetailsSession extends React.Component {
     }
 
     render() {
-        if (this.props.sessionId) {
+        if (!this.props.loading && this.props.sessionExists) {
             return (
                 <div className="details-session">
                     {(!!this.props.connecte && this.props.role == "editeur") ?
@@ -27,7 +28,7 @@ class DetailsSession extends React.Component {
                     }
                     <br />
                     <br />
-                    <IndexChapitre sessionId={this.props.sessionId} />
+                    <IndexChapitre sessionId={this.props.session._id} />
 
                 </div>
             )
@@ -37,15 +38,15 @@ class DetailsSession extends React.Component {
                 <div className="details-session">
                     <h2>Choisir une session à afficher</h2>
                 </div>
-            )
+            );
         }
     }
 }
 
-export default DetailsSessionContainer = withTracker((props) => {
+export default withTracker((props) => {
     const sessionsHandle = Meteor.subscribe('sessions');
     const loading = !sessionsHandle.ready();
-    const session = Sessions.findOne({ _id: props.sessionId })
+    const session = Sessions.findOne({ _id: props.match.params.sessionId })
     const sessionExists = !loading && !!session
     return {
         loading,

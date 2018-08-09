@@ -91,20 +91,7 @@ Meteor.methods({
     //     return Chapitres.find({session: session}, {_id: 0, titre: 1, utilisateurs_connectes: 1})
     // },
 
-    'sesions.pause' (sessionId) {
-        const chapitres = Chapitres.find({
-            session: sessionId
-        }).fetch()
-        chapitres.map((chapitre) => Metoer.call('chapitres.pause', chapitre._id))
-    },
-
-    'sessions.ouvrir' (sessionId) {
-        Sessions.update({
-            _id: sessionId
-        }, {
-            $set: {
-                edition: true
-            }
-        })
-    },
+    'sessions.etat.update'(sessionId, etat) {
+        Sessions.update({_id: sessionId}, {$set: {etat: etat}});
+    }
 })

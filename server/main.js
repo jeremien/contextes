@@ -33,8 +33,12 @@ Meteor.methods ({
   'message.client'(socketId) {
     // io.sockets.socket(socketId).emit('message', 'un message')
     // io.socket.broadcast.emit('texte', "test message");
-    io.sockets.connected[socketId].emit('texte', "test message");
-    io.socket.to(socketId).emit('texte', "test message");
-    io.emit('texte', "test broadcast");
+    // io.sockets.connected[socketId].emit('texte', "test message");
+    // io.socket.to(socketId).emit('texte', "test message");
+    io.emit('logout'); // emit an event to all connected sockets
+  },
+
+  'deconnexion.editeur'() {
+    io.emit('logoutForce')
   }
 })

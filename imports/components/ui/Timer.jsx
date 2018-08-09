@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types'
+import { Session } from 'meteor/session';
+import { Meteor } from 'meteor/meteor';
+import { withTracker } from 'meteor/react-meteor-data';
+import { BrowserRouter as Router, Route, Link, Switch }from 'react-router-dom'
 
 // import lancerTimer from './apiTimer'
 
@@ -33,10 +37,10 @@ export default class Timer extends Component {
      * L'id de setIntervalle est stocké dans le state "timer" pour pouvori être arrêté ensuite
      */
     startTimer() {
-        
+
         if (!this.state.timer) {
             console.log('debut timer')
-            const idTimer = Meteor.setInterval(() => {Meteor.call('chapitres.timer.update', this.props.chapitre._id, this.props.chapitre.duree_boucle)}, 1000);
+            const idTimer = Meteor.setInterval(() => { Meteor.call('chapitres.timer.update', this.props.chapitre._id, this.props.chapitre.duree_boucle) }, 1000);
             Meteor.call('chapitres.timer.set', this.props.chapitre._id, idTimer)
             // var idTimer = Meteor.setInterval(() => {
             //     console.log('tentative set')
@@ -46,31 +50,36 @@ export default class Timer extends Component {
             // lancerTimer(this.props.chapitre._id)
             this.setState({ timer: true })
         }
-        
+
 
     }
-    
+
     actionTimer() {
         Meteor.call('chapitres.timer.update', this.props.chapitre._id, this.props.chapitre.duree_boucle)
-        
+
     }
 
     stopTimer() {
         Meteor.clearInterval(this.props.chapitre.id_timer)
-        Meteor.call('chapitres.timer.reset', this.props.chapitre._id)
+        Meteor.call('chapitres.timer.reset', this.props.chapitre._id, this.props.chapitre.duree_boucle)
         // Meteor.call('stop.timer', this.props.chapitre._id, this.props.chapitre.id_timer)
         this.setState({ timer: false })
     }
 
     //Memo bug : la durée enregistrée est différente d'une seconde.
     handleChange(event) {
-        this.setState({dureeBoucle: event.target.value});
-        Meteor.call('chapitres.timer.duree', this.props.chapitre._id, this.state.dureeBoucle)
-      }
-    
+        this.setState({ dureeBoucle: event.target.value });
+        Meteor.call('chapitres.timer.duree', this.props.chapitre._id, event.target.value)
+        if (this.state.timer) {
+            Meteor.clearInterval(this.props.chapitre.id_timer)
+            const idTimer = Meteor.setInterval(() => { Meteor.call('chapitres.timer.update', this.props.chapitre._id, this.props.chapitre.duree_boucle) }, 1000);
+            Meteor.call('chapitres.timer.set', this.props.chapitre._id, idTimer)
+        }
+    }
+
 
     render() {
-        console.log(this.props.role)
+        console.log(this.state.dureeBoucle)
         return (
             <div className="timer">
                 <h3>timer</h3>
@@ -81,7 +90,7 @@ export default class Timer extends Component {
                         <label>Durée de transcription</label>
                         <input
                             type="number"
-                            defaultValue={this.state.dureeBoucle}
+                            value={this.state.dureeBoucle}
                             name="transcripteurs"
                             min="1"
                             onChange={this.handleChange}

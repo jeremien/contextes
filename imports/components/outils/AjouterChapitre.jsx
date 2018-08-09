@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types'
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 
 export default class AjouterChapitre extends Component {
-    state = { value: '', tags: [], tagCourant: ""}
+    state = { description: '', tags: [], tagCourant: "" }
 
     handleChange(event) {
-        this.setState({ value: event.target.value })
+        this.setState({ description: event.target.value })
     }
 
     handleTags(event) {
@@ -28,9 +29,14 @@ export default class AjouterChapitre extends Component {
         const session = this.props.sessionId;
         const duree = target.duree.value || 1;
 
-        Meteor.call('chapitres.insert', session, titre, auteur, this.state.value, duree, this.state.tags)
-        target.reset();
-        this.setState({tgas: [], tagCourant: ""})
+        if (titre && this.state.description) {
+            Meteor.call('chapitres.insert', session, titre, auteur, this.state.value, duree, this.state.tags)
+            target.reset();
+            this.setState({ tgas: [], tagCourant: "" })
+        }
+        else {
+            alert('Remplissez tous les champs')
+        }
     }
 
     render() {
@@ -49,7 +55,7 @@ export default class AjouterChapitre extends Component {
                         cols="50"
                         form="ajout-session"
                         placeholder="Une bref description de la session"
-                        value={this.state.value}
+                        value={this.state.description}
                         onChange={this.handleChange.bind(this)}
                     >
                     </textarea>
@@ -58,22 +64,22 @@ export default class AjouterChapitre extends Component {
                     <input
                         type="number"
                         name="duree"
-                        placeholder="1"
+                        defaultValue="60"
                         min="1"
                     />
                     <br />
                     <label>Choix des tags possibles pour les documents</label>
-                        <input
-                            type="text"
-                            name="tag"
-                            value={this.state.tagCourant}
-                            onChange={this.handleTags.bind(this)}
-                        />
-                        <ul>Tags actuels
+                    <input
+                        type="text"
+                        name="tag"
+                        value={this.state.tagCourant}
+                        onChange={this.handleTags.bind(this)}
+                    />
+                    <ul>Tags actuels
                              {Object.entries(this.state.tags).map(([key, tag]) => (
-                                <li key={key}>{tag}</li>
-                            ))}
-                        </ul>
+                            <li key={key}>{tag}</li>
+                        ))}
+                    </ul>
                     <input type="submit" value="Enregistrer" />
                 </form>
             </div>

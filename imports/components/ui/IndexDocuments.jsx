@@ -1,8 +1,10 @@
-import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
+import React, { Component, PropTypes } from 'react';
+import { Session } from 'meteor/session';
+import { Meteor } from 'meteor/meteor';
+import { withTracker } from 'meteor/react-meteor-data';
+import { BrowserRouter as Router, Route, Link, Switch }from 'react-router-dom'
 
 import { Documents } from '../../api/collections/documents';
-import { withTracker } from 'meteor/react-meteor-data';
 import DetailsDocument from './DetailsDocument';
 
 
