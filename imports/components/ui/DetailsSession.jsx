@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Session } from 'meteor/session';
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
-import { BrowserRouter as Router, Route, Link, Switch }from 'react-router-dom'
+import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom'
 
 import { Sessions } from '../../api/collections/sessions';
 import IndexChapitre from './IndexChapitre';
@@ -10,7 +10,9 @@ import TableauDeBord from './TableauDeBord';
 
 class DetailsSession extends React.Component {
     componentDidMount() {
-        Meteor.call('connexions.session', this.props.connecte, this.props.sessionId);
+        if (this.props.connecte) {
+            Meteor.call('connexions.session', this.props.utilisateur, this.props.sessionId);
+        }
     };
 
     componentWillUnmount() {
