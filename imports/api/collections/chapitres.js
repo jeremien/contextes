@@ -38,7 +38,7 @@ Meteor.methods({
             edition: false,
             archive: false,
             utilisateurs_connectes: [],
-            timer: 0,
+            timer: duree,
             id_timer: null,
             duree_boucle: duree,
             tags: tags,
