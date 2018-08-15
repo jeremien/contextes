@@ -35,8 +35,11 @@ Meteor.methods({
             description,
             description,
             creation: new Date(),
-            edition: false,
-            archive: false,
+            /**
+             * Etats possibles : 
+             * edition (par défaut), prepresse, archivee
+             */
+            etat: 'edition',
             utilisateurs_connectes: [],
             timer: duree,
             id_timer: null,
@@ -149,4 +152,8 @@ Meteor.methods({
             }
         })
     },
+
+    'chapitres.etat.update'(sessionId, etat) {
+        Chapitres.update({session: sessionId}, {$set: {etat: etat}});
+    }
 })
