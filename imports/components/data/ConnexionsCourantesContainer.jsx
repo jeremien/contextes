@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 
 import { Connexions } from '../../api/collections/connexions';
 
-import ConnexionsCourantes from '../ui/ConnexionsCourantes'
+import ConnexionsCourantes from '../outils/ConnexionsCourantes'
 
 class ConnexionsCourantesContainer extends React.Component {
     static propTypes = {

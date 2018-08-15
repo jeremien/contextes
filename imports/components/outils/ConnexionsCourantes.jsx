@@ -11,8 +11,10 @@ export default function ConnexionsCourantes(props) {
             <ul>
                 {props.connexions.map((connexion) => (
                     <li key={connexion._id}>
-                        {connexion.utilisateur} ({connexion.role})
-                    <button onClick={() => console.log('ejection')}>Ejecter</button>
+                        {connexion.utilisateur} ({connexion.role}) : {connexion.online ? online : offline}
+                    <button onClick={(event) => 
+                        Meteor.call('message.client', connexion.socket, 'logoutForce')
+                    }>Ejecter</button>
                     </li>
                 ))}
             </ul>

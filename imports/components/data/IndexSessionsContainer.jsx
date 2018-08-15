@@ -6,7 +6,7 @@ import { withTracker } from 'meteor/react-meteor-data'
 
 import { Sessions } from '../../api/collections/sessions';
 import IndexSessions from '../ui/IndexSessions'
-import AjouterSession from '../outils/AjouterSession'
+import AjouterSession from '../outils/editeur/AjouterSession'
 
 class IndexSessionsContainer extends Component {
     constructor(props) {

@@ -20,6 +20,7 @@ import Login from './ui/Login';
 import LandingPage from './ui/LandingPage';
 import TestAPI from './ui/TestAPI';
 import DetailsChapitreContainer from './data/DetailsChapitreContainer';
+import TopBar from './ui/TopBar'
 
 import '../stylesheets/main'
 import IndexSessionsContainer from './data/IndexSessionsContainer';
@@ -40,14 +41,6 @@ class App extends Component {
 
   static propTypes = {
     connecte: PropTypes.bool.isRequired,
-    // role: PropTypes.oneOf([
-    //   '',
-    //   'transcripteur',
-    //   'correcteur',
-    //   'conformateur',
-    //   'editeur'
-    // ]).isRequired,
-    // utilisateur: PropTypes.string.isRequired,
     connexion: PropTypes.object.isRequired,
     socket: PropTypes.object.isRequired,
   }
@@ -64,15 +57,14 @@ class App extends Component {
 
   logoutForce() {
     console.log('logout')
-    Meteor.call('connexions.remove', this.props.utilisateur);
-    window.location.replace('/')
+    localStorage.clear();
+    Session.clear()
+    Meteor.call('connexions.remove', this.props.connexion._id);
   }
 
   handleLeavePage() {
     Meteor.call('connexions.statut.offline', this.props.connexion._id)
   }
-
-
 
   render() {
     const { role, utilisateur, ...rest } = this.props.connexion
@@ -97,46 +89,6 @@ class App extends Component {
     )
   }
 };
-
-const TopBar = (props) => {
-  return (
-    <div className="topbar">
-      <h1>DDRcontexte</h1>
-      <Link to="/">Home</Link>
-      <Link to="/test">Test</Link>
-      <br />
-      {!!props.connecte ?
-        <div>
-          <p>Bienvenue, {props.utilisateur}. Vous êtes connecté en tant que {props.role}</p>
-          <LogOut {...props} />
-        </div>
-        :
-        <div>
-          <li><Link to="/login">Login</Link></li>
-        </div>
-      }
-    </div>
-  )
-}
-
-const LogOut = (props) => {
-  return (
-    <button
-      type='button'
-      onClick={() => {
-        localStorage.clear();
-        Session.clear()
-        Meteor.call('connexions.remove', props.userId);
-        if (props.role == 'editeur') {
-          Meteor.call('deconnexion.editeur')
-        }
-        props.history.push('/');
-      }}
-    >
-      Se déconnecter
-    </button>
-  )
-}
 
 export default withTracker((props) => {
   if (localStorage.getItem('userId') || Session.get('userId')) {

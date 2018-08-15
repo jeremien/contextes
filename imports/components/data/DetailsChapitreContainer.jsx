@@ -61,7 +61,7 @@ class DetailsChapitreContainer extends React.Component {
     render() {
         if (this.props.chapitreExists && !this.props.loading) {
             var { match, path, ...rest } = this.props;
-            const outils = this.getOutils({...rest});
+            const outils = this.getOutils({ ...rest });
             return <DetailsChapitre outils={outils} {...rest} />
         }
         else {
@@ -83,7 +83,7 @@ export default withTracker((props) => {
 })(DetailsChapitreContainer);
 
 const TestOutil = (props) => {
-    return( 
+    return (
         <h3>Outil ok</h3>
     )
 }
