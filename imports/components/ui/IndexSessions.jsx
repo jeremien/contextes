@@ -39,6 +39,7 @@ export default class IndexSessions extends Component {
                 <Link to={`/sessions/${session._id}`}>
                     {session.titre}
                 </Link>
+                ({session.etat})
                 <button onClick={() => Meteor.call('sessions.remove', session._id)}>Supprimer la session</button>
                 <br />
             </div>
@@ -47,6 +48,7 @@ export default class IndexSessions extends Component {
 
     handleChange(event) {
         event.preventDefault();
+        console.log(event.target)
         const prevState = this.state.toggleSession;
         this.setState({ toggleSession: !prevState })
     }
@@ -62,8 +64,8 @@ export default class IndexSessions extends Component {
                     <hr />
                     <div className="liste-sessions">
                         <label className="hide-archivee">
-                            <input type="checkbox" checked={this.state.toggleSession} readOnly onClick={this.handleChange.bind(this)} />
-                            Afficher les sessions archivées
+                            <input type="checkbox" value={this.state.toggleSession} readOnly onClick={this.handleChange.bind(this)} />
+                            Afficher les sessions archivées {this.state.toggleSession}
                         </label>
                         {/* <label className="hide-archivee">
                             <input
