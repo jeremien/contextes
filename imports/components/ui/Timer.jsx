@@ -52,11 +52,6 @@ export default class Timer extends Component {
 
     }
 
-    actionTimer() {
-        Meteor.call('chapitres.timer.update', this.props.chapitre._id, this.props.chapitre.duree_boucle)
-
-    }
-
     stopTimer() {
         // Meteor.call('stop.timer', this.props.chapitre._id, this.props.chapitre.id_timer)
         Meteor.call('timer.stop', this.props.chapitre)
