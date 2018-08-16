@@ -23,11 +23,11 @@ export default function DetailsChapitre(props) {
         console.log(props)
         return (
             <div className="details-chapitre">
-                <div className="infos-chapitre">
+                <div className="details-chapitre-gauche">
                     {/* <InfosChapitre {...props} /> */}
                     {props.outils.outilgauche}
                 </div>
-                <div className="documents">
+                <div className="details-chapitre-droite">
                     {/* <IndexDocuments {...props} /> */}
                     {/* {(props.connecte && props.role == "transcripteur") &&
                         <AjouterCommentaire chapitreId={props.chapitre._id} sessionId={props.chapitre.session} />

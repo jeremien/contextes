@@ -18,7 +18,6 @@ export default class InfosChapitre extends Component {
     };
 
     render() {
-        console.log(this.props.role)
         return (
             <div className="infos-chapitre">
                 <h3 className="titre">Chapitre : {this.props.chapitre.titre}</h3>

@@ -19,7 +19,7 @@ import LandingPage from './LandingPage';
 import TestAPI from './TestAPI';
 import DetailsChapitreContainer from './DetailsChapitreContainer';
 
-import '../stylesheets/main'
+// import '../stylesheets/main'
 
 /**
  * Composant principal de l'application. Gère les routes publiques.
