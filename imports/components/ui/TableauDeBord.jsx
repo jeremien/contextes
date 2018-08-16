@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Route, Link, Switch }from 'react-router-dom'
 
 import { Chapitres } from '../../api/collections/chapitres'
 
-import AjouterChapitre from '../outils/AjouterChapitre';
+import AjouterChapitre from '../outils/editeur/AjouterChapitre';
 
 class TableauDeBord extends React.Component {
     state = {
@@ -15,11 +15,11 @@ class TableauDeBord extends React.Component {
 
 
 
-    handleEtat(event, etat) {
+    handleEtat(event) {
         event.preventDefault();
-        console.log(event.target.value)
+        // console.log(event.target.value)
         // this.setState({etat: etat});
-        // Meteor.call('session.etat.update', this.props.session._id, etat)
+        Meteor.call('sessions.etat.update', this.props.session._id, event.target.value)
     }
 
     render() {
@@ -34,10 +34,11 @@ class TableauDeBord extends React.Component {
                 <div className="tableau-de-bord">
                     <h2>{this.props.session.titre} : tableau de bord</h2>
                     <h3>Etat de la session</h3>
-                    <fieldset onChange={(event) => { console.log(event.target.value) }}>
+                    {/* <fieldset onChange={(event) => { console.log(event.target.value) }}> */}
+                    <fieldset onChange={this.handleEtat.bind(this)}>
                         <div>
                             <input type="radio" value="edition" name="etat" />
-                            <label>en cours d'édition</label>
+                            <label>éditer</label>
                         </div>
 
                         <div>
@@ -46,7 +47,7 @@ class TableauDeBord extends React.Component {
                         </div>
 
                         <div>
-                            <input type="radio" value="archive" name="etat" />
+                            <input type="radio" value="archivee" name="etat" />
                             <label>archiver</label>
                         </div>
 
