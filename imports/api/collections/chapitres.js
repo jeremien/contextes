@@ -1,13 +1,21 @@
-import { Mongo } from 'meteor/mongo';
-import { Meteor } from 'meteor/meteor';
-import { check } from 'meteor/check';
-import { Commentaires } from './documents';
+import {
+    Mongo
+} from 'meteor/mongo';
+import {
+    Meteor
+} from 'meteor/meteor';
+import {
+    check
+} from 'meteor/check';
+import {
+    Commentaires
+} from './documents';
 
 export const Chapitres = new Mongo.Collection('chapitres');
 // Chapitres.attachCollectionRevisions(CollectionRevisions.Chapitres);
 
 if (Meteor.isServer) {
-    Meteor.publish('chapitres', function chapitresPublication(){
+    Meteor.publish('chapitres', function chapitresPublication() {
         return Chapitres.find();
     })
 }
@@ -19,64 +27,133 @@ Meteor.methods({
      * @param {*} auteur Personne qui a créer le chapitre par défaut
      * @param {integer} duree Durée du chapitre en minutes
      */
-    'chapitres.insert'(session, titre, auteur, description, duree) {
+    'chapitres.insert' (session, titre, auteur, description, duree, tags) {
         Chapitres.insert({
             session: session,
             titre: titre,
             auteur: auteur,
-            description, description,
+            description,
+            description,
             creation: new Date(),
-            edition : false,
-            archive: false,
+            /**
+             * Etats possibles : 
+             * edition (par défaut), prepresse, archivee
+             */
+            etat: 'edition',
             utilisateurs_connectes: [],
-            timer: 0,
+            timer: duree,
             id_timer: null,
             duree_boucle: duree,
-            tags: [],
+            tags: tags,
         });
     },
 
-    'chapitres.remove'(idSuppression){
+    'chapitres.remove' (idSuppression) {
         Meteor.call('documents.remove', idSuppression)
-        Chapitres.remove({$or: [{_id: idSuppression}, {session: idSuppression}]})
+        Chapitres.remove({
+            $or: [{
+                _id: idSuppression
+            }, {
+                session: idSuppression
+            }]
+        })
     },
 
-    'chapitres.update'(chapitreId, titre){
-        Chapitres.update(chapitreId, {$set: {titre: titre}});
+    'chapitres.update' (chapitreId, titre) {
+        Chapitres.update(chapitreId, {
+            $set: {
+                titre: titre
+            }
+        });
     },
 
-    'chapitres.getVersion'(chapitreId) {
+    'chapitres.getVersion' (chapitreId) {
         return Chapitres.findOne(chapitreId).revisions.length
     },
 
-    'chapitres.getAllCommentaires'(chapitre) {
+    'chapitres.getAllCommentaires' (chapitre) {
         Meteor.subscribe('documents')
-        return Commentaires.find({chapitre: chapitre})
+        return Commentaires.find({
+            chapitre: chapitre
+        })
     },
 
-    'chapitres.connexion'(chapitreId, utilisateur) {
-        Chapitres.update({_id: chapitreId}, {$addToSet: {utilisateurs_connectes: utilisateur}})
+    'chapitres.connexion' (chapitreId, utilisateur) {
+        Chapitres.update({
+            _id: chapitreId
+        }, {
+            $addToSet: {
+                utilisateurs_connectes: utilisateur
+            }
+        })
     },
 
-    'chapitres.deconnexion'(chapitreId, utilisateur) {
-        Chapitres.update({_id: chapitreId}, {$pull: {utilisateurs_connectes: utilisateur}})
+    'chapitres.deconnexion' (chapitreId, utilisateur) {
+        Chapitres.update({
+            _id: chapitreId
+        }, {
+            $pull: {
+                utilisateurs_connectes: utilisateur
+            }
+        })
     },
 
-    'chapitres.timer.update'(chapitreId, dureeBoucle) {
-        newTimer = (Chapitres.findOne({_id: chapitreId}).timer + 1) % dureeBoucle; 
-        Chapitres.update({_id: chapitreId}, {$set: {timer: newTimer}})
-        
+    'chapitres.timer.update' (chapitreId, dureeBoucle) {
+        newTimer = (Chapitres.findOne({
+            _id: chapitreId
+        }).timer) % (dureeBoucle + 1);
+        if (newTimer == 0) {
+            Chapitres.update({
+                _id: chapitreId
+            }, {
+                $set: {
+                    timer: dureeBoucle,
+                }
+            })
+        } else {
+            Chapitres.update({
+                _id: chapitreId
+            }, {
+                $set: {
+                    timer: newTimer - 1
+                }
+            })
+        }
+
     },
 
-    'chapitres.timer.reset'(chapitreId) {
-        Chapitres.update({_id: chapitreId}, {$set: {timer: 0, id_timer: null}})
+    'chapitres.timer.reset' (chapitreId, debut) {
+        Chapitres.update({
+            _id: chapitreId
+        }, {
+            $set: {
+                timer: debut,
+                id_timer: null
+            }
+        })
     },
 
-    'chapitres.timer.set'(chapitreId, timerId) {
-        Chapitres.update({_id: chapitreId}, {$set: {id_timer: timerId}})
+    'chapitres.timer.set' (chapitreId, timerId) {
+        Chapitres.update({
+            _id: chapitreId
+        }, {
+            $set: {
+                id_timer: timerId
+            }
+        })
     },
 
-    'chapitres.timer.duree'(chapitreId, duree) {
-        Chapitres.update({_id: chapitreId}, {$set: {duree_boucle: duree}})
+    'chapitres.timer.duree' (chapitreId, duree) {
+        Chapitres.update({
+            _id: chapitreId
+        }, {
+            $set: {
+                duree_boucle: duree
+            }
+        })
     },
+
+    'chapitres.etat.update'(sessionId, etat) {
+        Chapitres.update({session: sessionId}, {$set: {etat: etat}});
+    }
 })

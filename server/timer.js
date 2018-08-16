@@ -1,36 +1,51 @@
 import {
     Meteor
 } from 'meteor/meteor';
+import {
+    CRONjob
+} from 'meteor/ostrio:cron-jobs';
+// import { Jobs } from 'meteor/msavin:sjobs'
 
-export default { startTimer }
+import {
+    Chapitres
+} from '../imports/api/collections/chapitres'
+
+// Jobs.register({
+//     "startTimer": function (chapitre) {
+//         console.log('ok')
+//     }
+// });
+
+var globalChapitre; //Methode de la doc de CRONJob pour passer des arguments à la fonction appeler
+
+const bound = Meteor.bindEnvironment((callback) => {
+    callback();
+});
+
+const db = Chapitres.rawDatabase();
+const cron = new CRONjob({
+    db: db,
+    autoClear: true,
+});
+
+const StartTimer = function (ready) {
+    bound(() => {
+        // console.log('ok')
+        Meteor.call('chapitres.timer.update', globalChapitre._id, globalChapitre.duree_boucle)
+        ready();
+    });
+}; 
 
 Meteor.methods({
-    'start.timer' (chapitreId) {
-        // const idTimer = Meteor.setInterval(() => {Meteor.call('chapitres.timer.update', chapitreId)}, 1000);
-        const idTimer = Meteor.setInterval(() => {
-            console.log('tentative set')
-        }, 10000);
-        console.log(idTimer)
-        var testId = 50;
-        Meteor.call('chapitres.timer.set', chapitreId, idTimer)
+    'timer.start' (chapitre) {
+        globalChapitre = chapitre;
+        const idTimer = cron.setInterval(StartTimer, 1000, 'startTimer')
+        Meteor.call('chapitres.timer.set', chapitre._id, idTimer)
     },
 
-    'stop.timer' (chapitreId, idTimer) {
-        Meteor.clearInterval(idTimer)
-        Meteor.call('chapitres.timer.reset', chapitreId)
+    'timer.stop' (chapitre) {
+        cron.clearInterval(chapitre.id_timer);
+        Meteor.call('chapitres.timer.reset', chapitre._id, chapitre.duree_boucle)
+
     }
 })
-
-// Meteor.clearInterval(this.props.chapitre.id_timer)
-// Meteor.call('chapitres.timer.reset', this.props.chapitre._id)
-
-var idTimer;
-
-function startTimer(chapitreId) {
-    idTimer = Meteor.setInterval(() => {
-        console.log('tentative set')
-    }, 10000);
-    console.log(idTimer)
-    // var testId = 50;
-    Meteor.call('chapitres.timer.set', chapitreId)
-}

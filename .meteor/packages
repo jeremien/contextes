@@ -21,4 +21,5 @@ react-meteor-data
 todda00:collection-revisions
 session
 universe:i18n
-fourseven:scss
+ostrio:cron-jobs
+msavin:sjobs

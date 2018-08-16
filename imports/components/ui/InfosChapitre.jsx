@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types'
+import { Session } from 'meteor/session';
 import { Meteor } from 'meteor/meteor';
-import PropTypes from 'prop-types';
+import { withTracker } from 'meteor/react-meteor-data';
+import { BrowserRouter as Router, Route, Link, Switch }from 'react-router-dom'
 
 import Timer from './Timer'
 
@@ -24,9 +27,6 @@ export default class InfosChapitre extends Component {
                 <p>{this.props.chapitre.description}</p>
                 
                 <ul className="online">
-                {this.props.connexions.map((connexion) => (
-                    <li key={connexion._id}>Utilisateur : {connexion.utilisateur}</li>
-                ))}
                 </ul>
                 <Timer {...this.props} />
                 <p>Temps restant : {this.props.chapitre.timer}</p>

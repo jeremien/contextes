@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-
+import { Session } from 'meteor/session';
+import { Meteor } from 'meteor/meteor';
+import { withTracker } from 'meteor/react-meteor-data';
+import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
 /**
  * Affiche les détails et méta-data liées au docuement passé en props
  */

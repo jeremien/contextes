@@ -16,6 +16,8 @@ import '../imports/api/collections/connexions';
 // import http from 'http';
 import socket_io from 'socket.io';
 
+import './timer'
+
 
 const PORT = 8080;
 //Pas besoin d'initilaiser un serveur avec le module http en plus.
@@ -30,11 +32,14 @@ io.on('connection', function (socket) {
 });
 
 Meteor.methods ({
-  'message.client'(socketId) {
-    // io.sockets.socket(socketId).emit('message', 'un message')
+  'message.client'(socketId, typeMessage, data) {
     // io.socket.broadcast.emit('texte', "test message");
-    // io.sockets.connected[socketId].emit('texte', "test message");
-    // io.socket.to(socketId).emit('texte', "test message");
-    // io.emit('texte', "test broadcast");
+    io.sockets.connected[socketId].emit(typeMessage, data);
+    // io.socket.to(socketId).emit(typeMessage, data);
+    // io.clients[socketId].send(typeMessage);
+  },
+
+  'deconnexion.editeur'() {
+    io.emit('logoutForce')
   }
 })
