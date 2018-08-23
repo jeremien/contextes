@@ -1,0 +1,37 @@
+
+
+// formatage container principal
+
+.container {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.header {
+    // background: rgb(236, 81, 81);
+    // barre commune
+
+}
+
+.index {
+    background: rgb(70, 157, 238);
+    // interface spécifique
+}
+
+.landing {
+    background: rgb(155, 202, 66);
+    // page d'accueil
+}
+
+.login {
+    background: rgb(60, 194, 172);
+    // modal windows
+}
+
+.footer {
+    background: rgb(182, 81, 212);
+    // info commune
+
+}

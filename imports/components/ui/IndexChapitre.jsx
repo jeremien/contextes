@@ -9,6 +9,7 @@ import { Chapitres } from '../../api/collections/chapitres';
 class IndexChapitres extends Component {
 
   render() {
+    // console.log(this.props)
     if (this.props.loading) {
       return (
         <h3>Chargement en cours</h3>
@@ -21,7 +22,7 @@ class IndexChapitres extends Component {
           {this.props.chapitres.map((chapitre) => (
             <li key={chapitre._id}>
               <Link to={`/session/${this.props.sessionId}/chapitre/${chapitre._id}`}>{chapitre.titre}</Link>
-              <button onClick={() => Meteor.call('chapitres.remove', chapitre._id)}>Supprimer le chapitre</button>
+              {!!this.props.connecte && this.props.role === "editeur" ? <button onClick={() => Meteor.call('chapitres.remove', chapitre._id)}>Supprimer le chapitre</button> : undefined}
             </li>
           ))}
         </div>

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Meteor } from 'meteor/meteor';
 
 export default class AjouterDocument extends Component {
+
     handleSubmit(event) {
         event.preventDefault();
         const target = event.target;
@@ -16,11 +17,13 @@ export default class AjouterDocument extends Component {
     }
 
     render() {
+        // console.log('ajouter doc')
         return (
             <div className="ajout-commentaire">
                 <form className="nouveau-commentaire" onSubmit={this.handleSubmit.bind(this)} >
-                    <input
-                        type="text"
+                    <textarea
+                        rows="4"
+                        cols="50"
                         name="contentInput"
                         placeholder="Entrer le nouveau commentaire"
                     />

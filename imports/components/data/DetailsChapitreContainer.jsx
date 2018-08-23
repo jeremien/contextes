@@ -7,7 +7,10 @@ import PropTypes from 'prop-types'
 
 import { Chapitres } from '../../api/collections/chapitres';
 
-import AjouterCommentaire from '../outils/AjouterDocument';
+import AjouterDocument from '../outils/transcripteur/AjouterDocument';
+import CorrectionDocument from '../outils/correcteur/CorrectionDocument';
+
+
 import IndexDocuments from '../ui/IndexDocuments';
 import InfosChapitre from '../ui/InfosChapitre';
 import DetailsChapitre from '../ui/DetailsChapitre';
@@ -33,7 +36,7 @@ class DetailsChapitreContainer extends React.Component {
     componentDidUpdate() {
         if (this.props.connecte && this.props.chapitreExists) {
             Meteor.call('connexions.chapitre', this.props.userId, this.props.chapitre.session, this.props.chapitre._id);
-            console.log('connexion')
+            // console.log('connexion')
         }
     };
 
@@ -42,15 +45,19 @@ class DetailsChapitreContainer extends React.Component {
             case 'transcripteur':
                 return {
                     outilgauche: <InfosChapitre {...propToPass} />,
-                    outildroit: <AjouterCommentaire {...propToPass} />,
+                    outildroit: <AjouterDocument {...propToPass} />
                 }
                 break;
             case 'correcteur':
-            case 'conformateur':
+                return {
+                    outilgauche: <InfosChapitre {...propToPass} />,
+                    outildroit: <CorrectionDocument {...propToPass} />
+                }
+            // case 'conformateur':
             case 'editeur':
                 return {
                     outilgauche: <InfosChapitre {...propToPass} />,
-                    outildroit: <IndexDocuments {...propToPass} />,
+                    outildroit: <IndexDocuments {...propToPass} />
                 }
                 break;
             default:

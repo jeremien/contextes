@@ -1,0 +1,2 @@
+DetailsChapitreContainer :
+    gestion des outils

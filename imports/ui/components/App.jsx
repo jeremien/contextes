@@ -63,6 +63,7 @@ class App extends Component {
   }
 
   render() {
+    console.log('app2')
     console.log(this.props.socket.id)
     return (
       <Router>

@@ -4,22 +4,27 @@ import {Link} from 'react-router-dom'
 export default class TopBar extends Component {
   render() {
     return (
-      <div className="topbar">
-        <h1>DDRcontexte</h1>
-        <Link to="/">Home</Link>
-        <Link to="/test">Test</Link>
-        <br />
+      <nav className="topbar-container" >
+        <ul >
+        <li className="topbar--titre"> <Link to="/sessions"> Index des Sessions </Link> </li>
+        {/* <Link to="/">Home</Link> */}
+        {/* <Link to="/test">Test</Link> */}
+        
         {!!this.props.connecte ?
-          <div>
-            <p>Bienvenue, {this.props.utilisateur}. Vous êtes connecté en tant que {this.props.role}</p>
+
+          <li className="topbar--login">
+            
+            Bienvenue, {this.props.utilisateur}. Vous êtes connecté en tant que {this.props.role}
+            
             <LogOut {...this.props} />
-          </div>
+          </li>
           :
-          <div>
-            <li><Link to="/login">Login</Link></li>
-          </div>
+          <li className="topbar--logout">
+            <Link to="/login">Login</Link>
+          </li>
         }
-      </div>
+        </ul>
+      </nav>
     )
   }
 }

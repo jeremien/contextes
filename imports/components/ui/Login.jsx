@@ -41,7 +41,7 @@ class Login extends React.Component {
                 <select value={this.state.role} onChange={this.handleChange.bind(this)}>
                     <option value="transcripteur">Transcripteur</option>
                     <option value="correcteur">Correcteur</option>
-                    <option value="conformateur">Conformateur</option>
+                    {/* <option value="conformateur">Conformateur</option> */}
                     {/* {this.renderEditeur.bind(this)} */}
                     {(this.props.connexions.length == 0) &&
                         <option value="editeur">Éditeur</option>

@@ -73,9 +73,10 @@ export default class Timer extends Component {
     render() {
         return (
             <div className="timer">
-                <h3>timer</h3>
+               
                 {this.props.role == "editeur" &&
                     <div className="timer">
+                        <h3>timer</h3>
                         <button className="start-timer" onClick={() => { this.startTimer(this.props.chapitre._id, 120) }}>Démarrer le timer</button>
                         <button className="start-timer" onClick={this.stopTimer}>Arreter le timer</button>
                         <input
@@ -87,11 +88,11 @@ export default class Timer extends Component {
                         />
                     </div>
                 }
-                {this.props.role == "transcripteur" &&
+                {/* {this.props.role == "transcripteur" &&
                     <div>
                         transcripteur
                     </div>
-                }
+                } */}
             </div>
         )
     }

@@ -21,15 +21,15 @@ export default class InfosChapitre extends Component {
     };
 
     render() {
+        // console.log(this.props)
         return (
             <div className="infos-chapitre">
                 <h3 className="titre">Chapitre : {this.props.chapitre.titre}</h3>
                 <p>{this.props.chapitre.description}</p>
-                
-                <ul className="online">
-                </ul>
+
+                {!!this.props.connecte && this.props.role === "editeur" || this.props.role === "transcripteur" ? <p>Temps de transcription restant : {this.props.chapitre.timer}</p> : undefined}
+
                 <Timer {...this.props} />
-                <p>Temps restant : {this.props.chapitre.timer}</p>
 
             </div>
         )

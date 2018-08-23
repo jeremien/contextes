@@ -18,7 +18,8 @@ export default class InfosChapitre extends Component {
     render() {
         return (
             <div>
-                <h1>Landing page</h1>
+                <h1>DDR Contexte</h1>
+                <p> introduction </p>
                 <Link to="/sessions">Index des sessions</Link>
             </div>
         )

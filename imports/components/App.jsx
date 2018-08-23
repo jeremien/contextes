@@ -22,7 +22,7 @@ import TestAPI from './ui/TestAPI';
 import DetailsChapitreContainer from './data/DetailsChapitreContainer';
 import TopBar from './ui/TopBar'
 
-import '../stylesheets/main'
+// import '../stylesheets/main'
 import IndexSessionsContainer from './data/IndexSessionsContainer';
 
 /**
@@ -67,23 +67,31 @@ class App extends Component {
   }
 
   render() {
+    // console.log('app')
     const { role, utilisateur, ...rest } = this.props.connexion
     const propsToPass = { connecte: this.props.connecte, userId: this.props.connexion._id, role: role || "", utilisateur: utilisateur || "", socketId: this.props.socket.id }
     return (
       <Router>
-        <div className="main">
+        <div className="container">
           <div className="header">
             <Route path="/" render={(props) => <TopBar {...props} {...propsToPass} />} />
           </div>
-          <hr />
+          
           <div className="index">
             <Route path="/sessions" render={(props) => <IndexSessionsContainer {...props} {...propsToPass} />} />
             <Route path="/session/:idSession/chapitre/:idChapitre" render={(props) => <DetailsChapitreContainer {...props} {...propsToPass} />} />
           </div>
-          <hr />
-          <Route exact path="/" render={(props) => <LandingPage {...props} {...propsToPass} />} />
-          <Route path="/login" render={(props) => <Login {...props} {...propsToPass} />} />
-          <Route path="/test" render={(props) => <TestAPI {...props} {...propsToPass} />} />
+          
+          <div className="landing">
+            <Route exact path="/" render={(props) => <LandingPage {...props} {...propsToPass} />} />
+          </div>  
+          <div className="login">
+            <Route path="/login" render={(props) => <Login {...props} {...propsToPass} />} /> 
+          </div>
+                    {/* <Route path="/test" render={(props) => <TestAPI {...props} {...propsToPass} />} /> */}
+          <div className="footer">
+            <p>information</p>
+          </div>
         </div>
       </Router>
     )

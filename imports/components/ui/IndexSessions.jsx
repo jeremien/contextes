@@ -26,21 +26,24 @@ export default class IndexSessions extends Component {
 
     renderSesssions() {
         let sessionsFiltrees = this.props.sessions;
-        console.log(sessionsFiltrees)
+        // console.log(sessionsFiltrees)
         if (this.state.toggleSession) {
             sessionsFiltrees = sessionsFiltrees.filter((session) => { return (session.etat == "archivee") })
         }
         else {
             sessionsFiltrees = sessionsFiltrees.filter((session) => { return !(session.etat == "archivee") })
         }
-        console.log(sessionsFiltrees)
-        return sessionsFiltrees.map((session) => (
-            <div key={session._id}>
+        // console.log(sessionsFiltrees)
+        return sessionsFiltrees.map((session, key) => (
+            <div key={key}>
                 <Link to={`/sessions/${session._id}`}>
                     {session.titre}
                 </Link>
+                
                 ({session.etat})
-                <button onClick={() => Meteor.call('sessions.remove', session._id)}>Supprimer la session</button>
+
+                {!!this.props.connecte && this.props.role === "editeur" ? <button onClick={() => Meteor.call('sessions.remove', session._id)}>Supprimer la session</button> : undefined }
+                
                 <br />
             </div>
         ))
@@ -48,21 +51,24 @@ export default class IndexSessions extends Component {
 
     handleChange(event) {
         event.preventDefault();
-        console.log(event.target)
+        // console.log(event.target)
         const prevState = this.state.toggleSession;
         this.setState({ toggleSession: !prevState })
     }
     render() {
+        // console.log(this.props.role);
         //Conflit avec les props passées par la route sans déconstruction. Trouver une solution plus propre
         var { match, path, ...rest } = this.props
         return (
             <div className="index-sessions">
                 <div className="index-sessions-gauche">
+
                     <div className="action-session">
                         {this.props.action}
                     </div>
-                    <hr />
+
                     <div className="liste-sessions">
+                        <h1>liste des sessions</h1>
                         <label className="hide-archivee">
                             <input type="checkbox" value={this.state.toggleSession} readOnly onClick={this.handleChange.bind(this)} />
                             Afficher les sessions archivées {this.state.toggleSession}
@@ -77,7 +83,7 @@ export default class IndexSessions extends Component {
                         {this.renderSesssions()}
                     </div>
                 </div>
-                <hr />
+
                 <div className="index-sessions-droite">
                     <Route path="/sessions/:sessionId" render={(props) => <DetailsSession {...props} {...rest} />} />
                 </div>

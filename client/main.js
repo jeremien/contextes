@@ -18,11 +18,11 @@ Meteor.startup(() => {
   let socket = require('socket.io-client')(`http://localhost:${PORT}`);
 
   socket.on('connect', function () {
-    console.log('Client connected');
+    // console.log('Client connected');
     render( < App socket={socket} /> , document.getElementById('root'))
   });
   socket.on('disconnect', function () {
-    console.log('Client disconnected');
+    // console.log('Client disconnected');
   });
   socket.on('texte', function(data) {
     console.log(data)

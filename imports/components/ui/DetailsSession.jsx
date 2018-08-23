@@ -26,11 +26,11 @@ class DetailsSession extends React.Component {
                     {(!!this.props.connecte && this.props.role == "editeur") ?
                         <TableauDeBord session={this.props.session} />
                         :
-                        <h2>Choisir un chapitre à consulter</h2>
+                        undefined
                     }
                     <br />
                     <br />
-                    <IndexChapitre sessionId={this.props.session._id} />
+                    <IndexChapitre sessionId={this.props.session._id} role={this.props.role} connecte={this.props.connecte} />
 
                 </div>
             )
