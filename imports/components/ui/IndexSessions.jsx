@@ -60,8 +60,8 @@ export default class IndexSessions extends Component {
         //Conflit avec les props passées par la route sans déconstruction. Trouver une solution plus propre
         var { match, path, ...rest } = this.props
         return (
-            <div className="index-sessions">
-                <div className="index-sessions-gauche">
+            <div className="container-index-session">
+                <div className="index-session-gauche">
 
                     <div className="action-session">
                         {this.props.action}
@@ -84,7 +84,7 @@ export default class IndexSessions extends Component {
                     </div>
                 </div>
 
-                <div className="index-sessions-droite">
+                <div className="index-session-droit">
                     <Route path="/sessions/:sessionId" render={(props) => <DetailsSession {...props} {...rest} />} />
                 </div>
             </div>

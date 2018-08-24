@@ -32,7 +32,7 @@ class TableauDeBord extends React.Component {
         else {
             return (
                 <div className="tableau-de-bord">
-                    <h2>{this.props.session.titre} : tableau de bord</h2>
+                    <h2>tableau de bord pour {this.props.session.titre}</h2>
                     <h3>Etat de la session</h3>
                     {/* <fieldset onChange={(event) => { console.log(event.target.value) }}> */}
                     <fieldset onChange={this.handleEtat.bind(this)}>

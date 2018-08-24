@@ -17,6 +17,9 @@ export default class DetailsDocument extends Component {
   };
 
   render() {
+    
+    // console.log(this.props)
+
     return (
       <ul className="details-document">
         <li>À {this.props.document.creation.toLocaleTimeString()} par {this.props.document.auteur} : </li>

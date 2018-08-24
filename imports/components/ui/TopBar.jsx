@@ -12,14 +12,15 @@ export default class TopBar extends Component {
         
         {!!this.props.connecte ?
 
-          <li className="topbar--login">
+          <li className="topbar--logout">
             
-            Bienvenue, {this.props.utilisateur}. Vous êtes connecté en tant que {this.props.role}
+            Bienvenue, {this.props.utilisateur}. Vous êtes {this.props.role}
             
             <LogOut {...this.props} />
+
           </li>
           :
-          <li className="topbar--logout">
+          <li className="topbar--login">
             <Link to="/login">Login</Link>
           </li>
         }
