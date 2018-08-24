@@ -8,6 +8,8 @@ import { Chapitres } from '../../api/collections/chapitres'
 
 import AjouterChapitre from '../outils/editeur/AjouterChapitre';
 
+import InfosSessions from './InfosSession';
+
 class TableauDeBord extends React.Component {
     state = {
         etat: this.props.session.etat,
@@ -23,6 +25,7 @@ class TableauDeBord extends React.Component {
     }
 
     render() {
+        // console.log(this.props)
         if (this.props.loading) {
             return (
                 <h3>Chargement en cours</h3>
@@ -33,11 +36,16 @@ class TableauDeBord extends React.Component {
             return (
                 <div className="tableau-de-bord">
                     <h2>tableau de bord pour {this.props.session.titre}</h2>
+                    
+                    <h3>Informations</h3>
+
+                    <InfosSessions session={this.props.session} />
+
                     <h3>Etat de la session</h3>
                     {/* <fieldset onChange={(event) => { console.log(event.target.value) }}> */}
                     <fieldset onChange={this.handleEtat.bind(this)}>
                         <div>
-                            <input type="radio" value="edition" name="etat" />
+                            <input type="radio" value="edition" name="etat" checked={true}/>
                             <label>éditer</label>
                         </div>
 

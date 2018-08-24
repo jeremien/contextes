@@ -54,7 +54,7 @@ export default class AjouterChapitre extends Component {
                         rows="4"
                         cols="50"
                         form="ajout-session"
-                        placeholder="Une bref description de la session"
+                        placeholder="Une bref description du chapitre"
                         value={this.state.description}
                         onChange={this.handleChange.bind(this)}
                     >

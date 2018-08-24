@@ -8,18 +8,24 @@ import { BrowserRouter as Router, Route, Link, Switch }from 'react-router-dom'
  * La session en question doit être passée directement en props
  */
 export default class InfosSession extends Component {
-    static propTypes = {
-        session: PropTypes.isRequired,
-    };
+    // static propTypes = {
+    //     session: PropTypes.isRequired,
+    // };
 
-    static defaultProps = {
-        session: {},
-    };
+    // static defaultProps = {
+    //     session: {},
+    // };
 
     render() {
+        console.log(this.props.session)
         return (
             <div>
-                <h3>Une session détaillé</h3>
+                
+                <p>auteur : {this.props.session.auteur}</p>
+                <p>date de création : {this.props.session.creation.toLocaleDateString()}</p>
+                <p>dernière modification : {this.props.session.lastModified.toLocaleDateString()}</p>
+                <p>description : {this.props.session.description}</p>
+
             </div>
         )
     }
