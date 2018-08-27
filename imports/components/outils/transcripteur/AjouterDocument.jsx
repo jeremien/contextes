@@ -40,7 +40,7 @@ export default class AjouterDocument extends Component {
 
     render() {
         // console.log('ajouter doc')
-        console.log(this.props);
+        // console.log(this.props);
 
         const { open } = this.state;
         

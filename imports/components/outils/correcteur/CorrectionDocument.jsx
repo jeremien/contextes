@@ -4,7 +4,7 @@ import { withTracker } from 'meteor/react-meteor-data';
 
 import { Documents } from '../../../api/collections/documents';
 
-import detailsDocumentsCorrecteur from './detailsDocumentsCorrecteur';
+import DetailsDocumentsCorrecteur from './DetailsDocumentsCorrecteur';
 
 class CorrectionDocument extends Component {
 
@@ -22,7 +22,7 @@ class CorrectionDocument extends Component {
                     
                     {this.props.documents.map((document) => 
                 
-                        <IndexDocumentsCorrecteur key={document._id} document={document} />
+                        <DetailsDocumentsCorrecteur key={document._id} document={document} />
                     )}
 
                     

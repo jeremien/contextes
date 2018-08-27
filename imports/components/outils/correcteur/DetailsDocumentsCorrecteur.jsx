@@ -3,10 +3,11 @@ import { Meteor } from 'meteor/meteor';
 import { Link } from 'react-router-dom'
 import Modal from 'react-responsive-modal';
 
-export default class detailsDocumentsCorrecteur extends Component {
+export default class DetailsDocumentsCorrecteur extends Component {
 
     state = {
         open : false,
+        revised : false
     };
 
     onOpenModal = () => {
@@ -17,7 +18,8 @@ export default class detailsDocumentsCorrecteur extends Component {
 
     onCloseModal = () => {
         this.setState({
-            open : false
+            open : false,
+            revised : true
         })
 
         // update texte corrigé
@@ -35,6 +37,8 @@ export default class detailsDocumentsCorrecteur extends Component {
 
                 <li>
                     <p>créé à {this.props.document.creation.toLocaleTimeString()} par {this.props.document.auteur} <button onClick={this.onOpenModal}>Corriger</button> </p>
+
+                    {this.state.revised ? <p>document corrigé</p> : undefined}
 
                     <Modal open={open} onClose={this.onCloseModal} >
                         <textarea name="correction" cols="30" rows="10">
