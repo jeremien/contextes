@@ -10,6 +10,8 @@ import AjouterChapitre from '../outils/editeur/AjouterChapitre';
 
 import InfosSessions from './InfosSession';
 
+// TODO: bouton radio check 
+
 class TableauDeBord extends React.Component {
     state = {
         etat: this.props.session.etat,
@@ -45,7 +47,7 @@ class TableauDeBord extends React.Component {
                     {/* <fieldset onChange={(event) => { console.log(event.target.value) }}> */}
                     <fieldset onChange={this.handleEtat.bind(this)}>
                         <div>
-                            <input type="radio" value="edition" name="etat" checked={true}/>
+                            <input type="radio" value="edition" name="etat"/>
                             <label>éditer</label>
                         </div>
 

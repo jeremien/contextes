@@ -8,7 +8,7 @@ import { Connexions } from '../../api/collections/connexions'
 class Login extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { role: Session.get('role') || 'editeur' };
+        this.state = { role: Session.get('role') || 'transcripteur' };
     }
 
     handleSubmit(event) {
@@ -36,7 +36,8 @@ class Login extends React.Component {
     render() {
         
         // if (this.props.connexions.length =)
-        // console.log(this.props.connexions.length)
+        console.log(this.props.connexions.length)
+        console.log(this.props.connexions)
 
         return (
             <form className="login" onSubmit={this.handleSubmit.bind(this)}>
