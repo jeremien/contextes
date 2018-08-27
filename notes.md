@@ -56,6 +56,8 @@ idées :
         sinon index
         merger des documents sélectionnés > nouveau doc ?
 
+        création d'un nouveau chapitre message à tous > basculer sur nouveau chapitre > système de notification
+
     Photographe :
         que mobile > ajout de photo à organiser ensuite ?
 

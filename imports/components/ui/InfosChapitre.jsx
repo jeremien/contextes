@@ -30,6 +30,7 @@ export default class InfosChapitre extends Component {
 
                 <p>nombre de documents : </p>
                 <p>nombre de documents corrigés : </p>
+                <p>tags à utiliser : </p>
 
 
                 {!!this.props.connecte && this.props.role === "editeur" || this.props.role === "transcripteur" ? <p>Temps de transcription restant : {this.props.chapitre.timer}</p> : undefined}
