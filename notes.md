@@ -1,3 +1,11 @@
+--------------------
+
+bug avec babel > maj lors de l'installation via npm > supprimer @babel dans node_module et reinstallation meteor npm install
+react modal > > erreur warning module babel ?
+
+--------------------
+
+
 DetailsChapitreContainer :
     gestion des outils
 
@@ -46,6 +54,7 @@ idées :
     Editeur :
         creation d'une session > bouton pour afficher le formulaire
         sinon index
+        merger des documents sélectionnés > nouveau doc ?
 
     Photographe :
         que mobile > ajout de photo à organiser ensuite ?

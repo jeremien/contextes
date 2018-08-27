@@ -39,6 +39,9 @@ class ConnexionsCourantes extends Component {
 
             return (
                 <div className="connexions">
+
+                    <h3>Personnes connectées</h3>
+
                     {this.props.connexions.map((connexion) => (
     
                             <li key={connexion._id}>

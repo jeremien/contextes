@@ -19,7 +19,7 @@ shell-server@0.3.1            # Server-side component of the `meteor shell` comm
 
 react-meteor-data
 todda00:collection-revisions
-session
+session@1.1.7
 universe:i18n
 ostrio:cron-jobs
 msavin:sjobs

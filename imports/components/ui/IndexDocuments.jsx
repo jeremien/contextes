@@ -11,15 +11,32 @@ import DetailsDocument from './DetailsDocument';
 class IndexDocuments extends Component {
 
   render() {
-    return (
-      <div className="index-documents">
-        <h3>Liste des documents</h3>
-        {this.props.documents.map((document) =>
-        <DetailsDocument key={document._id} document={document} />
-        )}
-      </div>
 
-    );
+    // console.log(this.props.documents)
+
+    if (this.props.documents != 0) {
+
+      return (
+        <div className="index-documents">
+          <h3>Liste des documents</h3>
+          {this.props.documents.map((document) =>
+          <DetailsDocument key={document._id} document={document} />
+          )}
+        </div>
+  
+      );
+
+    } else {
+
+      return (
+        <div>
+          <h3>pas de documents</h3>
+        </div>
+      )
+
+    }
+
+    
   }
 }
 

@@ -4,24 +4,43 @@ import { withTracker } from 'meteor/react-meteor-data';
 
 import { Documents } from '../../../api/collections/documents';
 
-import IndexDocumentsCorrecteur from './IndexDocumentsCorrecteur';
+import detailsDocumentsCorrecteur from './detailsDocumentsCorrecteur';
 
 class CorrectionDocument extends Component {
 
     render() {
 
-        // console.log(this.props.documents)
+        // console.log(this.props.documents.length)
+        // console.log('outils droits')
 
-        return (
-            <div>
-                
-                {this.props.documents.map((document) => 
-                    <IndexDocumentsCorrecteur key={document._id} document={document} />
-                )}
+        if (this.props.documents.length != 0) {
 
+            return (
+                <div className="index-documents">
+
+                    <h3>Liste des documents</h3>
+                    
+                    {this.props.documents.map((document) => 
                 
-            </div>
-        )
+                        <IndexDocumentsCorrecteur key={document._id} document={document} />
+                    )}
+
+                    
+                </div>
+            )
+
+        } else {
+
+            return (
+
+                <div>
+                    <h3>Pas encore de documents créés </h3>
+                </div>
+
+            )
+
+        }
+
 
     }
 

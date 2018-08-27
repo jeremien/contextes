@@ -22,10 +22,15 @@ export default class InfosChapitre extends Component {
 
     render() {
         // console.log(this.props)
+        // console.log('outils gauche');
         return (
             <div className="infos-chapitre">
                 <h3 className="titre">Chapitre : {this.props.chapitre.titre}</h3>
-                <p>{this.props.chapitre.description}</p>
+                <p>description : {this.props.chapitre.description}</p>
+
+                <p>nombre de documents : </p>
+                <p>nombre de documents corrigés : </p>
+
 
                 {!!this.props.connecte && this.props.role === "editeur" || this.props.role === "transcripteur" ? <p>Temps de transcription restant : {this.props.chapitre.timer}</p> : undefined}
 

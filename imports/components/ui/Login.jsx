@@ -36,8 +36,8 @@ class Login extends React.Component {
     render() {
         
         // if (this.props.connexions.length =)
-        console.log(this.props.connexions.length)
-        console.log(this.props.connexions)
+        // console.log(this.props.connexions.length)
+        // console.log(this.props.connexions)
 
         return (
             <form className="login" onSubmit={this.handleSubmit.bind(this)}>

@@ -8,6 +8,7 @@ import PropTypes from 'prop-types'
 import { Chapitres } from '../../api/collections/chapitres';
 
 import AjouterDocument from '../outils/transcripteur/AjouterDocument';
+
 import CorrectionDocument from '../outils/correcteur/CorrectionDocument';
 
 
@@ -61,7 +62,7 @@ class DetailsChapitreContainer extends React.Component {
                 }
                 break;
             default:
-                return <h2>Pas d'outil</h2>
+                return <h2>Pas d'outils</h2>
         }
     }
 

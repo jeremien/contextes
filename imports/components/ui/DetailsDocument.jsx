@@ -22,7 +22,7 @@ export default class DetailsDocument extends Component {
 
     return (
       <ul className="details-document">
-        <li>À {this.props.document.creation.toLocaleTimeString()} par {this.props.document.auteur} : </li>
+        <li>Créé à {this.props.document.creation.toLocaleTimeString()} par {this.props.document.auteur}, corrigé à ? par ? : </li>
         <p>{this.props.document.contenu}</p>
         <br />
         <button onClick={() => Meteor.call('documents.remove', this.props.document._id)}>Supprimer le document</button>

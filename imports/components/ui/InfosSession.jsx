@@ -17,7 +17,7 @@ export default class InfosSession extends Component {
     // };
 
     render() {
-        console.log(this.props.session)
+        // console.log(this.props.session)
         return (
             <div>
                 

@@ -76,7 +76,7 @@ export default class Timer extends Component {
                
                 {this.props.role == "editeur" &&
                     <div className="timer">
-                        <h3>timer</h3>
+                        <h3>Options du timer</h3>
                         <button className="start-timer" onClick={() => { this.startTimer(this.props.chapitre._id, 120) }}>Démarrer le timer</button>
                         <button className="start-timer" onClick={this.stopTimer}>Arreter le timer</button>
                         <input

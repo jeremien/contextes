@@ -90,7 +90,7 @@ class App extends Component {
           </div>
                     {/* <Route path="/test" render={(props) => <TestAPI {...props} {...propsToPass} />} /> */}
           <div className="footer">
-            <p>information</p>
+            {/* <p>information</p> */}
           </div>
         </div>
       </Router>
