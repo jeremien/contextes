@@ -17,6 +17,7 @@ export default class AjouterDocument extends Component {
         // console.log(commentaire, auteur, session, chapitre)
 
         Meteor.call('documents.insert', session, chapitre, commentaire, auteur)
+        event.target.reset();
     }
 
     handleChange(event) {
