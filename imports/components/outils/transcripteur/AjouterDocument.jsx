@@ -25,9 +25,6 @@ export default class AjouterDocument extends Component {
     }
 
     render() {
-        // console.log('ajouter doc')
-        console.log(this.props);
-
         return (
             <div className="ajout-commentaire">
                 <form className="nouveau-commentaire" onSubmit={this.handleSubmit.bind(this)} >

@@ -40,6 +40,7 @@ Meteor.methods({
     // },
 
     'connexions.chapitre' (utilisateur, session, chapitre) {
+        console.log('connexion chap')
         Connexions.update({
             _id: utilisateur
         }, {
@@ -78,6 +79,7 @@ Meteor.methods({
     },
 
     'connexions.online' (utilisateur) {
+        console.log('online')
         Connexions.update({
             _id: utilisateur
         }, {
@@ -88,6 +90,7 @@ Meteor.methods({
     },
 
     'connexions.offline' (utilisateur) {
+        console.log('offline')
         Connexions.update({
             _id: utilisateur
         }, {

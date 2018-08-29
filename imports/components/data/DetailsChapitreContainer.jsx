@@ -29,17 +29,6 @@ class DetailsChapitreContainer extends React.Component {
         role: ""
     }
 
-    componentWillUnmount() {
-        // Meteor.call('deconnection.chapitre', this.props.userId);
-    };
-
-    //Méthode à changer avec willMount/update selon l'endroit où sera définie la route
-    componentWillMount() {
-        if (this.props.connecte && this.props.chapitreExists) {
-            Meteor.call('connexions.chapitre', this.props.userId, this.props.chapitre.session, this.props.chapitre._id);
-        }
-    };
-
     getOutils(propToPass) {
         switch (this.props.role) {
             case 'transcripteur':

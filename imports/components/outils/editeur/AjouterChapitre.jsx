@@ -32,7 +32,7 @@ export default class AjouterChapitre extends Component {
         if (titre && this.state.description) {
             Meteor.call('chapitres.insert', session, titre, auteur, this.state.value, duree, this.state.tags)
             target.reset();
-            this.setState({ tgas: [], tagCourant: "" })
+            this.setState({ tags: [], tagCourant: "" })
         }
         else {
             alert('Remplissez tous les champs')
