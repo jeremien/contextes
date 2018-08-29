@@ -7,7 +7,8 @@ export default class DetailsDocumentsCorrecteur extends Component {
 
     state = {
         open : false,
-        revised : false
+        revised : false,
+        contenu: this.props.document.contenu,
     };
 
     onOpenModal = () => {
@@ -21,8 +22,13 @@ export default class DetailsDocumentsCorrecteur extends Component {
             open : false,
             revised : true
         })
-
         // update texte corrigé
+        Meteor.call('documents.update', this.props.document._id, this.state.contenu, this.props.utilisateur)
+    }
+
+
+    handleChange(event) {
+        this.setState({ contenu: event.target.value })
     }
 
     render() {
@@ -41,10 +47,7 @@ export default class DetailsDocumentsCorrecteur extends Component {
                     {this.state.revised ? <p>document corrigé</p> : undefined}
 
                     <Modal open={open} onClose={this.onCloseModal} >
-                        <textarea name="correction" cols="30" rows="10">
-
-                            {this.props.document.contenu}
-                        
+                        <textarea name="correction" cols="30" rows="10" value={this.state.contenu} onChange={this.handleChange.bind(this)}>                        
                         </textarea>
                     </Modal>
                     
