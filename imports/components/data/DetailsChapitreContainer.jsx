@@ -8,9 +8,8 @@ import PropTypes from 'prop-types'
 import { Chapitres } from '../../api/collections/chapitres';
 
 import AjouterDocument from '../outils/transcripteur/AjouterDocument';
-
 import CorrectionDocument from '../outils/correcteur/CorrectionDocument';
-
+import DetailsDocumentsConformateur from '../outils/conformateur/DetailsDocumentsConformateur';
 
 import IndexDocuments from '../ui/IndexDocuments';
 import InfosChapitre from '../ui/InfosChapitre';
@@ -54,7 +53,12 @@ class DetailsChapitreContainer extends React.Component {
                     outilgauche: <InfosChapitre {...propToPass} />,
                     outildroit: <CorrectionDocument {...propToPass} />
                 }
-            // case 'conformateur':
+                break;
+            case 'conformateur':
+            return {
+                outilgauche: <InfosChapitre {...propToPass} />,
+                    outildroit: <DetailsDocumentsConformateur {...propToPass} />
+            }
             case 'editeur':
                 return {
                     outilgauche: <InfosChapitre {...propToPass} />,
