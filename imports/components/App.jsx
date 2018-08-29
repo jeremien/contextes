@@ -63,7 +63,7 @@ class App extends Component {
   }
 
   handleLeavePage() {
-    Meteor.call('connexions.statut.offline', this.props.connexion._id)
+    Meteor.call('connexions.offline', this.props.connexion._id)
   }
 
   render() {

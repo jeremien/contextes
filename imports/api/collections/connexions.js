@@ -87,7 +87,7 @@ Meteor.methods({
         })
     },
 
-    'connexions.statut.offline' (utilisateur) {
+    'connexions.offline' (utilisateur) {
         Connexions.update({
             _id: utilisateur
         }, {

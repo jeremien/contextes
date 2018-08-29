@@ -16,7 +16,7 @@ class DetailsSession extends React.Component {
     };
 
     componentWillUnmount() {
-        Meteor.call('sessions.deconnexion', this.props.utilisateur);
+        // Meteor.call('sessions.deconnexion', this.props.utilisateur);
     }
 
     render() {

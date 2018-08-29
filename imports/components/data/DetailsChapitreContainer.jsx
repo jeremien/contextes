@@ -30,7 +30,7 @@ class DetailsChapitreContainer extends React.Component {
     }
 
     componentWillUnmount() {
-        Meteor.call('deconnection.chapitre', this.props.userId);
+        // Meteor.call('deconnection.chapitre', this.props.userId);
     };
 
     //Méthode à changer avec willMount/update selon l'endroit où sera définie la route
