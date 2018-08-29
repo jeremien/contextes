@@ -34,10 +34,9 @@ class DetailsChapitreContainer extends React.Component {
     };
 
     //Méthode à changer avec willMount/update selon l'endroit où sera définie la route
-    componentDidUpdate() {
+    componentWillMount() {
         if (this.props.connecte && this.props.chapitreExists) {
             Meteor.call('connexions.chapitre', this.props.userId, this.props.chapitre.session, this.props.chapitre._id);
-            // console.log('connexion')
         }
     };
 

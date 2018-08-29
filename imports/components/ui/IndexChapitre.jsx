@@ -9,7 +9,6 @@ import { Chapitres } from '../../api/collections/chapitres';
 class IndexChapitres extends Component {
 
   render() {
-    // console.log(this.props)
     if (this.props.loading) {
       return (
         <h3>Chargement en cours</h3>

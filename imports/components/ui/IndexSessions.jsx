@@ -39,11 +39,11 @@ export default class IndexSessions extends Component {
                 <Link to={`/sessions/${session._id}`}>
                     {session.titre}
                 </Link>
-                
+
                 ({session.etat})
 
-                {!!this.props.connecte && this.props.role === "editeur" ? <button onClick={() => Meteor.call('sessions.remove', session._id)}>Supprimer la session</button> : undefined }
-                
+                {!!this.props.connecte && this.props.role === "editeur" ? <button onClick={() => Meteor.call('sessions.remove', session._id)}>Supprimer la session</button> : undefined}
+
                 <br />
             </div>
         ))
@@ -70,7 +70,12 @@ export default class IndexSessions extends Component {
                     <div className="liste-sessions">
                         <h1>liste des sessions</h1>
                         <label className="hide-archivee">
-                            <input type="checkbox" value={this.state.toggleSession} readOnly onClick={this.handleChange.bind(this)} />
+                            <input
+                                type="checkbox"
+                                value={this.state.toggleSession}
+                                readOnly
+                                onClick={this.handleChange.bind(this)}
+                            />
                             Afficher les sessions archivées {this.state.toggleSession}
                         </label>
                         {/* <label className="hide-archivee">

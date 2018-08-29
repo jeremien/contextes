@@ -22,7 +22,6 @@ import TestAPI from './ui/TestAPI';
 import DetailsChapitreContainer from './data/DetailsChapitreContainer';
 import TopBar from './ui/TopBar'
 
-// import '../stylesheets/main'
 import IndexSessionsContainer from './data/IndexSessionsContainer';
 
 /**

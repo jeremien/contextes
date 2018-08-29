@@ -42,10 +42,7 @@ export default class Timer extends Component {
      */
     startTimer() {
         if (!this.state.timer) {
-            // const idTimer = this.props.cron.setInterval(Meteor.call('chapitres.timer.update', this.props.chapitre._id, this.props.chapitre.duree_boucle), 1000, 'startTimer')
-            // Meteor.call('chapitres.timer.set', this.props.chapitre._id, idTimer)
             Meteor.call('timer.start', this.props.chapitre)
-            // Jobs.run("startTimer", this.props.chapitre);
             this.setState({ timer: true })
         }
 
@@ -53,7 +50,6 @@ export default class Timer extends Component {
     }
 
     stopTimer() {
-        // Meteor.call('stop.timer', this.props.chapitre._id, this.props.chapitre.id_timer)
         Meteor.call('timer.stop', this.props.chapitre)
         this.setState({ timer: false })
     }
@@ -92,11 +88,6 @@ export default class Timer extends Component {
                         
                     </div>
                 }
-                {/* {this.props.role == "transcripteur" &&
-                    <div>
-                        <p>{this.props.chapitre.timer}</p>
-                    </div>
-                } */}
             </div>
         )
     }

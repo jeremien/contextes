@@ -21,13 +21,10 @@ class TableauDeBord extends React.Component {
 
     handleEtat(event) {
         event.preventDefault();
-        // console.log(event.target.value)
-        // this.setState({etat: etat});
         Meteor.call('sessions.etat.update', this.props.session._id, event.target.value)
     }
 
     render() {
-        // console.log(this.props)
         if (this.props.loading) {
             return (
                 <h3>Chargement en cours</h3>

@@ -28,16 +28,16 @@ Meteor.methods({
         return id
     },
 
-    'connexions.session' (utilisateur, session) {
-        Connexions.update({
-            _id: utilisateur
-        }, {
-            $set: {
-                session: session,
-                online: true,
-            }
-        })
-    },
+    // 'connexions.session' (utilisateur, session) {
+    //     Connexions.update({
+    //         _id: utilisateur
+    //     }, {
+    //         $set: {
+    //             session: session,
+    //             online: true,
+    //         }
+    //     })
+    // },
 
     'connexions.chapitre' (utilisateur, session, chapitre) {
         Connexions.update({
@@ -51,25 +51,25 @@ Meteor.methods({
         })
     },
 
-    'deconnection.session' (utilisateur) {
-        Connexions.update({
-            _id: utilisateur
-        }, {
-            $set: {
-                online: false
-            }
-        })
-    },
+    // 'deconnection.session' (utilisateur) {
+    //     Connexions.update({
+    //         _id: utilisateur
+    //     }, {
+    //         $set: {
+    //             online: false
+    //         }
+    //     })
+    // },
 
-    'deconnection.chapitre' (utilisateur) {
-        Connexions.update({
-            _id: utilisateur
-        }, {
-            $set: {
-                online: false,
-            }
-        })
-    },
+    // 'deconnection.chapitre' (utilisateur) {
+    //     Connexions.update({
+    //         _id: utilisateur
+    //     }, {
+    //         $set: {
+    //             online: false,
+    //         }
+    //     })
+    // },
 
     'connexions.remove' (utilisateur) {
         Connexions.remove({
