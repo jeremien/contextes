@@ -52,7 +52,7 @@ class App extends Component {
   }
 
   componentWillUnmount() {
-    window.removeEventListener('beforeunload', this.handleLeavePage);
+    // window.removeEventListener('beforeunload', this.handleLeavePage);
   }
 
   logoutForce() {

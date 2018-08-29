@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import { Chapitres } from '../../api/collections/chapitres';
+import { Connexions } from '../../api/collections/connexions';
 
 import AjouterDocument from '../outils/transcripteur/AjouterDocument';
 import CorrectionDocument from '../outils/correcteur/CorrectionDocument';
@@ -83,19 +84,24 @@ class DetailsChapitreContainer extends React.Component {
 };
 
 export default withTracker((props) => {
+    const connexionsHandle = Meteor.subscribe('connexions')
     const chapitresHandle = Meteor.subscribe('chapitres');
-    const loading = !chapitresHandle.ready(); //vaut true si les données ne sont pas encore chargées.
+    const loading = !chapitresHandle.ready() && !connexionsHandle.ready(); //vaut true si les données ne sont pas encore chargées.
+    var connexions = Connexions.find(
+        {
+            chapitre: props.match.params.idChapitre,
+            role: { $ne: 'editeur' }
+        },
+    );
     const chapitre = Chapitres.findOne({ _id: props.match.params.idChapitre });
+    const connexionsExists = !loading && !!connexions;
     const chapitreExists = !loading && !!chapitre; //vaut false si aucun chapitre n'existe ou si aucun n'a été trouvé
     return ({
         loading,
         chapitreExists,
+        connexionsExists,
+        connexions: connexionsExists ? connexions.fetch() : [{}],
         chapitre: chapitreExists ? chapitre : [],
     })
 })(DetailsChapitreContainer);
 
-const TestOutil = (props) => {
-    return (
-        <h3>Outil ok</h3>
-    )
-}

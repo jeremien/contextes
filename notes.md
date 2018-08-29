@@ -13,9 +13,12 @@ Doublons composants :
     details des docs pour éditeur et correcteur
 
 Bugs:
+    //Problème en partie reglé. Redéfinir quand afficher un statut offline, online, rien, etc
     lorsque l'on se déconnecte on reste visible (à tester) / 
     creation des sessions > catégorie
-    creation des chapitres > tags
+    //changer la manière dont ils sont saisis ?
+    reation des chapitres > tags
+    //corrigé
     login > pas d'editeur
 
 

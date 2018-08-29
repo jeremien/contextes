@@ -6,36 +6,15 @@ import { withTracker } from 'meteor/react-meteor-data';
 import { Link } from 'react-router-dom'
 import { createConnection } from 'net';
 
-// export default function ConnexionsCourantes(props) {
-//     console.log(props)
-//     return (
-//         <div className="liste-connectes">
-//             <ul>
-//                 {props.connexions.map((connexion) => (
-                    
-//                     <li key={connexion._id}>
-//                         {connexion.utilisateur} ({connexion.role}) : {connexion.online ? <p>online</p> : <p>offline</p>}                    
-                        
-                        
-//                             <button onClick={(event) => 
-//                             Meteor.call('message.client', connexion.socket, 'logoutForce')
-//                             }>Ejecter</button>
-                        
-                    
-//                     </li>
-//                 ))}
-//             </ul>
-//         </div>
-//     )
-// }
+
 
 class ConnexionsCourantes extends Component {
 
     render() {
-
-        // console.log(this.props)
-
-        if (this.props.connexions.length != 0) {
+        if (this.props.loading) {
+            return <h3>Chargement</h3>
+        }
+        if (this.props.connexionsExists) {
 
             return (
                 <div className="connexions">
@@ -58,7 +37,7 @@ class ConnexionsCourantes extends Component {
             return (
 
                 <div className="connexions">
-                    <p>pas de connexions</p>
+                    <p>Pas de connexions</p>
                 </div>
 
             )
