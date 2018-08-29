@@ -50,10 +50,7 @@ class Login extends React.Component {
 
                     <option value="transcripteur">Transcripteur</option>
                     <option value="correcteur">Correcteur</option>
-
-                     
-
-                    {/* <option value="conformateur">Conformateur</option> */}
+                    <option value="conformateur">Conformateur</option>
                     {/* {this.renderEditeur.bind(this)} */}
                     
                 </select>
