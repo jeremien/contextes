@@ -33,7 +33,8 @@ Meteor.methods({
             _id: utilisateur
         }, {
             $set: {
-                session: session
+                session: session,
+                online: true,
             }
         })
     },
@@ -44,7 +45,8 @@ Meteor.methods({
         }, {
             $set: {
                 session: session,
-                chapitre: chapitre
+                chapitre: chapitre,
+                online: true,
             }
         })
     },
@@ -54,7 +56,7 @@ Meteor.methods({
             _id: utilisateur
         }, {
             $set: {
-                session: ""
+                online: false
             }
         })
     },
@@ -64,7 +66,7 @@ Meteor.methods({
             _id: utilisateur
         }, {
             $set: {
-                chapitre: ""
+                online: false,
             }
         })
     },
@@ -85,7 +87,7 @@ Meteor.methods({
         })
     },
 
-    'connexions.offline' (utilisateur) {
+    'connexions.statut.offline' (utilisateur) {
         Connexions.update({
             _id: utilisateur
         }, {

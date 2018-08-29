@@ -45,8 +45,8 @@ class ConnexionsCourantes extends Component {
                     {this.props.connexions.map((connexion) => (
     
                             <li key={connexion._id}>
-                               {connexion.utilisateur} ({connexion.role}) : {connexion.online ? <span>online</span> : undefined }
-                               {this.props.role === "editeur" ?  <button onClick={(event) => Meteor.call('message.client', connexion.socket, 'logoutForce') }>Ejecter</button> : undefined }
+                               {connexion.utilisateur} ({connexion.role}) : {connexion.online ? <span>online</span> : "offline" }
+                               {this.props.role === "editeur" ?  <button onClick={(event) => Meteor.call('ejection.client', connexion._id, connexion.socket, connexion.online) }>Ejecter</button> : undefined }
                             </li>
                         )
                     )}

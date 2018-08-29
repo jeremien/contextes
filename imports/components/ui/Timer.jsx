@@ -76,8 +76,8 @@ export default class Timer extends Component {
                
                 {this.props.role == "editeur" &&
                     <div className="timer">
-                        <h3>Options du timer</h3>
-                        <button className="start-timer" onClick={() => { this.startTimer(this.props.chapitre._id, 120) }}>Démarrer le timer</button>
+                        <h3>timer</h3>
+                        <button className="start-timer" onClick={() => { this.startTimer(this.props.chapitre._id) }}>Démarrer le timer</button>
                         <button className="start-timer" onClick={this.stopTimer}>Arreter le timer</button>
                         <input
                             type="number"
@@ -86,11 +86,15 @@ export default class Timer extends Component {
                             min="1"
                             onChange={this.handleChange}
                         />
+                        <br />
+                        <time>{this.props.chapitre.timer}</time>
+                        <br />
+                        
                     </div>
                 }
                 {/* {this.props.role == "transcripteur" &&
                     <div>
-                        transcripteur
+                        <p>{this.props.chapitre.timer}</p>
                     </div>
                 } */}
             </div>

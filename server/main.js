@@ -31,15 +31,22 @@ io.on('connection', function (socket) {
   console.log('new socket client');
 });
 
-Meteor.methods ({
-  'message.client'(socketId, typeMessage, data) {
+Meteor.methods({
+  'message.client' (socketId, typeMessage, data) {
     // io.socket.broadcast.emit('texte', "test message");
     io.sockets.connected[socketId].emit(typeMessage, data);
     // io.socket.to(socketId).emit(typeMessage, data);
     // io.clients[socketId].send(typeMessage);
   },
 
-  'deconnexion.editeur'() {
+  'ejection.client' (id, socketId, online) {
+    if (online) {
+      io.sockets.connected[socketId].emit('logoutForce');
+    }
+    Meteor.call('connexion.remove', id)
+  },
+
+  'deconnexion.editeur' () {
     io.emit('logoutForce')
   }
 })

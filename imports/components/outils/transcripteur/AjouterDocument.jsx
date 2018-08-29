@@ -1,26 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types'
 import { Meteor } from 'meteor/meteor';
-import Modal from 'react-responsive-modal';
 
 
 export default class AjouterDocument extends Component {
-
-    state = {
-        open : false,
-    };
-
-    onOpenModal = () => {
-        this.setState({
-            open : true
-        });
-    }
-
-    onCloseModal = () => {
-        this.setState({
-            open : false
-        })
-    }
 
     handleSubmit(event) {
         event.preventDefault();
@@ -34,45 +17,29 @@ export default class AjouterDocument extends Component {
         // console.log(commentaire, auteur, session, chapitre)
 
         Meteor.call('documents.insert', session, chapitre, commentaire, auteur)
+    }
 
-        target.reset();
+    handleChange(event) {
+        this.setState({ commentaire: event.target.value })
     }
 
     render() {
         // console.log('ajouter doc')
-        // console.log(this.props);
+        console.log(this.props);
 
-        const { open } = this.state;
-        
         return (
             <div className="ajout-commentaire">
                 <form className="nouveau-commentaire" onSubmit={this.handleSubmit.bind(this)} >
                     <textarea
-                        rows="15"
-                        cols="60"
+                        rows="4"
+                        cols="50"
                         name="contentInput"
                         placeholder="Entrer le nouveau commentaire"
                     />
                     <br />
-                    <input type="submit" value="Enregistrer" />
+                    <button className="clear-commentaire" onClick={() => this.setState({ commentaire: "" })}>Clear</button>
+                    <input className="valider-document" type="submit" value="Enregistrer" />
                 </form>
-
-                ou <button onClick={this.onOpenModal}>Distraction free modal</button> 
-
-                <Modal open={open} onClose={this.onCloseModal} >
-                    <p>temps : {this.props.chapitre.timer}</p>
-                    <form className="nouveau-commentaire" onSubmit={this.handleSubmit.bind(this)} >
-                        <textarea
-                            rows="15"
-                            cols="60"
-                            name="contentInput"
-                            placeholder="Entrer le nouveau commentaire"
-                        />
-                        <br />
-                        <input type="submit" value="Enregistrer" />
-                    </form>
-                </Modal>
-
             </div>
         )
     }
