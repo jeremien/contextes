@@ -15,7 +15,7 @@ if (Meteor.isServer) {
 
 Meteor.methods({
 
-    'connexions.insert' (utilisateur, role, socket) {
+    'connexions.insert'(utilisateur, role, socket) {
         const id = Connexions.insert({
             utilisateur: utilisateur,
             role: role,
@@ -39,7 +39,7 @@ Meteor.methods({
     //     })
     // },
 
-    'connexions.chapitre' (utilisateur, session, chapitre) {
+    'connexions.chapitre'(utilisateur, session, chapitre) {
         console.log('connexion chap')
         Connexions.update({
             _id: utilisateur
@@ -72,13 +72,13 @@ Meteor.methods({
     //     })
     // },
 
-    'connexions.remove' (utilisateur) {
+    'connexions.remove'(utilisateur) {
         Connexions.remove({
             _id: utilisateur
         })
     },
 
-    'connexions.online' (utilisateur) {
+    'connexions.online'(utilisateur) {
         console.log('online')
         Connexions.update({
             _id: utilisateur
@@ -89,13 +89,23 @@ Meteor.methods({
         })
     },
 
-    'connexions.offline' (utilisateur) {
+    'connexions.offline'(utilisateur) {
         console.log('offline')
         Connexions.update({
             _id: utilisateur
         }, {
             $set: {
                 online: false
+            }
+        })
+    },
+
+    'connexions.socket'(utilisateur, socket) {
+        Connexions.update({
+            _id: utilisateur
+        }, {
+            $set: {
+                socket: socket
             }
         })
     }

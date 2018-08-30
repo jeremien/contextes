@@ -16,13 +16,11 @@ export default class DetailsChapitre extends Component {
 
     //Méthode à changer avec willMount/update selon l'endroit où sera définie la route
     componentDidMount() {
-        console.log(this.props)
         if (this.props.connecte && this.props.chapitreExists) {
-            console.log('appelle connexion chap')
             Meteor.call('connexions.chapitre', this.props.userId, this.props.chapitre.session, this.props.chapitre._id);
         }
     };
-    // console.log(this.props)
+
     render() {
         if (this.props.loading) {
             return (
@@ -38,8 +36,6 @@ export default class DetailsChapitre extends Component {
 
             return (
                 <div className="container-details-chapitre">
-
-
                     <div className='details-chapitre--gauche'>
                         <div className="infos-chapitre">
                             <Link to={`/sessions/${this.props.chapitre.session}`}>Retour à la session </Link>

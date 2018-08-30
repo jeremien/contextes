@@ -99,9 +99,9 @@ Meteor.methods({
     },
 
     'chapitres.timer.update' (chapitreId, dureeBoucle) {
-        newTimer = (Chapitres.findOne({
+        const newTimer = (Chapitres.findOne({
             _id: chapitreId
-        }).timer) % (dureeBoucle + 1);
+        }).timer) -1
         if (newTimer == 0) {
             Chapitres.update({
                 _id: chapitreId
@@ -110,12 +110,13 @@ Meteor.methods({
                     timer: dureeBoucle,
                 }
             })
+            Meteor.call('timer.next')
         } else {
             Chapitres.update({
                 _id: chapitreId
             }, {
                 $set: {
-                    timer: newTimer - 1
+                    timer: newTimer
                 }
             })
         }

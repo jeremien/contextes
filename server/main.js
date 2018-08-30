@@ -33,10 +33,8 @@ io.on('connection', function (socket) {
 
 Meteor.methods({
   'message.client' (socketId, typeMessage, data) {
-    // io.socket.broadcast.emit('texte', "test message");
-    io.sockets.connected[socketId].emit(typeMessage, data);
-    // io.socket.to(socketId).emit(typeMessage, data);
-    // io.clients[socketId].send(typeMessage);
+    console.log('message client', socketId, typeMessage);
+    io.to(`${socketId}`).emit(typeMessage)
   },
 
   'ejection.client' (id, socketId, online) {

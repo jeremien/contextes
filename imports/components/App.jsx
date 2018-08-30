@@ -48,6 +48,9 @@ class App extends Component {
     // Meteor.call('connexions.online', this.props.utilisateur)
     window.addEventListener("beforeunload", this.handleLeavePage);
     this.props.socket.on('logoutForce', this.logoutForce.bind(this));
+    this.props.socket.on('onAir', () => console.log('on air'));
+    this.props.socket.on('offAir', () => console.log('off air'));
+    
   }
 
   componentWillUnmount() {
@@ -66,7 +69,10 @@ class App extends Component {
   }
 
   render() {
-    // console.log('app')
+    if (this.props.connecte) {
+      Meteor.call('connexions.socket', this.props.connexion._id, this.props.socket.id)
+    }
+    console.log(this.props.socket.id)
     const { role, utilisateur, ...rest } = this.props.connexion
     const propsToPass = { connecte: this.props.connecte, userId: this.props.connexion._id, role: role || "", utilisateur: utilisateur || "", socketId: this.props.socket.id }
     return (

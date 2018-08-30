@@ -4,17 +4,13 @@ import { Session } from 'meteor/session';
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom'
-// import { Jobs } from 'meteor/msavin:sjobs'
 
-
-// import '/server/timer'
-
-// import lancerTimer from './apiTimer'
+import { Connexions } from '../../api/collections/connexions'
 
 /**
  * Gère l'état du timer du chapitre donné en props
  */
-export default class Timer extends Component {
+class Timer extends Component {
     constructor(props) {
         super(props);
         this.startTimer = this.startTimer.bind(this);
@@ -23,17 +19,12 @@ export default class Timer extends Component {
         this.state = {
             timer: false,
             dureeBoucle: this.props.chapitre.duree_boucle,
-            transcripteur: 0,
         }
     }
 
-    static propTypes = {
-        chapitre: PropTypes.object.isRequired,
-    };
-
-    static defaultProps = {
-        chapitre: {},
-    };
+    componentDidUpdate() {
+        Meteor.call('timer.listeTranscripteurs', this.props.connexions)
+    }
 
     /**
      * Appele de la méthode d'update du timer automatique.
@@ -45,8 +36,6 @@ export default class Timer extends Component {
             Meteor.call('timer.start', this.props.chapitre)
             this.setState({ timer: true })
         }
-
-
     }
 
     stopTimer() {
@@ -56,20 +45,19 @@ export default class Timer extends Component {
 
     //Memo bug : la durée enregistrée est différente d'une seconde.
     handleChange(event) {
-        this.setState({ dureeBoucle: event.target.value });
         Meteor.call('chapitres.timer.duree', this.props.chapitre._id, event.target.value)
         if (this.state.timer) {
-            Meteor.clearInterval(this.props.chapitre.id_timer)
-            const idTimer = Meteor.setInterval(() => { Meteor.call('chapitres.timer.update', this.props.chapitre._id, this.props.chapitre.duree_boucle) }, 1000);
-            Meteor.call('chapitres.timer.set', this.props.chapitre._id, idTimer)
+            Meteor.call('timer.stop', this.props.chapitre)
+            Meteor.call('timer.start', this.props.chapitre)
         }
-    }
+        this.setState({ dureeBoucle: event.target.value });
 
+    }
 
     render() {
         return (
             <div className="timer">
-               
+
                 {this.props.role == "editeur" &&
                     <div className="timer">
                         <h3>timer</h3>
@@ -85,10 +73,28 @@ export default class Timer extends Component {
                         <br />
                         <time>{this.props.chapitre.timer}</time>
                         <br />
-                        
+
                     </div>
                 }
             </div>
         )
     }
 }
+
+export default withTracker((props) => {
+    const connexionsHandle = Meteor.subscribe('connexions')
+    const loading = !connexionsHandle.ready(); //vaut true si les données ne sont pas encore chargées.
+    var connexions = Connexions.find(
+        {
+            chapitre: props.chapitre._id,
+            role: 'transcripteur',
+            online: true,
+        },
+    );
+    const connexionsExists = !loading && !!connexions;
+    return ({
+        loading,
+        connexionsExists,
+        connexions: connexionsExists ? connexions.fetch() : [{}],
+    })
+})(Timer);
