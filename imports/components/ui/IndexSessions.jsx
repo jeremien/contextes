@@ -50,10 +50,9 @@ export default class IndexSessions extends Component {
     }
 
     handleChange(event) {
-        event.preventDefault();
         // console.log(event.target)
         const prevState = this.state.toggleSession;
-        this.setState({ toggleSession: !prevState })
+        this.setState({ toggleSession: event.target.checked })
     }
     render() {
         // console.log(this.props.role);
@@ -71,10 +70,10 @@ export default class IndexSessions extends Component {
                         <h1>liste des sessions</h1>
                         <label className="hide-archivee">
                             <input
+                                name="archive"
                                 type="checkbox"
-                                value={this.state.toggleSession}
-                                readOnly
-                                onClick={this.handleChange.bind(this)}
+                                checked={this.state.toggleSession}
+                                onChange={this.handleChange.bind(this)}
                             />
                             Afficher les sessions archivées {this.state.toggleSession}
                         </label>
