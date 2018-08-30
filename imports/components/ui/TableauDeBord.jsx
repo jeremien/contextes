@@ -17,10 +17,7 @@ class TableauDeBord extends React.Component {
         etat: this.props.session.etat
     }
 
-
-
     handleEtat(event) {
-        event.preventDefault();
         Meteor.call('sessions.etat.update', this.props.session._id, event.target.value)
     }
 
@@ -44,17 +41,17 @@ class TableauDeBord extends React.Component {
                     {/* <fieldset onChange={(event) => { console.log(event.target.value) }}> */}
                     <fieldset onChange={this.handleEtat.bind(this)}>
                         <div>
-                            <input type="radio" value="edition" name="etat" />
+                            <input type="radio" defaultChecked={this.state.etat == "edition" ? "checked" : ""} value="edition" name="etat" />
                             <label>éditer</label>
                         </div>
 
                         <div>
-                            <input type="radio" value="completee" name="etat" />
+                            <input type="radio" defaultChecked={this.state.etat == "completee" ? "checked" : ""} value="completee" name="etat" />
                             <label>compléter</label>
                         </div>
 
                         <div>
-                            <input type="radio" value="archivee" name="etat" />
+                            <input type="radio" defaultChecked={this.state.etat == "archivee" ? "checked" : ""} value="archivee" name="etat" />
                             <label>archiver</label>
                         </div>
 
