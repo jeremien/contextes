@@ -24,6 +24,7 @@ export default class IndexSessions extends Component {
         sessions: [{}],
     };
 
+
     renderSesssions() {
         let sessionsFiltrees = this.props.sessions;
         // console.log(sessionsFiltrees)
@@ -36,7 +37,7 @@ export default class IndexSessions extends Component {
         // console.log(sessionsFiltrees)
         return sessionsFiltrees.map((session, key) => (
             <div key={key}>
-                <Link to={`/sessions/${session._id}`}>
+                <Link to={`/sessions/${session._id}`} >
                     {session.titre}
                 </Link>
 
