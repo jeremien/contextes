@@ -12,25 +12,6 @@ export default class DetailsDocumentsCorrecteur extends Component {
         this.fileInput = React.createRef();
     }
 
-    state = {
-        open: false,
-    };
-
-    onOpenModal = () => {
-        this.setState({
-            open: true
-        });
-    }
-
-    onCloseModal = () => {
-        this.setState({
-            open: false,
-            revised: true
-        })
-        // update texte corrigé
-    }
-
-
     handleChange(event) {
         this.setState({ contenu: event.target.value })
     }
@@ -41,8 +22,7 @@ export default class DetailsDocumentsCorrecteur extends Component {
             file: this.fileInput.current.files[0],
             streams: 'dynamic',
             chunkSize: 'dynamic',
-            onUploaded: (error, fileRef) => Meteor.call('documents.addImage', this.props.document._id, 'image'),
-            // onUploaded: (error, fileRef) => console.log(fileRef)
+            onUploaded: (error, fileRef) => Meteor.call('documents.addImage', this.props.document._id, fileRef),
         }, false);
         upload.on('start', function () {
             console.log('debut up')
@@ -53,14 +33,12 @@ export default class DetailsDocumentsCorrecteur extends Component {
             if (error) {
                 alert('Error during upload: ' + error);
             } else {
-                // Meteor.call('documents.addImage', this.props.document._id, upload)
                 alert('done');
             }
             console.log('fin up')
             
         });
         upload.start();
-        // this.setState = ({ open: false })
     }
 
     render() {
@@ -77,9 +55,6 @@ export default class DetailsDocumentsCorrecteur extends Component {
                             <br />
                             <button type="submit">Submit</button>
                         </form>
-                    {/* <Modal open={open} onClose={this.onCloseModal} >
-                        
-                    </Modal> */}
                 </li>
             </ul>
         )

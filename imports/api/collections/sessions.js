@@ -86,11 +86,7 @@ Meteor.methods({
     'sessions.deconnexion' (sessionId, utilisateur) {
 
     },
-
-    // 'sessions.getEditionEnCours'(session) {
-    //     return Chapitres.find({session: session}, {_id: 0, titre: 1, utilisateurs_connectes: 1})
-    // },
-
+    
     'sessions.etat.update'(sessionId, etat) {
         Sessions.update({_id: sessionId}, {$set: {etat: etat}});
         // Meteor.subscribe('chapitres')
