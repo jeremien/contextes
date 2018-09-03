@@ -43,7 +43,7 @@ Meteor.methods({
             rejete: false,
             type: "texte",
             dernireModificationPar: auteur,
-            image: null
+            image: {}
         });
     },
 
@@ -89,9 +89,10 @@ Meteor.methods({
         Documents.update({
             _id: document,
         }, {
-            image: image,
+            $set: {
+                image: image,
+            }
         });
-        // console.log('image ajoutéé', image)
     }
 
 
