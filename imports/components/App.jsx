@@ -50,7 +50,7 @@ class App extends Component {
     this.props.socket.on('logoutForce', this.logoutForce.bind(this));
     this.props.socket.on('onAir', () => console.log('on air'));
     this.props.socket.on('offAir', () => console.log('off air'));
-    
+       
   }
 
   componentWillUnmount() {
@@ -93,7 +93,7 @@ class App extends Component {
           <div className="login">
             <Route path="/login" render={(props) => <Login {...props} {...propsToPass} />} /> 
           </div>
-                    {/* <Route path="/test" render={(props) => <TestAPI {...props} {...propsToPass} />} /> */}
+                    <Route path="/test" render={(props) => <TestAPI {...this.props} {...props} />} />
           <div className="footer">
             {/* <p>information</p> */}
           </div>

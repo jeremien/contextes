@@ -13,9 +13,9 @@ import {
 var globalChapitre; //Methode de la doc de CRONJob pour passer des arguments à la fonction appeler
 var rangOnAir = 0;
 
-const bound = Meteor.bindEnvironment((callback) => {
-    callback();
-});
+// const bound = Meteor.bindEnvironment((callback) => {
+//     callback();
+// });
 
 const db = Chapitres.rawDatabase();
 const cron = new CRONjob({

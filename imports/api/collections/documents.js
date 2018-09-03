@@ -1,6 +1,12 @@
-import { Mongo } from 'meteor/mongo';
-import { Meteor } from 'meteor/meteor';
-import { check } from 'meteor/check';
+import {
+    Mongo
+} from 'meteor/mongo';
+import {
+    Meteor
+} from 'meteor/meteor';
+import {
+    check
+} from 'meteor/check';
 
 export const Documents = new Mongo.Collection('documents');
 /**
@@ -11,7 +17,7 @@ Documents.attachCollectionRevisions();
 
 if (Meteor.isServer) {
     Documents.attachCollectionRevisions();
-    Meteor.publish('documents', function documentsPublication(){
+    Meteor.publish('documents', function documentsPublication() {
         return Documents.find();
     });
 }
@@ -37,6 +43,7 @@ Meteor.methods({
             rejete: false,
             type: "texte",
             dernireModificationPar: auteur,
+            image: null
         });
     },
 
@@ -47,22 +54,45 @@ Meteor.methods({
      */
     'documents.remove'(idSuppression) {
         // Documents.update({_id: documentId}, {$set: {type: null}})
-        Documents.remove({$or: [{_id: idSuppression}, {session: idSuppression}, {chapitre: idSuppression}]})
+        Documents.remove({
+            $or: [{
+                _id: idSuppression
+            }, {
+                session: idSuppression
+            }, {
+                chapitre: idSuppression
+            }]
+        })
     },
     /**
      * La sauvegarde de la version précédente est faire grâce au module todda00:collection-revisions
      * @param {*} documentId 
      * @param {*} contenu 
      */
-    'documents.update'(documentId, contenu, utilisateur){
+    'documents.update'(documentId, contenu, utilisateur) {
         // check(documentId, String);
         // checked(contenu, String);
-        Documents.update(documentId, {$set: {contenu: contenu, dernireModificationPar: utilisateur}});
+        Documents.update(documentId, {
+            $set: {
+                contenu: contenu,
+                dernireModificationPar: utilisateur
+            }
+        });
     },
 
     'commenrtaires.getVersion'(documentId) {
         return Documents.findOne(documentId).revisions.length
     },
-    
+
+    'documents.addImage'(document, image) {
+        console.log('ajout image')
+        Documents.update({
+            _id: document,
+        }, {
+            image: image,
+        });
+        // console.log('image ajoutéé', image)
+    }
+
 
 })

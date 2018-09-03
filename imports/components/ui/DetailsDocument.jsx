@@ -17,7 +17,7 @@ export default class DetailsDocument extends Component {
   };
 
   render() {
-    
+
     // console.log(this.props)
 
     return (
@@ -25,6 +25,15 @@ export default class DetailsDocument extends Component {
         <li>Créé à {this.props.document.creation.toLocaleTimeString()} par {this.props.document.auteur}, corrigé à ? par ? : </li>
         <p>{this.props.document.contenu}</p>
         <br />
+        {!!this.props.document.image &&
+          <a href={`/${this.props.document.image._id}.${this.props.document.image.ext}`} target="_blank">
+            <img
+              src={`/${this.props.document.image._id}.${this.props.document.image.ext}`}
+              alt="une image"
+              className="thumbnail"
+            />
+          </a>
+        }
         <button onClick={() => Meteor.call('documents.remove', this.props.document._id)}>Supprimer le document</button>
         <button onClick={() => Meteor.call('documents.update', this.props.document._id, "doc revisé 2", "perceval")}>Modifier le document</button>
       </ul>);

@@ -5,6 +5,7 @@ import { withTracker } from 'meteor/react-meteor-data';
 
 import { Documents } from '../../api/collections/documents';
 import DetailsDocument from './DetailsDocument';
+import AjouterImage from '../outils/editeur/AjouterImage'
 
 
 class IndexDocuments extends Component {
@@ -15,7 +16,10 @@ class IndexDocuments extends Component {
         <div className="index-documents">
           <h3>Liste des documents</h3>
           {this.props.documents.map((document) =>
+          <div>
             <DetailsDocument key={document._id} document={document} />
+            <AjouterImage document={document} />
+            </div>
           )}
         </div>
 
