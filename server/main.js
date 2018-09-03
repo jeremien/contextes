@@ -1,50 +1,63 @@
 import {
   Meteor
 } from 'meteor/meteor';
-import {
-  Session
-} from 'meteor/session';
-
-// import './timer'
 
 import '../imports/api/collections/documents';
 import '../imports/api/collections/sessions';
 import '../imports/api/collections/test';
 import '../imports/api/collections/chapitres';
 import '../imports/api/collections/connexions';
+import '../imports/api/collections/images';
 
-// import http from 'http';
+import {
+  Images
+} from '../imports/api/collections/images'
+
 import socket_io from 'socket.io';
-
 import './timer'
 
 
+/**
+ * Initialisation des socket côté serveur
+ */
 const PORT = 8080;
 //Pas besoin d'initilaiser un serveur avec le module http en plus.
 const io = socket_io(8080)
 
-
-let counter = 0;
-
-// New clientcmfh
+// New client
 io.on('connection', function (socket) {
   console.log('new socket client');
 });
+Meteor.startup(() => {
+  Images.allow({
+    'insert': function () {
+      // add custom authentication code here
+      return true;
+    },
+    'update': function () {
+      return true;
+    },
+  });
+})
+
 
 Meteor.methods({
-  'message.client' (socketId, typeMessage, data) {
-    console.log('message client', socketId, typeMessage);
-    io.to(`${socketId}`).emit(typeMessage)
+  'message.client'(socketId, typeMessage, data) {
+    io.to(`${socketId}`).emit(typeMessage, data)
   },
 
-  'ejection.client' (id, socketId, online) {
+  'ejection.client'(id, socketId, online) {
     if (online) {
       io.sockets.connected[socketId].emit('logoutForce');
     }
-    Meteor.call('connexion.remove', id)
+    // Meteor.call('connexion.remove', id)
   },
 
-  'deconnexion.editeur' () {
+  'notification'(message) {
+    io.emit('notification', message)
+  },
+
+  'deconnexion.editeur'() {
     io.emit('logoutForce')
   }
 })
