@@ -27,5 +27,9 @@ Meteor.startup(() => {
   socket.on('texte', function(data) {
     console.log(data)
   });
+
+  socket.on('notification', (message) => {
+    console.log('notification', message);
+  });
   
 });

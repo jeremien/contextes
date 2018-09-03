@@ -37,6 +37,8 @@ Bugs:
     au premier login > éditeur en premier dans le choix des rôles
     écriture inclusive
 
+    startup script pour faire le serveur > bash > récupère l'adresse ip
+
 
 idées :
     ajouter la session + chapitre en cours d'édition dans la topbar
@@ -67,3 +69,11 @@ idées :
     Dessinateur :
         dessin libre
         dessin avec formes préexistantes > svg pour représentation schématique
+
+    images :
+        clic sur l'image > recupère l'url de l'image
+
+    bash :
+        app bash/node/python cli > 
+            adresse ip
+            lancer serveur / client / backup / export  

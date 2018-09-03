@@ -19,6 +19,8 @@ class Login extends React.Component {
             localStorage.setItem('userId', id)
             Session.set('userId', id)
         });
+        
+
         this.props.history.push('/');
     }
 
