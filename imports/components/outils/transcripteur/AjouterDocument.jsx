@@ -5,6 +5,10 @@ import { Meteor } from 'meteor/meteor';
 
 export default class AjouterDocument extends Component {
 
+    state = {
+        commentaire: ""
+    }
+    
     handleSubmit(event) {
         event.preventDefault();
         const target = event.target;
@@ -33,11 +37,14 @@ export default class AjouterDocument extends Component {
                         cols="50"
                         name="contentInput"
                         placeholder="Entrer le nouveau commentaire"
+                        value={this.state.commentaire}
+                        onChange={this.handleChange.bind(this)}
                     />
                     <br />
-                    <button className="clear-commentaire" onClick={() => this.setState({ commentaire: "" })}>Clear</button>
+                    
                     <input className="valider-document" type="submit" value="Enregistrer" />
                 </form>
+                <button className="clear-commentaire" onClick={() => this.setState({ commentaire: "" })}>Clear</button>
             </div>
         )
     }

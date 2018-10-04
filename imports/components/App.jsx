@@ -50,6 +50,8 @@ class App extends Component {
     this.props.socket.on('logoutForce', this.logoutForce.bind(this));
     this.props.socket.on('onAir', () => console.log('on air'));
     this.props.socket.on('offAir', () => console.log('off air'));
+
+    // console.log(this.props)
        
   }
 
@@ -72,9 +74,10 @@ class App extends Component {
     if (this.props.connecte) {
       Meteor.call('connexions.socket', this.props.connexion._id, this.props.socket.id)
     }
-    console.log(this.props.socket.id)
+    // console.log(this.props.socket.id)
     const { role, utilisateur, ...rest } = this.props.connexion
     const propsToPass = { connecte: this.props.connecte, userId: this.props.connexion._id, role: role || "", utilisateur: utilisateur || "", socketId: this.props.socket.id }
+
     return (
       <Router>
         <div className="container">

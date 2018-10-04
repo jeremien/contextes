@@ -42,11 +42,11 @@ export default class DetailsDocumentsCorrecteur extends Component {
     }
 
     render() {
-        const { open } = this.state;
+        // const { open } = this.state;
         return (
             <ul className="details-documents">
                 <li>
-                    <button onClick={this.onOpenModal}>Ajotuer une image à ce commentaire ({this.props.document.contenu}</button>
+                    <button onClick={this.onOpenModal}>Ajouter une image à ce commentaire ({this.props.document.contenu}</button>
                         <form onSubmit={this.handleSubmit}>
                             <label>
                                 Upload file:

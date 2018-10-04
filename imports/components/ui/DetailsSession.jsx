@@ -11,7 +11,8 @@ import TableauDeBord from './TableauDeBord';
 class DetailsSession extends React.Component {
     componentDidMount() {
         if (this.props.connecte) {
-            Meteor.call('connexions.session', this.props.utilisateur, this.props.sessionId);
+            // TODO methode connexion.session ?
+            // Meteor.call('connexions.session', this.props.utilisateur, this.props.sessionId); 
         }
     };
 

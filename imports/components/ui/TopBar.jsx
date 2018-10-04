@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
-import {Link} from 'react-router-dom'
+import {Link, Redirect} from 'react-router-dom'
 
 export default class TopBar extends Component {
+
   render() {
+
+
     return (
       <nav className="topbar-container" >
         <ul >

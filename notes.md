@@ -39,6 +39,7 @@ Bugs:
 
     startup script pour faire le serveur > bash > récupère l'adresse ip
 
+    notifications avec websocket
 
 idées :
     ajouter la session + chapitre en cours d'édition dans la topbar
@@ -46,6 +47,8 @@ idées :
 
     index des sessions / chapitres :    
         titre, date, catégorie > tri asc/desc / chronologique
+
+    // problème redirection ? dans app > pas de routeur / dans composant redirect ou push > erreur lifecycle
 
     si l'utilisateur n'est pas connecté :
         redirection vers login + modal avec le choix du rôle
