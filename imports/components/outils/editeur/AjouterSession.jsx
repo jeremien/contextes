@@ -56,8 +56,18 @@ class AjouterSession extends Component {
 
         if (titre && this.state.description) {
             Meteor.call('sessions.insert', titre, auteur, this.state.description, roles, this.state.categories)
-        target.reset()
-        this.setState({ categorieCourante: "", categories: [] })
+            target.reset()
+            this.setState({ categorieCourante: "", categories: [] })
+
+            // envoie des notifications
+
+            let infos = {
+                title : "message de l'éditeur",
+                message : `création de la session : ${titre}`,
+                type : "success"
+            }
+
+            Meteor.call('notification', infos);
         }
 
         else {

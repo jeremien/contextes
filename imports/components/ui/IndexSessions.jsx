@@ -43,7 +43,24 @@ export default class IndexSessions extends Component {
 
                 ({session.etat})
 
-                {!!this.props.connecte && this.props.role === "editeur" ? <button onClick={() => Meteor.call('sessions.remove', session._id)}>Supprimer la session</button> : undefined}
+                {!!this.props.connecte 
+                 && this.props.role === "editeur" ? 
+                 <button onClick={() => 
+                    { 
+                        Meteor.call('sessions.remove', session._id)
+                          
+                        // envoie des notifications
+
+                        let infos = {
+                            title : "message de l'éditeur",
+                            message : `suppresion de la session : ${session.titre}`,
+                            type : "danger"
+                        }
+
+                        Meteor.call('notification', infos);
+
+                    }}>Supprimer la session</button> 
+                    : undefined}
 
                 <br />
             </div>

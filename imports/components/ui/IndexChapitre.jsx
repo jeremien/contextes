@@ -21,7 +21,22 @@ class IndexChapitres extends Component {
           {this.props.chapitres.map((chapitre) => (
             <li key={chapitre._id}>
               <Link to={`/session/${this.props.sessionId}/chapitre/${chapitre._id}`}>{chapitre.titre}</Link>
-              {!!this.props.connecte && this.props.role === "editeur" ? <button onClick={() => Meteor.call('chapitres.remove', chapitre._id)}>Supprimer le chapitre</button> : undefined}
+              {!!this.props.connecte 
+                && this.props.role === "editeur" ? 
+                <button onClick={() => {
+                  Meteor.call('chapitres.remove', chapitre._id)
+                    // envoie des notifications
+
+                  let infos = {
+                    title : "message de l'éditeur",
+                    message : `suppresion du chapitre : ${chapitre.titre}`,
+                    type : "danger"
+                  }
+
+                  Meteor.call('notification', infos);
+                }
+                }>Supprimer le chapitre</button> 
+                : undefined}
             </li>
           ))}
         </div>

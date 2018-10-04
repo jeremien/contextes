@@ -57,6 +57,7 @@ Meteor.methods({
                 session: idSuppression
             }]
         })
+       
     },
 
     'chapitres.update' (chapitreId, titre) {

@@ -33,10 +33,22 @@ export default class AjouterChapitre extends Component {
             Meteor.call('chapitres.insert', session, titre, auteur, this.state.value, duree, this.state.tags)
             target.reset();
             this.setState({ tags: [], tagCourant: "" });
-            // Meteor.call('notification', "création d'un chapitre");
+
+            // envoie des notifications
+
+            let infos = {
+                title : "message de l'éditeur",
+                message : "création d'un chapitre",
+                type : "success"
+            }
+
+            Meteor.call('notification', infos);
+
         }
         else {
+
             alert('Remplissez tous les champs')
+        
         }
     }
 

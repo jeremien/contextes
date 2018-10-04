@@ -53,8 +53,11 @@ Meteor.methods({
     // Meteor.call('connexion.remove', id)
   },
 
-  'notification'(message) {
-    io.emit('notification', message)
+  'notification'(infos) {
+    console.log(infos)
+    let { title, message, type } = infos;
+    io.emit('notification', title, message, type)
+
   },
 
   'deconnexion.editeur'() {

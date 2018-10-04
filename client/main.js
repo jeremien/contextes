@@ -28,8 +28,8 @@ Meteor.startup(() => {
     console.log(data)
   });
 
-  socket.on('notification', (message) => {
-    console.log('notification', message);
-  });
+  // socket.on('notification', (message) => {
+  //   console.log('notification', message);
+  // });
   
 });

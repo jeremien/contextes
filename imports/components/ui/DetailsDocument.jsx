@@ -8,6 +8,12 @@ import PropTypes from 'prop-types'
  * Affiche les détails et méta-data liées au docuement passé en props
  */
 export default class DetailsDocument extends Component {
+
+  constructor(props) {
+    super(props)
+    this.handleDeleteDoc = this.handleDeleteDoc.bind(this)
+  }
+
   static propTypes = {
     document: PropTypes.object.isRequired,
   };
@@ -15,6 +21,19 @@ export default class DetailsDocument extends Component {
   static defaultProps = {
     document: {},
   };
+
+  handleDeleteDoc(id) {
+    
+    Meteor.call('documents.remove', this.props.document._id)
+
+    let infos = {
+      title : "message de l'éditeur",
+      message : `suppresion du document`,
+      type : "danger"
+    }
+
+    Meteor.call('notification', infos);
+    }
 
   render() {
 
@@ -34,7 +53,9 @@ export default class DetailsDocument extends Component {
             />
           </a>
         }
-        <button onClick={() => Meteor.call('documents.remove', this.props.document._id)}>Supprimer le document</button>
+        
+        <button onClick={() => this.handleDeleteDoc(this.props.document._id)}>Supprimer le document</button>
+
         <button onClick={() => Meteor.call('documents.update', this.props.document._id, "doc revisé 2", "perceval")}>Modifier le document</button>
       </ul>);
   }

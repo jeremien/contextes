@@ -14,6 +14,8 @@ import { withTracker } from 'meteor/react-meteor-data';
 import { Session } from 'meteor/session';
 import { Connexions } from '../api/collections/connexions'
 
+import ReactNotification from "react-notifications-component";
+
 
 import IndexSessions from './ui/IndexSessions';
 import Login from './ui/Login';
@@ -31,6 +33,9 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.handleLeavePage = this.handleLeavePage.bind(this);
+
+    this.notificationDOMRef = React.createRef();
+
   }
 
   static defaultProps = {
@@ -51,7 +56,21 @@ class App extends Component {
     this.props.socket.on('onAir', () => console.log('on air'));
     this.props.socket.on('offAir', () => console.log('off air'));
 
-    // console.log(this.props)
+    // notifications
+    this.props.socket.on('notification', (title, message, type) => {
+      console.log('notification', title, message, type)
+        this.notificationDOMRef.current.addNotification({
+            title,
+            message,
+            type,
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: { duration: 4000 },
+            dismissable: { click: true }
+        });
+    });
        
   }
 
@@ -70,6 +89,8 @@ class App extends Component {
     Meteor.call('connexions.offline', this.props.connexion._id)
   }
 
+
+
   render() {
     if (this.props.connecte) {
       Meteor.call('connexions.socket', this.props.connexion._id, this.props.socket.id)
@@ -81,6 +102,7 @@ class App extends Component {
     return (
       <Router>
         <div className="container">
+          <ReactNotification ref={this.notificationDOMRef} />
           <div className="header">
             <Route path="/" render={(props) => <TopBar {...props} {...propsToPass} />} />
           </div>
