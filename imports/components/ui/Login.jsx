@@ -25,17 +25,6 @@ class Login extends React.Component {
             Session.set('userId', id)
         });
 
-        // notifications
-
-        let infos = {
-            title : "nouvelle connexion",
-            message : `${nom} est en ligne`,
-            type : "info"
-        }
-
-        Meteor.call('notification', infos);
-        
-
         this.props.history.push('/');
     }
 

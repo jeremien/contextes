@@ -18,7 +18,7 @@ class IndexDocuments extends Component {
           {this.props.documents.map((document) =>
           <div key={document._id}>
             <DetailsDocument  document={document} />
-            <AjouterImage  document={document} />
+            {/* <AjouterImage  document={document} chapire = {this.props.chapitre} /> */}
             </div>
           )}
         </div>

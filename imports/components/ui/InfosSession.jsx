@@ -10,12 +10,12 @@ import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom'
 export default function InfosSession(props) {
 
     return (
-        <table width="100%">
-            <td>auteur : {props.session.auteur}</td>
-            <>date de création : {props.session.creation.toLocaleDateString()}</p>
+        <div width="100%">
+            <p>auteur : {props.session.auteur}</p>
+            <p>date de création : {props.session.creation.toLocaleDateString()}</p>
             <p>dernière modification : {props.session.lastModified.toLocaleDateString()}</p>
             <p>description : {props.session.description}</p>
-        </table>
+        </div>
     )
 
 }

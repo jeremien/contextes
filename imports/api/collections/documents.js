@@ -43,7 +43,7 @@ Meteor.methods({
             rejete: false,
             type: "texte",
             dernireModificationPar: auteur,
-            image: {}
+            image: null,
         });
     },
 
@@ -84,8 +84,25 @@ Meteor.methods({
         return Documents.findOne(documentId).revisions.length
     },
 
-    'documents.addImage'(document, image) {
+    'documents.addImage'(session, chapitre, auteur, image) {
         console.log('ajout image')
+        
+        Documents.insert({
+            session: session,
+            chapitre: chapitre,
+            contenu: null,
+            auteur: auteur,
+            creation: new Date(),
+            correction: false,
+            conformation: false,
+            rejete: false,
+            type: "image",
+            dernireModificationPar: auteur,
+            image: image,
+        });
+    },
+
+    'documents.updateImage'(document, image) {
         Documents.update({
             _id: document,
         }, {

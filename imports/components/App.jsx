@@ -104,29 +104,17 @@ class App extends Component {
 
     return (
       <Router>
-        {/* <div className="container"> */}
         <Container fluid={true}>
           <ReactNotification ref={this.notificationDOMRef} />
-          {/* <div className="header"> */}
-            <Route path="/" render={(props) => <TopBar {...props} {...propsToPass} />} />
-          {/* </div> */}
           
-          <div >
+            <Route path="/" render={(props) => <TopBar {...props} {...propsToPass} />} />
+          
             <Route path="/sessions" render={(props) => <IndexSessionsContainer {...props} {...propsToPass} />} />
             <Route path="/session/:idSession/chapitre/:idChapitre" render={(props) => <DetailsChapitreContainer {...props} {...propsToPass} />} />
-          </div>
           
-          <div >
             <Route exact path="/" render={(props) => <LandingPage {...props} {...propsToPass} />} />
-          </div>  
-          {/* <div className="login"> */}
             <Route path="/login" render={(props) => <Login {...props} {...propsToPass} />} /> 
-          {/* </div> */}
                     <Route path="/test" render={(props) => <TestAPI {...this.props} {...props} />} />
-          <div>
-            {/* <p>information</p> */}
-          </div>
-        {/* </div> */}
         </Container>
       </Router>
     )

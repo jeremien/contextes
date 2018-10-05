@@ -22,20 +22,20 @@ class TestAPI extends React.Component {
 
     componentDidMount() {
 
-    this.props.socket.on('notification', (message) => {
-      console.log('notification', message)
-        this.notificationDOMRef.current.addNotification({
-            title: "Awesomeness",
-            message,
-            type: "success",
-            insert: "top",
-            container: "top-right",
-            animationIn: ["animated", "fadeIn"],
-            animationOut: ["animated", "fadeOut"],
-            dismiss: { duration: 2000 },
-            dismissable: { click: true }
+        this.props.socket.on('notification', (message) => {
+            console.log('notification', message)
+            this.notificationDOMRef.current.addNotification({
+                title: "Awesomeness",
+                message,
+                type: "success",
+                insert: "top",
+                container: "top-right",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: { duration: 2000 },
+                dismissable: { click: true }
+            });
         });
-    });
 
     }
 
@@ -43,9 +43,9 @@ class TestAPI extends React.Component {
 
     render() {
         // if(this.props.images) {
-            // {this.props.images.map((image) => (
-            //     console.log( image.url())
-            // ))}
+        // {this.props.images.map((image) => (
+        //     console.log( image.url())
+        // ))}
         return (
             <div className="app-content">
                 <ReactNotification ref={this.notificationDOMRef} />
@@ -64,18 +64,11 @@ class TestAPI extends React.Component {
                 <p>Place images</p> */}
             </div>
         )
-//     }
-//     else {
-//         return <h2>Chargement</h2>
-//     }
+        //     }
+        //     else {
+        //         return <h2>Chargement</h2>
+        //     }
     }
 }
 
 export default TestAPI;
-
-// export default withTracker((props) => {
-//     Meteor.subscribe('images');
-//     return ({
-//         images: Images.find().fetch(),
-//     })
-// })(TestAPI);
