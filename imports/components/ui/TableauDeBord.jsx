@@ -30,14 +30,14 @@ class TableauDeBord extends React.Component {
 
         else {
             return (
-                <div className="tableau-de-bord">
-                    <h2>tableau de bord pour {this.props.session.titre}</h2>
+                <div className="infos--session">
+                    <div className="mui--text-title">tableau de bord pour : {this.props.session.titre}</div>
                     
-                    <h3>Informations</h3>
+                    <div className="mui--text-subhead">Informations</div>
 
                     <InfosSessions session={this.props.session} />
 
-                    <h3>Etat de la session</h3>
+                    <div className="mui--text-subhead">Etat de la session</div>
                     {/* <fieldset onChange={(event) => { console.log(event.target.value) }}> */}
                     <fieldset onChange={this.handleEtat.bind(this)}>
                         <div>

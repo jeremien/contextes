@@ -4,6 +4,11 @@ import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
 import { Connexions } from '../../api/collections/connexions'
 
+import Form from 'muicss/lib/react/form';
+import Input from 'muicss/lib/react/input';
+import Select from 'muicss/lib/react/select';
+import Option from 'muicss/lib/react/option';
+
 class Login extends React.Component {
     constructor(props) {
         super(props);
@@ -19,6 +24,16 @@ class Login extends React.Component {
             localStorage.setItem('userId', id)
             Session.set('userId', id)
         });
+
+        // notifications
+
+        let infos = {
+            title : "nouvelle connexion",
+            message : `${nom} est en ligne`,
+            type : "info"
+        }
+
+        Meteor.call('notification', infos);
         
 
         this.props.history.push('/');
@@ -30,9 +45,23 @@ class Login extends React.Component {
 
     render() {
         return (
-            <form className="login" onSubmit={this.handleSubmit.bind(this)}>
-                <input type="text" name="nom" placeholder="nom" />
-                <select value={this.state.role} onChange={this.handleChange.bind(this)}>
+            // <form className="login" onSubmit={this.handleSubmit.bind(this)}>
+            <Form onSubmit={this.handleSubmit.bind(this)}>
+                <Input type="text" name="nom" placeholder="nom"  />
+                {/* <input type="text" name="nom" placeholder="nom" /> */}
+
+                <Select value={this.state.role} onChange={this.handleChange.bind(this)}>
+                    {!this.props.loading && (this.props.connexions.length == 0) &&
+                        // <option value="editeur">Éditeur</option>
+                        <Option value="editeur" label="Éditeur"/>
+                    }
+                    <Option value="transcripteur" label="Transcripteur" />
+                    <Option value="correcteur" label="Correcteur" />
+                    <Option value="conformateur" label="Conformateur" />
+
+                </Select>
+
+                {/* <select value={this.state.role} onChange={this.handleChange.bind(this)}>
                     {!this.props.loading && (this.props.connexions.length == 0) &&
                         <option value="editeur">Éditeur</option>
                     }
@@ -40,9 +69,12 @@ class Login extends React.Component {
                     <option value="correcteur">Correcteur</option>
                     <option value="conformateur">Conformateur</option>
 
-                </select>
+                </select> */}
+
+
                 <input type="submit" value="connexion" />
-            </form>
+            {/* </form> */}
+            </Form>
 
         );
     }

@@ -2,16 +2,26 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types'
 import { Meteor } from 'meteor/meteor';
 
+import { Form, Input, Select, Option, Textarea, Button, Checkbox } from 'muicss/react'
+
 /**
  * Component gérant la création de session.
  */
 class AjouterSession extends Component {
     constructor(props) {
         super(props);
-        this.deleteCategorie = this.deleteCategorie.bind(this);
+
+        this.state = { 
+            description: '', 
+            categories: [], 
+            categorieCourante: "",
+            showForm: false 
+        }
+
+        // this.deleteCategorie = this.deleteCategorie.bind(this);
     }
     
-    state = { description: '', categories: [], categorieCourante: "" }
+    
 
     static propTypes = {
         utilisateur: PropTypes.string.isRequired,
@@ -21,27 +31,27 @@ class AjouterSession extends Component {
         this.setState({ description: event.target.value })
     }
 
-    handleCategories(event) {
-        if (event.target.value.slice(-1) == " ") {
-            if (event.target.value.slice(0) == " ") {
-                this.setState({ categorieCourante: "" });
-            }
-            else {
-                var prevCategorie = this.state.categories;
-                prevCategorie.push(this.state.categorieCourante);
-                this.setState({ categories: prevCategorie, categorieCourante: "" });
-            }
-        }
-        else {
-            this.setState({ categorieCourante: event.target.value });
-        }
-    }
+    // handleCategories(event) {
+    //     if (event.target.value.slice(-1) == " ") {
+    //         if (event.target.value.slice(0) == " ") {
+    //             this.setState({ categorieCourante: "" });
+    //         }
+    //         else {
+    //             var prevCategorie = this.state.categories;
+    //             prevCategorie.push(this.state.categorieCourante);
+    //             this.setState({ categories: prevCategorie, categorieCourante: "" });
+    //         }
+    //     }
+    //     else {
+    //         this.setState({ categorieCourante: event.target.value });
+    //     }
+    // }
 
-    deleteCategorie(categorie) {
-        var prevCategorie = this.state.categories;
-        prevCategorie.splice(prevCategorie.indexOf(categorie), 1);
-        this.setState({ categories: prevCategorie });
-    }
+    // deleteCategorie(categorie) {
+    //     var prevCategorie = this.state.categories;
+    //     prevCategorie.splice(prevCategorie.indexOf(categorie), 1);
+    //     this.setState({ categories: prevCategorie });
+    // }
 
     handleSubmit(event) {
         event.preventDefault();
@@ -51,7 +61,7 @@ class AjouterSession extends Component {
         const roles = {
             transcripteurs: target.transcripteurs.value,
             correcteurs: target.correcteurs.value,
-            conformateurs: target.conformateurs.value,
+            // conformateurs: target.conformateurs.value,
         };
 
         if (titre && this.state.description) {
@@ -76,56 +86,56 @@ class AjouterSession extends Component {
     }
 
     render() {
+
+        // console.log(this.state)
+
         if (this.props.connecte) {
             return (
-                <div className="ajout-session">
-                    <h2>Création d'une session</h2>
-                    <br />
-                    <form className="nouvelle-session" onSubmit={this.handleSubmit.bind(this)} >
-                        <input
+                <div className="ajout--session">
+                     <div className="mui--text-title" onClick={() => this.setState({showForm : !this.state.showForm})}>Création d'une session  </div>
+
+                    {this.state.showForm && 
+                    <Form className="nouvelle-session" onSubmit={this.handleSubmit.bind(this)} >
+                        <Input
                             type="text"
                             name="titre"
                             placeholder="Entrer le titre de la session"
+                            required
                         />
-                        <br />
-                        <textarea
-                            rows="4"
+                        <Textarea
+                            rows="1"
                             cols="50"
                             form="ajout-session"
                             placeholder="Une bref description de la session"
                             value={this.state.description}
                             onChange={this.handleChange.bind(this)}
-                        >
-                        </textarea>
-                        <br />
-                        <label>Nombre de transcripteurs</label>
-                        <input
+                        />
+                        <legend>Nombre de transcripteurs</legend>
+                        <Input
                             type="number"
                             defaultValue="1"
                             name="transcripteurs"
                             placeholder="1"
                             min="1"
+                            required
                         />
-                        <br />
-                        <label>Nombre de correcteurs</label>
-                        <input
+                        <legend>Nombre de correcteurs</legend>
+                        <Input
                             type="number"
                             defaultValue="1"
                             name="correcteurs"
                             placeholder="1"
                             min="1"
                         />
-                        <br />
-                        <label>Nombre de conformateurs</label>
-                        <input
+                        {/* <label>Nombre de conformateurs</label>
+                        <Input
                             type="number"
                             defaultValue="1"
                             name="conformateurs"
                             min="1"
-                        />
-                        <br />
-                        <label>Choix des catégories possibles pour les chapitres</label>
-                        <input
+                        /> */}
+                        {/* <label>Choix des catégories possibles pour les chapitres</label>
+                        <Input
                             type="text"
                             name="categorie"
                             value={this.state.categorieCourante}
@@ -137,10 +147,12 @@ class AjouterSession extends Component {
                                     {categorie}
                                 </li>
                             ))}
-                        </ul>
-                        <input type="submit" value="Enregistrer" />
-                    </form>
-                    <br />
+                        </ul> */}
+                        {/* <input type="submit" value="Enregistrer" /> */}
+                        <Button color="primary" value="Enregistrer">Enregistrer</Button>
+                    </Form>
+                    } 
+                    
                 </div>
             )
         }

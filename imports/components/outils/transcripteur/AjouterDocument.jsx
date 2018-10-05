@@ -22,6 +22,15 @@ export default class AjouterDocument extends Component {
 
         Meteor.call('documents.insert', session, chapitre, commentaire, auteur)
         event.target.reset();
+
+
+        let infos = {
+            title : "message du transcripteur",
+            message : `ajout du document`,
+            type : "info"
+        }
+
+        Meteor.call('notification', infos);
     }
 
     handleChange(event) {

@@ -5,6 +5,8 @@ import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom'
 
+import { Row, Col, Input, Checkbox, Button } from 'muicss/react';
+
 import DetailsSession from './DetailsSession'
 
 export default class IndexSessions extends Component {
@@ -36,16 +38,16 @@ export default class IndexSessions extends Component {
         }
         // console.log(sessionsFiltrees)
         return sessionsFiltrees.map((session, key) => (
-            <div key={key}>
+            <div className="mui--text-subhead" key={key}>
                 <Link to={`/sessions/${session._id}`} >
-                    {session.titre}
+                    {session.titre} 
                 </Link>
 
                 ({session.etat})
 
                 {!!this.props.connecte 
                  && this.props.role === "editeur" ? 
-                 <button onClick={() => 
+                 <Button color="danger" onClick={() => 
                     { 
                         Meteor.call('sessions.remove', session._id)
                           
@@ -59,7 +61,7 @@ export default class IndexSessions extends Component {
 
                         Meteor.call('notification', infos);
 
-                    }}>Supprimer la session</button> 
+                    }}>Supprimer la session</Button> 
                     : undefined}
 
                 <br />
@@ -77,24 +79,23 @@ export default class IndexSessions extends Component {
         //Conflit avec les props passées par la route sans déconstruction. Trouver une solution plus propre
         var { match, path, ...rest } = this.props
         return (
-            <div className="container-index-session">
-                <div className="index-session-gauche">
+            <Row>
+                <Col md="6">
 
-                    <div className="action-session">
-                        {this.props.action}
-                    </div>
+                  
 
                     <div className="liste-sessions">
-                        <h1>liste des sessions</h1>
-                        <label className="hide-archivee">
-                            <input
+                        <div className="mui--text-title">Liste des sessions</div>
+                        <legend className="hide-archivee">
+                            <Checkbox
                                 name="archive"
                                 type="checkbox"
                                 checked={this.state.toggleSession}
                                 onChange={this.handleChange.bind(this)}
+                                label="Afficher les sessions archivées"
                             />
-                            Afficher les sessions archivées {this.state.toggleSession}
-                        </label>
+                            {this.state.toggleSession}
+                        </legend>
                         {/* <label className="hide-archivee">
                             <input
                                 type="checkbox"
@@ -104,12 +105,15 @@ export default class IndexSessions extends Component {
                             /> */}
                         {this.renderSesssions()}
                     </div>
-                </div>
+                </Col>
 
-                <div className="index-session-droit">
+                <Col md="6">
+                    <div className="action-session">
+                        {this.props.action} 
+                    </div>
                     <Route path="/sessions/:sessionId" render={(props) => <DetailsSession {...props} {...rest} />} />
-                </div>
-            </div>
+                </Col>
+            </Row>
         )
     }
 };

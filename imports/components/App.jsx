@@ -26,6 +26,8 @@ import TopBar from './ui/TopBar'
 
 import IndexSessionsContainer from './data/IndexSessionsContainer';
 
+import Container from 'muicss/lib/react/container';
+
 /**
  * Composant principal de l'application. Gère les routes publiques.
  */
@@ -92,37 +94,40 @@ class App extends Component {
 
 
   render() {
+    // console.log(this.props.loading)
     if (this.props.connecte) {
       Meteor.call('connexions.socket', this.props.connexion._id, this.props.socket.id)
     }
     // console.log(this.props.socket.id)
     const { role, utilisateur, ...rest } = this.props.connexion
-    const propsToPass = { connecte: this.props.connecte, userId: this.props.connexion._id, role: role || "", utilisateur: utilisateur || "", socketId: this.props.socket.id }
+    const propsToPass = { connecte: this.props.connecte, userId: this.props.connexion._id, role: role || "", utilisateur: utilisateur || "", socketId: this.props.socket.id, loading: this.props.loading }
 
     return (
       <Router>
-        <div className="container">
+        {/* <div className="container"> */}
+        <Container fluid={true}>
           <ReactNotification ref={this.notificationDOMRef} />
-          <div className="header">
+          {/* <div className="header"> */}
             <Route path="/" render={(props) => <TopBar {...props} {...propsToPass} />} />
-          </div>
+          {/* </div> */}
           
-          <div className="index">
+          <div >
             <Route path="/sessions" render={(props) => <IndexSessionsContainer {...props} {...propsToPass} />} />
             <Route path="/session/:idSession/chapitre/:idChapitre" render={(props) => <DetailsChapitreContainer {...props} {...propsToPass} />} />
           </div>
           
-          <div className="landing">
+          <div >
             <Route exact path="/" render={(props) => <LandingPage {...props} {...propsToPass} />} />
           </div>  
-          <div className="login">
+          {/* <div className="login"> */}
             <Route path="/login" render={(props) => <Login {...props} {...propsToPass} />} /> 
-          </div>
+          {/* </div> */}
                     <Route path="/test" render={(props) => <TestAPI {...this.props} {...props} />} />
-          <div className="footer">
+          <div>
             {/* <p>information</p> */}
           </div>
-        </div>
+        {/* </div> */}
+        </Container>
       </Router>
     )
   }
