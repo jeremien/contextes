@@ -86,13 +86,7 @@ Meteor.methods({
 
     'documents.addImage'(session, chapitre, auteur, image) {
         console.log('ajout image')
-        // Documents.update({
-        //     _id: document,
-        // }, {
-        //     $set: {
-        //         image: image,
-        //     }
-        // });
+        
         Documents.insert({
             session: session,
             chapitre: chapitre,
@@ -105,6 +99,16 @@ Meteor.methods({
             type: "image",
             dernireModificationPar: auteur,
             image: image,
+        });
+    },
+
+    'documents.updateImage'(document, image) {
+        Documents.update({
+            _id: document,
+        }, {
+            $set: {
+                image: image,
+            }
         });
     }
 

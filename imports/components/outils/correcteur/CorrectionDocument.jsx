@@ -6,6 +6,7 @@ import { Documents } from '../../../api/collections/documents';
 
 // import IndexDocumentsCorrecteur from './IndexDocumentsCorrecteur';
 import DetailsDocumentsCorrecteur from './DetailsDocumentsCorrecteur';
+import AjouterImage from '../editeur/AjouterImage'
 
 class CorrectionDocument extends Component {
 
@@ -15,12 +16,15 @@ class CorrectionDocument extends Component {
 
         return (
             <div>
-                
-                {this.props.documents.map((document) => 
-                    <DetailsDocumentsCorrecteur key={document._id} document={document} />
+
+                {this.props.documents.map((document) =>
+                    <div key={document._id}>
+                        <DetailsDocumentsCorrecteur document={document} />
+                        <AjouterImage document={document} />
+                    </div>
                 )}
 
-                
+
             </div>
         )
 
@@ -32,7 +36,7 @@ export default CorrectionDocumentContainer = withTracker((props) => {
 
     const documentsHandler = Meteor.subscribe('documents');
     const loading = !documentsHandler.ready();
-    const documents = Documents.find({chapitre : props.chapitre._id}).fetch();
+    const documents = Documents.find({ chapitre: props.chapitre._id }).fetch();
     const documentsExists = !loading && !!documents;
 
     return {

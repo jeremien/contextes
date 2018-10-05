@@ -20,7 +20,8 @@ export default class AjouterImage extends Component {
             file: this.fileInput.current.files[0],
             streams: 'dynamic',
             chunkSize: 'dynamic',
-            onUploaded: (error, fileRef) => Meteor.call('documents.addImage', self.props.chapitre.session, self.props.chapitre._id, self.props.utilisateur, fileRef),
+            // onUploaded: (error, fileRef) => Meteor.call('documents.addImage', self.props.chapitre.session, self.props.chapitre._id, self.props.utilisateur, fileRef),
+            onUploaded: (error, fileRef) => self.ajoutDocument(fileRef),
         }, false);
         upload.on('start', function () {
             console.log('debut up')
@@ -40,13 +41,20 @@ export default class AjouterImage extends Component {
         upload.start();
     }
 
-    ajoutDocument
+    ajoutDocument(image) {
+        if (!!this.props.document) {
+            Meteor.call('documents.updateImage', this.props.document._id, image)
+        }
+        else {
+            Meteor.call('documents.addImage', this.props.chapitre.session, this.props.chapitre._id, this.props.utilisateur, image)
+        }
+    }
 
     render() {
         return (
             <ul className="ajouter-image">
                 <li>
-                    <h3>Ajouter une image</h3>
+        <h3>Ajouter une image {!!this.props.document && "au document"}</h3>
                     <form onSubmit={this.handleSubmit}>
                         <label>
                             Upload file:
