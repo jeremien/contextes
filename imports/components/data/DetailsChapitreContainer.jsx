@@ -11,10 +11,12 @@ import { Connexions } from '../../api/collections/connexions';
 import AjouterDocument from '../outils/transcripteur/AjouterDocument';
 import CorrectionDocument from '../outils/correcteur/CorrectionDocument';
 import DetailsDocumentsConformateur from '../outils/conformateur/DetailsDocumentsConformateur';
+import AjouterImages from '../outils/editeur/AjouterImage'
 
 import IndexDocuments from '../ui/IndexDocuments';
 import InfosChapitre from '../ui/InfosChapitre';
 import DetailsChapitre from '../ui/DetailsChapitre';
+
 
 class DetailsChapitreContainer extends React.Component {
     constructor(props) {
@@ -44,14 +46,17 @@ class DetailsChapitreContainer extends React.Component {
                 }
                 break;
             case 'conformateur':
-            return {
-                outilgauche: <InfosChapitre {...propToPass} />,
+                return {
+                    outilgauche: <InfosChapitre {...propToPass} />,
                     outildroit: <DetailsDocumentsConformateur {...propToPass} />
-            }
+                }
             case 'editeur':
                 return {
                     outilgauche: <InfosChapitre {...propToPass} />,
-                    outildroit: <IndexDocuments {...propToPass} />
+                    outildroit: <div>
+                        <IndexDocuments {...propToPass} />
+                        <AjouterImages {...propToPass} />
+                    </div>
                 }
                 break;
             default:

@@ -23,17 +23,17 @@ export default class DetailsDocument extends Component {
   };
 
   handleDeleteDoc(id) {
-    
+
     Meteor.call('documents.remove', this.props.document._id)
 
     let infos = {
-      title : "message de l'éditeur",
-      message : `suppresion du document`,
-      type : "danger"
+      title: "message de l'éditeur",
+      message: `suppresion du document`,
+      type: "danger"
     }
 
     Meteor.call('notification', infos);
-    }
+  }
 
   render() {
 
@@ -41,8 +41,10 @@ export default class DetailsDocument extends Component {
 
     return (
       <ul className="details-document">
-        <li>Créé à {this.props.document.creation.toLocaleTimeString()} par {this.props.document.auteur}, corrigé à ? par ? : </li>
-        <p>{this.props.document.contenu}</p>
+        <li>Créé à {this.props.document.creation.toLocaleTimeString()} par {this.props.document.auteur}{!!this.props.correction && <p>, corrigé à ? par ?</p>} : </li>
+        {!!this.props.document.contenu &&
+          <p>{this.props.document.contenu}</p>
+        }
         <br />
         {!!this.props.document.image &&
           <a href={`/${this.props.document.image._id}.${this.props.document.image.ext}`} target="_blank">
@@ -53,7 +55,7 @@ export default class DetailsDocument extends Component {
             />
           </a>
         }
-        
+
         <button onClick={() => this.handleDeleteDoc(this.props.document._id)}>Supprimer le document</button>
 
         <button onClick={() => Meteor.call('documents.update', this.props.document._id, "doc revisé 2", "perceval")}>Modifier le document</button>

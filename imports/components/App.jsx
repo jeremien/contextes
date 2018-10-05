@@ -103,6 +103,7 @@ class App extends Component {
       <Router>
         <div className="container">
           <ReactNotification ref={this.notificationDOMRef} />
+          
           <div className="header">
             <Route path="/" render={(props) => <TopBar {...props} {...propsToPass} />} />
           </div>
