@@ -20,7 +20,6 @@ export default class AjouterImage extends Component {
             file: this.fileInput.current.files[0],
             streams: 'dynamic',
             chunkSize: 'dynamic',
-            // onUploaded: (error, fileRef) => Meteor.call('documents.addImage', self.props.chapitre.session, self.props.chapitre._id, self.props.utilisateur, fileRef),
             onUploaded: (error, fileRef) => self.ajoutDocument(fileRef),
         }, false);
         upload.on('start', function () {
