@@ -41,11 +41,13 @@ export default class DetailsDocument extends Component {
 
     return (
       <ul className="details-document">
+        
         <li>Créé à {this.props.document.creation.toLocaleTimeString()} par {this.props.document.auteur}{!!this.props.correction && <p>, corrigé à ? par ?</p>} : </li>
         {!!this.props.document.contenu &&
           <p>{this.props.document.contenu}</p>
         }
         <br />
+
         {!!this.props.document.image &&
           <a href={`/${this.props.document.image._id}.${this.props.document.image.ext}`} target="_blank">
             <img

@@ -36,6 +36,14 @@ class Login extends React.Component {
             Session.set('userId', id)
         });
 
+        let infos = {
+            title : "message général",
+            message : `connexion de ${this.state.username} comme ${this.state.role}`,
+            type : "info"
+        };
+
+        Meteor.call('notification', infos);
+
         this.props.history.push('/sessions');
     }
 
@@ -85,7 +93,7 @@ class Login extends React.Component {
                         }
                         <Option value='transcripteur'>Transcripteur</Option>
                         <Option value='correcteur'>Correcteur</Option>
-                        <Option value='conformateur'>Conformateur</Option>
+                        {/* <Option value='conformateur'>Conformateur</Option> */}
                     
                     </Select>
                 </FormItem>

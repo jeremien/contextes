@@ -3,10 +3,11 @@ import PropTypes from 'prop-types'
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 
-import { Form, Input, InputNumber, Button } from 'antd';
+import { Form, Input, InputNumber, Button, message, Slider } from 'antd';
 
 const FormItem = Form.Item;
 const { TextArea } = Input;
+const dureeBoucle = 10;
 
 
 export default class AjouterChapitre extends Component {
@@ -15,43 +16,71 @@ export default class AjouterChapitre extends Component {
         super(props);
 
         this.state = { 
+            titre: '',
             description: '', 
+            duree: dureeBoucle,
             tags: [], 
             tagCourant: "" 
         }
+
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleTitreChange = this.handleTitreChange.bind(this);
+        this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
+        this.handleDureeChange = this.handleDureeChange.bind(this);
+
     }
 
-    
-
-    handleChange(event) {
-        this.setState({ description: event.target.value })
+    handleTitreChange(event) {
+        this.setState({ titre: event.target.value});
     }
 
-    handleTags(event) {
-        if (event.target.value.slice(-1) == " ") {
-            var prevTag = this.state.tags;
-            prevTag.push(this.state.tagCourant);
-            this.setState({ tags: prevTag, tagCourant: "" });
-        }
-        else {
-            this.setState({ tagCourant: event.target.value });
-        }
+    handleDescriptionChange(event) {
+        this.setState({ description: event.target.value });
     }
+
+    handleDureeChange(value) {
+        this.setState( { duree : value });
+    }
+
+    // handleTags(event) {
+    //     if (event.target.value.slice(-1) == " ") {
+    //         var prevTag = this.state.tags;
+    //         prevTag.push(this.state.tagCourant);
+    //         this.setState({ tags: prevTag, tagCourant: "" });
+    //     }
+    //     else {
+    //         this.setState({ tagCourant: event.target.value });
+    //     }
+    // }
 
     handleSubmit(event) {
         event.preventDefault();
-        const target = event.target;
+
+        // const target = event.target;
         const auteur = Session.get('utilisateur');
-        const titre = target.titre.value;
+        // const titre = target.titre.value;
         const session = this.props.sessionId;
-        const duree = target.duree.value || 1;
+        // const duree = target.duree.value || 1;
 
-        if (titre && this.state.description) {
-            Meteor.call('chapitres.insert', session, titre, auteur, this.state.value, duree, this.state.tags)
-            target.reset();
-            this.setState({ tags: [], tagCourant: "" });
+        if (this.state.titre && this.state.description) {
+            Meteor.call(
+                'chapitres.insert', 
+                session, 
+                this.state.titre, 
+                auteur, 
+                this.state.value, 
+                this.state.duree, 
+                this.state.tags)
 
-            // envoie des notifications
+            // target.reset();
+
+            this.setState({ 
+                titre: '',
+                description: '', 
+                duree: dureeBoucle,
+                tags: [], 
+                tagCourant: "" 
+            });
 
             let infos = {
                 title : "message de l'éditeur",
@@ -62,20 +91,20 @@ export default class AjouterChapitre extends Component {
             Meteor.call('notification', infos);
 
         }
+        
         else {
 
-            alert('Remplissez tous les champs')
+            message.error('Remplisser tous les champs!');
         
         }
     }
 
     render() {
 
-
         return (
             
             <Form
-            
+                onSubmit={this.handleSubmit}
             >
 
                 <FormItem
@@ -84,39 +113,55 @@ export default class AjouterChapitre extends Component {
                         <Input
                             placeholder='Titre'
                             value={this.state.titre}
-                            // onChange={this.handleTitreChange}
+                            onChange={this.handleTitreChange}
                         />
                         <TextArea 
                             placeholder='Description'
                             value={this.state.description}
                             autosize={{ minRows: 2, maxRows: 6 }}
-                            // onChange={this.handleDescriptionChange}
+                            onChange={this.handleDescriptionChange}
                         />
                 </FormItem>
 
                 <FormItem
                         label="Durée des boucles"
                 >   
+                        <Slider 
+                            size="small"
+                            min={1}
+                            max={60}
+                            step={10}
+                            value={this.state.duree}
+                            onChange={this.handleDureeChange}
+                        />
+
                         <InputNumber
                             size="small"
                             min={1}
                             max={60}
-                            // value={this.state.transcripteurs}
-                            // onChange={this.handleTranscripteursChange}
+                            step={10}
+                            value={this.state.duree}
+                            onChange={this.handleDureeChange}
                         />
 
                 </FormItem>
 
                 <FormItem >
+
                         <Button 
                             type="primary" 
                             htmlType="submit" 
                         >
                             Créer le chapitre
                         </Button>
+
                         <Button 
                             type="danger" 
-                            htmlType="submit" 
+                            onClick={() => this.setState({ 
+                                titre: '',
+                                description: '', 
+                                duree: dureeBoucle
+                            })}
                         >
                             Reset
                         </Button>

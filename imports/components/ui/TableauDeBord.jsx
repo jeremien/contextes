@@ -44,7 +44,7 @@ class TableauDeBord extends React.Component {
 
     render() {
 
-        const data = [ { role : 'transcripteurs', nombre : 1 } , { role : 'correcteurs', nombre : 1 }];
+        // const data = [ { role : 'transcripteurs', nombre : 1 } , { role : 'correcteurs', nombre : 1 }];
 
         // console.log(this.state.etat)
         // console.log(this.props.session.roles)
@@ -54,9 +54,11 @@ class TableauDeBord extends React.Component {
         // console.log(data)
 
         if (this.props.loading) {
+
             return (
                 <h3>Chargement en cours</h3>
             )
+            
         }
 
         else {

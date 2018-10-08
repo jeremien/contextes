@@ -72,10 +72,23 @@ Meteor.methods({
     'documents.update'(documentId, contenu, utilisateur) {
         // check(documentId, String);
         // checked(contenu, String);
+        
+        // console.log('update', documentId, contenu, utilisateur)
+
         Documents.update(documentId, {
             $set: {
                 contenu: contenu,
-                dernireModificationPar: utilisateur
+                dernireModificationPar: utilisateur,
+                correction: true
+            }
+        });
+    },
+
+    'documents.rejet'(documentId) {
+
+        Documents.update(documentId, {
+            $set: {
+                rejete: true
             }
         });
     },

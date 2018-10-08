@@ -28,7 +28,7 @@ import FilAriane from './ui/FilAriane';
 
 import IndexSessionsContainer from './data/IndexSessionsContainer';
 
-import { Layout } from 'antd';
+import { Layout, notification } from 'antd';
 
 import "antd/dist/antd.css";
 
@@ -41,9 +41,9 @@ const { Header, Content } = Layout;
 class Application extends Component {
   constructor(props) {
     super(props);
+    
     this.handleLeavePage = this.handleLeavePage.bind(this);
-
-    this.notificationDOMRef = React.createRef();
+    this.openNotification = this.openNotification.bind(this);
 
   }
 
@@ -66,6 +66,26 @@ class Application extends Component {
     this.props.socket.on('offAir', () => console.log('off air'));
 
     // notifications
+
+    this.props.socket.on('notification', (title, message, type) => {
+      // console.log('notification', title, message, type)
+
+      this.openNotification(title, message, type);
+       
+    });
+  }
+
+  openNotification(title, message, type) {
+    // console.log(title, message, type)
+
+      notification[type]({
+        message : title,
+        description : message
+      })
+
+  }
+
+
     // this.props.socket.on('notification', (title, message, type) => {
     //   console.log('notification', title, message, type)
     //     this.notificationDOMRef.current.addNotification({
@@ -81,7 +101,7 @@ class Application extends Component {
     //     });
     // });
        
-  }
+  // }
 
   componentWillUnmount() {
     // window.removeEventListener('beforeunload', this.handleLeavePage);

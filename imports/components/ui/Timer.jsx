@@ -32,15 +32,32 @@ class Timer extends Component {
      * L'id de setIntervalle est stocké dans le state "timer" pour pouvori être arrêté ensuite
      */
     startTimer() {
+
         if (!this.state.timer) {
             Meteor.call('timer.start', this.props.chapitre)
             this.setState({ timer: true })
+
+            let infos = {
+                title : "message de l'éditeur",
+                message : "lancement de la transcription",
+                type : "warning"
+            }
+
+            Meteor.call('notification', infos);
         }
     }
 
     stopTimer() {
         Meteor.call('timer.stop', this.props.chapitre)
         this.setState({ timer: false })
+
+        let infos = {
+            title : "message de l'éditeur",
+            message : "arrêt de la transcription",
+            type : "warning"
+        }
+
+        Meteor.call('notification', infos);
     }
 
     //Memo bug : la durée enregistrée est différente d'une seconde.

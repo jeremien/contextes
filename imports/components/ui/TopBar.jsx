@@ -1,9 +1,13 @@
 import React, { Component } from 'react'
 import {Link, Redirect} from 'react-router-dom'
 
-import { Menu } from 'antd';
+import { Menu, Button } from 'antd';
 
 export default class TopBar extends Component {
+
+  constructor(props) {
+    super(props);
+  }
 
 //   componentDidMount() {
 //     // console.log('mount',this.props)
@@ -32,7 +36,9 @@ export default class TopBar extends Component {
 
   render() {  
 
-    let text = `Bienvenue, ${this.props.utilisateur}. Vous êtes le ${this.props.role}`;
+    // console.log(this.state)
+
+    let text = `Bienvenue, ${this.props.utilisateur}. Vous êtes un ${this.props.role}`;
 
     return (
       // <div>top</div>
@@ -47,7 +53,7 @@ export default class TopBar extends Component {
 
         <Menu.Item key='1'><Link to={'/'}>Home</Link></Menu.Item>
         <Menu.Item key='2'><Link to={'/sessions'}>Sessions</Link></Menu.Item>
-        <Menu.Item key=''>Chapitres</Menu.Item>
+        <Menu.Item key='3'>Chapitres</Menu.Item>
 
         {!this.props.connecte ? 
           <Menu.Item 
@@ -59,15 +65,32 @@ export default class TopBar extends Component {
               console.log('logout')
               localStorage.clear();
               Session.clear()
+              
               Meteor.call('connexions.remove', this.props.userId);
                 if (this.props.role == 'editeur') {
                   Meteor.call('deconnexion.editeur')
                 }
+              
+              let infos = {
+                title : "message général",
+                message : `déconnexion de ${this.props.utilisateur} comme ${this.props.role}`,
+                type : "info"
+              };
+      
+              Meteor.call('notification', infos);
+              
               this.props.history.push('/login');
+
               }
             }
           > Logout ({text})</Menu.Item> 
         }
+
+        {/* <Menu.Item 
+          key='5'
+          onClick={() => this.setState({ visibleInfo : true })}
+        >test</Menu.Item> */}
+        
 
         
 

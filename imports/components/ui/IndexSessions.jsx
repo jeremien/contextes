@@ -3,16 +3,17 @@ import PropTypes from 'prop-types'
 import { Session } from 'meteor/session';
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
-import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
 import DetailsSession from './DetailsSession'
 
-import { List, Button, Row, Col } from 'antd'
+import { List, Button, Row, Col, Badge, Divider, Switch } from 'antd'
 
 export default class IndexSessions extends Component {
 
     state = {
-        toggleSession: false,
+        // toggleSession: false,
+        toggleActionSession : true
     }
 
     static propTypes = {
@@ -28,25 +29,25 @@ export default class IndexSessions extends Component {
     };
 
 
-    renderSessions() {
-        let sessionsFiltrees = this.props.sessions;
-        // console.log(sessionsFiltrees)
-        if (this.state.toggleSession) {
-            sessionsFiltrees = sessionsFiltrees.filter((session) => { return (session.etat == "archivee") })
-        }
-        else {
-            sessionsFiltrees = sessionsFiltrees.filter((session) => { return !(session.etat == "archivee") })
-        }
-        // console.log(sessionsFiltrees)
-        return sessionsFiltrees.map((session, key) => (
-            <div  key={key}>
-                <Link to={`/sessions/${session._id}`} >
-                    {session.titre} 
-                </Link>
+    // renderSessions() {
+    //     let sessionsFiltrees = this.props.sessions;
+    //     // console.log(sessionsFiltrees)
+    //     if (this.state.toggleSession) {
+    //         sessionsFiltrees = sessionsFiltrees.filter((session) => { return (session.etat == "archivee") })
+    //     }
+    //     else {
+    //         sessionsFiltrees = sessionsFiltrees.filter((session) => { return !(session.etat == "archivee") })
+    //     }
+    //     // console.log(sessionsFiltrees)
+    //     return sessionsFiltrees.map((session, key) => (
+    //         <div  key={key}>
+    //             <Link to={`/sessions/${session._id}`} >
+    //                 {session.titre} 
+    //             </Link>
 
-                ({session.etat})
+    //             ({session.etat})
 
-                {/* {!!this.props.connecte 
+                /* {!!this.props.connecte 
                  && this.props.role === "editeur" ? 
                  <Button color="danger" onClick={() => 
                     { 
@@ -63,25 +64,27 @@ export default class IndexSessions extends Component {
                         Meteor.call('notification', infos);
 
                     }}>Supprimer la session</Button> 
-                    : undefined} */}
+                    : undefined} */
 
-                <br />
-            </div>
-        ))
-    }
-
-
-    handleChange(event) {
-        // console.log(event.target)
-        const prevState = this.state.toggleSession;
-        this.setState({ toggleSession: event.target.checked })
-    }
+    //             <br />
+    //         </div>
+    //     ))
+    // }
 
 
-    renderActionsSessions(id) {
+    // handleChange(event) {
+    //     const prevState = this.state.toggleSession;
+    //     this.setState({ toggleSession: event.target.checked })
+    // }
+
+
+    renderActionsSessions(id, etat) {
+
+        // console.log(etat != 'edition')
 
         if (!!this.props.connecte 
             && this.props.role === "editeur") {
+
                 return [
 
                     <Button 
@@ -93,7 +96,16 @@ export default class IndexSessions extends Component {
                         <Button 
                             type='danger' 
                             onClick={() => {
-                                Meteor.call('sessions.remove', id)
+
+                                Meteor.call('sessions.remove', id);
+
+                                let infos = {
+                                    title : "message de l'éditeur",
+                                    message : `suppression de la session`,
+                                    type : "warning"
+                                };
+                    
+                                Meteor.call('notification', infos);
                             }}>
                         supprimer
                     </Button>
@@ -104,7 +116,17 @@ export default class IndexSessions extends Component {
 
                     <Button
                         type='primary' 
+                        disabled={etat != 'edition'}
                         onClick={() => { 
+                            
+                            let infos = {
+                                title : "message",
+                                message : `${this.props.utilisateur} a rejoint la session`,
+                                type : "success"
+                              }
+                              
+                              Meteor.call('notification', infos); 
+
                             this.props.history.push(`/sessions/${id}`)
                         }}>
                         rejoindre
@@ -127,42 +149,70 @@ export default class IndexSessions extends Component {
         // const data = ['test', 'japanese']
         // console.log(data)    
         
-        // console.log(this.props.sessions)
+        // console.log(this.props.sessions.etat)
+
+        // console.log(this.props)
 
         return (
- 
-                    <Row gutter={16}>
 
-                        <Col span={12} >
+                <Row gutter={48} >
 
-                            {this.props.action} 
+                    <Col span={12} >
 
-                            <List 
-                                header={<div>listes des sessions</div>}
-                                itemLayout='horizontal'
-                                bordered
-                                dataSource={this.props.sessions}
-                                renderItem={item => (
-
-                                    <List.Item
-                                        actions={this.renderActionsSessions(item._id)}
-                                    >   
-                                        {item.titre} ({item.etat})
-
-                                    </List.Item>
-                                
-                                )}                    
-                            />
-
-                            
+                        {this.props.role === 'editeur' &&
                         
-                        </Col>
+                             <Switch 
+                                defaultChecked={false}
+                                onChange={() => this.setState({ toggleActionSession: !this.state.toggleActionSession})}
+                                style={{ marginBottom: '20px' }}
+                             />
+                        }
+                      
+                        { !this.state.toggleActionSession && this.props.role === 'editeur' ? 
+                            
+                            <div>
+                                {this.props.action}
+                                <Divider />
+                            </div> 
+                            
+                            : 
+                        
+                        undefined }    
+                        
 
-                         <Col span={12} >
-                            <Route path="/sessions/:sessionId" render={(props) => <DetailsSession {...props} {...rest} />} />
-                         </Col>
-                   
-                    </Row>
+                        
+
+                        <List 
+                            header={<div>listes des sessions</div>}
+                            itemLayout='horizontal'
+                            bordered
+                            dataSource={this.props.sessions}
+                            renderItem={item => (
+
+                                <List.Item
+                                    actions={this.renderActionsSessions(item._id, item.etat)}
+                                >   
+                                    <Badge count={0} showZero>
+                                        {item.titre} ({item.etat})
+                                    </Badge>
+                                    
+
+                                </List.Item>
+                            
+                            )}
+                        />          
+
+
+                    </Col>
+
+                    <Col span={12} >
+
+                        <Route path="/sessions/:sessionId" render={(props) => <DetailsSession {...props} {...rest} />} />
+
+                    </Col>
+                            
+                </Row>        
+                        
 
                     // <div className="liste-sessions">
                     //     <div >Liste des sessions</div>

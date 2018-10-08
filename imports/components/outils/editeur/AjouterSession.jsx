@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types'
 import { Meteor } from 'meteor/meteor';
 
-import { Form, Input, InputNumber, Slider, Button } from 'antd';
+import { Form, Input, InputNumber, Slider, Button, message } from 'antd';
 
 const FormItem = Form.Item;
 const { TextArea } = Input;
@@ -86,6 +86,7 @@ class AjouterSession extends Component {
         if (this.state.titre && this.state.description) {
 
             Meteor.call('sessions.insert', this.state.titre, auteur, this.state.description, roles, this.state.categories)
+            
             this.setState({ 
                 titre: '',
                 description: '',
@@ -93,7 +94,19 @@ class AjouterSession extends Component {
                 correcteurs : 1,
                 categorieCourante: "", 
                 categories: [] 
-            })
+            });
+            
+            let infos = {
+                title : "message de l'éditeur",
+                message : `création de la session : ${this.state.titre}`,
+                type : "success"
+            };
+
+            Meteor.call('notification', infos);
+        } else {
+
+            message.error('Remplisser tous les champs!');
+            
         }
 
         // console.log('sub')
@@ -157,6 +170,14 @@ class AjouterSession extends Component {
                     <FormItem
                         label="Transcripteurs"
                     >   
+                        <Slider 
+                            size="small"
+                            min={1}
+                            max={10}
+                            value={this.state.transcripteurs}
+                            onChange={this.handleTranscripteursChange}
+                        />
+
                         <InputNumber
                             size="small"
                             min={1}
@@ -170,6 +191,15 @@ class AjouterSession extends Component {
                     <FormItem
                         label="Correcteurs"
                     >   
+
+                         <Slider 
+                            size="small"
+                            min={1}
+                            max={10}
+                            value={this.state.correcteurs}
+                            onChange={this.handleCorrecteursChange}
+                        />
+
                         <InputNumber
                             size="small"
                             min={1}
@@ -190,7 +220,12 @@ class AjouterSession extends Component {
                         </Button>
                         <Button 
                             type="danger" 
-                            htmlType="submit" 
+                            onClick={() => this.setState({ 
+                                titre: '',
+                                description: '',
+                                transcripteurs: 1,
+                                correcteurs : 1
+                            })}
                         >
                             Reset
                         </Button>

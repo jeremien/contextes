@@ -13,9 +13,15 @@ import CorrectionDocument from '../outils/correcteur/CorrectionDocument';
 import DetailsDocumentsConformateur from '../outils/conformateur/DetailsDocumentsConformateur';
 import AjouterImages from '../outils/editeur/AjouterImage'
 
+import IndexDocumentsTable from '../ui/IndexDocumentsTable';
 import IndexDocuments from '../ui/IndexDocuments';
+
 import InfosChapitre from '../ui/InfosChapitre';
 import DetailsChapitre from '../ui/DetailsChapitre';
+
+import DisplayTimer from '../ui/DisplayTimer';
+
+import { Divider } from 'antd';
 
 
 class DetailsChapitreContainer extends React.Component {
@@ -36,26 +42,35 @@ class DetailsChapitreContainer extends React.Component {
             case 'transcripteur':
                 return {
                     outilgauche: <InfosChapitre {...propToPass} />,
-                    outildroit: <AjouterDocument {...propToPass} />
+                    outildroit: <div>
+                                    <DisplayTimer {...propToPass} />
+                                    <Divider/>
+                                    <AjouterDocument {...propToPass} />
+                                </div>
                 }
                 break;
             case 'correcteur':
                 return {
                     outilgauche: <InfosChapitre {...propToPass} />,
-                    outildroit: <CorrectionDocument {...propToPass} />
+                    outildroit: <div>
+                        <IndexDocuments {...propToPass} />
+                        {/* <CorrectionDocument {...propToPass} /> */}
+                        </div>
                 }
                 break;
-            case 'conformateur':
-                return {
-                    outilgauche: <InfosChapitre {...propToPass} />,
-                    outildroit: <DetailsDocumentsConformateur {...propToPass} />
-                }
+            // case 'conformateur':
+            //     return {
+            //         outilgauche: <InfosChapitre {...propToPass} />,
+            //         outildroit: <DetailsDocumentsConformateur {...propToPass} />
+            //     }
             case 'editeur':
                 return {
                     outilgauche: <InfosChapitre {...propToPass} />,
                     outildroit: <div>
                         <IndexDocuments {...propToPass} />
-                        <AjouterImages {...propToPass} />
+                        <Divider/>
+                        <IndexDocumentsTable {...propToPass} />
+                        {/* <AjouterImages {...propToPass} /> */}
                     </div>
                 }
                 break;

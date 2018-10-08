@@ -17,6 +17,7 @@ export default class LandingPage extends Component {
         return (
             <div>
                 <h1>DDR Contexte</h1>
+                <p>liste des sessions et chapitres</p>
                 <p> introduction </p>
                 
                 {/* <Link to="/sessions">Index des sessions</Link> */}

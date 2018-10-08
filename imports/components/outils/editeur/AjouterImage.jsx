@@ -51,6 +51,7 @@ export default class AjouterImage extends Component {
 
     render() {
         return (
+
             <ul className="ajouter-image">
                 <li>
         <h3>Ajouter une image {!!this.props.document && "au document"}</h3>

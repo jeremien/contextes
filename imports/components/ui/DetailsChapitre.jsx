@@ -8,8 +8,20 @@ import { Link } from 'react-router-dom'
 
 import ConnexionsCourantes from '../outils/ConnexionsCourantes'
 
+import { Layout, Row, Col, Drawer, Switch, Button, Divider } from 'antd'; 
+
 
 export default class DetailsChapitre extends Component {
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            visibleInfo : false,
+            visibleChat : false
+        }
+    }
+
     componentWillUnmount() {
         Meteor.call('connexions.offline', this.props.userId);
     };
@@ -22,6 +34,9 @@ export default class DetailsChapitre extends Component {
     };
 
     render() {
+
+        // console.log(this.props)
+
         if (this.props.loading) {
             return (
                 <div className="details-chapitre">
@@ -35,21 +50,70 @@ export default class DetailsChapitre extends Component {
             //TODO : ajouter le titre de la session dans le detail du chapitre
 
             return (
-                <div className="container-details-chapitre">
-                    <div className='details-chapitre--gauche'>
-                        <div className="infos-chapitre">
-                            <Link to={`/sessions/${this.props.chapitre.session}`}>Retour à la session </Link>
-                            {this.props.outils.outilgauche}
-                            <ConnexionsCourantes {...this.props} />
-                        </div>
+
+                <Layout>
+                        {/* <Switch 
+                            onChange={this.setState({ visible: true })}
+                        /> */}
+                    
+                         
+                        {/* {this.props.role === 'editeur' &&  */}
+
+                            <div>
+                                <Button 
+                                    onClick={() => this.setState({ visibleInfo: true })}
+                                >
+                                informations
+                                </Button>
+                                <Button 
+                                    onClick={() => this.setState({ visibleChat: true })}
+                                >
+                                discussion
+                                </Button>
+
+                                <Drawer
+                                    title={`${this.props.chapitre.titre}`}
+                                    placement="left"
+                                    closable={true}
+                                    onClose={() => this.setState({ visibleInfo : false})}
+                                    visible={this.state.visibleInfo}
+                                >
+
+                                {/* <Link to={`/sessions/${this.props.chapitre.session}`}>Retour à la session </Link> */}
+
+                                {this.props.outils.outilgauche}
+
+                                </Drawer> 
+
+                                <Drawer
+                                    title="Discussion"
+                                    placement="right"
+                                    closable={true}
+                                    onClose={() => this.setState({ visibleChat : false})}
+                                    visible={this.state.visibleChat}
+                                >
+
+                                    <ConnexionsCourantes {...this.props} />
+
+                                </Drawer>   
+                            </div>    
+                        {/* } */}
+                        
+                        <Divider />
+
+                        {this.props.outils.outildroit}
+                    
+                    {/* <div className='details-chapitre--gauche'>
+                           
                     </div>
 
                     <div className='details-chapitre--droit'>
                         <div className="documents">
                             {this.props.outils.outildroit}
                         </div>
-                    </div>
-                </div>
+                    </div> */}
+                </Layout>
+
             )
         }
 

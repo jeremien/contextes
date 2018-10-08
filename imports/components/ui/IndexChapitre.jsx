@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Route, Link, Switch }from 'react-router-dom'
 
 import { Chapitres } from '../../api/collections/chapitres';
 
-import { List, Button } from 'antd';
+import { List, Button, Badge } from 'antd';
 
 class IndexChapitres extends Component {
 
@@ -31,7 +31,16 @@ class IndexChapitres extends Component {
                   <Button 
                       type='danger' 
                       onClick={() => {
-                          Meteor.call('chapitres.remove', chapitreId)
+
+                          Meteor.call('chapitres.remove', chapitreId);
+
+                          let infos = {
+                            title : "message de l'éditeur",
+                            message : `suppression du chapitre`,
+                            type : "warning"
+                          }
+
+                          Meteor.call('notification', infos);
                       }}>
                   supprimer
               </Button>
@@ -42,8 +51,18 @@ class IndexChapitres extends Component {
 
               <Button 
                       type='primary'
-                      onClick={() => { 
-                          this.props.history.push(`/session/${sessionId}/chapitre/${chapitreId}`)
+                      onClick={() => {
+                          
+                        let infos = {
+                          title : "message",
+                          message : `${this.props.utilisateur} a rejoint le chapitre`,
+                          type : "success"
+                        }
+                        
+                        Meteor.call('notification', infos); 
+
+                        this.props.history.push(`/session/${sessionId}/chapitre/${chapitreId}`);
+
                       }}>
                   rejoindre
               </Button>
@@ -53,7 +72,7 @@ class IndexChapitres extends Component {
 
   render() {
 
-    // console.log(this.props.history)
+    // console.log(this.props)
 
     if (this.props.loading) {
       return (
@@ -72,7 +91,10 @@ class IndexChapitres extends Component {
             <List.Item
               actions={this.renderActionsChapitres(item._id, item.session)}
             >
-              {item.titre}
+              <Badge count={0} showZero>
+                {item.titre}
+              </Badge>
+              
 
             </List.Item>
 
