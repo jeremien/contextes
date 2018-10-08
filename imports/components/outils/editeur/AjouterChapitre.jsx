@@ -3,8 +3,25 @@ import PropTypes from 'prop-types'
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 
+import { Form, Input, InputNumber, Button } from 'antd';
+
+const FormItem = Form.Item;
+const { TextArea } = Input;
+
+
 export default class AjouterChapitre extends Component {
-    state = { description: '', tags: [], tagCourant: "" }
+
+    constructor(props) {
+        super(props);
+
+        this.state = { 
+            description: '', 
+            tags: [], 
+            tagCourant: "" 
+        }
+    }
+
+    
 
     handleChange(event) {
         this.setState({ description: event.target.value })
@@ -53,49 +70,104 @@ export default class AjouterChapitre extends Component {
     }
 
     render() {
+
+
         return (
-            <div className="ajout-chapitre">
-                <h3>Ajouter un chapitre</h3>
-                <form className="nouveau-chapitre" onSubmit={this.handleSubmit.bind(this)} >
-                    <input
-                        type="text"
-                        name="titre"
-                        placeholder="Titre du chapitre"
-                    />
-                    <br />
-                    <textarea
-                        rows="4"
-                        cols="50"
-                        form="ajout-session"
-                        placeholder="Une bref description du chapitre"
-                        value={this.state.description}
-                        onChange={this.handleChange.bind(this)}
+            
+            <Form
+            
+            >
+
+                <FormItem
+                        label='Nouveau chapitre'
                     >
-                    </textarea>
-                    <br />
-                    <label>Durée des boucles en minutes</label>
-                    <input
-                        type="number"
-                        name="duree"
-                        defaultValue="60"
-                        min="1"
-                    />
-                    <br />
-                    <label>Choix des tags possibles pour les documents</label>
-                    <input
-                        type="text"
-                        name="tag"
-                        value={this.state.tagCourant}
-                        onChange={this.handleTags.bind(this)}
-                    />
-                    <ul>Tags actuels
-                             {Object.entries(this.state.tags).map(([key, tag]) => (
-                            <li key={key}>{tag}</li>
-                        ))}
-                    </ul>
-                    <input type="submit" value="Enregistrer" />
-                </form>
-            </div>
+                        <Input
+                            placeholder='Titre'
+                            value={this.state.titre}
+                            // onChange={this.handleTitreChange}
+                        />
+                        <TextArea 
+                            placeholder='Description'
+                            value={this.state.description}
+                            autosize={{ minRows: 2, maxRows: 6 }}
+                            // onChange={this.handleDescriptionChange}
+                        />
+                </FormItem>
+
+                <FormItem
+                        label="Durée des boucles"
+                >   
+                        <InputNumber
+                            size="small"
+                            min={1}
+                            max={60}
+                            // value={this.state.transcripteurs}
+                            // onChange={this.handleTranscripteursChange}
+                        />
+
+                </FormItem>
+
+                <FormItem >
+                        <Button 
+                            type="primary" 
+                            htmlType="submit" 
+                        >
+                            Créer le chapitre
+                        </Button>
+                        <Button 
+                            type="danger" 
+                            htmlType="submit" 
+                        >
+                            Reset
+                        </Button>
+                    </FormItem>
+
+
+
+            </Form>
+        
+            // <div className="ajout-chapitre">
+            //     <h3>Ajouter un chapitre</h3>
+            //     <form className="nouveau-chapitre" onSubmit={this.handleSubmit.bind(this)} >
+            //         <input
+            //             type="text"
+            //             name="titre"
+            //             placeholder="Titre du chapitre"
+            //         />
+            //         <br />
+            //         <textarea
+            //             rows="4"
+            //             cols="50"
+            //             form="ajout-session"
+            //             placeholder="Une bref description du chapitre"
+            //             value={this.state.description}
+            //             onChange={this.handleChange.bind(this)}
+            //         >
+            //         </textarea>
+            //         <br />
+            //         <label>Durée des boucles en minutes</label>
+            //         <input
+            //             type="number"
+            //             name="duree"
+            //             defaultValue="60"
+            //             min="1"
+            //         />
+            //         <br />
+            //         <label>Choix des tags possibles pour les documents</label>
+            //         <input
+            //             type="text"
+            //             name="tag"
+            //             value={this.state.tagCourant}
+            //             onChange={this.handleTags.bind(this)}
+            //         />
+            //         <ul>Tags actuels
+            //                  {Object.entries(this.state.tags).map(([key, tag]) => (
+            //                 <li key={key}>{tag}</li>
+            //             ))}
+            //         </ul>
+            //         <input type="submit" value="Enregistrer" />
+            //     </form>
+            // </div>
         )
     }
 }

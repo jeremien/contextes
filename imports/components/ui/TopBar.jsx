@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import {Link, Redirect} from 'react-router-dom'
 
-import Appbar from 'muicss/lib/react/appbar';
-import Button from 'muicss/lib/react/button';
+import { Menu } from 'antd';
 
 export default class TopBar extends Component {
 
@@ -31,75 +30,142 @@ export default class TopBar extends Component {
 
 // }
 
-  render() {
+  render() {  
 
-    let s1 = { verticalAlign: 'middle'}
-    let s2 = { textAlign: 'right'}
+    let text = `Bienvenue, ${this.props.utilisateur}. Vous êtes le ${this.props.role}`;
 
     return (
+      // <div>top</div>
 
-      <Appbar>
+      
+      <Menu
+        theme='dark'
+        mode='horizontal'
+        defaultSelectedKeys={['1']}
+        style={{ lineHeight: '64px' }}
+      > 
 
-        <table width="100%" className="mui--text-dark">
-          <tbody>
-            <tr style={s1}>
-              <td className="mui--appbar--height">
-                 <Link to="/sessions"> Index des Sessions </Link>
-              </td>
-              {!!this.props.connecte ?
-              <td className="mui--appbar--height" style={s2}>
-                  Bienvenue, {this.props.utilisateur}. Vous êtes {this.props.role}
-                   <LogOut {...this.props} />
-              </td> :
-               <td className="mui--appbar--height" style={s2}>
-                <Link to="/login">Login</Link>
-              </td>}
-            </tr>
-          </tbody>
-        
-        </table>
+        <Menu.Item key='1'><Link to={'/'}>Home</Link></Menu.Item>
+        <Menu.Item key='2'><Link to={'/sessions'}>Sessions</Link></Menu.Item>
+        <Menu.Item key=''>Chapitres</Menu.Item>
 
-
-
-        {/* <ul className="mui-list--unstyled">
-        <li className="topbar--titre"> <Link to="/sessions"> Index des Sessions </Link> </li>
-        
-        {!!this.props.connecte ?
-
-          <li className="topbar--logout">
-            
-            Bienvenue, {this.props.utilisateur}. Vous êtes {this.props.role}
-            
-            <LogOut {...this.props} />
-
-          </li>
-          :
-          <li className="topbar--login">
-            <Link to="/login">Login</Link>
-          </li>
+        {!this.props.connecte ? 
+          <Menu.Item 
+            key='4'
+          > <Link to={'/login'}>Login</Link></Menu.Item> :  
+          <Menu.Item 
+            key='4' 
+            onClick={() => {
+              console.log('logout')
+              localStorage.clear();
+              Session.clear()
+              Meteor.call('connexions.remove', this.props.userId);
+                if (this.props.role == 'editeur') {
+                  Meteor.call('deconnexion.editeur')
+                }
+              this.props.history.push('/login');
+              }
+            }
+          > Logout ({text})</Menu.Item> 
         }
-        </ul>  */}
 
-      </Appbar>
+        
+
+      </Menu>
+
+      // <Navigation>
+
+      //   <List>
+
+      //     <li>
+      //       <Link to={'/sessions'}>Index des Sessions</Link>
+      //     </li>
+
+      //     {!!this.props.connecte ? 
+      //       <Button>Logout</Button> :
+      //       <li>
+      //       <Link to={'/login'}>Login</Link>
+      //     </li>
+      //     }
+
+      //   </List>
+
+
+      // </Navigation>
+
+
+
+
+      // <Header
+      //   mode="fixed"
+      //   backgroundColor="lightgrey"
+      // >
+      //   <Menu inline colorScheme="dark">
+      //     <MenuGroup>
+            
+      //       <MenuList> 
+
+      //         <MenuItem 
+      //           text="Index des Sessions" 
+      //           onClick={()=> this.props.history.push('/sessions')} 
+      //         />
+
+      //         {!!this.props.connecte ? 
+                
+      //           // <span>Bienvenue, {this.props.utilisateur}. Vous êtes {this.props.role} <LogOut {...this.props} /> </span> 
+      //           <MenuItem 
+      //             text="Se déconnecter"
+      //             textSecondary={text}
+      //             onClick={() => {
+      //               console.log('clik')
+      //               localStorage.clear();
+      //               Session.clear()
+      //               Meteor.call('connexions.remove', this.props.userId);
+      //               if (this.props.role == 'editeur') {
+      //                 Meteor.call('deconnexion.editeur')
+      //               }
+      //               this.props.history.push('/login');
+      //             }}
+      //           />
+                
+      //           :
+
+      //           <MenuItem 
+      //             text="Login"
+      //             onClick={()=> this.props.history.push('/login')} 
+      //           />
+                
+      //         }
+
+      //       </MenuList>
+          
+      //     </MenuGroup>
+        
+      //   </Menu>
+      // </Header>
+
+      
     )
   }
 }
 
-const LogOut = (props) => {
-  return (
-    <Button
-      type='button'
-      onClick={() => {
-        localStorage.clear();
-        Session.clear()
-        Meteor.call('connexions.remove', props.userId);
-        if (props.role == 'editeur') {
-          Meteor.call('deconnexion.editeur')
-        }
-        props.history.push('/');
-      }}
-    >
-      Se déconnecter
-      </Button>
-  )
-}
+// const LogOut = (props) => {
+//   return (
+//     <Button
+//       text="Se déconnecter"
+//       colorScheme="primary"
+//       size="small"
+//       onPress={() => {
+//         console.log('click')
+//         localStorage.clear();
+//         Session.clear()
+//         Meteor.call('connexions.remove', props.userId);
+//         if (props.role == 'editeur') {
+//           Meteor.call('deconnexion.editeur')
+//         }
+//         props.history.push('/');
+//       }}
+//     />
+      
+//   )
+// }

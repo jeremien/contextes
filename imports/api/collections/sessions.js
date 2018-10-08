@@ -88,6 +88,9 @@ Meteor.methods({
     },
     
     'sessions.etat.update'(sessionId, etat) {
+
+        // console.log(sessionId, etat)
+
         Sessions.update({_id: sessionId}, {$set: {etat: etat}});
         // Meteor.subscribe('chapitres')
         Meteor.call('chapitres.etat.update', sessionId, etat)

@@ -19,7 +19,7 @@ export default class LandingPage extends Component {
                 <h1>DDR Contexte</h1>
                 <p> introduction </p>
                 
-                <Link to="/sessions">Index des sessions</Link>
+                {/* <Link to="/sessions">Index des sessions</Link> */}
             </div>
         )
     }

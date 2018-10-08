@@ -10,6 +10,7 @@ import {
   Prompt,
   Redirect
 } from 'react-router-dom'
+
 import { withTracker } from 'meteor/react-meteor-data';
 import { Session } from 'meteor/session';
 import { Connexions } from '../api/collections/connexions'
@@ -23,15 +24,21 @@ import LandingPage from './ui/LandingPage';
 import TestAPI from './ui/TestAPI';
 import DetailsChapitreContainer from './data/DetailsChapitreContainer';
 import TopBar from './ui/TopBar'
+import FilAriane from './ui/FilAriane';
 
 import IndexSessionsContainer from './data/IndexSessionsContainer';
 
-import Container from 'muicss/lib/react/container';
+import { Layout } from 'antd';
+
+import "antd/dist/antd.css";
+
+const { Header, Content } = Layout;
+
 
 /**
  * Composant principal de l'application. Gère les routes publiques.
  */
-class App extends Component {
+class Application extends Component {
   constructor(props) {
     super(props);
     this.handleLeavePage = this.handleLeavePage.bind(this);
@@ -59,20 +66,20 @@ class App extends Component {
     this.props.socket.on('offAir', () => console.log('off air'));
 
     // notifications
-    this.props.socket.on('notification', (title, message, type) => {
-      console.log('notification', title, message, type)
-        this.notificationDOMRef.current.addNotification({
-            title,
-            message,
-            type,
-            insert: "top",
-            container: "top-right",
-            animationIn: ["animated", "fadeIn"],
-            animationOut: ["animated", "fadeOut"],
-            dismiss: { duration: 4000 },
-            dismissable: { click: true }
-        });
-    });
+    // this.props.socket.on('notification', (title, message, type) => {
+    //   console.log('notification', title, message, type)
+    //     this.notificationDOMRef.current.addNotification({
+    //         title,
+    //         message,
+    //         type,
+    //         insert: "top",
+    //         container: "top-right",
+    //         animationIn: ["animated", "fadeIn"],
+    //         animationOut: ["animated", "fadeOut"],
+    //         dismiss: { duration: 4000 },
+    //         dismissable: { click: true }
+    //     });
+    // });
        
   }
 
@@ -92,8 +99,10 @@ class App extends Component {
   }
 
 
-
   render() {
+
+  
+
     // console.log(this.props.loading)
     if (this.props.connecte) {
       Meteor.call('connexions.socket', this.props.connexion._id, this.props.socket.id)
@@ -104,18 +113,29 @@ class App extends Component {
 
     return (
       <Router>
-        <Container fluid={true}>
-          <ReactNotification ref={this.notificationDOMRef} />
-          
-            <Route path="/" render={(props) => <TopBar {...props} {...propsToPass} />} />
-          
-            <Route path="/sessions" render={(props) => <IndexSessionsContainer {...props} {...propsToPass} />} />
-            <Route path="/session/:idSession/chapitre/:idChapitre" render={(props) => <DetailsChapitreContainer {...props} {...propsToPass} />} />
-          
-            <Route exact path="/" render={(props) => <LandingPage {...props} {...propsToPass} />} />
-            <Route path="/login" render={(props) => <Login {...props} {...propsToPass} />} /> 
+
+            {/* <ReactNotification ref={this.notificationDOMRef} /> */}
+                <Layout>
+                  
+                  <Header>
+                    <Route path="/" render={(props) => <TopBar {...props} {...propsToPass} />} />
+                    
+                  </Header>
+                  
+                  <Content style={{ padding: '0 50px'}}>
+                    
+                    <Route path="/" render={(props) => <FilAriane {...props} {...propsToPass} />} />
+                    
+                    <Route path="/sessions" render={(props) => <IndexSessionsContainer {...props} {...propsToPass} />} />
+                    <Route path="/session/:idSession/chapitre/:idChapitre" render={(props) => <DetailsChapitreContainer {...props} {...propsToPass} />} />
+                  
+                    <Route exact path="/" render={(props) => <LandingPage {...props} {...propsToPass} />} />
+                    <Route path="/login" render={(props) => <Login {...props} {...propsToPass} />} /> 
                     <Route path="/test" render={(props) => <TestAPI {...this.props} {...props} />} />
-        </Container>
+                  
+                  </Content>  
+                </Layout>
+      
       </Router>
     )
   }
@@ -151,5 +171,5 @@ export default withTracker((props) => {
   }
 
 
-})(App);
+})(Application);
 

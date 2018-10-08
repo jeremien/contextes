@@ -21,7 +21,11 @@ class DetailsSession extends React.Component {
     }
 
     render() {
+
+        // console.log(this.props.history)
+
         if (!this.props.loading && this.props.sessionExists) {
+
             return (
                 <div className="details-session">
                     {(!!this.props.connecte && this.props.role == "editeur") ?
@@ -29,9 +33,13 @@ class DetailsSession extends React.Component {
                         :
                         undefined
                     }
-                    <br />
-                    <br />
-                    <IndexChapitre sessionId={this.props.session._id} role={this.props.role} connecte={this.props.connecte} />
+
+                    <IndexChapitre 
+                        {...this.props}
+                        sessionId={this.props.session._id} 
+                        role={this.props.role} 
+                        connecte={this.props.connecte} 
+                    />
 
                 </div>
             )

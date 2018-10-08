@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types'
 import { Meteor } from 'meteor/meteor';
 
-import { Form, Input, Select, Option, Textarea, Button, Checkbox } from 'muicss/react'
+import { Form, Input, InputNumber, Slider, Button } from 'antd';
+
+const FormItem = Form.Item;
+const { TextArea } = Input;
+
 
 /**
  * Component gérant la création de session.
@@ -12,23 +16,40 @@ class AjouterSession extends Component {
         super(props);
 
         this.state = { 
-            description: '', 
+            titre: '',
+            description: '',
+            transcripteurs: 1,
+            correcteurs : 1,
             categories: [], 
-            categorieCourante: "",
-            showForm: false 
+            categorieCourante: '' 
         }
 
-        // this.deleteCategorie = this.deleteCategorie.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleTitreChange = this.handleTitreChange.bind(this);
+        this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
+        this.handleTranscripteursChange = this.handleTranscripteursChange.bind(this);
+        this.handleCorrecteursChange = this.handleCorrecteursChange.bind(this);
     }
     
     
-
     static propTypes = {
         utilisateur: PropTypes.string.isRequired,
     }
 
-    handleChange(event) {
-        this.setState({ description: event.target.value })
+    handleTitreChange(event) {
+        this.setState({titre : event.target.value });
+    }
+
+    handleDescriptionChange(event) {
+        this.setState({ description: event.target.value });
+    }
+
+    handleTranscripteursChange(value) {
+        this.setState({ transcripteurs: value });
+    }
+
+    handleCorrecteursChange(value) {
+        this.setState({ correcteurs: value });
     }
 
     // handleCategories(event) {
@@ -55,34 +76,56 @@ class AjouterSession extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        const target = event.target;
-        const titre = target.titre.value;
+
         const auteur = this.props.utilisateur || inconnu;
         const roles = {
-            transcripteurs: target.transcripteurs.value,
-            correcteurs: target.correcteurs.value,
-            // conformateurs: target.conformateurs.value,
-        };
-
-        if (titre && this.state.description) {
-            Meteor.call('sessions.insert', titre, auteur, this.state.description, roles, this.state.categories)
-            target.reset()
-            this.setState({ categorieCourante: "", categories: [] })
-
-            // envoie des notifications
-
-            let infos = {
-                title : "message de l'éditeur",
-                message : `création de la session : ${titre}`,
-                type : "success"
-            }
-
-            Meteor.call('notification', infos);
+            transcripteurs: this.state.transcripteurs,
+            correcteurs: this.state.correcteurs
         }
 
-        else {
-            alert('Remplissez tous les champs')
+        if (this.state.titre && this.state.description) {
+
+            Meteor.call('sessions.insert', this.state.titre, auteur, this.state.description, roles, this.state.categories)
+            this.setState({ 
+                titre: '',
+                description: '',
+                transcripteurs: 1,
+                correcteurs : 1,
+                categorieCourante: "", 
+                categories: [] 
+            })
         }
+
+        // console.log('sub')
+
+        // const target = event.target;
+        // const titre = target.titre.value;
+        // const auteur = this.props.utilisateur || inconnu;
+        // const roles = {
+        //     transcripteurs: target.transcripteurs.value,
+        //     correcteurs: target.correcteurs.value,
+        //     // conformateurs: target.conformateurs.value,
+        // };
+
+        // if (titre && this.state.description) {
+        //     Meteor.call('sessions.insert', titre, auteur, this.state.description, roles, this.state.categories)
+        //     target.reset()
+        //     this.setState({ categorieCourante: "", categories: [] })
+
+        //     // envoie des notifications
+
+        //     let infos = {
+        //         title : "message de l'éditeur",
+        //         message : `création de la session : ${titre}`,
+        //         type : "success"
+        //     }
+
+        //     Meteor.call('notification', infos);
+        // }
+
+        // else {
+        //     alert('Remplissez tous les champs')
+        // }
     }
 
     render() {
@@ -91,8 +134,76 @@ class AjouterSession extends Component {
 
         if (this.props.connecte) {
             return (
-                <div className="ajout--session">
-                     <div className="mui--text-title" onClick={() => this.setState({showForm : !this.state.showForm})}>Création d'une session  </div>
+                
+                <Form 
+                    onSubmit={this.handleSubmit}
+                >
+                    <FormItem
+                        label='Nouvelle session'
+                    >
+                        <Input
+                            placeholder='Titre de la session'
+                            value={this.state.titre}
+                            onChange={this.handleTitreChange}
+                        />
+                        <TextArea 
+                            placeholder='Description de la session'
+                            value={this.state.description}
+                            autosize={{ minRows: 2, maxRows: 6 }}
+                            onChange={this.handleDescriptionChange}
+                        />
+                    </FormItem>
+
+                    <FormItem
+                        label="Transcripteurs"
+                    >   
+                        <InputNumber
+                            size="small"
+                            min={1}
+                            max={10}
+                            value={this.state.transcripteurs}
+                            onChange={this.handleTranscripteursChange}
+                        />
+
+                    </FormItem>
+
+                    <FormItem
+                        label="Correcteurs"
+                    >   
+                        <InputNumber
+                            size="small"
+                            min={1}
+                            max={10}
+                            value={this.state.correcteurs}
+                            onChange={this.handleCorrecteursChange}
+                            
+                        />
+
+                    </FormItem>
+
+                    <FormItem >
+                        <Button 
+                            type="primary" 
+                            htmlType="submit" 
+                        >
+                            Créer la session
+                        </Button>
+                        <Button 
+                            type="danger" 
+                            htmlType="submit" 
+                        >
+                            Reset
+                        </Button>
+                    </FormItem>
+
+                </Form>
+
+
+                // <div className="ajout--session">
+                    
+                        // création d'une session
+
+                     /* <div className="mui--text-title" onClick={() => this.setState({showForm : !this.state.showForm})}>Création d'une session  </div>
 
                     {this.state.showForm && 
                     <Form className="nouvelle-session" onSubmit={this.handleSubmit.bind(this)} >
@@ -126,15 +237,15 @@ class AjouterSession extends Component {
                             name="correcteurs"
                             placeholder="1"
                             min="1"
-                        />
-                        {/* <label>Nombre de conformateurs</label>
+                        /> */
+                        /* <label>Nombre de conformateurs</label>
                         <Input
                             type="number"
                             defaultValue="1"
                             name="conformateurs"
                             min="1"
-                        /> */}
-                        {/* <label>Choix des catégories possibles pour les chapitres</label>
+                        /> */
+                        /* <label>Choix des catégories possibles pour les chapitres</label>
                         <Input
                             type="text"
                             name="categorie"
@@ -147,13 +258,13 @@ class AjouterSession extends Component {
                                     {categorie}
                                 </li>
                             ))}
-                        </ul> */}
-                        {/* <input type="submit" value="Enregistrer" /> */}
-                        <Button color="primary" value="Enregistrer">Enregistrer</Button>
+                        </ul> */
+                        /* <input type="submit" value="Enregistrer" /> */
+                        /* <Button color="primary" value="Enregistrer">Enregistrer</Button>
                     </Form>
                     } 
-                    
-                </div>
+                     */
+                // </div>
             )
         }
         else {
