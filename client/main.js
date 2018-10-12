@@ -25,7 +25,7 @@ Meteor.startup(() => {
       socket = require('socket.io-client')(`${result}:${PORT}`);
 
       socket.on('connect', function () {
-        // console.log('Client connected');
+        console.log('Client connected');
         render(< App socket={socket} />, document.getElementById('root'))
       });
       socket.on('disconnect', function () {

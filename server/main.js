@@ -15,6 +15,7 @@ import {
 
 import socket_io from 'socket.io';
 import './timer'
+import { Connexions } from '../imports/api/collections/connexions';
 
 
 /**
@@ -29,6 +30,7 @@ io.on('connection', function (socket) {
   console.log('new socket client');
 });
 Meteor.startup(() => {
+  Connexions.remove()
   Images.allow({
     'insert': function () {
       // add custom authentication code here
@@ -65,6 +67,6 @@ Meteor.methods({
   },
 
   'getIp'() {
-    return ProcessingInstruction.env.ROOT_URL
+    return process.env.ROOT_URL
   }
 })
