@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {Meteor} from 'meteor/meteor'
 import PropTypes from 'prop-types'
 import {
   BrowserRouter as Router,
@@ -121,9 +122,6 @@ class Application extends Component {
 
   render() {
 
-  
-
-    // console.log(this.props.loading)
     if (this.props.connecte) {
       Meteor.call('connexions.socket', this.props.connexion._id, this.props.socket.id)
     }
