@@ -49,12 +49,12 @@ class DetailsSession extends React.Component {
                         
                         <div>
                             <Switch 
-                                defaultChecked={false}
+                                defaultChecked={this.state.toggleActionChapitre}
                                 onChange={() => this.setState({ toggleActionChapitre: !this.state.toggleActionChapitre})}
                                 style={{ marginBottom: '20px' }}
                             />
 
-                            { !this.state.toggleActionChapitre ? 
+                            { this.state.toggleActionChapitre ? 
                                 <TableauDeBord session={this.props.session} /> : undefined
                             }    
                             

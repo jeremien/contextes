@@ -13,6 +13,8 @@ import CorrectionDocument from '../outils/correcteur/CorrectionDocument';
 import DetailsDocumentsConformateur from '../outils/conformateur/DetailsDocumentsConformateur';
 import AjouterImages from '../outils/editeur/AjouterImage'
 
+import AlertMessage from '../ui/AlertMessage';
+
 import IndexDocumentsTable from '../ui/IndexDocumentsTable';
 import IndexDocuments from '../ui/IndexDocuments';
 
@@ -43,6 +45,8 @@ class DetailsChapitreContainer extends React.Component {
                 return {
                     outilgauche: <InfosChapitre {...propToPass} />,
                     outildroit: <div>
+                                    <AlertMessage />
+                                    <Divider/>
                                     <DisplayTimer {...propToPass} />
                                     <Divider/>
                                     <AjouterDocument {...propToPass} />

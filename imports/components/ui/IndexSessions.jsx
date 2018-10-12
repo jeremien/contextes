@@ -162,13 +162,13 @@ export default class IndexSessions extends Component {
                         {this.props.role === 'editeur' &&
                         
                              <Switch 
-                                defaultChecked={false}
+                                defaultChecked={this.state.toggleActionSession}
                                 onChange={() => this.setState({ toggleActionSession: !this.state.toggleActionSession})}
                                 style={{ marginBottom: '20px' }}
                              />
                         }
                       
-                        { !this.state.toggleActionSession && this.props.role === 'editeur' ? 
+                        { this.state.toggleActionSession && this.props.role === 'editeur' ? 
                             
                             <div>
                                 {this.props.action}

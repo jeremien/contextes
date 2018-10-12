@@ -9,7 +9,7 @@ import { Button, Icon } from 'antd';
  */
 export default function InfosChapitre(props) {
 
-    console.log(props)
+    // console.log(props)
 
     return (
         

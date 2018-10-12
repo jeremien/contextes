@@ -1,7 +1,6 @@
 --------------------
 
-bug avec babel > maj lors de l'installation via npm > supprimer @babel dans node_module et reinstallation meteor npm install
-react modal > > erreur warning module babel ?
+ROOT_URL='http://192.168.66.8:3000' meteor
 
 --------------------
 
