@@ -62,5 +62,9 @@ Meteor.methods({
 
   'deconnexion.editeur'() {
     io.emit('logoutForce')
+  },
+
+  'getIp'() {
+    return ProcessingInstruction.env.ROOT_URL
   }
 })
