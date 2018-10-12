@@ -121,9 +121,8 @@ class Application extends Component {
 
   render() {
 
-  
-
-    // console.log(this.props.loading)
+    // console.log(this.props)
+    
     if (this.props.connecte) {
       Meteor.call('connexions.socket', this.props.connexion._id, this.props.socket.id)
     }

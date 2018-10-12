@@ -54,13 +54,14 @@ export default class TopBar extends Component {
         <Menu.Item key='1'><Link to={'/'}>Home</Link></Menu.Item>
         <Menu.Item key='2'><Link to={'/sessions'}>Sessions</Link></Menu.Item>
         <Menu.Item key='3'>Chapitres</Menu.Item>
+        <Menu.Item key='4'>Flux</Menu.Item>
 
         {!this.props.connecte ? 
           <Menu.Item 
-            key='4'
+            key='5'
           > <Link to={'/login'}>Login</Link></Menu.Item> :  
           <Menu.Item 
-            key='4' 
+            key='5' 
             onClick={() => {
               console.log('logout')
               localStorage.clear();

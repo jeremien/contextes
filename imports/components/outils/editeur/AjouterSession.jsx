@@ -2,10 +2,23 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types'
 import { Meteor } from 'meteor/meteor';
 
-import { Form, Input, InputNumber, Slider, Button, message } from 'antd';
+import { Form, Input, InputNumber, Slider, Button, message, Divider, Cascader } from 'antd';
 
 const FormItem = Form.Item;
 const { TextArea } = Input;
+
+const options = [
+    {
+        value : 'design',
+        label : 'Design',
+        children : [
+            {
+                value : 'graphique',
+                label : 'Graphique'
+            }
+        ]
+    }
+]
 
 
 /**
@@ -21,9 +34,10 @@ class AjouterSession extends Component {
             transcripteurs: 1,
             correcteurs : 1,
             categories: [], 
-            categorieCourante: '' 
+            // categorieCourante: '' 
         }
 
+        this.handleCategorieChange = this.handleCategorieChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleTitreChange = this.handleTitreChange.bind(this);
         this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
@@ -34,6 +48,10 @@ class AjouterSession extends Component {
     
     static propTypes = {
         utilisateur: PropTypes.string.isRequired,
+    }
+
+    handleCategorieChange(value) {
+        this.setState({ categories : value })
     }
 
     handleTitreChange(event) {
@@ -92,7 +110,7 @@ class AjouterSession extends Component {
                 description: '',
                 transcripteurs: 1,
                 correcteurs : 1,
-                categorieCourante: "", 
+                // categorieCourante: "", 
                 categories: [] 
             });
             
@@ -210,6 +228,23 @@ class AjouterSession extends Component {
                         />
 
                     </FormItem>
+
+                    <Divider/>
+
+                    <FormItem
+                        label="Catégorie"
+                    >   
+
+                       <Cascader
+                            options={options}
+                            onChange={this.handleCategorieChange}
+                            placeholder='choisir la catégorie'
+                        /> 
+
+                    
+                    </FormItem>
+
+                    <Divider/>
 
                     <FormItem >
                         <Button 
