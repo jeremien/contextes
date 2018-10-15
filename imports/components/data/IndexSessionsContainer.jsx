@@ -28,6 +28,9 @@ class IndexSessionsContainer extends Component {
                 <AjouterSession {...this.props} />
             )
         }
+        else {
+            return undefined
+        }
     }
 
     render() {

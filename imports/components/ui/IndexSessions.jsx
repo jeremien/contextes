@@ -192,7 +192,7 @@ export default class IndexSessions extends Component {
                                 <List.Item
                                     actions={this.renderActionsSessions(item._id, item.etat)}
                                 >   
-                                    <Badge count={0} showZero>
+                                    <Badge count={Meteor.call('chapitre.nombre.badge', item._id)} showZero>
                                         {item.titre} ({item.etat})
                                     </Badge>
                                     

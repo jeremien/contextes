@@ -157,5 +157,9 @@ Meteor.methods({
 
     'chapitres.etat.update'(sessionId, etat) {
         Chapitres.update({session: sessionId}, {$set: {etat: etat}});
+    },
+
+    'chapitres.nombre.badge'(session) {
+        return Chapitres.find({session: session}).count()
     }
 })
