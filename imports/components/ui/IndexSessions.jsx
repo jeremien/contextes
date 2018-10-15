@@ -81,8 +81,7 @@ export default class IndexSessions extends Component {
         return (
             <Row>
                 <Col md="6">
-
-                  
+                {this.props.action}                  
 
                     <div className="liste-sessions">
                         <div className="mui--text-title">Liste des sessions</div>
