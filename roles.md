@@ -12,7 +12,7 @@ prise de note
 ---------------
 correcteur
 ---------------
-corrections
+corrections ortographique
 
 ---------------
 conformateur
@@ -28,3 +28,10 @@ images
 annotateur
 ---------------
 gloses
+
+---------------
+schématiseur
+---------------
+carte, charts
+
+

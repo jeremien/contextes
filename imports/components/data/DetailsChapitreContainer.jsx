@@ -45,7 +45,7 @@ class DetailsChapitreContainer extends React.Component {
                 return {
                     outilgauche: <InfosChapitre {...propToPass} />,
                     outildroit: <div>
-                                    <AlertMessage />
+                                    <AlertMessage {...propToPass} />
                                     <Divider/>
                                     <DisplayTimer {...propToPass} />
                                     <Divider/>
@@ -84,6 +84,9 @@ class DetailsChapitreContainer extends React.Component {
     }
 
     render() {
+
+        // console.log(this.props.socket)
+
         if (this.props.chapitreExists && !this.props.loading) {
             var { match, path, ...rest } = this.props;
             const outils = this.getOutils({ ...rest });

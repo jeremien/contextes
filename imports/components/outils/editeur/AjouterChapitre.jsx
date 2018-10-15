@@ -19,7 +19,7 @@ export default class AjouterChapitre extends Component {
             titre: '',
             description: '', 
             duree: dureeBoucle,
-            tags: ['tag'], 
+            tags: [], 
             // tagCourant: "",
             inputVisible: false,
             inputValue : '' 
@@ -113,11 +113,12 @@ export default class AjouterChapitre extends Component {
         const tags = this.state.tags.filter( (tag) => {
             return tag !== removedTag
         })
-        console.log(tags)
+        // console.log(tags)
         this.setState( { tags });
     }
 
     showInputTag() {
+        // console.log('show tag')
         this.setState({
             inputVisible : true
         },
@@ -148,9 +149,7 @@ export default class AjouterChapitre extends Component {
         });
     }
 
-    saveInputRef(input) {
-        return this.input = input;
-    }
+    saveInputRef = input => this.input = input
 
     render() {
 

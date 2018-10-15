@@ -122,14 +122,22 @@ class Application extends Component {
 
   render() {
 
-    // console.log(this.props)
+    // console.log(this.props.socket)
     
     if (this.props.connecte) {
       Meteor.call('connexions.socket', this.props.connexion._id, this.props.socket.id)
     }
     // console.log(this.props.socket.id)
     const { role, utilisateur, ...rest } = this.props.connexion
-    const propsToPass = { connecte: this.props.connecte, userId: this.props.connexion._id, role: role || "", utilisateur: utilisateur || "", socketId: this.props.socket.id, loading: this.props.loading }
+    const propsToPass = { 
+      connecte: this.props.connecte, 
+      userId: this.props.connexion._id, 
+      role: role || "", 
+      utilisateur: utilisateur || "", 
+      socketId: this.props.socket.id, 
+      socket : this.props.socket,
+      loading: this.props.loading 
+    }
 
     return (
       <Router>
