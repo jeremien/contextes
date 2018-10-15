@@ -16,13 +16,18 @@ import App from '../imports/components/App';
 Meteor.startup(() => {
   // Socket io client
   const PORT = 8080;
+
   var socket;
   Meteor.call("getIp", function (error, result) {
     if (error) {
-      console.log(error.reason);
+      console.log('console', error.reason);
       return;
     }
     else {
+
+      result = result.slice(0,19)
+
+      console.log('ip', result)
       socket = require('socket.io-client')(`${result}:${PORT}`);
 
       socket.on('connect', function () {
