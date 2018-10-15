@@ -38,6 +38,8 @@ Meteor.startup(() => {
       return true;
     },
   });
+
+  console.log(process.env)
 })
 
 
@@ -62,5 +64,9 @@ Meteor.methods({
 
   'deconnexion.editeur'() {
     io.emit('logoutForce')
+  },
+
+  'getIp'() {
+    return process.env.ROOT_URL
   }
 })

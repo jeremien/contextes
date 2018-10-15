@@ -16,21 +16,32 @@ import App from '../imports/components/App';
 Meteor.startup(() => {
   // Socket io client
   const PORT = 8080;
-  let socket = require('socket.io-client')(`http://192.168.5.129:${PORT}`);
+  var socket;
+  Meteor.call("getIp", function (error, result) {
+    if (error) {
+      console.log(error.reason);
+      return;
+    }
+    else {
+      socket = require('socket.io-client')(`${result}:${PORT}`);
 
-  socket.on('connect', function () {
-    // console.log('Client connected');
-    render( <App socket={socket} /> , document.getElementById('root'))
-  });
-  socket.on('disconnect', function () {
-    // console.log('Client disconnected');
-  });
-  socket.on('texte', function(data) {
-    console.log(data)
-  });
+      socket.on('connect', function () {
+        // console.log('Client connected');
+        render(< App socket={socket} />, document.getElementById('root'))
+      });
+      socket.on('disconnect', function () {
+        // console.log('Client disconnected');
+      });
+      socket.on('texte', function (data) {
+        console.log(data)
+      });
+    }
+  }
+  )
+
 
   // socket.on('notification', (message) => {
   //   console.log('notification', message);
   // });
-  
+
 });
