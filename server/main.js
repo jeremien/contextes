@@ -9,6 +9,9 @@ import '../imports/api/collections/chapitres';
 import '../imports/api/collections/connexions';
 import '../imports/api/collections/images';
 
+import '../imports/api/collections/publication';
+
+
 import {
   Images
 } from '../imports/api/collections/images'
@@ -39,7 +42,7 @@ Meteor.startup(() => {
     },
   });
 
-  console.log(process.env)
+  // console.log(process.env)
 })
 
 

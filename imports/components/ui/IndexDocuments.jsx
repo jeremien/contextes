@@ -95,7 +95,7 @@ class IndexDocuments extends Component {
               
           }
           >
-          Voir
+          Corriger
           </Button>,
           <Button
             type='default'
@@ -117,7 +117,7 @@ class IndexDocuments extends Component {
 
               let infos = {
                 title : "message de l'éditeur",
-                message : "suppresion du document",
+                message : "supression du document",
                 type : "warning"
               }
           

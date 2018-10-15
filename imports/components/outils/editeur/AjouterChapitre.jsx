@@ -82,6 +82,14 @@ export default class AjouterChapitre extends Component {
 
             // target.reset();
 
+            let infos = {
+                title : `message de l'éditeur`,
+                message : `création d'un chapitre ${this.state.titre}`,
+                type : "success"
+            }
+
+            Meteor.call('notification', infos);
+
             this.setState({ 
                 titre: '',
                 description: '', 
@@ -89,14 +97,6 @@ export default class AjouterChapitre extends Component {
                 tags: [], 
                 tagCourant: "" 
             });
-
-            let infos = {
-                title : "message de l'éditeur",
-                message : "création d'un chapitre",
-                type : "success"
-            }
-
-            Meteor.call('notification', infos);
 
         }
         
@@ -231,7 +231,7 @@ export default class AjouterChapitre extends Component {
                 >   
                         <Slider 
                             size="small"
-                            min={1}
+                            min={5}
                             max={30}
                             // step={5}
                             value={this.state.duree}
@@ -240,7 +240,7 @@ export default class AjouterChapitre extends Component {
 
                         <InputNumber
                             size="small"
-                            min={1}
+                            min={5}
                             max={30}
                             step={5}
                             value={this.state.duree}

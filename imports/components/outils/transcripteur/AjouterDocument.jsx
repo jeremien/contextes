@@ -43,8 +43,8 @@ export default class AjouterDocument extends Component {
             });
     
             let infos = {
-                title : "message du transcripteur",
-                message : `ajout du document`,
+                title : `message du transcripteur ${auteur}`,
+                message : `ajout d'un document dans le chapitre ${chapitre}`,
                 type : "info"
             }
     
