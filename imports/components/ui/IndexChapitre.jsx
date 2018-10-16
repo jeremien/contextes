@@ -5,6 +5,7 @@ import { withTracker } from 'meteor/react-meteor-data';
 import { BrowserRouter as Router, Route, Link, Switch }from 'react-router-dom'
 
 import { Chapitres } from '../../api/collections/chapitres';
+import { Documents } from '../../api/collections/documents';
 
 import { List, Button, Badge } from 'antd';
 
@@ -70,9 +71,19 @@ class IndexChapitres extends Component {
       }
   }
 
+  renderBadgeChapitre(item) {
+    // Meteor.subscribe('documents');
+    // Meteor.call('chapitres.getAllCommentaires', chapitre);
+    // console.log('call', chapitre)
+
+      return (<Badge count={0} showZero>
+      {item.titre}
+      </Badge>)
+  }
+
   render() {
 
-    // console.log(this.props)
+    // console.log(this.props.session.titre)
 
     if (this.props.loading) {
       return (
@@ -84,17 +95,15 @@ class IndexChapitres extends Component {
       return (
 
         <List
-          header={<div>liste des chapitres</div>} 
+          header={<div>{`liste des chapitres de la session ${this.props.session.titre}`}</div>} 
           bordered
           dataSource={this.props.chapitres}
           renderItem={item => (
             <List.Item
               actions={this.renderActionsChapitres(item._id, item.session)}
             >
-              <Badge count={0} showZero>
-                {item.titre}
-              </Badge>
-              
+
+               {this.renderBadgeChapitre(item)} 
 
             </List.Item>
 

@@ -16,7 +16,8 @@ class IndexDocumentsTable extends Component {
 
       this.state = {
         toggleActionDocTable : true,
-        publicationData: []
+        publicationData: [],
+
       }
 
       this.exportData = this.exportData.bind(this);
@@ -25,11 +26,11 @@ class IndexDocumentsTable extends Component {
 
   renderDataTable() {
 
-    console.log(this.props.documents)
+    const data = this.props.documents.filter((item) => {
+      return item.rejete === false;
+    })
 
-    // filtrer les docs rejetés / toggle bouton pour changer l'état
-
-    return this.props.documents.map((item, key) => {
+    return data.map((item, key) => {
         item.key = key;
         return item;
     });

@@ -18,6 +18,7 @@ import {
 
 import socket_io from 'socket.io';
 import './timer'
+import { Documents } from '../imports/api/collections/documents';
 
 
 /**
@@ -43,6 +44,10 @@ Meteor.startup(() => {
   });
 
   // console.log(process.env)
+
+  // Meteor.publish('documents', () => {
+  //   return Documents.find();
+  // })
 })
 
 

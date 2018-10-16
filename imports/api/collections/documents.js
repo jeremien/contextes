@@ -93,6 +93,15 @@ Meteor.methods({
         });
     },
 
+    'documents.accepte'(documentId) {
+
+        Documents.update(documentId, {
+            $set: {
+                rejete: false
+            }
+        });
+    },
+
     'commenrtaires.getVersion'(documentId) {
         return Documents.findOne(documentId).revisions.length
     },

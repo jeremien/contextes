@@ -76,7 +76,19 @@ export default class IndexSessions extends Component {
     //     const prevState = this.state.toggleSession;
     //     this.setState({ toggleSession: event.target.checked })
     // }
+    
+    renderBadge(item) {
 
+    // const getChapitres = Meteor.call('session.getAllChapitres', item._id)
+    // console.log(getChapitres)
+
+       return (
+            <Badge count={0} showZero>
+                {item.titre} ({item.etat})
+            </Badge>
+       )
+
+    }
 
     renderActionsSessions(id, etat) {
 
@@ -187,19 +199,21 @@ export default class IndexSessions extends Component {
                             itemLayout='horizontal'
                             bordered
                             dataSource={this.props.sessions}
-                            renderItem={item => (
+                            renderItem={item => {
 
-                                <List.Item
+                              return (  <List.Item
                                     actions={this.renderActionsSessions(item._id, item.etat)}
                                 >   
-                                    <Badge count={0} showZero>
+                                    {/* <Badge count={0} showZero>
                                         {item.titre} ({item.etat})
-                                    </Badge>
+                                    </Badge> */}
                                     
+                                    {this.renderBadge(item)}
 
                                 </List.Item>
+                              )
                             
-                            )}
+                            }}
                         />          
 
 

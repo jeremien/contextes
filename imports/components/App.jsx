@@ -21,21 +21,25 @@ import ReactNotification from "react-notifications-component";
 
 import IndexSessions from './ui/IndexSessions';
 import Login from './ui/Login';
-import LandingPage from './ui/LandingPage';
 import TestAPI from './ui/TestAPI';
-import DetailsChapitreContainer from './data/DetailsChapitreContainer';
-import TopBar from './ui/TopBar'
-import FilAriane from './ui/FilAriane';
+// import FilAriane from './ui/FilAriane';
+import NoMatch from './ui/NoMatch';
 
 import IndexSessionsContainer from './data/IndexSessionsContainer';
-
 import IndexPublicationsContainer from './data/IndexPublicationsContainer';
+import TopBarContainer from './data/TopBarContainer';
+import DetailsChapitreContainer from './data/DetailsChapitreContainer';
+import LandingPage from './data/LandingPage';
+
+
 
 import { Layout, notification } from 'antd';
 
 import "antd/dist/antd.css";
 
 const { Header, Content } = Layout;
+
+// const onAir = false;
 
 
 /**
@@ -44,6 +48,10 @@ const { Header, Content } = Layout;
 class Application extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      onAir : false
+    }
     
     this.handleLeavePage = this.handleLeavePage.bind(this);
     this.openNotification = this.openNotification.bind(this);
@@ -65,8 +73,8 @@ class Application extends Component {
     // Meteor.call('connexions.online', this.props.utilisateur)
     window.addEventListener("beforeunload", this.handleLeavePage);
     this.props.socket.on('logoutForce', this.logoutForce.bind(this));
-    this.props.socket.on('onAir', () => console.log('on air'));
-    this.props.socket.on('offAir', () => console.log('off air'));
+    this.props.socket.on('onAir', () => this.setState({ onAir : true }));
+    this.props.socket.on('offAir', () => this.setState({ onAir: false }));
 
     // notifications
 
@@ -138,7 +146,8 @@ class Application extends Component {
       utilisateur: utilisateur || "", 
       socketId: this.props.socket.id, 
       socket : this.props.socket,
-      loading: this.props.loading 
+      loading: this.props.loading,
+      onAir : this.state.onAir
     }
 
     return (
@@ -147,14 +156,16 @@ class Application extends Component {
             {/* <ReactNotification ref={this.notificationDOMRef} /> */}
                 <Layout>
                   
-                  <Header>
-                    <Route path="/" render={(props) => <TopBar {...props} {...propsToPass} />} />
+                  <Header style={{backgroundColor:'white', position: 'fixed', zIndex: 1, width: '100%' }}>
+
+                    <Route path="/" render={(props) => <TopBarContainer {...props} {...propsToPass} />} />
                     
                   </Header>
                   
-                  <Content style={{ padding: '0 50px'}}>
+                  <Content style={{ padding: '20px 50px', margin: '100px 0 0 0 '}}>
+                  {/* <Content> */}
                     
-                    <Route path="/" render={(props) => <FilAriane {...props} {...propsToPass} />} />
+                    {/* <Route path="/" render={(props) => <FilAriane {...props} {...propsToPass} />} /> */}
                     
                     <Route path="/sessions" render={(props) => <IndexSessionsContainer {...props} {...propsToPass} />} />
                     <Route path="/session/:idSession/chapitre/:idChapitre" render={(props) => <DetailsChapitreContainer {...props} {...propsToPass} />} />
@@ -164,6 +175,7 @@ class Application extends Component {
                     <Route exact path="/" render={(props) => <LandingPage {...props} {...propsToPass} />} />
                     <Route path="/login" render={(props) => <Login {...props} {...propsToPass} />} /> 
 
+                    {/* <Route render={() => <NoMatch />} /> */}
 
                     <Route path="/test" render={(props) => <TestAPI {...this.props} {...props} />} />
                   
