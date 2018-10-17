@@ -9,12 +9,16 @@ import '../imports/api/collections/chapitres';
 import '../imports/api/collections/connexions';
 import '../imports/api/collections/images';
 
+import '../imports/api/collections/publication';
+
+
 import {
   Images
 } from '../imports/api/collections/images'
 
 import socket_io from 'socket.io';
 import './timer'
+import { Documents } from '../imports/api/collections/documents';
 
 
 /**
@@ -39,7 +43,11 @@ Meteor.startup(() => {
     },
   });
 
-  console.log(process.env)
+  // console.log(process.env)
+
+  // Meteor.publish('documents', () => {
+  //   return Documents.find();
+  // })
 })
 
 

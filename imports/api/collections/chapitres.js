@@ -8,7 +8,7 @@ import {
     check
 } from 'meteor/check';
 import {
-    Commentaires
+    Documents
 } from './documents';
 
 export const Chapitres = new Mongo.Collection('chapitres');
@@ -72,9 +72,10 @@ Meteor.methods({
         return Chapitres.findOne(chapitreId).revisions.length
     },
 
-    'chapitres.getAllCommentaires'(chapitre) {
+    'chapitres.getAllCommentaires' (chapitre) {
+        console.log('call methode', chapitre)
         Meteor.subscribe('documents')
-        return Commentaires.find({
+        return Documents.find({
             chapitre: chapitre
         })
     },

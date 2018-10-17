@@ -1,7 +1,7 @@
 import React from 'react';
 import Timer from './Timer'
 
-import { Button, Icon } from 'antd';
+import { Button, Icon, Divider } from 'antd';
 
 /**
  * Permet l'affichage des méta-data et propriétés d'un chapitre.
@@ -16,16 +16,17 @@ export default function InfosChapitre(props) {
         <div >
             
             <Button 
-                type="primary"
+                type="default"
                 onClick={() => {
                     props.history.push(`/sessions/${props.chapitre.session}`)
                 }}
             >
                 <Icon type="left" /> Retour à la session
             </Button>
-
+            
+            <Divider/>
         
-            {/* <p>description : {props.chapitre.description}</p> */}
+            <p>description : {props.chapitre.description}</p>
 
             {/* <p>nombre de documents : </p> */}
             {/* <p>nombre de documents corrigés : </p> */}
@@ -33,7 +34,7 @@ export default function InfosChapitre(props) {
 
 
             {/* {!!props.connecte && props.role === "editeur" || props.role === "transcripteur" ? <p>Temps de transcription restant : {props.chapitre.timer}</p> : undefined} */}
-
+            <Divider/>
             <Timer {...props} />
 
         </div>

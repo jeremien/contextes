@@ -42,13 +42,13 @@ export default class AjouterDocument extends Component {
                 commentaire: ''
             });
     
-            let infos = {
-                title : "message du transcripteur",
-                message : `ajout du document`,
-                type : "info"
-            }
+            // let infos = {
+            //     title : `message du transcripteur ${auteur}`,
+            //     message : `ajout d'un document dans le chapitre ${chapitre}`,
+            //     type : "info"
+            // }
     
-            Meteor.call('notification', infos);
+            // Meteor.call('notification', infos);
 
         } else {
 
@@ -83,21 +83,26 @@ export default class AjouterDocument extends Component {
                 >
                     <div style={{ margin: '24px 0', fontSize: '50px'}} />
                 </TextArea>
-                <Button 
-                            type="primary" 
-                            htmlType="submit" 
-                        >
-                            Enregistrer
-                        </Button>
+                <Button.Group style={{ margin: '24px 0'}}>
 
-                        <Button 
-                            type="danger" 
-                            onClick={() => this.setState({ 
-                                commentaire: ''
-                            })}
-                        >
-                            Reset
-                </Button>
+                    <Button 
+                        type="primary" 
+                        htmlType="submit" 
+                    >
+                        Enregistrer
+                    </Button>
+
+                    <Button 
+                        type="danger" 
+                        onClick={() => this.setState({ 
+                            commentaire: ''
+                        })}
+                    >
+                        Reset
+                    </Button>
+
+                </Button.Group>
+              
 
             </Form>
 

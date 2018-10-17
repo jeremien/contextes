@@ -39,7 +39,7 @@ export default class DetailsChapitre extends Component {
 
         if (this.props.loading) {
             return (
-                <div className="details-chapitre">
+                <div >
                     <h3>Chargement en cours</h3>
                 </div>
             )
@@ -51,14 +51,8 @@ export default class DetailsChapitre extends Component {
 
             return (
 
-                <Layout>
-                        {/* <Switch 
-                            onChange={this.setState({ visible: true })}
-                        /> */}
-                    
-                         
-                        {/* {this.props.role === 'editeur' &&  */}
-
+                <Layout>    
+                         <h2>{this.props.chapitre.titre}</h2>   
                             <div>
                                 <Button 
                                     onClick={() => this.setState({ visibleInfo: true })}
@@ -79,8 +73,6 @@ export default class DetailsChapitre extends Component {
                                     visible={this.state.visibleInfo}
                                 >
 
-                                {/* <Link to={`/sessions/${this.props.chapitre.session}`}>Retour à la session </Link> */}
-
                                 {this.props.outils.outilgauche}
 
                                 </Drawer> 
@@ -97,21 +89,12 @@ export default class DetailsChapitre extends Component {
 
                                 </Drawer>   
                             </div>    
-                        {/* } */}
+                     
                         
                         <Divider />
 
                         {this.props.outils.outildroit}
                     
-                    {/* <div className='details-chapitre--gauche'>
-                           
-                    </div>
-
-                    <div className='details-chapitre--droit'>
-                        <div className="documents">
-                            {this.props.outils.outildroit}
-                        </div>
-                    </div> */}
                 </Layout>
 
             )

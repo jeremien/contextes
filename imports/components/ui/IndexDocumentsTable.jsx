@@ -5,7 +5,9 @@ import { withTracker } from 'meteor/react-meteor-data';
 
 import { Documents } from '../../api/collections/documents';
 
-import { Table, Divider, Button, Switch } from 'antd';
+import { Table, Divider, Button, Switch, Icon } from 'antd';
+
+// import PublicationPDF from '../outils/editeur/PublicationPDF';
 
 class IndexDocumentsTable extends Component {
 
@@ -13,23 +15,56 @@ class IndexDocumentsTable extends Component {
       super(props);
 
       this.state = {
-        toggleActionDocTable : true
+        toggleActionDocTable : true,
+        publicationData: [],
+
       }
+
+      this.exportData = this.exportData.bind(this);
 
   }  
 
   renderDataTable() {
 
-    return this.props.documents.map((item, key) => {
+    const data = this.props.documents.filter((item) => {
+      return item.rejete === false;
+    })
+
+    return data.map((item, key) => {
         item.key = key;
         return item;
     });
 
   }
 
+  exportData() {
+
+    const titre = this.props.chapitre.titre;
+
+    const contenu = this.state.publicationData.map((item) => {
+      return item.contenu;
+    });
+
+    const selection = {
+      titre,
+      contenu
+    }
+
+    // console.log(texte)
+
+    Meteor.call('publication.insert', selection);
+
+    // return <PublicationPDF/>;
+
+    // reedirection vers la publication
+    this.props.history.push(`/publications`);
+
+  }
+
   render() {
 
-    // console.log(this.props.documents)
+    // console.log(this.props)
+    // console.log('state', this.state.publicationData)
 
     const columns = [
 
@@ -54,14 +89,15 @@ class IndexDocumentsTable extends Component {
             title : 'Corrigé',
             dataIndex : 'correction',
             key: 'correction',
-            render: (item) => item.toString()
+            // render: (item) => item.toString()
+            render: (item) => item ? <Icon type='check-circle' style={{ color : 'green'}} /> : <Icon type='close-circle' style={{ color : 'red'}} />
         },
-        {
-            title : 'Rejeté',
-            dataIndex : 'rejete',
-            key: 'rejete',
-            render: (item) => item.toString()
-        }
+        // {
+        //     title : 'Rejeté',
+        //     dataIndex : 'rejete',
+        //     key: 'rejete',
+        //     render: (item) => item.toString()
+        // }
 
     ];
 
@@ -70,7 +106,10 @@ class IndexDocumentsTable extends Component {
 
     const rowSelection = {
       onChange: (selectedRowKeys, selectedRows) => {
-        console.log(selectedRowKeys, selectedRows);
+        // console.log(selectedRowKeys, selectedRows);
+        // console.log('keys', selectedRowKeys)
+        // console.log('data', selectedRows)
+        this.setState({ publicationData : selectedRows })
       }
     }
     
@@ -93,6 +132,7 @@ class IndexDocumentsTable extends Component {
             
               <div style={{ marginBottom: 16 }}> 
                 <Button
+                  onClick={this.exportData}
                 >
                   Exporter
                 </Button>

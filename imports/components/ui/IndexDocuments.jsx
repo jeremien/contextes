@@ -21,7 +21,7 @@ class IndexDocuments extends Component {
       visible: false,
       docId : null,
       contenu: '',
-      toggleActionDocList : false
+      toggleActionDocList : false,
       // docRejet : false    
     }
 
@@ -75,8 +75,8 @@ class IndexDocuments extends Component {
     // return parseStr;
   }
 
-  renderActionDocuments(docId, contenu) {
-
+  renderActionDocuments(docId, contenu, rejete, correction) {
+      // console.log(rejete)
 
     if (!!this.props.connecte 
       && this.props.role === "editeur") {
@@ -95,19 +95,25 @@ class IndexDocuments extends Component {
               
           }
           >
-          Voir
+          {correction ? 'Revoir' : 'Corriger'}
           </Button>,
           <Button
             type='default'
             onClick={() => {
-              Meteor.call('documents.rejet', docId);
-              // this.setState({
-              //   docRejet: !this.state.docRejet
-              // })
+
+              if (!rejete) {
+                console.log('rejete')
+                Meteor.call('documents.rejet', docId);
+              } else {
+                console.log('accepter')
+                Meteor.call('documents.accepte', docId);
+              }
+
+            
             }
           }
           >
-          Rejeter
+          { rejete ? 'Accepter' : 'Rejeter'}
           </Button>,
           <Button
             type='danger'
@@ -117,7 +123,7 @@ class IndexDocuments extends Component {
 
               let infos = {
                 title : "message de l'éditeur",
-                message : "suppresion du document",
+                message : "supression du document",
                 type : "warning"
               }
           
@@ -137,6 +143,7 @@ class IndexDocuments extends Component {
 
           <Button
             type='primary'
+            disabled={correction}
             onClick={() => {
               this.showModal();
               this.setState({
@@ -160,7 +167,7 @@ class IndexDocuments extends Component {
     // const { visible, confirmLoading } = this.state;
 
     // console.log(this.props.documents)
-    // console.log(this.state)
+
     
     if (this.props.documents != 0) {
 
@@ -182,7 +189,7 @@ class IndexDocuments extends Component {
                   renderItem={item => (
 
                     <List.Item
-                      actions={this.renderActionDocuments(item._id, item.contenu)}
+                      actions={this.renderActionDocuments(item._id, item.contenu, item.rejete, item.correction)}
                     >
                       {item.contenu} 
 

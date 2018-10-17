@@ -8,15 +8,15 @@ class AlertMessage extends React.Component {
         super(props);
 
         this.state = {
-            onAir : true
+            onAir : this.props.onAir
         }
     }
 
     render() {
 
-        // console.log(this.props.socket)
-        this.props.socket.on('onAir', () => this.setState({ onAir : true}));
-        this.props.socket.on('offAir', () => this.setState({ onAir : false}));
+        // console.log(this.props.onAir)
+        // this.props.socket.on('onAir', () => this.setState({ onAir : true}));
+        // this.props.socket.on('offAir', () => this.setState({ onAir : false}));
 
         // console.log(this.state)
 
@@ -24,8 +24,8 @@ class AlertMessage extends React.Component {
 
 
             <Alert 
-                message= {this.state.onAir ? 'commencer la transcription' : 'arrêter la transcription'}
-                type={this.state.onAir ? 'success' : 'error'}
+                message= {this.props.onAir ? 'commencer la transcription' : 'arrêter la transcription'}
+                type={this.props.onAir ? 'success' : 'error'}
             />
 
         )

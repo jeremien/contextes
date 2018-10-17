@@ -18,11 +18,6 @@ class DisplayTimer extends Component {
         return (
             // <div>DisplayTimer : {this.props.chapitre.timer}</div>
 
-            <Affix 
-                offsetTop={50} 
-                onChange={ affixed => console.log(affixed) 
-                }
-            >
 
                 <ButtonGroup>
 
@@ -38,7 +33,6 @@ class DisplayTimer extends Component {
 
                 </ButtonGroup>
               
-            </Affix>
         )
 
 
