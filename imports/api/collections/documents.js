@@ -123,6 +123,24 @@ Meteor.methods({
                 image: image,
             }
         });
+    },
+
+    'documents.nombre.badge'() {
+        const pipeline = {
+            $group: {
+                _id: "$chapitre",
+                sum: {
+                    $sum: 1
+                }
+            }
+        }
+        if (Meteor.isServer) {
+            return Promise.await(Documents.rawCollection().aggregate(pipeline, {
+                allowDiskUse: true
+            }).toArray());
+        }
+
+
     }
 
 

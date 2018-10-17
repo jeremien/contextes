@@ -174,9 +174,11 @@ Meteor.methods({
                 }
             }
         }
-        return Promise.await(Chapitres.rawCollection().aggregate(pipeline, {
-            allowDiskUse: true
-        }).toArray());
+        if (Meteor.isServer) {
+            return Promise.await(Chapitres.rawCollection().aggregate(pipeline, {
+                allowDiskUse: true
+            }).toArray());
+        }
 
 
     }
