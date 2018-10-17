@@ -71,7 +71,6 @@ class Timer extends Component {
 
     //Memo bug : la durée enregistrée est différente d'une seconde.
     handleChange(value) {
-        // this.stopTimer();
         Meteor.call('chapitres.timer.duree', this.props.chapitre._id, value)
         if (this.state.timer) {
             Meteor.call('timer.stop', this.props.chapitre)
@@ -83,13 +82,8 @@ class Timer extends Component {
 
     render() {
 
-        // console.log(this.state)
-        
         return (
             <div>
-
-                
-
                 {this.props.role == "editeur" &&
 
                     <div>
