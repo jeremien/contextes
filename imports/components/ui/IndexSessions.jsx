@@ -13,7 +13,7 @@ export default class IndexSessions extends Component {
 
     state = {
         // toggleSession: false,
-        toggleActionSession : true
+        toggleActionSession: true
     }
 
     static propTypes = {
@@ -47,24 +47,24 @@ export default class IndexSessions extends Component {
 
     //             ({session.etat})
 
-                /* {!!this.props.connecte 
-                 && this.props.role === "editeur" ? 
-                 <Button color="danger" onClick={() => 
-                    { 
-                        Meteor.call('sessions.remove', session._id)
-                          
-                        // envoie des notifications
+    /* {!!this.props.connecte 
+     && this.props.role === "editeur" ? 
+     <Button color="danger" onClick={() => 
+        { 
+            Meteor.call('sessions.remove', session._id)
+              
+            // envoie des notifications
 
-                        let infos = {
-                            title : "message de l'éditeur",
-                            message : `suppresion de la session : ${session.titre}`,
-                            type : "danger"
-                        }
+            let infos = {
+                title : "message de l'éditeur",
+                message : `suppresion de la session : ${session.titre}`,
+                type : "danger"
+            }
 
-                        Meteor.call('notification', infos);
+            Meteor.call('notification', infos);
 
-                    }}>Supprimer la session</Button> 
-                    : undefined} */
+        }}>Supprimer la session</Button> 
+        : undefined} */
 
     //             <br />
     //         </div>
@@ -82,58 +82,67 @@ export default class IndexSessions extends Component {
 
         // console.log(etat != 'edition')
 
-        if (!!this.props.connecte 
+        if (!!this.props.connecte
             && this.props.role === "editeur") {
 
-                return [
+            return [
 
-                    <Button 
-                            onClick={() => { 
-                                this.props.history.push(`/sessions/${id}`)
-                            }}>
-                        voir
+                <Button
+                    onClick={() => {
+                        this.props.history.push(`/sessions/${id}`)
+                    }}>
+                    voir
                         </Button>,
-                        <Button 
-                            type='danger' 
-                            onClick={() => {
+                <Button
+                    type='danger'
+                    onClick={() => {
 
-                                Meteor.call('sessions.remove', id);
+                        Meteor.call('sessions.remove', id);
 
-                                let infos = {
-                                    title : "message de l'éditeur",
-                                    message : `suppression de la session`,
-                                    type : "warning"
-                                };
-                    
-                                Meteor.call('notification', infos);
-                            }}>
-                        supprimer
+                        let infos = {
+                            title: "message de l'éditeur",
+                            message: `suppression de la session`,
+                            type: "warning"
+                        };
+
+                        Meteor.call('notification', infos);
+                    }}>
+                    supprimer
                     </Button>
 
-                ]
-            } else {
-                return [
+            ]
+        } else {
+            return [
 
-                    <Button
-                        type='primary' 
-                        disabled={etat != 'edition'}
-                        onClick={() => { 
-                            
-                            let infos = {
-                                title : "message",
-                                message : `${this.props.utilisateur} a rejoint la session`,
-                                type : "success"
-                              }
-                              
-                              Meteor.call('notification', infos); 
+                <Button
+                    type='primary'
+                    disabled={etat != 'edition'}
+                    onClick={() => {
 
-                            this.props.history.push(`/sessions/${id}`)
-                        }}>
-                        rejoindre
+                        let infos = {
+                            title: "message",
+                            message: `${this.props.utilisateur} a rejoint la session`,
+                            type: "success"
+                        }
+
+                        Meteor.call('notification', infos);
+
+                        this.props.history.push(`/sessions/${id}`)
+                    }}>
+                    rejoindre
                     </Button>
-                ]
+            ]
+        }
+
+    }
+
+    getBadge(session) {
+        this.props.badges.map((badge) => {
+            if (badge._id == session) {
+                console.log(badge.sum)
+                return badge.sum
             }
-
+        })
     }
 
 
@@ -144,106 +153,107 @@ export default class IndexSessions extends Component {
         //Conflit avec les props passées par la route sans déconstruction. Trouver une solution plus propre
 
         const { match, path, ...rest } = this.props;
+        // this.getBadge();
 
         // const data = this.renderSessionsList();
         // const data = ['test', 'japanese']
         // console.log(data)    
-        
+
         // console.log(this.props.sessions.etat)
 
         // console.log(this.props)
 
         return (
 
-                <Row gutter={48} >
+            <Row gutter={48} >
 
-                    <Col span={12} >
+                <Col span={12} >
 
-                        {this.props.role === 'editeur' &&
-                        
-                             <Switch 
-                                defaultChecked={this.state.toggleActionSession}
-                                onChange={() => this.setState({ toggleActionSession: !this.state.toggleActionSession})}
-                                style={{ marginBottom: '20px' }}
-                             />
-                        }
-                      
-                        { this.state.toggleActionSession && this.props.role === 'editeur' ? 
-                            
-                            <div>
-                                {this.props.action}
-                                <Divider />
-                            </div> 
-                            
-                            : 
-                        
-                        undefined }    
-                        
+                    {this.props.role === 'editeur' &&
 
-                        
+                        <Switch
+                            defaultChecked={this.state.toggleActionSession}
+                            onChange={() => this.setState({ toggleActionSession: !this.state.toggleActionSession })}
+                            style={{ marginBottom: '20px' }}
+                        />
+                    }
 
-                        <List 
-                            header={<div>listes des sessions</div>}
-                            itemLayout='horizontal'
-                            bordered
-                            dataSource={this.props.sessions}
-                            renderItem={item => (
+                    {this.state.toggleActionSession && this.props.role === 'editeur' ?
 
-                                <List.Item
-                                    actions={this.renderActionsSessions(item._id, item.etat)}
-                                >   
-                                    <Badge count={Meteor.call('chapitre.nombre.badge', item._id)} showZero>
-                                        {item.titre} ({item.etat})
+                        <div>
+                            {this.props.action}
+                            <Divider />
+                        </div>
+
+                        :
+
+                        undefined}
+
+
+
+
+                    <List
+                        header={<div>listes des sessions</div>}
+                        itemLayout='horizontal'
+                        bordered
+                        dataSource={this.props.sessions}
+                        renderItem={item => (
+
+                            <List.Item
+                                actions={this.renderActionsSessions(item._id, item.etat)}
+                            >
+                                <Badge count={this.getBadge(item._id)} showZero>
+                                    {item.titre} ({item.etat})
                                     </Badge>
-                                    
-
-                                </List.Item>
-                            
-                            )}
-                        />          
 
 
-                    </Col>
+                            </List.Item>
 
-                    <Col span={12} >
-
-                        <Route path="/sessions/:sessionId" render={(props) => <DetailsSession {...props} {...rest} />} />
-
-                    </Col>
-                            
-                </Row>        
-                        
-
-                    // <div className="liste-sessions">
-                    //     <div >Liste des sessions</div>
-                    //     <legend className="hide-archivee">
-                    //         {/* <Checkbox
-                    //             name="archive"
-                    //             type="checkbox"
-                    //             checked={this.state.toggleSession}
-                    //             onChange={this.handleChange.bind(this)}
-                    //             label="Afficher les sessions archivées"
-                    //         /> */}
-                    //         {/* {this.state.toggleSession} */}
-                    //     </legend>
-                    //     {/* <label className="hide-archivee">
-                    //         <input
-                    //             type="checkbox"
-                    //             readOnly
-                    //             checked={this.state.hideCompleted}
-                    //             onClick={this.toggleHideCompleted.bind(this)}
-                    //         /> */}
-                    //     {this.renderSessions()}
-                    // </div>
+                        )}
+                    />
 
 
+                </Col>
 
-                    // <div className="action-session">
-                    //     {this.props.action} 
-                    // </div>
-                    // <Route path="/sessions/:sessionId" render={(props) => <DetailsSession {...props} {...rest} />} />
-                    
-         
+                <Col span={12} >
+
+                    <Route path="/sessions/:sessionId" render={(props) => <DetailsSession {...props} {...rest} />} />
+
+                </Col>
+
+            </Row>
+
+
+            // <div className="liste-sessions">
+            //     <div >Liste des sessions</div>
+            //     <legend className="hide-archivee">
+            //         {/* <Checkbox
+            //             name="archive"
+            //             type="checkbox"
+            //             checked={this.state.toggleSession}
+            //             onChange={this.handleChange.bind(this)}
+            //             label="Afficher les sessions archivées"
+            //         /> */}
+            //         {/* {this.state.toggleSession} */}
+            //     </legend>
+            //     {/* <label className="hide-archivee">
+            //         <input
+            //             type="checkbox"
+            //             readOnly
+            //             checked={this.state.hideCompleted}
+            //             onClick={this.toggleHideCompleted.bind(this)}
+            //         /> */}
+            //     {this.renderSessions()}
+            // </div>
+
+
+
+            // <div className="action-session">
+            //     {this.props.action} 
+            // </div>
+            // <Route path="/sessions/:sessionId" render={(props) => <DetailsSession {...props} {...rest} />} />
+
+
         )
     }
 };
