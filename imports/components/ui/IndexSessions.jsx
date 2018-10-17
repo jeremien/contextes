@@ -209,20 +209,22 @@ export default class IndexSessions extends Component {
                         itemLayout='horizontal'
                         bordered
                         dataSource={this.props.sessions}
-                        renderItem={item => (
+                        renderItem={item => {
 
-                            <List.Item
+                          return (  <List.Item
                                 actions={this.renderActionsSessions(item._id, item.etat)}
-                            >
-                                <Badge count={this.getBadge(item._id)} showZero>
+                            >   
+                                {/* <Badge count={0} showZero>
                                     {item.titre} ({item.etat})
-                                    </Badge>
-
+                                </Badge> */}
+                                
+                                {this.renderBadge(item)}
 
                             </List.Item>
-
-                        )}
+                          )
+                        }}
                     />
+
 
 
                 </Col>
