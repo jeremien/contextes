@@ -125,7 +125,6 @@
     page-wrapping "^1.0.2"
     react "^16.4.1"
     react-reconciler "^0.12.0"
-    yoga-layout "1.9.3"
 
 "@react-pdf/script-itemizer@^0.1.11":
   version "0.1.11"
@@ -5011,11 +5010,3 @@ yargs@^11.0.0:
 yeast@0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/yeast/-/yeast-0.1.2.tgz#008e06d8094320c372dbc2f8ed76a0ca6c8ac419"
-
-yoga-layout@1.9.3:
-  version "1.9.3"
-  resolved "https://registry.yarnpkg.com/yoga-layout/-/yoga-layout-1.9.3.tgz#f851935187f6d2945639b79c57ee0eac2fb7d886"
-  dependencies:
-    autogypi "^0.2.2"
-    nbind "^0.3.14"
-    node-gyp "^3.6.2"
