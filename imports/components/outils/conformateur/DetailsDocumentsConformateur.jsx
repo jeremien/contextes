@@ -52,13 +52,6 @@ class DetailsDocumentsConformateur extends Component {
                         <li key={document._id}>
                             <p>créé à {document.creation.toLocaleTimeString()} par {document.auteur}
                             </p>
-                            {/* <textarea
-                        name="correction"
-                        cols="30"
-                        rows="10"
-                        value={this.state.contenu}
-                        onChange={this.handleChange.bind(this)}>
-                    </textarea> */}
                             <button onClick={(document) => {
                                 this.setState({
                                     open: true,
@@ -73,7 +66,6 @@ class DetailsDocumentsConformateur extends Component {
                                         layout="vertical"
                                         onChange={this.handleValueChange}
                                         editorState={this.state.mdeState}
-                                    // generateMarkdownPreview={(markdown) => this.converter.makeHtml(markdown)}
                                     />
 
                                 </div>

@@ -2,7 +2,6 @@ import React from 'react'
 import { Session } from 'meteor/session';
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
-import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import { Chapitres } from '../../api/collections/chapitres';
@@ -84,9 +83,6 @@ class DetailsChapitreContainer extends React.Component {
     }
 
     render() {
-
-        // console.log(this.props.socket)
-
         if (this.props.chapitreExists && !this.props.loading) {
             var { match, path, ...rest } = this.props;
             const outils = this.getOutils({ ...rest });

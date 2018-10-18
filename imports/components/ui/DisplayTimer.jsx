@@ -20,9 +20,6 @@ class DisplayTimer extends Component {
     render() {
 
         return (
-            // <div>DisplayTimer : {this.props.chapitre.timer}</div>
-
-
             <ButtonGroup>
 
                 <Button

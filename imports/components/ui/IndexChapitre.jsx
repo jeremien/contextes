@@ -16,9 +16,6 @@ class IndexChapitres extends Component {
   }
 
   renderActionsChapitres(chapitreId, sessionId) {
-    
-    // console.log(idChapitre, idSession)
-
     if (!!this.props.connecte 
       && this.props.role === "editeur") {
           return [
@@ -82,9 +79,6 @@ class IndexChapitres extends Component {
   }
 
   render() {
-
-    // console.log(this.props.session.titre)
-
     if (this.props.loading) {
       return (
         <h3>Chargement en cours</h3>

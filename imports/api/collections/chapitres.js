@@ -57,7 +57,6 @@ Meteor.methods({
                 session: idSuppression
             }]
         })
-
     },
 
     'chapitres.update'(chapitreId, titre) {
@@ -72,8 +71,7 @@ Meteor.methods({
         return Chapitres.findOne(chapitreId).revisions.length
     },
 
-    'chapitres.getAllCommentaires' (chapitre) {
-        console.log('call methode', chapitre)
+    'chapitres.getAllCommentaires'(chapitre) {
         Meteor.subscribe('documents')
         return Documents.find({
             chapitre: chapitre

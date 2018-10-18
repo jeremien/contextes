@@ -22,33 +22,28 @@ Meteor.startup(() => {
           if (error) {
             console.log(error.reason);
             return;
-          } else {
-            console.log(result)
+          } 
+          else {
             if (result == "http://localhost:3000/") {
               socket = require('socket.io-client')(`http://127.0.0.1:${PORT}`);
-            } else {
+            } 
+            else {
               socket = require('socket.io-client')(`${result}:${PORT}`);
             }
 
             socket.on('connect', function () {
-                console.log('Client connected');
                 render( < App socket = {
                     socket
                   }
                   />, document.getElementById('root'))
-                }); socket.on('disconnect', function () {
-                // console.log('Client disconnected');
-              }); socket.on('texte', function (data) {
+                }); 
+            socket.on('disconnect', function () {
+
+              }); 
+            socket.on('texte', function (data) {
                 console.log(data)
               });
             }
           }
-
         )
-
-
-        // socket.on('notification', (message) => {
-        //   console.log('notification', message);
-        // });
-
       });

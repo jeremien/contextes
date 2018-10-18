@@ -12,9 +12,6 @@ class TopBarContainer extends React.Component {
 
 
     render() {
-
-        // console.log(this.props)
-
         return (
             <div>
                 <TopBar {...this.props} />
@@ -23,9 +20,7 @@ class TopBarContainer extends React.Component {
             
         )
 
-
     }
-
 
 }
 

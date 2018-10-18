@@ -74,10 +74,8 @@ class LandingPage extends Component {
                             )
                         }}
                     
-                    
                     />
                 )
-
 
             }
 

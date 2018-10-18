@@ -35,10 +35,6 @@ class DetailsSession extends React.Component {
     }
 
     render() {
-
-        // console.log(this.props.history)
-        // console.log(this.state)
-
         if (!this.props.loading && this.props.sessionExists) {
 
             return (

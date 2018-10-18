@@ -53,7 +53,6 @@ Meteor.methods({
      * @param {ObjectId} documentId Identifiant Mongo du document à supprimer
      */
     'documents.remove'(idSuppression) {
-        // Documents.update({_id: documentId}, {$set: {type: null}})
         Documents.remove({
             $or: [{
                 _id: idSuppression
@@ -70,11 +69,6 @@ Meteor.methods({
      * @param {*} contenu 
      */
     'documents.update'(documentId, contenu, utilisateur) {
-        // check(documentId, String);
-        // checked(contenu, String);
-        
-        // console.log('update', documentId, contenu, utilisateur)
-
         Documents.update(documentId, {
             $set: {
                 contenu: contenu,
@@ -85,7 +79,6 @@ Meteor.methods({
     },
 
     'documents.rejet'(documentId) {
-
         Documents.update(documentId, {
             $set: {
                 rejete: true
@@ -94,7 +87,6 @@ Meteor.methods({
     },
 
     'documents.accepte'(documentId) {
-
         Documents.update(documentId, {
             $set: {
                 rejete: false
@@ -107,8 +99,6 @@ Meteor.methods({
     },
 
     'documents.addImage'(session, chapitre, auteur, image) {
-        console.log('ajout image')
-        
         Documents.insert({
             session: session,
             chapitre: chapitre,
@@ -148,8 +138,6 @@ Meteor.methods({
                 allowDiskUse: true
             }).toArray());
         }
-
-
     }
 
 

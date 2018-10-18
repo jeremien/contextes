@@ -40,9 +40,6 @@ export default class DetailsDocument extends Component {
   }
 
   render() {
-
-    // console.log(this.props)
-
     return (
       <ul className="details-document">
 
@@ -69,13 +66,6 @@ export default class DetailsDocument extends Component {
               description={`A ${this.props.document.creation}`}
             />
           </Card>
-          // <a href={`/${this.props.document.image._id}.${this.props.document.image.ext}`} target="_blank">
-          //   <img
-          //     src={`/${this.props.document.image._id}.${this.props.document.image.ext}`}
-          //     alt="une image"
-          //     className="thumbnail"
-          //   />
-          // </a>
         }
 
         <button onClick={() => this.handleDeleteDoc(this.props.document._id)}>Supprimer le document</button>

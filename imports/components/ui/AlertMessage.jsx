@@ -13,13 +13,6 @@ class AlertMessage extends React.Component {
     }
 
     render() {
-
-        // console.log(this.props.onAir)
-        // this.props.socket.on('onAir', () => this.setState({ onAir : true}));
-        // this.props.socket.on('offAir', () => this.setState({ onAir : false}));
-
-        // console.log(this.state)
-
         return (
 
 

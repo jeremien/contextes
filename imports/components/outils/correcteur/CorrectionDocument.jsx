@@ -11,9 +11,6 @@ import AjouterImage from '../editeur/AjouterImage'
 class CorrectionDocument extends Component {
 
     render() {
-
-        // console.log(this.props.documents)
-
         return (
             <div>
 
