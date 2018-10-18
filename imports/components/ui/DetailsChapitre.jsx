@@ -8,17 +8,16 @@ import { Link } from 'react-router-dom'
 
 import ConnexionsCourantes from '../outils/ConnexionsCourantes'
 
-import { Layout, Row, Col, Drawer, Switch, Button, Divider } from 'antd'; 
+import { Layout, Row, Col, Drawer, Switch, Button, Divider } from 'antd';
 
 
 export default class DetailsChapitre extends Component {
-
     constructor(props) {
         super(props);
 
         this.state = {
-            visibleInfo : false,
-            visibleChat : false
+            visibleInfo: false,
+            visibleChat: false
         }
     }
 
@@ -34,9 +33,6 @@ export default class DetailsChapitre extends Component {
     };
 
     render() {
-
-        // console.log(this.props)
-
         if (this.props.loading) {
             return (
                 <div >
@@ -51,59 +47,60 @@ export default class DetailsChapitre extends Component {
 
             return (
 
-                <Layout>    
-                         <h2>{this.props.chapitre.titre}</h2>   
-                            <div>
-                                <Button 
-                                    onClick={() => this.setState({ visibleInfo: true })}
-                                >
-                                informations
+                <Layout>
+                    <h2>{this.props.chapitre.titre}</h2>
+                    <div>
+                        <Button
+                            onClick={() => this.setState({ visibleInfo: true })}
+                        >
+                            informations
                                 </Button>
-                                <Button 
-                                    onClick={() => this.setState({ visibleChat: true })}
-                                >
-                                discussion
+                        <Button
+                            onClick={() => this.setState({ visibleChat: true })}
+                        >
+                            discussion
                                 </Button>
 
-                                <Drawer
-                                    title={`${this.props.chapitre.titre}`}
-                                    placement="left"
-                                    closable={true}
-                                    onClose={() => this.setState({ visibleInfo : false})}
-                                    visible={this.state.visibleInfo}
-                                >
+                        <Drawer
+                            title={`${this.props.chapitre.titre}`}
+                            placement="left"
+                            closable={true}
+                            onClose={() => this.setState({ visibleInfo: false })}
+                            visible={this.state.visibleInfo}
+                        >
 
-                                {this.props.outils.outilgauche}
+                            {this.props.outils.outilgauche}
 
-                                </Drawer> 
+                        </Drawer>
 
-                                <Drawer
-                                    title="Discussion"
-                                    placement="right"
-                                    closable={true}
-                                    onClose={() => this.setState({ visibleChat : false})}
-                                    visible={this.state.visibleChat}
-                                >
+                        <Drawer
+                            title="Discussion"
+                            placement="right"
+                            closable={true}
+                            onClose={() => this.setState({ visibleChat: false })}
+                            visible={this.state.visibleChat}
+                        >
 
-                                    <ConnexionsCourantes {...this.props} />
+                            <ConnexionsCourantes {...this.props} />
 
-                                </Drawer>   
-                            </div>    
-                     
-                        
-                        <Divider />
+                        </Drawer>
+                    </div>
 
-                        {this.props.outils.outildroit}
-                    
+
+                    <Divider />
+
+                    {this.props.outils.outildroit}
+
                 </Layout>
 
             )
         }
-
-        return (
-            <div className="details-chapitre">
-                <h3>Choisir un chapitre</h3>
-            </div>
-        )
+        else {
+            return (
+                <div className="details-chapitre">
+                    <h3>Choisir un chapitre</h3>
+                </div>
+            )
+        }
     }
 }

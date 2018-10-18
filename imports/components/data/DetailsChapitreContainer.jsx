@@ -74,7 +74,7 @@ class DetailsChapitreContainer extends React.Component {
                         <IndexDocuments {...propToPass} />
                         <Divider/>
                         <IndexDocumentsTable {...propToPass} />
-                        {/* <AjouterImages {...propToPass} /> */}
+                        <AjouterImages {...propToPass} />
                     </div>
                 }
                 break;

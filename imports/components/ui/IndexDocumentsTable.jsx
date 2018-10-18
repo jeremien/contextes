@@ -49,9 +49,6 @@ class IndexDocumentsTable extends Component {
       titre,
       contenu
     }
-
-    // console.log(texte)
-
     Meteor.call('publication.insert', selection);
 
     // return <PublicationPDF/>;
@@ -62,12 +59,7 @@ class IndexDocumentsTable extends Component {
   }
 
   render() {
-
-    // console.log(this.props)
-    // console.log('state', this.state.publicationData)
-
     const columns = [
-
         {
             title : 'Contenu',
             dataIndex : 'contenu',
@@ -102,7 +94,6 @@ class IndexDocumentsTable extends Component {
     ];
 
     const data = this.renderDataTable();
-    // console.log(data)
 
     const rowSelection = {
       onChange: (selectedRowKeys, selectedRows) => {
@@ -113,10 +104,9 @@ class IndexDocumentsTable extends Component {
       }
     }
     
-    if (this.props.documents != 0) {
+    if (!!this.props.documentsExists) {
 
       return (
-
 
         <div>
           
@@ -168,7 +158,7 @@ class IndexDocumentsTable extends Component {
 export default IndexDocumentsTable = withTracker((props) => {
   const documentsHandler = Meteor.subscribe('documents');
   const loading = !documentsHandler.ready();
-  const documents = Documents.find({ chapitre: props.chapitre._id }).fetch()
+  const documents = Documents.find({ chapitre: props.chapitre._id, type: "texte" }).fetch()
   const documentsExists = !loading && !!documents;
   return {
     loading,

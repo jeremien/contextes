@@ -1,23 +1,28 @@
 import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { Link } from 'react-router-dom'
-import Modal from 'react-responsive-modal';
 import { Images } from '../../../api/collections/images'
 import { Documents } from '../../../api/collections/documents'
+
+import { Upload, Icon, message, Button, Switch } from 'antd';
 
 export default class AjouterImage extends Component {
     constructor(props) {
         super(props);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.fileInput = React.createRef();
+        this.state={
+            toggleAjouterImage: true,
+        }
     }
 
-    handleSubmit(event) {
+    /**
+     * Méthode à ajouter dans la props data pour uploader
+     */
+    handleSubmit(file) {
         let self = this
-
-        event.preventDefault();
         const upload = Images.insert({
-            file: this.fileInput.current.files[0],
+            file: file,
             streams: 'dynamic',
             chunkSize: 'dynamic',
             onUploaded: (error, fileRef) => self.ajoutDocument(fileRef),
@@ -52,19 +57,23 @@ export default class AjouterImage extends Component {
     render() {
         return (
 
-            <ul className="ajouter-image">
-                <li>
-        <h3>Ajouter une image {!!this.props.document && "au document"}</h3>
-                    <form onSubmit={this.handleSubmit}>
-                        <label>
-                            Upload file:
-                            <input id="fileinput" type="file" ref={this.fileInput} />
-                        </label>
-                        <br />
-                        <button type="submit">Submit</button>
-                    </form>
-                </li>
-            </ul>
+            <div className="ajouter-image">
+                <Switch
+                    defaultChecked={this.state.toggleAjouterImage}
+                    onChange={() => this.setState({ toggleAjouterImage: !this.state.toggleAjouterImage })}
+                    style={{ marginBottom: '20px' }}
+                />
+
+                {this.state.toggleAjouterImage &&
+                <Upload.Dragger data={this.handleSubmit}>
+                    <p className="ant-upload-drag-icon">
+                        <Icon type="inbox" />
+                    </p>
+                    <p className="ant-upload-text">Click or drag file to this area to upload</p>
+                    <p className="ant-upload-hint">Support for a single or bulk upload. Strictly prohibit from uploading company data or other band files</p>
+                </Upload.Dragger>
+                }
+            </div>
         )
     }
 }
