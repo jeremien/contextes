@@ -9,6 +9,9 @@ import '../imports/api/collections/chapitres';
 import '../imports/api/collections/connexions';
 import '../imports/api/collections/images';
 
+import '../imports/api/collections/publication';
+
+
 import {
   Images
 } from '../imports/api/collections/images'
@@ -16,6 +19,7 @@ import {
 import socket_io from 'socket.io';
 import './timer'
 import { Connexions } from '../imports/api/collections/connexions';
+import { Documents } from '../imports/api/collections/documents';
 
 
 /**
@@ -40,6 +44,12 @@ Meteor.startup(() => {
       return true;
     },
   });
+
+  // console.log(process.env)
+
+  // Meteor.publish('documents', () => {
+  //   return Documents.find();
+  // })
 })
 
 

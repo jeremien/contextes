@@ -8,7 +8,7 @@ import {
     check
 } from 'meteor/check';
 import {
-    Commentaires
+    Documents
 } from './documents';
 
 export const Chapitres = new Mongo.Collection('chapitres');
@@ -27,7 +27,7 @@ Meteor.methods({
      * @param {*} auteur Personne qui a créer le chapitre par défaut
      * @param {integer} duree Durée du chapitre en minutes
      */
-    'chapitres.insert' (session, titre, auteur, description, duree, tags) {
+    'chapitres.insert'(session, titre, auteur, description, duree, tags) {
         Chapitres.insert({
             session: session,
             titre: titre,
@@ -48,7 +48,7 @@ Meteor.methods({
         });
     },
 
-    'chapitres.remove' (idSuppression) {
+    'chapitres.remove'(idSuppression) {
         Meteor.call('documents.remove', idSuppression)
         Chapitres.remove({
             $or: [{
@@ -57,10 +57,10 @@ Meteor.methods({
                 session: idSuppression
             }]
         })
-       
+
     },
 
-    'chapitres.update' (chapitreId, titre) {
+    'chapitres.update'(chapitreId, titre) {
         Chapitres.update(chapitreId, {
             $set: {
                 titre: titre
@@ -68,18 +68,19 @@ Meteor.methods({
         });
     },
 
-    'chapitres.getVersion' (chapitreId) {
+    'chapitres.getVersion'(chapitreId) {
         return Chapitres.findOne(chapitreId).revisions.length
     },
 
     'chapitres.getAllCommentaires' (chapitre) {
+        console.log('call methode', chapitre)
         Meteor.subscribe('documents')
-        return Commentaires.find({
+        return Documents.find({
             chapitre: chapitre
         })
     },
 
-    'chapitres.connexion' (chapitreId, utilisateur) {
+    'chapitres.connexion'(chapitreId, utilisateur) {
         Chapitres.update({
             _id: chapitreId
         }, {
@@ -89,7 +90,7 @@ Meteor.methods({
         })
     },
 
-    'chapitres.deconnexion' (chapitreId, utilisateur) {
+    'chapitres.deconnexion'(chapitreId, utilisateur) {
         Chapitres.update({
             _id: chapitreId
         }, {
@@ -99,10 +100,10 @@ Meteor.methods({
         })
     },
 
-    'chapitres.timer.update' (chapitreId, dureeBoucle) {
+    'chapitres.timer.update'(chapitreId, dureeBoucle) {
         const newTimer = (Chapitres.findOne({
             _id: chapitreId
-        }).timer) -1
+        }).timer) - 1
         if (newTimer == 0) {
             Chapitres.update({
                 _id: chapitreId
@@ -124,7 +125,7 @@ Meteor.methods({
 
     },
 
-    'chapitres.timer.reset' (chapitreId, debut) {
+    'chapitres.timer.reset'(chapitreId, debut) {
         Chapitres.update({
             _id: chapitreId
         }, {
@@ -135,7 +136,7 @@ Meteor.methods({
         })
     },
 
-    'chapitres.timer.set' (chapitreId, timerId) {
+    'chapitres.timer.set'(chapitreId, timerId) {
         Chapitres.update({
             _id: chapitreId
         }, {
@@ -145,7 +146,7 @@ Meteor.methods({
         })
     },
 
-    'chapitres.timer.duree' (chapitreId, duree) {
+    'chapitres.timer.duree'(chapitreId, duree) {
         Chapitres.update({
             _id: chapitreId
         }, {
@@ -156,6 +157,30 @@ Meteor.methods({
     },
 
     'chapitres.etat.update'(sessionId, etat) {
-        Chapitres.update({session: sessionId}, {$set: {etat: etat}});
+        Chapitres.update({
+            session: sessionId
+        }, {
+            $set: {
+                etat: etat
+            }
+        });
+    },
+
+    'chapitres.nombre.badge'() {
+        const pipeline = {
+            $group: {
+                _id: "$session",
+                sum: {
+                    $sum: 1
+                }
+            }
+        }
+        if (Meteor.isServer) {
+            return Promise.await(Chapitres.rawCollection().aggregate(pipeline, {
+                allowDiskUse: true
+            }).toArray());
+        }
+
+
     }
 })

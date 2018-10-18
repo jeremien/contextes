@@ -3,99 +3,319 @@ import PropTypes from 'prop-types'
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 
+import { Form, Input, InputNumber, Button, message, Slider, Tag, Divider, Tooltip, Icon } from 'antd';
+
+const FormItem = Form.Item;
+const { TextArea } = Input;
+const dureeBoucle = 5;
+
+
 export default class AjouterChapitre extends Component {
-    state = { description: '', tags: [], tagCourant: "" }
 
-    handleChange(event) {
-        this.setState({ description: event.target.value })
+    constructor(props) {
+        super(props);
+
+        this.state = { 
+            titre: '',
+            description: '', 
+            duree: dureeBoucle,
+            tags: [], 
+            // tagCourant: "",
+            inputVisible: false,
+            inputValue : '' 
+        }
+
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleTitreChange = this.handleTitreChange.bind(this);
+        this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
+        this.handleDureeChange = this.handleDureeChange.bind(this);
+
+        //tags
+        this.handleCloseTag = this.handleCloseTag.bind(this);
+        this.showInputTag = this.showInputTag.bind(this);
+        this.handleInputChangeTag = this.handleInputChangeTag.bind(this);
+        this.handleInputConfirmTag = this.handleInputConfirmTag.bind(this);
+
     }
 
-    handleTags(event) {
-        if (event.target.value.slice(-1) == " ") {
-            var prevTag = this.state.tags;
-            prevTag.push(this.state.tagCourant);
-            this.setState({ tags: prevTag, tagCourant: "" });
-        }
-        else {
-            this.setState({ tagCourant: event.target.value });
-        }
+    handleTitreChange(event) {
+        this.setState({ titre: event.target.value});
     }
+
+    handleDescriptionChange(event) {
+        this.setState({ description: event.target.value });
+    }
+
+    handleDureeChange(value) {
+        this.setState( { duree : value });
+    }
+
+    // handleTags(event) {
+    //     if (event.target.value.slice(-1) == " ") {
+    //         var prevTag = this.state.tags;
+    //         prevTag.push(this.state.tagCourant);
+    //         this.setState({ tags: prevTag, tagCourant: "" });
+    //     }
+    //     else {
+    //         this.setState({ tagCourant: event.target.value });
+    //     }
+    // }
 
     handleSubmit(event) {
         event.preventDefault();
-        const target = event.target;
+
+        // const target = event.target;
         const auteur = Session.get('utilisateur');
-        const titre = target.titre.value;
+        // const titre = target.titre.value;
         const session = this.props.sessionId;
-        const duree = target.duree.value || 1;
+        // const duree = target.duree.value || 1;
 
-        if (titre && this.state.description) {
-            Meteor.call('chapitres.insert', session, titre, auteur, this.state.value, duree, this.state.tags)
-            target.reset();
-            this.setState({ tags: [], tagCourant: "" });
+        if (this.state.titre && this.state.description) {
+            Meteor.call(
+                'chapitres.insert', 
+                session, 
+                this.state.titre, 
+                auteur, 
+                this.state.value, 
+                this.state.duree, 
+                this.state.tags)
 
-            // envoie des notifications
+            // target.reset();
 
             let infos = {
-                title : "message de l'éditeur",
-                message : "création d'un chapitre",
+                title : `message de l'éditeur`,
+                message : `création d'un chapitre ${this.state.titre}`,
                 type : "success"
             }
 
             Meteor.call('notification', infos);
 
+            this.setState({ 
+                titre: '',
+                description: '', 
+                duree: dureeBoucle,
+                tags: [], 
+                tagCourant: "" 
+            });
+
         }
+        
         else {
 
-            alert('Remplissez tous les champs')
+            message.error('Remplisser tous les champs!');
         
         }
     }
 
+    // tags
+
+    handleCloseTag(removedTag) {
+        const tags = this.state.tags.filter( (tag) => {
+            return tag !== removedTag
+        })
+        // console.log(tags)
+        this.setState( { tags });
+    }
+
+    showInputTag() {
+        // console.log('show tag')
+        this.setState({
+            inputVisible : true
+        },
+        () => this.input.focus())
+    } 
+
+    handleInputChangeTag(e) {
+        this.setState( { 
+            inputValue : e.target.value
+        })
+    }
+
+    handleInputConfirmTag() {
+        const state = this.state;
+        const inputValue = state.inputValue;
+        let tags = state.tags;
+
+        if (inputValue && tags.indexOf(inputValue) == -1) {
+            tags = [...tags, inputValue];
+        }
+
+        console.log(tags);
+
+        this.setState({
+            tags,
+            inputVisible : false,
+            inputValue : ''
+        });
+    }
+
+    saveInputRef = input => this.input = input
+
     render() {
+
         return (
-            <div className="ajout-chapitre">
-                <h3>Ajouter un chapitre</h3>
-                <form className="nouveau-chapitre" onSubmit={this.handleSubmit.bind(this)} >
-                    <input
-                        type="text"
-                        name="titre"
-                        placeholder="Titre du chapitre"
-                    />
-                    <br />
-                    <textarea
-                        rows="4"
-                        cols="50"
-                        form="ajout-session"
-                        placeholder="Une bref description du chapitre"
-                        value={this.state.description}
-                        onChange={this.handleChange.bind(this)}
+            
+            <Form
+                onSubmit={this.handleSubmit}
+            >
+
+                <FormItem
+                        label='Nouveau chapitre'
                     >
-                    </textarea>
-                    <br />
-                    <label>Durée des boucles en minutes</label>
-                    <input
-                        type="number"
-                        name="duree"
-                        defaultValue="60"
-                        min="1"
-                    />
-                    <br />
-                    <label>Choix des tags possibles pour les documents</label>
-                    <input
-                        type="text"
-                        name="tag"
-                        value={this.state.tagCourant}
-                        onChange={this.handleTags.bind(this)}
-                    />
-                    <ul>Tags actuels
-                             {Object.entries(this.state.tags).map(([key, tag]) => (
-                            <li key={key}>{tag}</li>
-                        ))}
-                    </ul>
-                    <input type="submit" value="Enregistrer" />
-                </form>
-            </div>
+                        <Input
+                            placeholder='Titre'
+                            value={this.state.titre}
+                            onChange={this.handleTitreChange}
+                        />
+                        <TextArea 
+                            placeholder='Description'
+                            value={this.state.description}
+                            autosize={{ minRows: 2, maxRows: 6 }}
+                            onChange={this.handleDescriptionChange}
+                        />
+                </FormItem>
+
+                <FormItem
+                    label='Tags'
+                >
+
+                    {this.state.tags.map( (tag, index) => {
+                        const isLongTag = tag.length > 20;
+                        const tagElem = (
+                            <Tag
+                                key={tag}
+                                closable={index !== 0}
+                                afterClose={ () => this.handleCloseTag(tag)} 
+                            >
+
+                                {isLongTag ? `${tag.slice(0,20)}...` : tag }
+
+                            </Tag>
+                        )
+
+                        return isLongTag ? <Tooltip title={tag} key={tag}> {tagElem}  </Tooltip> : tagElem;
+                    })}
+
+                    {this.state.inputVisible && (
+
+                        <Input
+                            ref={this.saveInputRef}
+                            type='text'
+                            size='small'
+                            style={{ width: 78 }}
+                            value={this.state.inputValue}
+                            onChange={this.handleInputChangeTag}
+                            onBlur={this.handleInputConfirmTag}
+                            onPressEnter={this.handleInputConfirmTag}
+                        />
+
+                    )}
+
+                    {!this.state.inputVisible && (
+                        <Tag    
+                            onClick={this.showInputTag}
+                            style={{ background: '#fff', borderStyle: 'dashed' }}
+                        >
+                            <Icon type='plus' /> New Tag
+                        </Tag>
+                    )}
+
+                    
+
+                </FormItem>
+
+                    <Divider/>
+                
+                <FormItem
+                        label="Durée des boucles"
+                >   
+                        <Slider 
+                            size="small"
+                            min={5}
+                            max={30}
+                            // step={5}
+                            value={this.state.duree}
+                            onChange={this.handleDureeChange}
+                        />
+
+                        <InputNumber
+                            size="small"
+                            min={5}
+                            max={30}
+                            step={5}
+                            value={this.state.duree}
+                            onChange={this.handleDureeChange}
+                        />
+
+                </FormItem>
+
+                <FormItem >
+
+                        <Button 
+                            type="primary" 
+                            htmlType="submit" 
+                        >
+                            Créer le chapitre
+                        </Button>
+
+                        <Button 
+                            type="danger" 
+                            onClick={() => this.setState({ 
+                                titre: '',
+                                description: '', 
+                                duree: dureeBoucle
+                            })}
+                        >
+                            Reset
+                        </Button>
+                    </FormItem>
+
+
+
+            </Form>
+        
+            // <div className="ajout-chapitre">
+            //     <h3>Ajouter un chapitre</h3>
+            //     <form className="nouveau-chapitre" onSubmit={this.handleSubmit.bind(this)} >
+            //         <input
+            //             type="text"
+            //             name="titre"
+            //             placeholder="Titre du chapitre"
+            //         />
+            //         <br />
+            //         <textarea
+            //             rows="4"
+            //             cols="50"
+            //             form="ajout-session"
+            //             placeholder="Une bref description du chapitre"
+            //             value={this.state.description}
+            //             onChange={this.handleChange.bind(this)}
+            //         >
+            //         </textarea>
+            //         <br />
+            //         <label>Durée des boucles en minutes</label>
+            //         <input
+            //             type="number"
+            //             name="duree"
+            //             defaultValue="60"
+            //             min="1"
+            //         />
+            //         <br />
+            //         <label>Choix des tags possibles pour les documents</label>
+            //         <input
+            //             type="text"
+            //             name="tag"
+            //             value={this.state.tagCourant}
+            //             onChange={this.handleTags.bind(this)}
+            //         />
+            //         <ul>Tags actuels
+            //                  {Object.entries(this.state.tags).map(([key, tag]) => (
+            //                 <li key={key}>{tag}</li>
+            //             ))}
+            //         </ul>
+            //         <input type="submit" value="Enregistrer" />
+            //     </form>
+            // </div>
         )
     }
 }

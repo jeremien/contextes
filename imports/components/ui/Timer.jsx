@@ -5,21 +5,29 @@ import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom'
 
-import { Connexions } from '../../api/collections/connexions'
+import { Divider, Button, Form, Input, InputNumber, Slider, Icon } from 'antd';
+
+import { Connexions } from '../../api/collections/connexions';
+
+const ButtonGroup = Button.Group;
 
 /**
  * Gère l'état du timer du chapitre donné en props
  */
 class Timer extends Component {
     constructor(props) {
+        
         super(props);
-        this.startTimer = this.startTimer.bind(this);
-        this.stopTimer = this.stopTimer.bind(this)
-        this.handleChange = this.handleChange.bind(this)
+
         this.state = {
             timer: false,
             dureeBoucle: this.props.chapitre.duree_boucle,
         }
+
+        this.startTimer = this.startTimer.bind(this);
+        this.stopTimer = this.stopTimer.bind(this)
+        this.handleChange = this.handleChange.bind(this)
+     
     }
 
     componentDidUpdate() {
@@ -32,50 +40,95 @@ class Timer extends Component {
      * L'id de setIntervalle est stocké dans le state "timer" pour pouvori être arrêté ensuite
      */
     startTimer() {
+
         if (!this.state.timer) {
+            
             Meteor.call('timer.start', this.props.chapitre)
             this.setState({ timer: true })
+
+            let infos = {
+                title : "message de l'éditeur",
+                message : "lancement de la transcription",
+                type : "warning"
+            }
+
+            Meteor.call('notification', infos);
         }
     }
 
     stopTimer() {
         Meteor.call('timer.stop', this.props.chapitre)
         this.setState({ timer: false })
+
+        let infos = {
+            title : "message de l'éditeur",
+            message : "arrêt de la transcription",
+            type : "warning"
+        }
+
+        Meteor.call('notification', infos);
     }
 
     //Memo bug : la durée enregistrée est différente d'une seconde.
-    handleChange(event) {
-        Meteor.call('chapitres.timer.duree', this.props.chapitre._id, event.target.value)
+    handleChange(value) {
+        Meteor.call('chapitres.timer.duree', this.props.chapitre._id, value)
         if (this.state.timer) {
             Meteor.call('timer.stop', this.props.chapitre)
             Meteor.call('timer.start', this.props.chapitre)
         }
-        this.setState({ dureeBoucle: event.target.value });
+        this.setState({ dureeBoucle: value });
 
     }
 
     render() {
-        return (
-            <div className="timer">
 
+        return (
+            <div>
                 {this.props.role == "editeur" &&
-                    <div className="timer">
-                        <h3>timer</h3>
-                        <button className="start-timer" onClick={() => { this.startTimer(this.props.chapitre._id) }}>Démarrer le timer</button>
+
+                    <div>
+                        <div style={{ fontSize: '1.5rem' }}>
+                            <Icon type='clock-circle'/>  {this.props.chapitre.timer}
+                        </div>
+                        <Divider/>
+                        <ButtonGroup>
+                            <Button onClick={() => { this.startTimer(this.props.chapitre._id) }}>Démarrer</Button>
+                            <Button onClick={this.stopTimer}>Arrêter</Button>
+                        </ButtonGroup>
+                        <Divider/>
+                        <Slider
+                            size="small"
+                            min={5}
+                            max={30}
+                            value={parseInt(this.state.dureeBoucle)}
+                            onChange={this.handleChange}
+                            
+                        />
+                        {/* <InputNumber
+                            size="small"
+                            min={1}
+                            max={0}
+                            value={this.state.dureeBoucle}
+                            onChange={this.handleChange}
+                        /> */}
+                    </div>
+                   
+                }
+
+
+                        {/* <button className="start-timer" onClick={() => { this.startTimer(this.props.chapitre._id) }}>Démarrer le timer</button>
                         <button className="start-timer" onClick={this.stopTimer}>Arreter le timer</button>
+                        
+                        
                         <input
                             type="number"
                             value={this.state.dureeBoucle}
                             name="transcripteurs"
                             min="1"
                             onChange={this.handleChange}
-                        />
-                        <br />
-                        <time>{this.props.chapitre.timer}</time>
-                        <br />
+                        /> */}
 
-                    </div>
-                }
+                     
             </div>
         )
     }

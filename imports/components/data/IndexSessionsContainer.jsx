@@ -5,6 +5,7 @@ import { withTracker } from 'meteor/react-meteor-data'
 
 
 import { Sessions } from '../../api/collections/sessions';
+import { Chapitres } from '../../api/collections/chapitres'
 import IndexSessions from '../ui/IndexSessions'
 import AjouterSession from '../outils/editeur/AjouterSession'
 
@@ -12,6 +13,9 @@ class IndexSessionsContainer extends Component {
     constructor(props) {
         super(props);
         this.getAction = this.getAction.bind(this);
+        this.state = {
+            badges: [{}],
+        }
     }
 
     static propTypes = {
@@ -22,17 +26,31 @@ class IndexSessionsContainer extends Component {
         sessions: [{}],
     };
 
+    componentDidMount() {
+        Meteor.call('chapitres.nombre.badge', (error, result) => {
+            if (error) {
+                console.log(error)
+            }
+            else {
+                this.setState({ badges: result })
+            }
+        })
+    }
+
     getAction() {
         if (this.props.role == "editeur") {
             return (
                 <AjouterSession {...this.props} />
             )
         }
+        else {
+            return undefined
+        }
     }
 
     render() {
         return (
-            <IndexSessions {...this.props} action={this.getAction()} />
+            <IndexSessions {...this.props} action={this.getAction()} badges={this.state.badges} />
         )
     }
 };
@@ -45,6 +63,6 @@ export default withTracker(() => {
     return {
         loading,
         sessionsExists,
-        sessions: sessionsExists ? sessions : [{}]
+        sessions: sessionsExists ? sessions : [{}],
     }
 })(IndexSessionsContainer);

@@ -8,8 +8,19 @@ import { Link } from 'react-router-dom'
 
 import ConnexionsCourantes from '../outils/ConnexionsCourantes'
 
+import { Layout, Row, Col, Drawer, Switch, Button, Divider } from 'antd';
+
 
 export default class DetailsChapitre extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            visibleInfo: false,
+            visibleChat: false
+        }
+    }
+
     componentWillUnmount() {
         Meteor.call('connexions.offline', this.props.userId);
     };
@@ -24,7 +35,7 @@ export default class DetailsChapitre extends Component {
     render() {
         if (this.props.loading) {
             return (
-                <div className="details-chapitre">
+                <div >
                     <h3>Chargement en cours</h3>
                 </div>
             )
@@ -35,28 +46,61 @@ export default class DetailsChapitre extends Component {
             //TODO : ajouter le titre de la session dans le detail du chapitre
 
             return (
-                <div className="container-details-chapitre">
-                    <div className='details-chapitre--gauche'>
-                        <div className="infos-chapitre">
-                            <Link to={`/sessions/${this.props.chapitre.session}`}>Retour à la session </Link>
+
+                <Layout>
+                    <h2>{this.props.chapitre.titre}</h2>
+                    <div>
+                        <Button
+                            onClick={() => this.setState({ visibleInfo: true })}
+                        >
+                            informations
+                                </Button>
+                        <Button
+                            onClick={() => this.setState({ visibleChat: true })}
+                        >
+                            discussion
+                                </Button>
+
+                        <Drawer
+                            title={`${this.props.chapitre.titre}`}
+                            placement="left"
+                            closable={true}
+                            onClose={() => this.setState({ visibleInfo: false })}
+                            visible={this.state.visibleInfo}
+                        >
+
                             {this.props.outils.outilgauche}
+
+                        </Drawer>
+
+                        <Drawer
+                            title="Discussion"
+                            placement="right"
+                            closable={true}
+                            onClose={() => this.setState({ visibleChat: false })}
+                            visible={this.state.visibleChat}
+                        >
+
                             <ConnexionsCourantes {...this.props} />
-                        </div>
+
+                        </Drawer>
                     </div>
 
-                    <div className='details-chapitre--droit'>
-                        <div className="documents">
-                            {this.props.outils.outildroit}
-                        </div>
-                    </div>
+
+                    <Divider />
+
+                    {this.props.outils.outildroit}
+
+                </Layout>
+
+            )
+        }
+        else {
+            return (
+                <div className="details-chapitre">
+                    <h3>Choisir un chapitre</h3>
                 </div>
             )
         }
-
-        return (
-            <div className="details-chapitre">
-                <h3>Choisir un chapitre</h3>
-            </div>
-        )
     }
 }

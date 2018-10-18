@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {Meteor} from 'meteor/meteor'
 import PropTypes from 'prop-types'
 import {
   BrowserRouter as Router,
@@ -10,6 +11,7 @@ import {
   Prompt,
   Redirect
 } from 'react-router-dom'
+
 import { withTracker } from 'meteor/react-meteor-data';
 import { Session } from 'meteor/session';
 import { Connexions } from '../api/collections/connexions'
@@ -19,24 +21,40 @@ import ReactNotification from "react-notifications-component";
 
 import IndexSessions from './ui/IndexSessions';
 import Login from './ui/Login';
-import LandingPage from './ui/LandingPage';
 import TestAPI from './ui/TestAPI';
-import DetailsChapitreContainer from './data/DetailsChapitreContainer';
-import TopBar from './ui/TopBar'
+// import FilAriane from './ui/FilAriane';
+import NoMatch from './ui/NoMatch';
 
 import IndexSessionsContainer from './data/IndexSessionsContainer';
+import IndexPublicationsContainer from './data/IndexPublicationsContainer';
+import TopBarContainer from './data/TopBarContainer';
+import DetailsChapitreContainer from './data/DetailsChapitreContainer';
+import LandingPage from './data/LandingPage';
 
-import Container from 'muicss/lib/react/container';
+
+
+import { Layout, notification } from 'antd';
+
+import "antd/dist/antd.css";
+
+const { Header, Content } = Layout;
+
+// const onAir = false;
+
 
 /**
  * Composant principal de l'application. Gère les routes publiques.
  */
-class App extends Component {
+class Application extends Component {
   constructor(props) {
     super(props);
-    this.handleLeavePage = this.handleLeavePage.bind(this);
 
-    this.notificationDOMRef = React.createRef();
+    this.state = {
+      onAir : false
+    }
+    
+    this.handleLeavePage = this.handleLeavePage.bind(this);
+    this.openNotification = this.openNotification.bind(this);
 
   }
 
@@ -55,26 +73,46 @@ class App extends Component {
     // Meteor.call('connexions.online', this.props.utilisateur)
     window.addEventListener("beforeunload", this.handleLeavePage);
     this.props.socket.on('logoutForce', this.logoutForce.bind(this));
-    this.props.socket.on('onAir', () => console.log('on air'));
-    this.props.socket.on('offAir', () => console.log('off air'));
+    this.props.socket.on('onAir', () => this.setState({ onAir : true }));
+    this.props.socket.on('offAir', () => this.setState({ onAir: false }));
 
     // notifications
+
     this.props.socket.on('notification', (title, message, type) => {
-      console.log('notification', title, message, type)
-        this.notificationDOMRef.current.addNotification({
-            title,
-            message,
-            type,
-            insert: "top",
-            container: "top-right",
-            animationIn: ["animated", "fadeIn"],
-            animationOut: ["animated", "fadeOut"],
-            dismiss: { duration: 4000 },
-            dismissable: { click: true }
-        });
-    });
+      // console.log('notification', title, message, type)
+
+      this.openNotification(title, message, type);
        
+    });
   }
+
+  openNotification(title, message, type) {
+    // console.log(title, message, type)
+
+      notification[type]({
+        message : title,
+        description : message
+      })
+
+  }
+
+
+    // this.props.socket.on('notification', (title, message, type) => {
+    //   console.log('notification', title, message, type)
+    //     this.notificationDOMRef.current.addNotification({
+    //         title,
+    //         message,
+    //         type,
+    //         insert: "top",
+    //         container: "top-right",
+    //         animationIn: ["animated", "fadeIn"],
+    //         animationOut: ["animated", "fadeOut"],
+    //         dismiss: { duration: 4000 },
+    //         dismissable: { click: true }
+    //     });
+    // });
+       
+  // }
 
   componentWillUnmount() {
     // window.removeEventListener('beforeunload', this.handleLeavePage);
@@ -92,30 +130,58 @@ class App extends Component {
   }
 
 
-
   render() {
-    // console.log(this.props.loading)
+
+    // console.log(this.props.socket)
+    
     if (this.props.connecte) {
       Meteor.call('connexions.socket', this.props.connexion._id, this.props.socket.id)
     }
     // console.log(this.props.socket.id)
     const { role, utilisateur, ...rest } = this.props.connexion
-    const propsToPass = { connecte: this.props.connecte, userId: this.props.connexion._id, role: role || "", utilisateur: utilisateur || "", socketId: this.props.socket.id, loading: this.props.loading }
+    const propsToPass = { 
+      connecte: this.props.connecte, 
+      userId: this.props.connexion._id, 
+      role: role || "", 
+      utilisateur: utilisateur || "", 
+      socketId: this.props.socket.id, 
+      socket : this.props.socket,
+      loading: this.props.loading,
+      onAir : this.state.onAir
+    }
 
     return (
       <Router>
-        <Container fluid={true}>
-          <ReactNotification ref={this.notificationDOMRef} />
-          
-            <Route path="/" render={(props) => <TopBar {...props} {...propsToPass} />} />
-          
-            <Route path="/sessions" render={(props) => <IndexSessionsContainer {...props} {...propsToPass} />} />
-            <Route path="/session/:idSession/chapitre/:idChapitre" render={(props) => <DetailsChapitreContainer {...props} {...propsToPass} />} />
-          
-            <Route exact path="/" render={(props) => <LandingPage {...props} {...propsToPass} />} />
-            <Route path="/login" render={(props) => <Login {...props} {...propsToPass} />} /> 
+
+            {/* <ReactNotification ref={this.notificationDOMRef} /> */}
+                <Layout>
+                  
+                  <Header style={{backgroundColor:'white', position: 'fixed', zIndex: 1, width: '100%' }}>
+
+                    <Route path="/" render={(props) => <TopBarContainer {...props} {...propsToPass} />} />
+                    
+                  </Header>
+                  
+                  <Content style={{ padding: '20px 50px', margin: '100px 0 0 0 '}}>
+                  {/* <Content> */}
+                    
+                    {/* <Route path="/" render={(props) => <FilAriane {...props} {...propsToPass} />} /> */}
+                    
+                    <Route path="/sessions" render={(props) => <IndexSessionsContainer {...props} {...propsToPass} />} />
+                    <Route path="/session/:idSession/chapitre/:idChapitre" render={(props) => <DetailsChapitreContainer {...props} {...propsToPass} />} />
+                  
+                    <Route path="/publications" render={(props) => <IndexPublicationsContainer {...props} {...propsToPass} />} />
+
+                    <Route exact path="/" render={(props) => <LandingPage {...props} {...propsToPass} />} />
+                    <Route path="/login" render={(props) => <Login {...props} {...propsToPass} />} /> 
+
+                    {/* <Route render={() => <NoMatch />} /> */}
+
                     <Route path="/test" render={(props) => <TestAPI {...this.props} {...props} />} />
-        </Container>
+                  
+                  </Content>  
+                </Layout>
+      
       </Router>
     )
   }
@@ -151,5 +217,5 @@ export default withTracker((props) => {
   }
 
 
-})(App);
+})(Application);
 

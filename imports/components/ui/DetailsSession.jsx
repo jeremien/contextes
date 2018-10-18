@@ -2,13 +2,27 @@ import React, { Component, PropTypes } from 'react';
 import { Session } from 'meteor/session';
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
-import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
 import { Sessions } from '../../api/collections/sessions';
 import IndexChapitre from './IndexChapitre';
 import TableauDeBord from './TableauDeBord';
 
+import { Switch } from 'antd';
+
+
 class DetailsSession extends React.Component {
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            toggleActionChapitre : true
+        }
+    }
+
+    
+
     componentDidMount() {
         if (this.props.connecte) {
             // TODO methode connexion.session ?
@@ -21,24 +35,48 @@ class DetailsSession extends React.Component {
     }
 
     render() {
+
+        // console.log(this.props.history)
+        // console.log(this.state)
+
         if (!this.props.loading && this.props.sessionExists) {
+
             return (
-                <div className="details-session">
+
+                <div >
+
                     {(!!this.props.connecte && this.props.role == "editeur") ?
-                        <TableauDeBord session={this.props.session} />
+                        
+                        <div>
+                            <Switch 
+                                defaultChecked={this.state.toggleActionChapitre}
+                                onChange={() => this.setState({ toggleActionChapitre: !this.state.toggleActionChapitre})}
+                                style={{ marginBottom: '20px' }}
+                            />
+
+                            { this.state.toggleActionChapitre ? 
+                                <TableauDeBord session={this.props.session} /> : undefined
+                            }    
+                            
+                        
+                        </div>    
                         :
                         undefined
                     }
-                    <br />
-                    <br />
-                    <IndexChapitre sessionId={this.props.session._id} role={this.props.role} connecte={this.props.connecte} />
+
+                    <IndexChapitre 
+                        {...this.props}
+                        sessionId={this.props.session._id} 
+                        role={this.props.role} 
+                        connecte={this.props.connecte} 
+                    />
 
                 </div>
             )
         }
         else {
             return (
-                <div className="details-session">
+                <div >
                     <h2>Choisir une session à afficher</h2>
                 </div>
             );

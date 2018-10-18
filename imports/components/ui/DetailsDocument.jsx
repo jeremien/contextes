@@ -4,6 +4,10 @@ import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
+import { Card } from 'antd';
+const { Meta } = Card;
+
+
 /**
  * Affiche les détails et méta-data liées au docuement passé en props
  */
@@ -41,19 +45,37 @@ export default class DetailsDocument extends Component {
 
     return (
       <ul className="details-document">
+
         <li>Créé à {this.props.document.creation.toLocaleTimeString()} par {this.props.document.auteur}{!!this.props.correction && <p>, corrigé à ? par ?</p>} : </li>
         {!!this.props.document.contenu &&
           <p>{this.props.document.contenu}</p>
         }
         <br />
+
         {!!this.props.document.image &&
-          <a href={`/${this.props.document.image._id}.${this.props.document.image.ext}`} target="_blank">
-            <img
+
+
+          <Card
+            style={{ width: 300 }}
+            cover={<img
               src={`/${this.props.document.image._id}.${this.props.document.image.ext}`}
               alt="une image"
               className="thumbnail"
+            />}
+            actions={[<Icon type="setting" />, <Icon type="edit" />, <Icon type="ellipsis" />]}
+          >
+            <Meta
+              title={`Par ${this.props.document.auteur}`}
+              description={`A ${this.props.document.creation}`}
             />
-          </a>
+          </Card>
+          // <a href={`/${this.props.document.image._id}.${this.props.document.image.ext}`} target="_blank">
+          //   <img
+          //     src={`/${this.props.document.image._id}.${this.props.document.image.ext}`}
+          //     alt="une image"
+          //     className="thumbnail"
+          //   />
+          // </a>
         }
 
         <button onClick={() => this.handleDeleteDoc(this.props.document._id)}>Supprimer le document</button>

@@ -72,10 +72,32 @@ Meteor.methods({
     'documents.update'(documentId, contenu, utilisateur) {
         // check(documentId, String);
         // checked(contenu, String);
+        
+        // console.log('update', documentId, contenu, utilisateur)
+
         Documents.update(documentId, {
             $set: {
                 contenu: contenu,
-                dernireModificationPar: utilisateur
+                dernireModificationPar: utilisateur,
+                correction: true
+            }
+        });
+    },
+
+    'documents.rejet'(documentId) {
+
+        Documents.update(documentId, {
+            $set: {
+                rejete: true
+            }
+        });
+    },
+
+    'documents.accepte'(documentId) {
+
+        Documents.update(documentId, {
+            $set: {
+                rejete: false
             }
         });
     },
@@ -110,6 +132,24 @@ Meteor.methods({
                 image: image,
             }
         });
+    },
+
+    'documents.nombre.badge'() {
+        const pipeline = {
+            $group: {
+                _id: "$chapitre",
+                sum: {
+                    $sum: 1
+                }
+            }
+        }
+        if (Meteor.isServer) {
+            return Promise.await(Documents.rawCollection().aggregate(pipeline, {
+                allowDiskUse: true
+            }).toArray());
+        }
+
+
     }
 
 

@@ -40,7 +40,7 @@ Meteor.methods({
     // },
 
     'connexions.chapitre'(utilisateur, session, chapitre) {
-        console.log('connexion chap')
+        // console.log('connexion chap')
         Connexions.update({
             _id: utilisateur
         }, {
