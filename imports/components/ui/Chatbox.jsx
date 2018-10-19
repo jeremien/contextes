@@ -3,7 +3,6 @@ import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
 import { Messages } from '../../api/collections/messages';
 import { List, message, Avatar, Spin, Input } from 'antd';
-import reqwest from 'reqwest';
 
 class Chatbox extends Component {
     constructor(props) {
