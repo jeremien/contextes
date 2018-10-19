@@ -5,7 +5,7 @@ import { withTracker } from 'meteor/react-meteor-data';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
 import { Sessions } from '../../api/collections/sessions';
-import IndexChapitre from './IndexChapitre';
+import IndexChapitreContainer from '../data/IndexChapitresContainer';
 import TableauDeBord from './TableauDeBord';
 
 import { Switch } from 'antd';
@@ -60,7 +60,7 @@ class DetailsSession extends React.Component {
                         undefined
                     }
 
-                    <IndexChapitre 
+                    <IndexChapitreContainer 
                         {...this.props}
                         sessionId={this.props.session._id} 
                         role={this.props.role} 

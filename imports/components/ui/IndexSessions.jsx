@@ -10,10 +10,14 @@ import DetailsSession from './DetailsSession'
 import { List, Button, Row, Col, Badge, Divider, Switch } from 'antd'
 
 export default class IndexSessions extends Component {
-
+    constructor(props) {
+        super(props)
+        this.getBadge = this.getBadge.bind(this)
+    }
     state = {
         // toggleSession: false,
-        toggleActionSession: true
+        toggleActionSession: true,
+        badgeCourant: null,
     }
 
     static propTypes = {
@@ -76,17 +80,17 @@ export default class IndexSessions extends Component {
     //     const prevState = this.state.toggleSession;
     //     this.setState({ toggleSession: event.target.checked })
     // }
-    
+
     renderBadge(item) {
 
-    // const getChapitres = Meteor.call('session.getAllChapitres', item._id)
-    // console.log(getChapitres)
-
-       return (
-            <Badge count={0} showZero>
+        // const getChapitres = Meteor.call('session.getAllChapitres', item._id)
+        const badge = this.getBadge(item._id)
+        console.log(badge)
+        return (
+            <Badge count={badge} showZero>
                 {item.titre} ({item.etat})
             </Badge>
-       )
+        )
 
     }
 
@@ -149,32 +153,21 @@ export default class IndexSessions extends Component {
     }
 
     getBadge(session) {
+        var nombre = 0
+
         this.props.badges.map((badge) => {
-            if (badge._id == session) {
-                console.log(badge.sum)
-                return badge.sum
-            }
+                if (badge._id == session) {
+                    nombre = badge.sum
+                }
         })
+
+        return nombre
     }
 
 
 
     render() {
-        // console.log(this.props.history)
-        // console.log(this.props.role);
-        //Conflit avec les props passées par la route sans déconstruction. Trouver une solution plus propre
-
         const { match, path, ...rest } = this.props;
-        // this.getBadge();
-
-        // const data = this.renderSessionsList();
-        // const data = ['test', 'japanese']
-        // console.log(data)    
-
-        // console.log(this.props.sessions.etat)
-
-        // console.log(this.props)
-
         return (
 
             <Row gutter={48} >
@@ -211,17 +204,17 @@ export default class IndexSessions extends Component {
                         dataSource={this.props.sessions}
                         renderItem={item => {
 
-                          return (  <List.Item
+                            return (<List.Item
                                 actions={this.renderActionsSessions(item._id, item.etat)}
-                            >   
-                                {/* <Badge count={0} showZero>
+                            >
+                                <Badge count={this.getBadge(item._id)} showZero>
                                     {item.titre} ({item.etat})
-                                </Badge> */}
-                                
-                                {this.renderBadge(item)}
+                                </Badge>
+
+                                {/* {this.getBadge(item._id)} */}
 
                             </List.Item>
-                          )
+                            )
                         }}
                     />
 
@@ -232,7 +225,6 @@ export default class IndexSessions extends Component {
                 <Col span={12} >
 
                     <Route path="/sessions/:sessionId" render={(props) => <DetailsSession {...props} {...rest} />} />
-
                 </Col>
 
             </Row>
