@@ -24,6 +24,7 @@ import Login from './ui/Login';
 import TestAPI from './ui/TestAPI';
 // import FilAriane from './ui/FilAriane';
 import NoMatch from './ui/NoMatch';
+import DetailsSession from './ui/DetailsSession';
 
 import IndexSessionsContainer from './data/IndexSessionsContainer';
 import IndexPublicationsContainer from './data/IndexPublicationsContainer';
@@ -168,6 +169,7 @@ class Application extends Component {
                     {/* <Route path="/" render={(props) => <FilAriane {...props} {...propsToPass} />} /> */}
                     
                     <Route path="/sessions" render={(props) => <IndexSessionsContainer {...props} {...propsToPass} />} />
+                    {/* <Route path="/sessions/:sessionId" render={(props) => <DetailsSession {...props} {...rest} />} /> */}
                     <Route path="/session/:idSession/chapitre/:idChapitre" render={(props) => <DetailsChapitreContainer {...props} {...propsToPass} />} />
                   
                     <Route path="/publications" render={(props) => <IndexPublicationsContainer {...props} {...propsToPass} />} />
@@ -175,7 +177,7 @@ class Application extends Component {
                     <Route exact path="/" render={(props) => <LandingPage {...props} {...propsToPass} />} />
                     <Route path="/login" render={(props) => <Login {...props} {...propsToPass} />} /> 
 
-                    {/* <Route render={() => <NoMatch />} /> */}
+                    {/* <Route path='**' render={() => <NoMatch />} /> */}
 
                     <Route path="/test" render={(props) => <TestAPI {...this.props} {...props} />} />
                   

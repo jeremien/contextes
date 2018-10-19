@@ -63,14 +63,15 @@ class IndexDocuments extends Component {
     })
   }
 
-  getFirstWords(str) {
-    // const parseStr = (str) => {
-    //   let str = str.slice(0, 5);
-    //   return str;
-    // }
+  renderContenu(contenu) {
 
-    // console.log(str)
-    // return parseStr;
+    if (contenu != null) {
+      return contenu;
+    } else {
+      return 'image';
+    }
+
+    
   }
 
   renderActionDocuments(docId, contenu, rejete, correction) {
@@ -184,10 +185,9 @@ class IndexDocuments extends Component {
 
                 <List.Item
                   actions={this.renderActionDocuments(item._id, item.contenu, item.rejete, item.correction)}
-                >
-                  {item.contenu}
-
-                  {/* {this.getFirstWords(item.contenu)} */}
+                > 
+                  
+                  {this.renderContenu(item.contenu)}
 
                   <Modal
                     title='document'
@@ -216,7 +216,7 @@ class IndexDocuments extends Component {
             />
           }
           
-          <div>
+          {/* <div>
           {!!this.props.imagesExists &&
             <List
               grid={{ gutter: 16, column: 4 }}
@@ -241,7 +241,8 @@ class IndexDocuments extends Component {
               )}
             />
           }
-          </div>
+          </div> */}
+
         </div>
       );
 
@@ -262,7 +263,8 @@ class IndexDocuments extends Component {
 export default IndexDocumentsContainer = withTracker((props) => {
   const documentsHandler = Meteor.subscribe('documents');
   const loading = !documentsHandler.ready();
-  const documents = Documents.find({ chapitre: props.chapitre._id, type: "texte" }).fetch();
+  // const documents = Documents.find({ chapitre: props.chapitre._id, type: "texte" }).fetch();
+  const documents = Documents.find( { chapitre: props.chapitre._id }).fetch();
   const images = Documents.find({ chapitre: props.chapitre._id, type: "image" }).fetch();
   const documentsExists = !loading && !!documents;
   const imagesExists = !loading && !!document;
