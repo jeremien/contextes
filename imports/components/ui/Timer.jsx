@@ -81,6 +81,7 @@ class Timer extends Component {
     }
 
     render() {
+        // console.log(this.state)
 
         return (
             <div>
@@ -92,7 +93,7 @@ class Timer extends Component {
                         </div>
                         <Divider/>
                         <ButtonGroup>
-                            <Button onClick={() => { this.startTimer(this.props.chapitre._id) }}>Démarrer</Button>
+                            <Button type={this.state.timer ? 'danger' : 'default'} onClick={() => { this.startTimer(this.props.chapitre._id) }}>Démarrer</Button>
                             <Button onClick={this.stopTimer}>Arrêter</Button>
                         </ButtonGroup>
                         <Divider/>

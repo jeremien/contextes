@@ -161,6 +161,9 @@ class IndexDocuments extends Component {
 
 
   render() {
+
+    console.log(this.props.documents)
+
     if (this.props.documents != 0) {
 
       return (
@@ -212,6 +215,7 @@ class IndexDocuments extends Component {
               )}
             />
           }
+          
           <div>
           {!!this.props.imagesExists &&
             <List
