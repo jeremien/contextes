@@ -37,6 +37,7 @@ import LandingPage from './data/LandingPage';
 import { Layout, notification } from 'antd';
 
 import "antd/dist/antd.css";
+import Chatbox from './ui/Chatbox';
 
 const { Header, Content } = Layout;
 
@@ -179,7 +180,7 @@ class Application extends Component {
 
                     {/* <Route path='**' render={() => <NoMatch />} /> */}
 
-                    <Route path="/test" render={(props) => <TestAPI {...this.props} {...props} />} />
+                    <Route path="/test" render={(props) => <Chatbox {...this.props} {...propsToPass} />} />
                   
                   </Content>  
                 </Layout>
