@@ -2,70 +2,71 @@ import React, { Component, PropTypes } from 'react';
 import { Session } from 'meteor/session';
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
-import { BrowserRouter as Router, Route, Link, Switch }from 'react-router-dom'
+import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom'
 
 import { Chapitres } from '../../api/collections/chapitres';
 import { Documents } from '../../api/collections/documents';
 
-import { List, Button, Badge } from 'antd';
+import { List, Button, Badge } from 'antd';
 
-class IndexChapitres extends Component {
+export default class IndexChapitres extends Component {
 
   constructor(props) {
     super(props);
+    this.getBadge=this.getBadge.bind(this)
   }
 
   renderActionsChapitres(chapitreId, sessionId) {
-    if (!!this.props.connecte 
+    if (!!this.props.connecte
       && this.props.role === "editeur") {
-          return [
+      return [
 
-              <Button 
-                      onClick={() => { 
-                          this.props.history.push(`/session/${sessionId}/chapitre/${chapitreId}`)
-                      }}>
-                  voir
+        <Button
+          onClick={() => {
+            this.props.history.push(`/session/${sessionId}/chapitre/${chapitreId}`)
+          }}>
+          voir
                   </Button>,
-                  <Button 
-                      type='danger' 
-                      onClick={() => {
+        <Button
+          type='danger'
+          onClick={() => {
 
-                          Meteor.call('chapitres.remove', chapitreId);
+            Meteor.call('chapitres.remove', chapitreId);
 
-                          let infos = {
-                            title : "message de l'éditeur",
-                            message : `suppression du chapitre`,
-                            type : "warning"
-                          }
+            let infos = {
+              title: "message de l'éditeur",
+              message: `suppression du chapitre`,
+              type: "warning"
+            }
 
-                          Meteor.call('notification', infos);
-                      }}>
-                  supprimer
+            Meteor.call('notification', infos);
+          }}>
+          supprimer
               </Button>
 
-          ]
-      } else {
-          return [
+      ]
+    } else {
+      return [
 
-              <Button 
-                      type='primary'
-                      onClick={() => {
-                          
-                        let infos = {
-                          title : "message",
-                          message : `${this.props.utilisateur} a rejoint le chapitre`,
-                          type : "success"
-                        }
-                        
-                        Meteor.call('notification', infos); 
+        <Button
+          type='primary'
+          onClick={() => {
 
-                        this.props.history.push(`/session/${sessionId}/chapitre/${chapitreId}`);
+            let infos = {
+              title: "message",
+              message: `${this.props.utilisateur} a rejoint le chapitre`,
+              type: "success"
+            }
 
-                      }}>
-                  rejoindre
+            Meteor.call('notification', infos);
+
+            this.props.history.push(`/session/${sessionId}/chapitre/${chapitreId}`);
+
+          }}>
+          rejoindre
               </Button>
-          ]
-      }
+      ]
+    }
   }
 
   renderBadgeChapitre(item) {
@@ -73,9 +74,21 @@ class IndexChapitres extends Component {
     // Meteor.call('chapitres.getAllCommentaires', chapitre);
     // console.log('call', chapitre)
 
-      return (<Badge count={0} showZero>
+    return (<Badge count={0} showZero>
       {item.titre}
-      </Badge>)
+    </Badge>)
+  }
+
+  getBadge(chapitre) {
+    var nombre = 0
+
+    this.props.badges.map((badge) => {
+      if (badge._id == chapitre) {
+        nombre = badge.sum
+      }
+    })
+
+    return nombre
   }
 
   render() {
@@ -89,7 +102,7 @@ class IndexChapitres extends Component {
       return (
 
         <List
-          header={<div>{`liste des chapitres de la session ${this.props.session.titre}`}</div>} 
+          header={<div>{`liste des chapitres de la session ${this.props.session.titre}`}</div>}
           bordered
           dataSource={this.props.chapitres}
           renderItem={item => (
@@ -97,13 +110,15 @@ class IndexChapitres extends Component {
               actions={this.renderActionsChapitres(item._id, item.session)}
             >
 
-               {this.renderBadgeChapitre(item)} 
+              <Badge count={this.getBadge(item._id)} showZero>
+      {item.titre}
+    </Badge>)
 
             </List.Item>
 
           )}
         />
-      
+
         // <div className="index-chapitres">
         //   <h2>Liste des chapitres</h2>
         //     {this.props.chapitres.map((chapitre) => (
@@ -138,14 +153,14 @@ class IndexChapitres extends Component {
   }
 }
 
-export default IndexChapitresContainer = withTracker((props) => {
-  const chapitresHandle = Meteor.subscribe('chapitres');
-  const loading = !chapitresHandle.ready();
-  const chapitres = Chapitres.find({ session: props.sessionId }).fetch()
-  const chapitresExists = !loading && !!chapitres;
-  return {
-    loading,
-    chapitresExists,
-    chapitres: chapitresExists ? chapitres : []
-  }
-})(IndexChapitres);
+// export default IndexChapitresContainer = withTracker((props) => {
+//   const chapitresHandle = Meteor.subscribe('chapitres');
+//   const loading = !chapitresHandle.ready();
+//   const chapitres = Chapitres.find({ session: props.sessionId }).fetch()
+//   const chapitresExists = !loading && !!chapitres;
+//   return {
+//     loading,
+//     chapitresExists,
+//     chapitres: chapitresExists ? chapitres : []
+//   }
+// })(IndexChapitres);

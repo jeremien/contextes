@@ -178,7 +178,5 @@ Meteor.methods({
                 allowDiskUse: true
             }).toArray());
         }
-
-
     }
 })
