@@ -87,7 +87,7 @@ export default class IndexSessions extends Component {
         const badge = this.getBadge(item._id)
         console.log(badge)
         return (
-            <Badge count={badge} showZero>
+            <Badge count={badge}>
                 {item.titre} ({item.etat})
             </Badge>
         )

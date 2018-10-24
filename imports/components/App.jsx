@@ -28,6 +28,7 @@ import DetailsSession from './ui/DetailsSession';
 
 import IndexSessionsContainer from './data/IndexSessionsContainer';
 import IndexPublicationsContainer from './data/IndexPublicationsContainer';
+import IndexLogsContainer from './data/IndexLogsContainer';
 import TopBarContainer from './data/TopBarContainer';
 import DetailsChapitreContainer from './data/DetailsChapitreContainer';
 import LandingPage from './data/LandingPage';
@@ -174,6 +175,8 @@ class Application extends Component {
                     <Route path="/session/:idSession/chapitre/:idChapitre" render={(props) => <DetailsChapitreContainer {...props} {...propsToPass} />} />
                   
                     <Route path="/publications" render={(props) => <IndexPublicationsContainer {...props} {...propsToPass} />} />
+
+                    <Route path="/logs" render={(props) => <IndexLogsContainer {...props} {...propsToPass} />} />
 
                     <Route exact path="/" render={(props) => <LandingPage {...props} {...propsToPass} />} />
                     <Route path="/login" render={(props) => <Login {...props} {...propsToPass} />} /> 

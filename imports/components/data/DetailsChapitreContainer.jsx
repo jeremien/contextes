@@ -56,8 +56,8 @@ class DetailsChapitreContainer extends React.Component {
                 return {
                     outilgauche: <InfosChapitre {...propToPass} />,
                     outildroit: <div>
-                        <IndexDocuments {...propToPass} />
-                        {/* <CorrectionDocument {...propToPass} /> */}
+                            <IndexDocuments {...propToPass} />
+                            {/* <CorrectionDocument {...propToPass} /> */}
                         </div>
                 }
                 break;
@@ -66,15 +66,26 @@ class DetailsChapitreContainer extends React.Component {
             //         outilgauche: <InfosChapitre {...propToPass} />,
             //         outildroit: <DetailsDocumentsConformateur {...propToPass} />
             //     }
+            
+            case 'iconographe':
+                return {
+                    outilgauche: <InfosChapitre {...propToPass} />,
+                    outildroit: <div>
+                                <AjouterImages {...propToPass} />
+                                <IndexDocuments {...propToPass} />
+                                
+                            </div>
+                }
+
             case 'editeur':
                 return {
                     outilgauche: <InfosChapitre {...propToPass} />,
                     outildroit: <div>
-                        <IndexDocuments {...propToPass} />
-                        <Divider/>
-                        <IndexDocumentsTable {...propToPass} />
-                        <AjouterImages {...propToPass} />
-                    </div>
+                            <IndexDocuments {...propToPass} />
+                            <Divider/>
+                            <IndexDocumentsTable {...propToPass} />
+                            {/* <AjouterImages {...propToPass} /> */}
+                        </div>
                 }
                 break;
             default:

@@ -83,6 +83,7 @@ export default class TopBar extends Component {
               <Icon type="home" />
             </Menu.Item>
           
+          
           {this.props.connecte &&
             <SubMenu
               key='sessions'
@@ -101,7 +102,7 @@ export default class TopBar extends Component {
               onTitleClick={this.handClickMenu}
             >
               {this.renderChapitres()}
-    
+
             </SubMenu>
           }
 
@@ -111,8 +112,12 @@ export default class TopBar extends Component {
               onTitleClick={this.handClickMenu}
             >
               {this.renderPublications()}
-    
+
             </SubMenu>
+
+            <Menu.Item key='logs'>
+              <Icon type="bars" /> Logs
+            </Menu.Item>
           
 
           {!this.props.connecte ? 

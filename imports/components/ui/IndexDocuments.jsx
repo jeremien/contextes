@@ -6,7 +6,7 @@ import { withTracker } from 'meteor/react-meteor-data';
 import { Documents } from '../../api/collections/documents';
 import DetailsDocument from './DetailsDocument';
 
-import { List, Button, Modal, Form, Input, Switch, Icon, Card, Carousel } from 'antd';
+import { List, Button, Modal, Form, Input, Switch, Icon, Card, Carousel, Avatar } from 'antd';
 
 const { Meta } = Card;
 const { TextArea } = Input;
@@ -20,6 +20,7 @@ class IndexDocuments extends Component {
       docId: null,
       contenu: '',
       toggleActionDocList: false,
+      url: null
       // docRejet : false    
     }
 
@@ -63,80 +64,175 @@ class IndexDocuments extends Component {
     })
   }
 
-  renderContenu(contenu) {
+  renderContenu(item) {
 
-    if (contenu != null) {
-      return contenu;
-    } else {
-      return 'image';
+    // TODO : récupérer l'url dynamiquement
+
+    let url = 'http://192.168.66.9:3000';
+
+    // Meteor.call('getIp', function (err, res) {
+
+    //   if (err) throw err;
+
+    //   if (res) {
+    //     this.setState({
+    //       url : 'test'
+    //     })
+    //   }
+
+    // })
+
+    // console.log(item.image)
+    // item.image.map((info) => console.log(info))
+
+    // if (item != 'image') {
+    //   return item.contenu;
+    // } else {
+    //   return 'image';
+    // }
+
+    switch (item.type) {
+
+      case 'texte' :
+        return `${item.contenu.split(' ')[0].toString()}...`;
+
+      case 'image' :
+
+        let str = item.image.path;
+        let img = str.substr(str.lastIndexOf('/') + 1)
+        let res = `${url}/${img}`;
+
+        // TODO : tester s'il y a du texte en contenu
+
+        return <Avatar src={res} />;
+
+      default : 
+        console.log('no type')
+
     }
 
     
   }
 
-  renderActionDocuments(docId, contenu, rejete, correction) {
-    // console.log(rejete)
+  renderActionDocuments(item) {
+    // console.log(item)
+
+    let docId = item._id;
+    let contenu = item.contenu;
+    let correction = item.correction;
+    let rejete = item.rejete;
+
+    // TODO : tester si c'est une image ou du texte
+    // si c'est iconographe > ajouter une image
 
     if (!!this.props.connecte
       && this.props.role === "editeur") {
 
-      return [
+        if (item.type !== 'image') {
 
-        <Button
-          type='default'
-          onClick={() => {
-            this.showModal();
-            this.setState({
-              docId,
-              contenu,
-            })
-          }
+          return [
 
-          }
-        >
-          {correction ? 'Revoir' : 'Corriger'}
-        </Button>,
-        <Button
-          type='default'
-          onClick={() => {
+            <Button
+              type='default'
+              onClick={() => {
+                this.showModal();
+                this.setState({
+                  docId,
+                  contenu,
+                })
+              }
+    
+              }
+            >
+              {correction ? 'Revoir' : 'Corriger'}
+    
+            </Button>,
+            <Button
+              type='default'
+              onClick={() => {
+    
+                if (!rejete) {
+                  console.log('rejete')
+                  Meteor.call('documents.rejet', docId);
+                } else {
+                  console.log('accepter')
+                  Meteor.call('documents.accepte', docId);
+                }
+    
+    
+              }
+              }
+            >
+              {rejete ? 'Accepter' : 'Rejeter'}
+            </Button>,
+            <Button
+              type='danger'
+              onClick={() => {
+    
+                Meteor.call('documents.remove', docId);
+    
+                let infos = {
+                  title: "message de l'éditeur",
+                  message: "supression du document",
+                  type: "warning"
+                }
+    
+                Meteor.call('notification', infos);
+    
+              }}
+            >
+              Supprimer
+              </Button>
+          ]
 
-            if (!rejete) {
-              console.log('rejete')
-              Meteor.call('documents.rejet', docId);
-            } else {
-              console.log('accepter')
-              Meteor.call('documents.accepte', docId);
-            }
+        } else {
 
+          return [
 
-          }
-          }
-        >
-          {rejete ? 'Accepter' : 'Rejeter'}
-        </Button>,
-        <Button
-          type='danger'
-          onClick={() => {
+            <Button
+              type='default'
+              onClick={() => {
+    
+                if (!rejete) {
+                  console.log('rejete')
+                  Meteor.call('documents.rejet', docId);
+                } else {
+                  console.log('accepter')
+                  Meteor.call('documents.accepte', docId);
+                }
+    
+    
+              }
+              }
+            >
+              {rejete ? 'Accepter' : 'Rejeter'}
+            </Button>,
+            <Button
+              type='danger'
+              onClick={() => {
+    
+                Meteor.call('documents.remove', docId);
+    
+                let infos = {
+                  title: "message de l'éditeur",
+                  message: "supression du document",
+                  type: "warning"
+                }
+    
+                Meteor.call('notification', infos);
+    
+              }}
+            >
+              Supprimer
+              </Button>
+          ]
 
-            Meteor.call('documents.remove', docId);
+        }
 
-            let infos = {
-              title: "message de l'éditeur",
-              message: "supression du document",
-              type: "warning"
-            }
+     
 
-            Meteor.call('notification', infos);
-
-          }}
-        >
-          Supprimer
-          </Button>
-
-
-      ]
-
-    } else {
+    } else if (!!this.props.connecte
+      && this.props.role === "correcteur" && item.type !== 'image') {
 
       return [
 
@@ -157,13 +253,17 @@ class IndexDocuments extends Component {
           </Button>
       ]
 
+    } else {
+
+      return []
+
     }
   }
 
 
   render() {
 
-    console.log(this.props.documents)
+    // console.log(this.props)
 
     if (this.props.documents != 0) {
 
@@ -181,38 +281,47 @@ class IndexDocuments extends Component {
               header={<div>liste des documents</div>}
               bordered
               dataSource={this.props.documents}
-              renderItem={item => (
+              renderItem={ (item, index) => { 
+                
+                // console.log(item)
 
-                <List.Item
-                  actions={this.renderActionDocuments(item._id, item.contenu, item.rejete, item.correction)}
-                > 
-                  
-                  {this.renderContenu(item.contenu)}
+                // TODO : rendre que les documents non rejetés pour les autres rôles que l'éditeur
+                
+                return (
 
-                  <Modal
-                    title='document'
-                    visible={this.state.visible}
-                    onOk={() => {
-                      Meteor.call('documents.update', this.state.docId, this.state.contenu, this.props.utilisateur)
-                      this.setState({
-                        visible: false,
-                        contenu: ''
-                      })
-                    }}
-                    onCancel={this.handleCancel}
-                  >
+                  <List.Item
+                    // style={{ backgroundColor='red'}}
+                    // avatar={<Avatar src=}
+                    actions={this.renderActionDocuments(item)}
+                  > 
+                    
+                  ({index}) {this.renderContenu(item)}
 
-                    <TextArea
-                      value={this.state.contenu}
-                      onChange={this.handleChange}
-                      autosize={{ minRows: 10, maxRows: 60 }}
-                    />
+                    <Modal
+                      title='document'
+                      visible={this.state.visible}
+                      onOk={() => {
+                        Meteor.call('documents.update', this.state.docId, this.state.contenu, this.props.utilisateur)
+                        this.setState({
+                          visible: false,
+                          contenu: ''
+                        })
+                      }}
+                      onCancel={this.handleCancel}
+                    >
 
-                  </Modal>
+                      <TextArea
+                        value={this.state.contenu}
+                        onChange={this.handleChange}
+                        autosize={{ minRows: 10, maxRows: 60 }}
+                      />
 
-                </List.Item>
+                    </Modal>
 
-              )}
+                  </List.Item>
+
+              ) 
+            }}
             />
           }
           

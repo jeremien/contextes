@@ -36,7 +36,7 @@ io.on('connection', function (socket) {
   console.log('new socket client');
 });
 Meteor.startup(() => {
-  Connexions.remove({})
+  // Connexions.remove({})
   Messages.remove({})
   Images.allow({
     'insert': function () {

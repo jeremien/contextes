@@ -93,6 +93,7 @@ class Login extends React.Component {
                         }
                         <Option value='transcripteur'>Transcripteur</Option>
                         <Option value='correcteur'>Correcteur</Option>
+                        <Option value='iconographe'>Iconographe</Option>
                         {/* <Option value='conformateur'>Conformateur</Option> */}
                     
                     </Select>

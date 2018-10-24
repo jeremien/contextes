@@ -110,9 +110,9 @@ export default class IndexChapitres extends Component {
               actions={this.renderActionsChapitres(item._id, item.session)}
             >
 
-              <Badge count={this.getBadge(item._id)} showZero>
-      {item.titre}
-    </Badge>)
+              <Badge count={this.getBadge(item._id)} >
+                {item.titre}
+              </Badge>
 
             </List.Item>
 
