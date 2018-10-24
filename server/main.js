@@ -36,8 +36,8 @@ io.on('connection', function (socket) {
   console.log('new socket client');
 });
 Meteor.startup(() => {
-  Connexions.remove()
-  Messages.remove()
+  Connexions.remove({})
+  Messages.remove({})
   Images.allow({
     'insert': function () {
       // add custom authentication code here
