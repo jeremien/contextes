@@ -84,6 +84,12 @@ class IndexDocumentsTable extends Component {
             // render: (item) => item.toString()
             render: (item) => item ? <Icon type='check-circle' style={{ color : 'green'}} /> : <Icon type='close-circle' style={{ color : 'red'}} />
         },
+        {
+            title : 'Type',
+            dataIndex : 'type',
+            key : 'type',
+            render: (item) => item != 'image' ? 'texte' : 'image'
+        }
         // {
         //     title : 'Rejeté',
         //     dataIndex : 'rejete',
@@ -94,6 +100,8 @@ class IndexDocumentsTable extends Component {
     ];
 
     const data = this.renderDataTable();
+
+    // console.log(data)
 
     const rowSelection = {
       onChange: (selectedRowKeys, selectedRows) => {
@@ -158,7 +166,7 @@ class IndexDocumentsTable extends Component {
 export default IndexDocumentsTable = withTracker((props) => {
   const documentsHandler = Meteor.subscribe('documents');
   const loading = !documentsHandler.ready();
-  const documents = Documents.find({ chapitre: props.chapitre._id, type: "texte" }).fetch()
+  const documents = Documents.find({ chapitre: props.chapitre._id }).fetch()
   const documentsExists = !loading && !!documents;
   return {
     loading,

@@ -13,8 +13,18 @@ const options = [
         label : 'Design',
         children : [
             {
-                value : 'graphique',
-                label : 'Graphique'
+                value : 'graphisme',
+                label : 'Graphisme'
+            }
+        ]
+    },
+    {
+        value : 'art',
+        label : 'Art',
+        children : [
+            {
+                value : 'peinture',
+                label : 'Peinture'
             }
         ]
     }
@@ -32,7 +42,7 @@ class AjouterSession extends Component {
             titre: '',
             description: '',
             transcripteurs: 1,
-            correcteurs : 1,
+            // correcteurs : 1,
             categories: [], 
             // categorieCourante: '' 
         }
@@ -98,7 +108,7 @@ class AjouterSession extends Component {
         const auteur = this.props.utilisateur || inconnu;
         const roles = {
             transcripteurs: this.state.transcripteurs,
-            correcteurs: this.state.correcteurs
+            // correcteurs: this.state.correcteurs
         }
 
         if (this.state.titre && this.state.description) {
@@ -108,8 +118,8 @@ class AjouterSession extends Component {
             this.setState({ 
                 titre: '',
                 description: '',
-                transcripteurs: 1,
-                correcteurs : 1,
+                transcripteurs: 10,
+                // correcteurs : 1,
                 // categorieCourante: "", 
                 categories: [] 
             });
@@ -190,23 +200,23 @@ class AjouterSession extends Component {
                     >   
                         <Slider 
                             size="small"
-                            min={1}
-                            max={10}
+                            min={10}
+                            max={30}
                             value={this.state.transcripteurs}
                             onChange={this.handleTranscripteursChange}
                         />
 
                         <InputNumber
                             size="small"
-                            min={1}
-                            max={10}
+                            min={10}
+                            max={30}
                             value={this.state.transcripteurs}
                             onChange={this.handleTranscripteursChange}
                         />
 
                     </FormItem>
 
-                    <FormItem
+                    {/* <FormItem
                         label="Correcteurs"
                     >   
 
@@ -227,7 +237,7 @@ class AjouterSession extends Component {
                             
                         />
 
-                    </FormItem>
+                    </FormItem> */}
 
                     <Divider/>
 

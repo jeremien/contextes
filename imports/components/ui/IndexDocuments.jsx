@@ -6,56 +6,72 @@ import { withTracker } from 'meteor/react-meteor-data';
 import { Documents } from '../../api/collections/documents';
 import DetailsDocument from './DetailsDocument';
 
-import { List, Button, Modal, Form, Input, Switch, Icon, Card, Carousel, Avatar } from 'antd';
+import { List, Button, Modal, Form, Input, Switch, Icon, Card, Carousel, Avatar, Divider } from 'antd';
 
 const { Meta } = Card;
 const { TextArea } = Input;
+
+const url = 'http://192.168.66.9:3000';
 
 class IndexDocuments extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      visible: false,
+      visibleTexte: false,
+      visibleImage: false,
       docId: null,
       contenu: '',
       toggleActionDocList: false,
-      url: null
+      url: null,
+      isImage: false
       // docRejet : false    
     }
 
     this.showModal = this.showModal.bind(this);
-    this.handSaveDoc = this.handSaveDoc.bind(this);
+    this.handleSaveDoc = this.handleSaveDoc.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
     this.handleChange = this.handleChange.bind(this);
 
   }
 
-  showModal() {
-    this.setState({
-      visible: true
-    });
+  showModal(type) {
+    // console.log(type)
+
+    if (type != 'image') {
+
+      this.setState({
+        visibleTexte: true,
+        isImage: false
+      });
+
+    } else {
+
+      this.setState({
+        visibleImage: true,
+        isImage : true
+      });
+
+    }
+
+   
   }
 
-  handSaveDoc() {
+  handleSaveDoc() {
+
     this.setState({
-      visible: false,
+      visibleTexte: false,
+      visibleImage: false
     })
-
-    // let infos = {
-    //   title : "message du correcteur",
-    //   message : "correction du document",
-    //   type : "success"
-    // }
-
-    // Meteor.call('notification', infos);
 
   }
 
   handleCancel() {
     this.setState({
-      visible: false,
+      visibleTexte: false,
+      visibleImage: false
     })
+    
   }
 
   handleChange(event) {
@@ -64,63 +80,47 @@ class IndexDocuments extends Component {
     })
   }
 
-  renderContenu(item) {
+  // renderContenuList(item) {
 
-    // TODO : récupérer l'url dynamiquement
+  //   // TODO : récupérer l'url dynamiquement
 
-    let url = 'http://192.168.66.9:3000';
+  //   switch (item.type) {
 
-    // Meteor.call('getIp', function (err, res) {
+  //     case 'texte' :
+  //       return `${item.contenu.split(' ')[0].toString()}...`;
 
-    //   if (err) throw err;
+  //     case 'image' :
 
-    //   if (res) {
-    //     this.setState({
-    //       url : 'test'
-    //     })
-    //   }
+  //       let str = item.image.path;
+  //       let img = str.substr(str.lastIndexOf('/') + 1)
+  //       let res = `${url}/${img}`;
 
-    // })
+  //       // TODO : tester s'il y a du texte en contenu
 
-    // console.log(item.image)
-    // item.image.map((info) => console.log(info))
+  //       return <Avatar src={res} />;
 
-    // if (item != 'image') {
-    //   return item.contenu;
-    // } else {
-    //   return 'image';
-    // }
+  //     default : 
+  //       console.log('no type')
 
-    switch (item.type) {
-
-      case 'texte' :
-        return `${item.contenu.split(' ')[0].toString()}...`;
-
-      case 'image' :
-
-        let str = item.image.path;
-        let img = str.substr(str.lastIndexOf('/') + 1)
-        let res = `${url}/${img}`;
-
-        // TODO : tester s'il y a du texte en contenu
-
-        return <Avatar src={res} />;
-
-      default : 
-        console.log('no type')
-
-    }
+  //   }
 
     
-  }
+  // }
 
   renderActionDocuments(item) {
-    // console.log(item)
 
     let docId = item._id;
     let contenu = item.contenu;
     let correction = item.correction;
     let rejete = item.rejete;
+    let type = item.type;
+    let res = null;
+
+    if (type === 'image') {
+      let str = item.image.path;
+      let img = str.substr(str.lastIndexOf('/') + 1)
+      res = `${url}/${img}`;
+    }  
 
     // TODO : tester si c'est une image ou du texte
     // si c'est iconographe > ajouter une image
@@ -128,17 +128,17 @@ class IndexDocuments extends Component {
     if (!!this.props.connecte
       && this.props.role === "editeur") {
 
-        if (item.type !== 'image') {
 
           return [
 
             <Button
               type='default'
               onClick={() => {
-                this.showModal();
+                this.showModal(type);
                 this.setState({
                   docId,
                   contenu,
+                  url : res
                 })
               }
     
@@ -161,7 +161,7 @@ class IndexDocuments extends Component {
     
     
               }
-              }
+            }
             >
               {rejete ? 'Accepter' : 'Rejeter'}
             </Button>,
@@ -184,63 +184,17 @@ class IndexDocuments extends Component {
               Supprimer
               </Button>
           ]
-
-        } else {
-
-          return [
-
-            <Button
-              type='default'
-              onClick={() => {
-    
-                if (!rejete) {
-                  console.log('rejete')
-                  Meteor.call('documents.rejet', docId);
-                } else {
-                  console.log('accepter')
-                  Meteor.call('documents.accepte', docId);
-                }
-    
-    
-              }
-              }
-            >
-              {rejete ? 'Accepter' : 'Rejeter'}
-            </Button>,
-            <Button
-              type='danger'
-              onClick={() => {
-    
-                Meteor.call('documents.remove', docId);
-    
-                let infos = {
-                  title: "message de l'éditeur",
-                  message: "supression du document",
-                  type: "warning"
-                }
-    
-                Meteor.call('notification', infos);
-    
-              }}
-            >
-              Supprimer
-              </Button>
-          ]
-
-        }
-
-     
 
     } else if (!!this.props.connecte
-      && this.props.role === "correcteur" && item.type !== 'image') {
+               && this.props.role === "correcteur") {
 
       return [
 
         <Button
           type='primary'
-          disabled={correction}
+          // disabled={correction}
           onClick={() => {
-            this.showModal();
+            this.showModal(type);
             this.setState({
               docId,
               contenu,
@@ -253,6 +207,30 @@ class IndexDocuments extends Component {
           </Button>
       ]
 
+    } else if (!!this.props.connecte
+               && this.props.role === "iconographe" 
+               && type === 'image') {
+
+        return [
+
+          <Button
+            type='primary'
+            // disabled={correction}
+            onClick={() => {
+              this.showModal(type);
+              this.setState({
+                docId,
+                contenu,
+                url : res
+              })
+            }
+  
+            }
+          >
+            Compléter
+            </Button>
+        ]
+    
     } else {
 
       return []
@@ -263,7 +241,7 @@ class IndexDocuments extends Component {
 
   render() {
 
-    // console.log(this.props)
+    // console.log(this.state)
 
     if (this.props.documents != 0) {
 
@@ -282,45 +260,136 @@ class IndexDocuments extends Component {
               bordered
               dataSource={this.props.documents}
               renderItem={ (item, index) => { 
+
+                let type = item.type;
+                let rejete = item.rejete;
                 
-                // console.log(item)
+                // console.log(type, rejete)
 
                 // TODO : rendre que les documents non rejetés pour les autres rôles que l'éditeur
+
+
+                if (item.type != 'image') {
+
+                  return  (
+                            <List.Item
+                              actions={this.renderActionDocuments(item)}
+                           >  
+                              {index + ' : ' + item.contenu.split(' ')[0].toString() + '...'}
+
+                              <Modal
+                                title='Modifier le document'
+                                visible={this.state.visibleTexte}
+                                onOk={() => {
+                                  Meteor.call('documents.update', this.state.docId, this.state.contenu, this.props.utilisateur)
+                                  this.setState({
+                                    visibleTexte: false,
+                                    visibleImage: false,
+                                    contenu: '',
+                                    url : null
+                                  })
+                                }}
+                                onCancel={this.handleCancel}
+                              >
+                                <TextArea
+                                  value={this.state.contenu}
+                                  onChange={this.handleChange}
+                                  autosize={{ minRows: 10, maxRows: 60 }}
+                                /> 
+
+                              </Modal>
+
+                           </List.Item>
+                          )
+
+                } else {
+
+                  let str = item.image.path;
+                  let img = str.substr(str.lastIndexOf('/') + 1)
+                  let res = `${url}/${img}`;
+
+                  return (
+                          <List.Item
+                            actions={this.renderActionDocuments(item)}
+                          >
+                              { !!item.contenu ? index + ' : ' + item.contenu.split(' ')[0].toString() + '...' : undefined}
+                              <Avatar src={res} />
+
+                              <Modal
+                                title="Modifier la légende de l'image"
+                                visible={this.state.visibleImage}
+                                onOk={() => {
+                                  Meteor.call('documents.update', this.state.docId, this.state.contenu, this.props.utilisateur)
+                                  this.setState({
+                                    visibleTexte: false,
+                                    visibleImage: false,
+                                    contenu: '',
+                                    url : null
+                                  })
+                                }}
+                                onCancel={this.handleCancel}
+                              > 
+                                <img src={this.state.url} width='200px' />
+                                
+                                <Divider />
+
+                                <TextArea
+                                  value={this.state.contenu}
+                                  onChange={this.handleChange}
+                                  autosize={{ minRows: 2, maxRows: 60 }}
+                                /> 
+
+                              </Modal>
+
+                          </List.Item>
+                        )
+                }
+
+
+
+
+
                 
-                return (
+                // return (
 
-                  <List.Item
-                    // style={{ backgroundColor='red'}}
-                    // avatar={<Avatar src=}
-                    actions={this.renderActionDocuments(item)}
-                  > 
+                //   <List.Item
+                //     // style={{ backgroundColor='red'}}
+                //     // avatar={<Avatar src=}
+                //     actions={this.renderActionDocuments(item)}
+                //   > 
                     
-                  ({index}) {this.renderContenu(item)}
+                //   {/* ({index}) {this.renderContenuList(item)} */}
 
-                    <Modal
-                      title='document'
-                      visible={this.state.visible}
-                      onOk={() => {
-                        Meteor.call('documents.update', this.state.docId, this.state.contenu, this.props.utilisateur)
-                        this.setState({
-                          visible: false,
-                          contenu: ''
-                        })
-                      }}
-                      onCancel={this.handleCancel}
-                    >
+                //     <Modal
+                //       title='Modifier le document'
+                //       visible={this.state.visible}
+                //       onOk={() => {
+                //         Meteor.call('documents.update', this.state.docId, this.state.contenu, this.props.utilisateur)
+                //         this.setState({
+                //           visible: false,
+                //           contenu: ''
+                //         })
+                //       }}
+                //       onCancel={this.handleCancel}
+                //     >
+                      
+                      
 
-                      <TextArea
-                        value={this.state.contenu}
-                        onChange={this.handleChange}
-                        autosize={{ minRows: 10, maxRows: 60 }}
-                      />
+                //       {/* {this.renderContenuModal(item)} */}
 
-                    </Modal>
+                //       {/* <img src='https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png' />
 
-                  </List.Item>
+                //       <TextArea
+                //         value={this.state.contenu}
+                //         onChange={this.handleChange}
+                //         autosize={{ minRows: 10, maxRows: 60 }}
+                //       /> */}
 
-              ) 
+                //     </Modal>
+
+                //   </List.Item>
+
+                // ) 
             }}
             />
           }

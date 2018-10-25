@@ -10,7 +10,7 @@ import { Connexions } from '../../api/collections/connexions';
 import AjouterDocument from '../outils/transcripteur/AjouterDocument';
 import CorrectionDocument from '../outils/correcteur/CorrectionDocument';
 import DetailsDocumentsConformateur from '../outils/conformateur/DetailsDocumentsConformateur';
-import AjouterImages from '../outils/editeur/AjouterImage'
+import AjouterImages from '../outils/iconographe/AjouterImage'
 
 import AlertMessage from '../ui/AlertMessage';
 

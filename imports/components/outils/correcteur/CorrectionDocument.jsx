@@ -6,7 +6,7 @@ import { Documents } from '../../../api/collections/documents';
 
 // import IndexDocumentsCorrecteur from './IndexDocumentsCorrecteur';
 import DetailsDocumentsCorrecteur from './DetailsDocumentsCorrecteur';
-import AjouterImage from '../editeur/AjouterImage'
+// import AjouterImage from '../iconographe/AjouterImage'
 
 class CorrectionDocument extends Component {
 
@@ -17,7 +17,7 @@ class CorrectionDocument extends Component {
                 {this.props.documents.map((document) =>
                     <div key={document._id}>
                         <DetailsDocumentsCorrecteur document={document} />
-                        <AjouterImage document={document} />
+                        {/* <AjouterImage document={document} /> */}
                     </div>
                 )}
 

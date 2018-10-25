@@ -207,7 +207,7 @@ export default class IndexSessions extends Component {
                             return (<List.Item
                                 actions={this.renderActionsSessions(item._id, item.etat)}
                             >
-                                <Badge count={this.getBadge(item._id)} showZero>
+                                <Badge count={this.getBadge(item._id)} >
                                     {item.titre} ({item.etat})
                                 </Badge>
 
