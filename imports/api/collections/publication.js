@@ -4,6 +4,12 @@ import { Meteor } from 'meteor/meteor';
 
 export const Publications = new Mongo.Collection('publications');
 
+if (Meteor.isServer) {
+    Meteor.publish('publications', function publicationsPublication() {
+        return Publications.find();
+    })
+}
+
   
 Meteor.methods({
 
@@ -16,22 +22,30 @@ Meteor.methods({
         data : [
             {
                 titre : chapitre,
-                contenu : [ ]
+                session : id,
+                contenu : [ 'contenu des documents' ]
             }
         ]
 
     --------------------*/
 
-    'publication.insert'(selection) {
+    'publication.insert'(selection, sessionId) {
         // console.log(data)
         Publications.insert({
+            session : sessionId,
             creation : new Date(),
-            titre : null,
-            data : [
-                selection
-            ]
+            titre : selection.titre,
+            data : selection.contenu
         })
 
+    },
+
+    'publication.update'(publicationId, data) {
+        Publications.update(publicationId, {
+            $set : {
+                data
+            }
+        })
     }
 
 });

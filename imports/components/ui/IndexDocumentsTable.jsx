@@ -7,7 +7,6 @@ import { Documents } from '../../api/collections/documents';
 
 import { Table, Divider, Button, Switch, Icon } from 'antd';
 
-// import PublicationPDF from '../outils/editeur/PublicationPDF';
 
 class IndexDocumentsTable extends Component {
 
@@ -40,6 +39,7 @@ class IndexDocumentsTable extends Component {
   exportData() {
 
     const titre = this.props.chapitre.titre;
+    const sessionId = this.props.chapitre.session;
 
     const contenu = this.state.publicationData.map((item) => {
       return item.contenu;
@@ -49,16 +49,16 @@ class IndexDocumentsTable extends Component {
       titre,
       contenu
     }
-    Meteor.call('publication.insert', selection);
-
-    // return <PublicationPDF/>;
-
-    // reedirection vers la publication
+    Meteor.call('publication.insert', selection, sessionId);
+    
     this.props.history.push(`/publications`);
 
   }
 
   render() {
+
+    // console.log(this.props.chapitre.session)
+
     const columns = [
         {
             title : 'Contenu',
