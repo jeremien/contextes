@@ -248,6 +248,7 @@ class IndexDocuments extends Component {
       return (
 
         <div>
+          <h4>Transcription</h4>
           <Switch
             defaultChecked={!this.state.toggleActionDocList}
             onChange={() => this.setState({ toggleActionDocList: !this.state.toggleActionDocList })}

@@ -64,7 +64,7 @@ class IndexDocumentsTable extends Component {
             title : 'Contenu',
             dataIndex : 'contenu',
             key: 'contenu',
-            render: (item) => item.substring(0, 10)
+            render: (item) => item.split(' ')[0].toString() + '...'
         },
         // {
         //     title : 'Auteur',
@@ -117,6 +117,8 @@ class IndexDocumentsTable extends Component {
       return (
 
         <div>
+
+          <h4>Publication</h4>
           
           <Switch 
             defaultChecked={!this.state.toggleActionDocTable}
@@ -132,7 +134,12 @@ class IndexDocumentsTable extends Component {
                 <Button
                   onClick={this.exportData}
                 >
-                  Exporter
+                  Exporter vers une nouvelle publication
+                </Button>
+                <Button
+                  onClick={() => console.log('update pub')}
+                >
+                  Ajouter à une publication existante
                 </Button>
               </div> 
 
@@ -140,6 +147,7 @@ class IndexDocumentsTable extends Component {
                     rowSelection={rowSelection}
                     columns={columns}
                     dataSource={data}
+                    size='small'
                 />
 
             </div>

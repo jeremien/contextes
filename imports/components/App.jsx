@@ -176,7 +176,8 @@ class Application extends Component {
                     <Route path="/session/:idSession/chapitre/:idChapitre" render={(props) => <DetailsChapitreContainer {...props} {...propsToPass} />} />
                   
                     <Route path="/publications" render={(props) => <IndexPublicationsContainer {...props} {...propsToPass} />} />
-                    <Route path="/publication/:idPublication" render={(props) => <DetailsPublicationsContainer {...props} {...propsToPass} />} />
+                    <Route path="/publication/:idPublication" render={(props) => <DetailsPublicationsContainer {...props} {...propsToPass} layout={false}/>} />
+                    {/* <Route path="/publication/:idPublication/layout" render={(props) => <DetailsPublicationsContainer {...props} {...propsToPass} layout={true} />} /> */}
 
 
                     <Route path="/logs" render={(props) => <IndexLogsContainer {...props} {...propsToPass} />} />

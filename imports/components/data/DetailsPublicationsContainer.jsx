@@ -17,7 +17,7 @@ class DetailsPublicationsContainer extends Component {
 
             if (this.props.role === 'editeur') {
 
-                return <DetailsPublication {...publication}/>
+                    return <DetailsPublication {...publication}/>               
             
             } else {
 

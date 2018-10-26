@@ -13,6 +13,8 @@
     "@react-pdf/renderer": "^1.0.0-alpha.18",
     "antd": "^3.10.0",
     "bcrypt": "^2.0.1",
+    "bindery": "^2.2.3",
+    "bindery-controls": "^1.1.1",
     "bufferutil": "^4.0.0",
     "draft-js": "^0.10.5",
     "muicss": "^0.9.41",
@@ -29,7 +31,7 @@
     "showdown": "^1.8.6",
     "socket.io": "^2.1.1",
     "socket.io-client": "^2.1.1",
-    "styled-components": "^3.4.9",
+    "styled-components": "^3.4.10",
     "utf-8-validate": "^5.0.1"
   },
   "meteor": {

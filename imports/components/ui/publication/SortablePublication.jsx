@@ -2,13 +2,29 @@ import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-hoc';
 
-const SortableItem = SortableElement( ({ value }) => {
-    return <li>{value}</li>
+import styled from 'styled-components';
+
+const Container = styled.div`
+    display : flex;
+    flex-direction : column;
+    background: white;
+`;
+
+const Item = styled.div`
+    border : 1px solid blue;
+    padding : 10px;
+    margin-top : 5px;
+`;
+
+
+const SortableItem = SortableElement( ( { value} ) => {
+    // console.log(value)
+    return <Item >{value}</Item>
 });
 
 const SortableList = SortableContainer( ({ items }) => {
     return (
-        <ol>
+        <Container>
             {items.map((value, index) => {
                 return <SortableItem 
                             key={`item-${index}`}
@@ -16,7 +32,7 @@ const SortableList = SortableContainer( ({ items }) => {
                             value={value}
                         />
             })}
-        </ol>
+        </Container>
     )
 });
 
