@@ -30,8 +30,8 @@ class Login extends React.Component {
 
         // const target = event.target
         // const nom = target.nom.value;
-
-        Meteor.call('connexions.insert', this.state.username, this.state.role, this.props.socketId, function (error, id) {
+        if(!!this.state.username){
+            Meteor.call('connexions.insert', this.state.username, this.state.role, this.props.socketId, function (error, id) {
             localStorage.setItem('userId', id)
             Session.set('userId', id)
         });
@@ -45,6 +45,10 @@ class Login extends React.Component {
         Meteor.call('notification', infos);
 
         this.props.history.push('/sessions');
+    }
+    else{
+        alert('Indiquer un nom d\'utilisateur')
+    }
     }
 
     handleRoleChange(value) {
