@@ -171,8 +171,8 @@ class Application extends Component {
                     
                     {/* <Route path="/" render={(props) => <FilAriane {...props} {...propsToPass} />} /> */}
                     
-                    <Route path="/sessions" render={(props) => <IndexSessionsContainer {...props} {...propsToPass} />} />
-                    {/* <Route path="/sessions/:sessionId" render={(props) => <DetailsSession {...props} {...rest} />} /> */}
+                    <Route exact path="/sessions" render={(props) => <IndexSessionsContainer {...props} {...propsToPass} />} />
+                    <Route path="/sessions/:sessionId" render={(props) => <DetailsSession {...props} {...propsToPass} />} />
                     <Route path="/session/:idSession/chapitre/:idChapitre" render={(props) => <DetailsChapitreContainer {...props} {...propsToPass} />} />
                   
                     <Route path="/publications" render={(props) => <IndexPublicationsContainer {...props} {...propsToPass} />} />

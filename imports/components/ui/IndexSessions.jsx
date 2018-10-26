@@ -170,9 +170,7 @@ export default class IndexSessions extends Component {
         const { match, path, ...rest } = this.props;
         return (
 
-            <Row gutter={48} >
-
-                <Col span={12} >
+            <div className='index-session'>
 
                     {this.props.role === 'editeur' &&
 
@@ -218,16 +216,7 @@ export default class IndexSessions extends Component {
                         }}
                     />
 
-
-
-                </Col>
-
-                <Col span={12} >
-
-                    <Route path="/sessions/:sessionId" render={(props) => <DetailsSession {...props} {...rest} />} />
-                </Col>
-
-            </Row>
+            </div>
 
 
             // <div className="liste-sessions">
