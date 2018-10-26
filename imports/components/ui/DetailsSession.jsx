@@ -17,7 +17,7 @@ class DetailsSession extends React.Component {
         super(props);
 
         this.state = {
-            toggleActionChapitre : true
+            toggleActionChapitre : false
         }
     }
 
@@ -44,6 +44,7 @@ class DetailsSession extends React.Component {
                     {(!!this.props.connecte && this.props.role == "editeur") ?
                         
                         <div>
+                            <h4>Ajout d'un nouveau chapitre</h4>
                             <Switch 
                                 defaultChecked={this.state.toggleActionChapitre}
                                 onChange={() => this.setState({ toggleActionChapitre: !this.state.toggleActionChapitre})}

@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types'
-import { Session } from 'meteor/session';
 import { Meteor } from 'meteor/meteor';
-import { withTracker } from 'meteor/react-meteor-data';
-import { Link } from 'react-router-dom'
 
-
-import ConnexionsCourantes from '../outils/ConnexionsCourantes'
+import ConnexionsCourantes from '../outils/ConnexionsCourantes';
+import Chatbox from "./Chatbox";
 
 import { Layout, Row, Col, Drawer, Switch, Button, Divider } from 'antd';
 
@@ -25,7 +21,7 @@ export default class DetailsChapitre extends Component {
         Meteor.call('connexions.offline', this.props.userId);
     };
 
-    //Méthode à changer avec willMount/update selon l'endroit où sera définie la route
+    // Méthode à changer avec willMount/update selon l'endroit où sera définie la route
     componentDidMount() {
         if (this.props.connecte && this.props.chapitreExists) {
             Meteor.call('connexions.chapitre', this.props.userId, this.props.chapitre.session, this.props.chapitre._id);
@@ -70,6 +66,8 @@ export default class DetailsChapitre extends Component {
                         >
 
                             {this.props.outils.outilgauche}
+                            <Divider />
+                            <ConnexionsCourantes {...this.props} />
 
                         </Drawer>
 
@@ -81,7 +79,8 @@ export default class DetailsChapitre extends Component {
                             visible={this.state.visibleChat}
                         >
 
-                            <ConnexionsCourantes {...this.props} />
+                            <Chatbox { ...this.props } />
+                            
 
                         </Drawer>
                     </div>

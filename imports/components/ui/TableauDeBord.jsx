@@ -31,10 +31,8 @@ class TableauDeBord extends React.Component {
     
     renderRoles() {
         const data = Object.entries(this.props.session.roles).map(([role, nombre]) => {
-        //   console.log(role, nombre)
           return { role, nombre };
         })
-        // console.log(data)
         return data;
     }
 
@@ -43,15 +41,6 @@ class TableauDeBord extends React.Component {
     }
 
     render() {
-
-        // const data = [ { role : 'transcripteurs', nombre : 1 } , { role : 'correcteurs', nombre : 1 }];
-
-        // console.log(this.state.etat)
-        // console.log(this.props.session.roles)
-
-        // this.renderRoles();
-       
-        // console.log(data)
 
         if (this.props.loading) {
 
@@ -110,38 +99,7 @@ class TableauDeBord extends React.Component {
 
                 </Row>
 
-                // <div className="infos--session">
-                //     <div className="mui--text-title">tableau de bord pour : {this.props.session.titre}</div>
-                    
-                //     {/* <InfosSessions session={this.props.session} /> */}
-
-                //     <div className="mui--text-subhead">Etat de la session</div>
-                //     {/* <fieldset onChange={(event) => { console.log(event.target.value) }}> */}
-                //     <fieldset onChange={this.handleEtat.bind(this)}>
-                //         <div>
-                //             <input type="radio" defaultChecked={this.state.etat == "edition" ? "checked" : ""} value="edition" name="etat" />
-                //             <label>éditer</label>
-                //         </div>
-
-                //         <div>
-                //             <input type="radio" defaultChecked={this.state.etat == "completee" ? "checked" : ""} value="completee" name="etat" />
-                //             <label>compléter</label>
-                //         </div>
-
-                //         <div>
-                //             <input type="radio" defaultChecked={this.state.etat == "archivee" ? "checked" : ""} value="archivee" name="etat" />
-                //             <label>archiver</label>
-                //         </div>
-
-                //     </fieldset>
-                //     <h3>Rôles autorisés :</h3>
-                //     <ul>
-                //         {Object.entries(this.props.session.roles).map(([role, nombre]) => (
-                //             <li key={role}>{role} : {nombre}</li>
-                //         ))}
-                //     </ul>
-                //     <AjouterChapitre sessionId={this.props.session._id} />
-                // </div>
+             
             )
         }
     }

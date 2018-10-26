@@ -21,7 +21,9 @@ class LayoutPublication extends Component {
 
     render() {
 
-        return <div id='content'>layout</div>
+      // console.log(this.props.data)
+
+        return <div id='content'>{this.props.data}</div>
 
     }
 

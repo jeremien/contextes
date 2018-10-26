@@ -16,7 +16,7 @@ export default class IndexSessions extends Component {
     }
     state = {
         // toggleSession: false,
-        toggleActionSession: true,
+        toggleActionSession: false,
         badgeCourant: null,
     }
 
@@ -32,54 +32,6 @@ export default class IndexSessions extends Component {
         sessions: [{}],
     };
 
-
-    // renderSessions() {
-    //     let sessionsFiltrees = this.props.sessions;
-    //     // console.log(sessionsFiltrees)
-    //     if (this.state.toggleSession) {
-    //         sessionsFiltrees = sessionsFiltrees.filter((session) => { return (session.etat == "archivee") })
-    //     }
-    //     else {
-    //         sessionsFiltrees = sessionsFiltrees.filter((session) => { return !(session.etat == "archivee") })
-    //     }
-    //     // console.log(sessionsFiltrees)
-    //     return sessionsFiltrees.map((session, key) => (
-    //         <div  key={key}>
-    //             <Link to={`/sessions/${session._id}`} >
-    //                 {session.titre} 
-    //             </Link>
-
-    //             ({session.etat})
-
-    /* {!!this.props.connecte 
-     && this.props.role === "editeur" ? 
-     <Button color="danger" onClick={() => 
-        { 
-            Meteor.call('sessions.remove', session._id)
-              
-            // envoie des notifications
-
-            let infos = {
-                title : "message de l'éditeur",
-                message : `suppresion de la session : ${session.titre}`,
-                type : "danger"
-            }
-
-            Meteor.call('notification', infos);
-
-        }}>Supprimer la session</Button> 
-        : undefined} */
-
-    //             <br />
-    //         </div>
-    //     ))
-    // }
-
-
-    // handleChange(event) {
-    //     const prevState = this.state.toggleSession;
-    //     this.setState({ toggleSession: event.target.checked })
-    // }
 
     renderBadge(item) {
 
@@ -173,12 +125,14 @@ export default class IndexSessions extends Component {
             <div className='index-session'>
 
                     {this.props.role === 'editeur' &&
-
-                        <Switch
-                            defaultChecked={this.state.toggleActionSession}
-                            onChange={() => this.setState({ toggleActionSession: !this.state.toggleActionSession })}
-                            style={{ marginBottom: '20px' }}
-                        />
+                        <div>
+                            <h4>Ajout d'une nouvelle session</h4>
+                            <Switch
+                                defaultChecked={this.state.toggleActionSession}
+                                onChange={() => this.setState({ toggleActionSession: !this.state.toggleActionSession })}
+                                style={{ marginBottom: '20px' }}
+                            />
+                        </div>
                     }
 
                     {this.state.toggleActionSession && this.props.role === 'editeur' ?
