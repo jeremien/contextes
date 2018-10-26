@@ -23,6 +23,11 @@ import { Connexions } from '../imports/api/collections/connexions';
 import { Documents } from '../imports/api/collections/documents';
 import { Messages } from '../imports/api/collections/messages';
 
+Streamy.onConnect(function(socket) {
+  Clients.insert({
+    'sid': Streamy.id(socket)
+  });
+});
 
 /**
  * Initialisation des socket côté serveur

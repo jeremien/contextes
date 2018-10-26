@@ -135,6 +135,7 @@ class Application extends Component {
 
 
   render() {
+    console.log(Streamy.id())
 
     // console.log(this.props.socket)
     
