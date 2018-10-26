@@ -42,7 +42,10 @@ class Timer extends Component {
     startTimer() {
 
         if (!this.state.timer) {
-            
+            if (!this.props.connexions) {
+                alert('Pas de transcripteurs connecté !')
+            }
+            else {
             Meteor.call('timer.start', this.props.chapitre)
             this.setState({ timer: true })
 
@@ -53,6 +56,7 @@ class Timer extends Component {
             }
 
             Meteor.call('notification', infos);
+        }
         }
     }
 
