@@ -21,6 +21,9 @@ export default class AjouterImage extends Component {
      */
     handleSubmit(file) {
         let self = this
+        if (!!this.props.id) {
+            Meteor.call('image.remove', this.props.id)
+        }
         const upload = Images.insert({
             file: file,
             streams: 'dynamic',
