@@ -13,7 +13,8 @@ export default class DetailsChapitre extends Component {
 
         this.state = {
             visibleInfo: false,
-            visibleChat: false
+            visibleChat: false,
+            test: 0,
         }
     }
 
@@ -28,6 +29,8 @@ export default class DetailsChapitre extends Component {
         }
     };
 
+
+
     render() {
         if (this.props.loading) {
             return (
@@ -36,6 +39,7 @@ export default class DetailsChapitre extends Component {
                 </div>
             )
         }
+
 
         if (this.props.chapitreExists) {
 

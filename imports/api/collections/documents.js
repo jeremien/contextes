@@ -119,6 +119,7 @@ Meteor.methods({
         }, {
             $set: {
                 image: image,
+                type: "image",
             }
         });
     },

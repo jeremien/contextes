@@ -97,7 +97,7 @@ class DetailsChapitreContainer extends React.Component {
         if (this.props.chapitreExists && !this.props.loading) {
             var { match, path, ...rest } = this.props;
             const outils = this.getOutils({ ...rest });
-            return <DetailsChapitre outils={outils} {...rest} />
+            return <DetailsChapitre outils={outils} {...rest} test={this.test}/>
         }
         else {
             return <h3>Chargement</h3>

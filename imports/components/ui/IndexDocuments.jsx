@@ -7,6 +7,8 @@ import { Documents } from '../../api/collections/documents';
 import DetailsDocument from './DetailsDocument';
 
 import { List, Button, Modal, Form, Input, Switch, Icon, Card, Carousel, Avatar, Divider } from 'antd';
+import { Images } from '../../api/collections/images';
+import AjouterImage from '../outils/iconographe/AjouterImage';
 
 const { Meta } = Card;
 const { TextArea } = Input;
@@ -24,8 +26,9 @@ class IndexDocuments extends Component {
       contenu: '',
       toggleActionDocList: false,
       url: null,
-      isImage: false
-      // docRejet : false    
+      isImage: false,
+      // docRejet : false,
+      test : 0,    
     }
 
     this.showModal = this.showModal.bind(this);
@@ -209,7 +212,7 @@ class IndexDocuments extends Component {
 
     } else if (!!this.props.connecte
                && this.props.role === "iconographe" 
-               && type === 'image') {
+               ) {
 
         return [
 
@@ -241,8 +244,6 @@ class IndexDocuments extends Component {
 
   render() {
 
-    // console.log(this.state)
-
     if (this.props.documents != 0) {
 
       return (
@@ -264,11 +265,6 @@ class IndexDocuments extends Component {
 
                 let type = item.type;
                 let rejete = item.rejete;
-                
-                // console.log(type, rejete)
-
-                // TODO : rendre que les documents non rejetés pour les autres rôles que l'éditeur
-
 
                 if (item.type != 'image') {
 
@@ -292,6 +288,7 @@ class IndexDocuments extends Component {
                                 }}
                                 onCancel={this.handleCancel}
                               >
+                              <AjouterImage document={item} />
                                 <TextArea
                                   value={this.state.contenu}
                                   onChange={this.handleChange}
@@ -305,16 +302,16 @@ class IndexDocuments extends Component {
 
                 } else {
 
-                  let str = item.image.path;
-                  let img = str.substr(str.lastIndexOf('/') + 1)
-                  let res = `${url}/${img}`;
+                  let img = Images.findOne({_id: item.image._id})
+                  let link = img ? img.link() : null;
 
                   return (
                           <List.Item
                             actions={this.renderActionDocuments(item)}
                           >
                               { !!item.contenu ? index + ' : ' + item.contenu.split(' ')[0].toString() + '...' : undefined}
-                              <Avatar src={res} />
+    
+                              <Avatar src={link} />
 
                               <Modal
                                 title="Modifier la légende de l'image"
@@ -330,8 +327,8 @@ class IndexDocuments extends Component {
                                 }}
                                 onCancel={this.handleCancel}
                               > 
-                                <img src={this.state.url} width='200px' />
-                                
+                                {/* <img src={link} width='200px' /> */}
+                                <AjouterImage id={item.image._id} document={item} />
                                 <Divider />
 
                                 <TextArea
@@ -344,83 +341,11 @@ class IndexDocuments extends Component {
 
                           </List.Item>
                         )
-                }
-
-
-
-
-
-                
-                // return (
-
-                //   <List.Item
-                //     // style={{ backgroundColor='red'}}
-                //     // avatar={<Avatar src=}
-                //     actions={this.renderActionDocuments(item)}
-                //   > 
-                    
-                //   {/* ({index}) {this.renderContenuList(item)} */}
-
-                //     <Modal
-                //       title='Modifier le document'
-                //       visible={this.state.visible}
-                //       onOk={() => {
-                //         Meteor.call('documents.update', this.state.docId, this.state.contenu, this.props.utilisateur)
-                //         this.setState({
-                //           visible: false,
-                //           contenu: ''
-                //         })
-                //       }}
-                //       onCancel={this.handleCancel}
-                //     >
-                      
-                      
-
-                //       {/* {this.renderContenuModal(item)} */}
-
-                //       {/* <img src='https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png' />
-
-                //       <TextArea
-                //         value={this.state.contenu}
-                //         onChange={this.handleChange}
-                //         autosize={{ minRows: 10, maxRows: 60 }}
-                //       /> */}
-
-                //     </Modal>
-
-                //   </List.Item>
-
-                // ) 
+                }      
             }}
             />
           }
-          
-          {/* <div>
-          {!!this.props.imagesExists &&
-            <List
-              grid={{ gutter: 16, column: 4 }}
-              dataSource={this.props.images}
-              renderItem={item => (
-                <List.Item>
-                  <Card
-                    style={{ width: 300 }}
-                    cover={<img
-                      src={`/${item.image._id}.${item.image.ext}`}
-                      alt="une image"
-                      className="thumbnail"
-                    />}
-                    actions={this.renderActionDocuments(item._id, item.contenu, item.rejete, item.correction)}
-                  >
-                    <Meta
-                      title={`Par ${item.auteur}`}
-                      description={`A ${item.creation.toLocaleTimeString()}`}
-                    />
-                  </Card>
-                </List.Item>
-              )}
-            />
-          }
-          </div> */}
+ 
 
         </div>
       );
@@ -444,7 +369,8 @@ export default IndexDocumentsContainer = withTracker((props) => {
   const loading = !documentsHandler.ready();
   // const documents = Documents.find({ chapitre: props.chapitre._id, type: "texte" }).fetch();
   const documents = Documents.find( { chapitre: props.chapitre._id }).fetch();
-  const images = Documents.find({ chapitre: props.chapitre._id, type: "image" }).fetch();
+  const images = Documents.find({ chapitre: props.chapitre._id, type: "image" }, {fields: {image : 1}}).fetch();
+  // const images = Images.find({"_id": document.map})
   const documentsExists = !loading && !!documents;
   const imagesExists = !loading && !!document;
   return {
@@ -452,6 +378,6 @@ export default IndexDocumentsContainer = withTracker((props) => {
     documentsExists,
     documents: documentsExists ? documents : [],
     imagesExists,
-    images: imagesExists ? images : []
+    images: imagesExists ? images : {}
   }
 })(IndexDocuments);
