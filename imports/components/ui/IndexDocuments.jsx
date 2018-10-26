@@ -26,8 +26,9 @@ class IndexDocuments extends Component {
       contenu: '',
       toggleActionDocList: false,
       url: null,
-      isImage: false
-      // docRejet : false    
+      isImage: false,
+      // docRejet : false,
+      test : 0,    
     }
 
     this.showModal = this.showModal.bind(this);
@@ -211,7 +212,7 @@ class IndexDocuments extends Component {
 
     } else if (!!this.props.connecte
                && this.props.role === "iconographe" 
-               && type === 'image') {
+               ) {
 
         return [
 
@@ -287,6 +288,7 @@ class IndexDocuments extends Component {
                                 }}
                                 onCancel={this.handleCancel}
                               >
+                              <AjouterImage document={item} />
                                 <TextArea
                                   value={this.state.contenu}
                                   onChange={this.handleChange}
@@ -301,7 +303,7 @@ class IndexDocuments extends Component {
                 } else {
 
                   let img = Images.findOne({_id: item.image._id})
-                  let link = img.link()
+                  let link = img ? img.link() : null;
 
                   return (
                           <List.Item
@@ -325,7 +327,7 @@ class IndexDocuments extends Component {
                                 }}
                                 onCancel={this.handleCancel}
                               > 
-                                <img src={link} width='200px' />
+                                {/* <img src={link} width='200px' /> */}
                                 <AjouterImage id={item.image._id} document={item} />
                                 <Divider />
 
@@ -367,7 +369,7 @@ export default IndexDocumentsContainer = withTracker((props) => {
   const loading = !documentsHandler.ready();
   // const documents = Documents.find({ chapitre: props.chapitre._id, type: "texte" }).fetch();
   const documents = Documents.find( { chapitre: props.chapitre._id }).fetch();
-  const images = Documents.find({ chapitre: props.chapitre._id, type: "image" }, {fields: {image : 1}});
+  const images = Documents.find({ chapitre: props.chapitre._id, type: "image" }, {fields: {image : 1}}).fetch();
   // const images = Images.find({"_id": document.map})
   const documentsExists = !loading && !!documents;
   const imagesExists = !loading && !!document;
