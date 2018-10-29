@@ -43,7 +43,6 @@ import Chatbox from './ui/Chatbox';
 
 const { Header, Content } = Layout;
 
-// const onAir = false;
 
 
 /**
@@ -74,7 +73,6 @@ class Application extends Component {
   }
 
   componentDidMount() {
-    // Meteor.call('connexions.online', this.props.utilisateur)
     window.addEventListener("beforeunload", this.handleLeavePage);
     this.props.socket.on('logoutForce', this.logoutForce.bind(this));
     this.props.socket.on('onAir', () => this.setState({ onAir : true }));
@@ -83,16 +81,11 @@ class Application extends Component {
     // notifications
 
     this.props.socket.on('notification', (title, message, type) => {
-      // console.log('notification', title, message, type)
-
       this.openNotification(title, message, type);
-       
     });
   }
 
   openNotification(title, message, type) {
-    // console.log(title, message, type)
-
       notification[type]({
         message : title,
         description : message
@@ -100,27 +93,6 @@ class Application extends Component {
 
   }
 
-
-    // this.props.socket.on('notification', (title, message, type) => {
-    //   console.log('notification', title, message, type)
-    //     this.notificationDOMRef.current.addNotification({
-    //         title,
-    //         message,
-    //         type,
-    //         insert: "top",
-    //         container: "top-right",
-    //         animationIn: ["animated", "fadeIn"],
-    //         animationOut: ["animated", "fadeOut"],
-    //         dismiss: { duration: 4000 },
-    //         dismissable: { click: true }
-    //     });
-    // });
-       
-  // }
-
-  componentWillUnmount() {
-    // window.removeEventListener('beforeunload', this.handleLeavePage);
-  }
 
   logoutForce() {
     console.log('logout')
@@ -135,14 +107,10 @@ class Application extends Component {
 
 
   render() {
-    console.log(Streamy.id())
-
-    // console.log(this.props.socket)
     
     if (this.props.connecte) {
       Meteor.call('connexions.socket', this.props.connexion._id, this.props.socket.id)
     }
-    // console.log(this.props.socket.id)
     const { role, utilisateur, ...rest } = this.props.connexion
     const propsToPass = { 
       connecte: this.props.connecte, 
@@ -158,7 +126,6 @@ class Application extends Component {
     return (
       <Router>
 
-            {/* <ReactNotification ref={this.notificationDOMRef} /> */}
                 <Layout>
                   
                   <Header style={{backgroundColor:'white', position: 'fixed', zIndex: 1, width: '100%' }}>
@@ -168,7 +135,6 @@ class Application extends Component {
                   </Header>
                   
                   <Content style={{ padding: '20px 50px', margin: '100px 0 0 0 '}}>
-                  {/* <Content> */}
                     
                     {/* <Route path="/" render={(props) => <FilAriane {...props} {...propsToPass} />} /> */}
                     
@@ -226,7 +192,6 @@ export default withTracker((props) => {
       connexion: {},
     }
   }
-
 
 })(Application);
 

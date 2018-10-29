@@ -7,9 +7,18 @@ import { Button, Icon, Divider } from 'antd';
  * Permet l'affichage des méta-data et propriétés d'un chapitre.
  * Le chapitre en question doit être passé directement en props
  */
+
+const tags = (props) => {
+    if (props.chapitre.tags != 0) {
+        return props.chapitre.tags.map((item, key) => <li key={key}>{item}</li>)
+    } else {
+        return <li>pas de tags</li>
+    } 
+}
+
 export default function InfosChapitre(props) {
 
-    // console.log(props)
+    console.log(props)
 
     return (
         
@@ -27,13 +36,8 @@ export default function InfosChapitre(props) {
             <Divider/>
         
             <p>description : {props.chapitre.description}</p>
+            <p>tags : {tags(props)}</p>
 
-            {/* <p>nombre de documents : </p> */}
-            {/* <p>nombre de documents corrigés : </p> */}
-            {/* <p>tags à utiliser : </p> */}
-
-
-            {/* {!!props.connecte && props.role === "editeur" || props.role === "transcripteur" ? <p>Temps de transcription restant : {props.chapitre.timer}</p> : undefined} */}
             <Divider/>
             <Timer {...props} />
 

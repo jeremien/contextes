@@ -70,6 +70,7 @@ export default class DetailsChapitre extends Component {
                         >
 
                             {this.props.outils.outilgauche}
+                            
                             <Divider />
                             <ConnexionsCourantes {...this.props} />
 

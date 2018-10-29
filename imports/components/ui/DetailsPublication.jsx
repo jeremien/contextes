@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import SortablePublication from './publication/SortablePublication';
 import LayoutPublication from './publication/LayoutPublication';
 
-import { Input, Button, Divider } from 'antd';
+import { Input, Button, Divider, Tooltip } from 'antd';
 import { Meteor } from 'meteor/meteor';
 
 
@@ -81,7 +81,7 @@ class DetailsPublication extends Component {
                             onChange = { this.handleTitreChange }
                             onPressEnter = { this.updateTitre }
                         />  :
-                        <h4 onClick={this.changeTitre}>{this.state.titre}</h4> 
+                        <Tooltip title='Cliquer pour changer le titre de la publication et appuyer sur entrer'><h4 onClick={this.changeTitre}>{this.state.titre}</h4></Tooltip> 
                    }
 
                     <Divider />

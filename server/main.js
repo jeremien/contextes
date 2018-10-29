@@ -9,8 +9,8 @@ import '../imports/api/collections/chapitres';
 import '../imports/api/collections/connexions';
 import '../imports/api/collections/images';
 import '../imports/api/collections/messages';
-
 import '../imports/api/collections/publication';
+import '../imports/api/collections/logs';
 
 
 import {
@@ -22,6 +22,7 @@ import './timer'
 import { Connexions } from '../imports/api/collections/connexions';
 import { Documents } from '../imports/api/collections/documents';
 import { Messages } from '../imports/api/collections/messages';
+import { Logs } from '../imports/api/collections/logs';
 
 Streamy.onConnect(function(socket) {
   Clients.insert({
@@ -41,8 +42,9 @@ io.on('connection', function (socket) {
   console.log('new socket client');
 });
 Meteor.startup(() => {
-  // Connexions.remove({})
-  Messages.remove({})
+  // Connexions.remove({});
+  Logs.remove({});
+  Messages.remove({});
   Images.allow({
     'insert': function () {
       // add custom authentication code here

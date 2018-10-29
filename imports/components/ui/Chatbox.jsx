@@ -25,7 +25,9 @@ class Chatbox extends Component {
 
     handleSubmit() {
         Meteor.call('messages.insert', this.props.utilisateur, this.state.message)
+        Meteor.call('log.insert', 'message', `${this.props.utilisateur} a écrit : ${this.state.message}` );
         this.setState({message: ""})
+        
     }
 
     handleTyping(e){
