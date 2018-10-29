@@ -51,11 +51,13 @@ class Timer extends Component {
 
             let infos = {
                 title : "message de l'éditeur",
-                message : "lancement de la transcription",
+                message : `lancement de la transcription du chapitre : ${this.props.chapitre.titre}`,
                 type : "warning"
             }
 
             Meteor.call('notification', infos);
+            Meteor.call('log.insert', 'notification', infos.message );
+
         }
         }
     }
@@ -66,11 +68,13 @@ class Timer extends Component {
 
         let infos = {
             title : "message de l'éditeur",
-            message : "arrêt de la transcription",
+            message : `arrêt de la transcription : ${this.props.chapitre.titre}`,
             type : "warning"
         }
 
         Meteor.call('notification', infos);
+        Meteor.call('log.insert', 'notification', infos.message );
+
     }
 
     //Memo bug : la durée enregistrée est différente d'une seconde.

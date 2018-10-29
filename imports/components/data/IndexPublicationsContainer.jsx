@@ -1,8 +1,6 @@
 import React from 'react';
-
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
-
 import { Publications } from '../../api/collections/publication'
 
 import IndexPublications from '../ui/IndexPublications';

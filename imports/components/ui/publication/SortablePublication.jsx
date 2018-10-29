@@ -14,7 +14,7 @@ const Container = styled.div`
 `;
 
 const Item = styled.div`
-    border : 1px solid grey;
+    border : 1px dashed grey;
     padding : 10px;
     margin-top : 5px;
 `;

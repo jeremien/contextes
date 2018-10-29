@@ -6,7 +6,7 @@ import { withTracker } from 'meteor/react-meteor-data';
 import { Documents } from '../../api/collections/documents';
 import DetailsDocument from './DetailsDocument';
 
-import { List, Button, Modal, Form, Input, Switch, Icon, Card, Carousel, Avatar, Divider } from 'antd';
+import { List, Button, Modal, Input, Switch, Card, Avatar, Divider, Popconfirm, message } from 'antd';
 import { Images } from '../../api/collections/images';
 import AjouterImage from '../outils/iconographe/AjouterImage';
 
@@ -27,7 +27,6 @@ class IndexDocuments extends Component {
       toggleActionDocList: false,
       url: null,
       isImage: false,
-      // docRejet : false,
       test : 0,    
     }
 
@@ -39,29 +38,21 @@ class IndexDocuments extends Component {
   }
 
   showModal(type) {
-    // console.log(type)
-
     if (type != 'image') {
-
       this.setState({
         visibleTexte: true,
         isImage: false
       });
 
     } else {
-
       this.setState({
         visibleImage: true,
         isImage : true
       });
-
     }
-
-   
   }
 
   handleSaveDoc() {
-
     this.setState({
       visibleTexte: false,
       visibleImage: false
@@ -83,32 +74,22 @@ class IndexDocuments extends Component {
     })
   }
 
-  // renderContenuList(item) {
+  handleDocumentDelete(docId) {
+    Meteor.call('documents.remove', docId);
 
-  //   // TODO : récupérer l'url dynamiquement
-
-  //   switch (item.type) {
-
-  //     case 'texte' :
-  //       return `${item.contenu.split(' ')[0].toString()}...`;
-
-  //     case 'image' :
-
-  //       let str = item.image.path;
-  //       let img = str.substr(str.lastIndexOf('/') + 1)
-  //       let res = `${url}/${img}`;
-
-  //       // TODO : tester s'il y a du texte en contenu
-
-  //       return <Avatar src={res} />;
-
-  //     default : 
-  //       console.log('no type')
-
-  //   }
-
-    
-  // }
+    let document = this.props.documents.find((item) => {
+      return item._id === docId;
+    });
+  
+    let infos = {
+        title: `message de ${this.props.utilisateur}, l'éditeur`,
+        message: `suppression du document : ${document.contenu}`,
+        type: "warning"
+      }
+  
+    Meteor.call('notification', infos);
+    Meteor.call('log.insert', 'notification', infos.message );
+  }
 
   renderActionDocuments(item) {
 
@@ -130,63 +111,67 @@ class IndexDocuments extends Component {
 
     if (!!this.props.connecte
       && this.props.role === "editeur") {
-
-
-          return [
-
-            <Button
-              type='default'
-              onClick={() => {
-                this.showModal(type);
-                this.setState({
-                  docId,
-                  contenu,
-                  url : res
-                })
-              }
-    
-              }
-            >
-              {correction ? 'Revoir' : 'Corriger'}
-    
-            </Button>,
-            <Button
-              type='default'
-              onClick={() => {
-    
-                if (!rejete) {
-                  console.log('rejete')
-                  Meteor.call('documents.rejet', docId);
-                } else {
-                  console.log('accepter')
-                  Meteor.call('documents.accepte', docId);
-                }
-    
-    
-              }
+        return [
+          <Button
+            type='default'
+            onClick={() => {
+              this.showModal(type);
+              this.setState({
+                docId,
+                contenu,
+                url : res
+              })
             }
-            >
-              {rejete ? 'Accepter' : 'Rejeter'}
-            </Button>,
+            }
+          >
+            {correction ? 'Revoir' : 'Corriger'}
+  
+          </Button>,
+          <Button
+            type='default'
+            onClick={() => {
+  
+              if (!rejete) {
+                console.log('rejete')
+                Meteor.call('documents.rejet', docId);
+              } else {
+                console.log('accepter')
+                Meteor.call('documents.accepte', docId);
+              }
+  
+  
+            }
+          }
+          >
+            {rejete ? 'Accepter' : 'Rejeter'}
+          </Button>,
+          <Popconfirm
+            title='Voulez-vous supprimer le document ?'
+            onConfirm={() => this.handleDocumentDelete(docId)}
+            onCancel={() => message.error('annulation')}
+            okText='oui'
+            cancelText='non'
+          >
             <Button
               type='danger'
-              onClick={() => {
-    
-                Meteor.call('documents.remove', docId);
-    
-                let infos = {
-                  title: "message de l'éditeur",
-                  message: "supression du document",
-                  type: "warning"
-                }
-    
-                Meteor.call('notification', infos);
-    
-              }}
+            //   onClick={() => {
+  
+            //   Meteor.call('documents.remove', docId);
+  
+            //   let infos = {
+            //     title: "message de l'éditeur",
+            //     message: "supression du document",
+            //     type: "warning"
+            //   }
+  
+            //   Meteor.call('notification', infos);
+  
+            // }}
             >
-              Supprimer
-              </Button>
-          ]
+            Supprimer
+            </Button>
+          </Popconfirm>
+        ]
 
     } else if (!!this.props.connecte
                && this.props.role === "correcteur") {
@@ -267,39 +252,37 @@ class IndexDocuments extends Component {
                 let rejete = item.rejete;
 
                 if (item.type != 'image') {
-
                   return  (
-                            <List.Item
-                              actions={this.renderActionDocuments(item)}
-                           >  
-                              {index + ' : ' + item.contenu.split(' ')[0].toString() + '...'}
+                    <List.Item
+                      actions={this.renderActionDocuments(item)}
+                    >  
+                      {index + ' : ' + item.contenu.split(' ')[0].toString() + '...'}
 
-                              <Modal
-                                title='Modifier le document'
-                                visible={this.state.visibleTexte}
-                                onOk={() => {
-                                  Meteor.call('documents.update', this.state.docId, this.state.contenu, this.props.utilisateur)
-                                  this.setState({
-                                    visibleTexte: false,
-                                    visibleImage: false,
-                                    contenu: '',
-                                    url : null
-                                  })
-                                }}
-                                onCancel={this.handleCancel}
-                              >
-                              <AjouterImage document={item} />
-                                <TextArea
-                                  value={this.state.contenu}
-                                  onChange={this.handleChange}
-                                  autosize={{ minRows: 10, maxRows: 60 }}
-                                /> 
+                      <Modal
+                        title='Modifier le document'
+                        visible={this.state.visibleTexte}
+                        onOk={() => {
+                          Meteor.call('documents.update', this.state.docId, this.state.contenu, this.props.utilisateur)
+                          this.setState({
+                            visibleTexte: false,
+                            visibleImage: false,
+                            contenu: '',
+                            url : null
+                          })
+                        }}
+                        onCancel={this.handleCancel}
+                      >
+                      <AjouterImage document={item} />
+                        <TextArea
+                          value={this.state.contenu}
+                          onChange={this.handleChange}
+                          autosize={{ minRows: 10, maxRows: 60 }}
+                        /> 
 
-                              </Modal>
+                      </Modal>
 
-                           </List.Item>
-                          )
-
+                    </List.Item>
+                  )
                 } else {
 
                   let img = Images.findOne({_id: item.image._id})
