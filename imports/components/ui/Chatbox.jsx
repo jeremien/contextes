@@ -2,7 +2,12 @@ import React, { Component } from 'react'
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
 import { Messages } from '../../api/collections/messages';
-import { List, message, Avatar, Spin, Input } from 'antd';
+import { List, message, Avatar, Spin, Input, Divider } from 'antd';
+import styled from 'styled-components';
+
+const ChatList = styled.ul`
+    list-style : none;
+`
 
 class Chatbox extends Component {
     constructor(props) {
@@ -27,19 +32,30 @@ class Chatbox extends Component {
         this.setState({message: e.target.value})
     }
 
+    chatList = (datas) => {
+        return datas.map((data, index) => {
+            // console.log(data)
+            return <li key={index}>{data.message} de {data.auteur}</li>
+        })
+    }
+
     render() {
         return (
             <div className="chatbox">
-            {this.props.messagesExists &&
-                <List
-                    header={<div>Header</div>}
-                    footer={<div>Footer</div>}
-                    bordered
-                    dataSource={this.props.messages}
-                    renderItem={item => (<List.Item>{item.message}, <i>de {item.auteur}</i></List.Item>)}
-                />
-            }
-                <Input value={this.state.message} onChange={this.handleTyping} onPressEnter={this.handleSubmit} />
+                {this.props.messagesExists &&
+                    // <List
+                    //     header={<div>Header</div>}
+                    //     footer={<div>Footer</div>}
+                    //     bordered
+                    //     dataSource={this.props.messages}
+                    //     renderItem={item => (<List.Item>{item.message}, <i>de {item.auteur}</i></List.Item>)}
+                    // />
+                    <ChatList>
+                        {this.chatList(this.props.messages)}
+                    </ChatList>    
+
+                }
+                    <Input value={this.state.message} onChange={this.handleTyping} onPressEnter={this.handleSubmit} />
             </div>
 
         )

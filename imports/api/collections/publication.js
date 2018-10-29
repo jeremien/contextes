@@ -40,12 +40,23 @@ Meteor.methods({
 
     },
 
-    'publication.update'(publicationId, data) {
+    'publication.updateData'(publicationId, data) {
+        // console.log(data)
         Publications.update(publicationId, {
             $set : {
                 data
             }
         })
-    }
+    },
+
+    'publication.updateTitre'(publicationId, titre) {
+            console.log(titre)
+        Publications.update(publicationId, {
+            $set : {
+                titre
+            }
+        })
+    },
+    
 
 });

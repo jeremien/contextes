@@ -156,16 +156,17 @@ export default class AjouterChapitre extends Component {
             <Form onSubmit = { this.handleSubmit } >
 
             <FormItem label = 'Nouveau chapitre' >
-            <Input placeholder = 'Titre'
-            value = { this.state.titre }
-            onChange = { this.handleTitreChange }
-            /> 
-            <TextArea placeholder = 'Description'
-            value = { this.state.description }
-            autosize = {
-                { minRows: 2, maxRows: 6 } }
-            onChange = { this.handleDescriptionChange }
-            /> </FormItem>
+                <Input placeholder = 'Titre'
+                    value = { this.state.titre }
+                    onChange = { this.handleTitreChange }
+                /> 
+                <TextArea placeholder = 'Description'
+                    value = { this.state.description }
+                    autosize = {
+                    { minRows: 2, maxRows: 6 } }
+                    onChange = { this.handleDescriptionChange }
+                /> 
+            </FormItem>
 
             <FormItem label = 'Tags' >
 

@@ -101,6 +101,7 @@ class Timer extends Component {
                             <Button onClick={this.stopTimer}>Arrêter</Button>
                         </ButtonGroup>
                         <Divider/>
+                        <h4>Durée de la boucle</h4>
                         <Slider
                             size="small"
                             min={5}
@@ -109,29 +110,12 @@ class Timer extends Component {
                             onChange={this.handleChange}
                             
                         />
-                        {/* <InputNumber
-                            size="small"
-                            min={1}
-                            max={0}
-                            value={this.state.dureeBoucle}
-                            onChange={this.handleChange}
-                        /> */}
                     </div>
                    
                 }
 
 
-                        {/* <button className="start-timer" onClick={() => { this.startTimer(this.props.chapitre._id) }}>Démarrer le timer</button>
-                        <button className="start-timer" onClick={this.stopTimer}>Arreter le timer</button>
-                        
-                        
-                        <input
-                            type="number"
-                            value={this.state.dureeBoucle}
-                            name="transcripteurs"
-                            min="1"
-                            onChange={this.handleChange}
-                        /> */}
+               
 
                      
             </div>
