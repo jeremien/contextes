@@ -107,6 +107,8 @@ class Application extends Component {
 
 
   render() {
+
+    // console.log(this.props)
     
     if (this.props.connecte) {
       Meteor.call('connexions.socket', this.props.connexion._id, this.props.socket.id)
@@ -126,7 +128,7 @@ class Application extends Component {
     return (
       <Router>
 
-                <Layout>
+                <Layout >
                   
                   <Header style={{backgroundColor:'white', position: 'fixed', zIndex: 1, width: '100%' }}>
 

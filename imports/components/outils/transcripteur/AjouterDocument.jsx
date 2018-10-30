@@ -24,38 +24,25 @@ export default class AjouterDocument extends Component {
     
     handleSubmit(event) {
         event.preventDefault();
-        // const target = event.target;
-        // const commentaire = target.contentInput.value;
-        // const auteur = Session.get('utilisateur');
         const auteur = this.props.utilisateur;
         const session = this.props.chapitre.session;
         const chapitre = this.props.chapitre._id;
 
-        // console.log(commentaire, auteur, session, chapitre)
-
         if (this.state.commentaire) {
 
             Meteor.call('documents.insert', session, chapitre, this.state.commentaire, auteur)
-            // event.target.reset();
     
             this.setState({
                 commentaire: ''
             });
     
-            // let infos = {
-            //     title : `message du transcripteur ${auteur}`,
-            //     message : `ajout d'un document dans le chapitre ${chapitre}`,
-            //     type : "info"
-            // }
-    
-            // Meteor.call('notification', infos);
+            Meteor.call('log.insert', 'document', `${auteur} a écrit ${this.state.commentaire}` );
 
         } else {
 
             message.error('Écrivez un texte!');
 
         }
-
        
     }
 

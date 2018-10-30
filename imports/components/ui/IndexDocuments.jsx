@@ -13,7 +13,7 @@ import AjouterImage from '../outils/iconographe/AjouterImage';
 const { Meta } = Card;
 const { TextArea } = Input;
 
-const url = 'http://192.168.66.9:3000';
+const url = 'http://192.168.66.8:3000';
 
 class IndexDocuments extends Component {
   constructor(props) {
@@ -179,7 +179,7 @@ class IndexDocuments extends Component {
       return [
 
         <Button
-          type='primary'
+          type={ correction ? 'default' : 'primary'}
           // disabled={correction}
           onClick={() => {
             this.showModal(type);
@@ -263,6 +263,7 @@ class IndexDocuments extends Component {
                         visible={this.state.visibleTexte}
                         onOk={() => {
                           Meteor.call('documents.update', this.state.docId, this.state.contenu, this.props.utilisateur)
+                          Meteor.call('log.insert', 'document', `${this.props.utilisateur} a modifié ${this.state.contenu}` );
                           this.setState({
                             visibleTexte: false,
                             visibleImage: false,
@@ -272,13 +273,15 @@ class IndexDocuments extends Component {
                         }}
                         onCancel={this.handleCancel}
                       >
-                      <AjouterImage document={item} />
-                        <TextArea
-                          value={this.state.contenu}
-                          onChange={this.handleChange}
-                          autosize={{ minRows: 10, maxRows: 60 }}
-                        /> 
 
+                      { this.props.role === 'iconographe' && <AjouterImage document={item} />}
+
+                      <TextArea
+                        value={this.state.contenu}
+                        onChange={this.handleChange}
+                        autosize={{ minRows: 10, maxRows: 60 }}
+                      /> 
+                   
                       </Modal>
 
                     </List.Item>

@@ -16,10 +16,11 @@ export default class IndexChapitres extends Component {
     this.handleChapitreFermer = this.handleChapitreFermer.bind(this);
   }
 
-  handleChapitreFermer() {
+  handleChapitreFermer(chapitreId) {
     this.setState( prevState => ({
       isOpen : !prevState.isOpen
-    }))
+    }));
+    Meteor.call('chapitres.isOpen', chapitreId, this.state.isOpen);
   }
 
   handleChapitreDelete(chapitreId) {
@@ -51,7 +52,7 @@ export default class IndexChapitres extends Component {
           voir
         </Button>,
          <Button
-         onClick={this.handleChapitreFermer}>
+         onClick={() => this.handleChapitreFermer(chapitreId)}>
          { this.state.isOpen ? 'ouvert' : 'fermer' }
         </Button>,
         <Popconfirm 

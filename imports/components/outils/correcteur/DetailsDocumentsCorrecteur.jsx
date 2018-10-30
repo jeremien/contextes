@@ -23,7 +23,9 @@ export default class DetailsDocumentsCorrecteur extends Component {
             revised : true
         })
         // update texte corrigé
-        Meteor.call('documents.update', this.props.document._id, this.state.contenu, this.props.utilisateur)
+        Meteor.call('documents.update', this.props.document._id, this.state.contenu, this.props.utilisateur);
+        Meteor.call('log.insert', 'document', `${this.props.utilisateur} a corrigé ${this.state.contenu}` );
+        console.log('corrigé')
     }
 
 
@@ -32,8 +34,6 @@ export default class DetailsDocumentsCorrecteur extends Component {
     }
 
     render() {
-
-        // console.log(this.props.document.length)
 
         const { open } = this.state;
 

@@ -82,6 +82,7 @@ export default class IndexSessions extends Component {
                         }
 
                         Meteor.call('notification', infos);
+                        Meteor.call('log.insert', 'notification', infos.message );
 
                         this.props.history.push(`/sessions/${sessionId}`)
                     }}>

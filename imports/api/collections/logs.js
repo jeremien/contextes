@@ -26,7 +26,7 @@ Meteor.methods({
         console.log('log', type, contenu)
         Logs.insert({
             type,
-            date : new Date(),
+            creation : new Date(),
             contenu
         })
 

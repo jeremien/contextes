@@ -38,8 +38,8 @@ io.on('connection', function (socket) {
 });
 Meteor.startup(() => {
   // Connexions.remove({});
-  Logs.remove({});
-  Messages.remove({});
+  // Logs.remove({});
+  // Messages.remove({});
   Images.allow({
     'insert': function () {
       // add custom authentication code here
