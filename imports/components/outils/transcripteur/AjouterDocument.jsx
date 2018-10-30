@@ -92,24 +92,6 @@ export default class AjouterDocument extends Component {
               
 
             </Form>
-
-
-            // <div className="ajout-commentaire">
-            //     <form className="nouveau-commentaire" onSubmit={this.handleSubmit.bind(this)} >
-            //         <textarea
-            //             rows="4"
-            //             cols="50"
-            //             name="contentInput"
-            //             placeholder="Entrer le nouveau commentaire"
-            //             value={this.state.commentaire}
-            //             onChange={this.handleChange.bind(this)}
-            //         />
-            //         <br />
-                    
-            //         <input className="valider-document" type="submit" value="Enregistrer" />
-            //     </form>
-            //     <button className="clear-commentaire" onClick={() => this.setState({ commentaire: "" })}>Clear</button>
-            // </div>
         )
     }
 }
