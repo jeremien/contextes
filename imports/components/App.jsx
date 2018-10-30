@@ -34,13 +34,11 @@ import TopBarContainer from './data/TopBarContainer';
 import DetailsChapitreContainer from './data/DetailsChapitreContainer';
 import LandingPage from './data/LandingPage';
 
-
-
 import { Layout, notification } from 'antd';
 
 import "antd/dist/antd.css";
-import Chatbox from './ui/Chatbox';
-import IndexChapitresContainer from './data/IndexChapitresContainer';
+
+import LayoutPDF from '../components/ui/LayoutPDF';
 
 const { Header, Content } = Layout;
 
@@ -161,7 +159,7 @@ class Application extends Component {
 
                     {/* <Route path='**' render={() => <NoMatch />} /> */}
 
-                    <Route path="/test" render={(props) => <Chatbox {...this.props} {...propsToPass} />} />
+                    <Route path="/test" render={(props) => <LayoutPDF {...this.props} {...propsToPass} />} />
                   
                   </Content>  
                 </Layout>
