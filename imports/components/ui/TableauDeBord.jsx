@@ -38,9 +38,24 @@ class TableauDeBord extends React.Component {
 
     handleEtat(event) {
         Meteor.call('sessions.etat.update', this.props.session._id, event.target.value)
+
+        // let session = this.props.session.find((item) => {
+        //     return item._id === this.props.session._id;
+        //   });
+
+        let infos = {
+            title: `message de ${this.props.utilisateur}, l'éditeur`,
+            message: `la session : ${this.props.session.titre} est ${event.target.value}`,
+            type: "warning"
+          }
+      
+        Meteor.call('notification', infos);
+        Meteor.call('log.insert', 'notification', infos.message );
     }
 
     render() {
+
+        console.log(this.props)
 
         if (this.props.loading) {
 

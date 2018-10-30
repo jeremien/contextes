@@ -16,10 +16,6 @@ export default class IndexChapitres extends Component {
     this.handleChapitreFermer = this.handleChapitreFermer.bind(this);
   }
 
-  componentDidMount() {
-
-  }
-
   handleChapitreFermer(chapitreId) {
 
     this.setState( prevState => ({
@@ -134,7 +130,7 @@ export default class IndexChapitres extends Component {
 
   render() {
 
-    console.log(this.props.chapitres)
+    // console.log(this.props.chapitres)
 
     if (this.props.loading) {
       return (
