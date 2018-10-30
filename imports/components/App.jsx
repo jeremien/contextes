@@ -40,6 +40,7 @@ import { Layout, notification } from 'antd';
 
 import "antd/dist/antd.css";
 import Chatbox from './ui/Chatbox';
+import IndexChapitresContainer from './data/IndexChapitresContainer';
 
 const { Header, Content } = Layout;
 
@@ -142,7 +143,11 @@ class Application extends Component {
                     
                     <Route exact path="/sessions" render={(props) => <IndexSessionsContainer {...props} {...propsToPass} />} />
                     <Route path="/sessions/:sessionId" render={(props) => <DetailsSession {...props} {...propsToPass} />} />
+
                     <Route path="/session/:idSession/chapitre/:idChapitre" render={(props) => <DetailsChapitreContainer {...props} {...propsToPass} />} />
+
+                    {/* <Route exact path='/chapitres' render={(props) => <IndexChapitresContainer {...props} {...propsToPass} /> } /> */}
+
                   
                     <Route path="/publications" render={(props) => <IndexPublicationsContainer {...props} {...propsToPass} />} />
                     <Route exact path="/publication/:idPublication" render={(props) => <DetailsPublicationsContainer {...props} {...propsToPass} layout={false}/>} />

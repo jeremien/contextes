@@ -20,18 +20,22 @@ export default class TopBar extends Component {
   }
 
   handClickMenu(e) {
-    // console.log(e.key)
     if (e.key === 'home') {
       this.props.history.push(`/`);
+      this.setState({
+        current : 'home'
+      })
     } else {
       this.props.history.push(`/${e.key}`);
+      this.setState({
+        current: e.key
+      })
     }
   }
 
 
   renderSessions() {
     return this.props.sessions.map((item, key) => {
-      // console.log(item)
       return (
         <MenuItemGroup key={key}>
           <Menu.Item key={`sessions/${item._id}`}>{item.titre}</Menu.Item>
@@ -41,9 +45,7 @@ export default class TopBar extends Component {
   }
 
   renderChapitres() {
-
     return this.props.chapitres.map((item, key) => {
-      // console.log(item)
       return (
         <MenuItemGroup key={key}>
           <Menu.Item key={`session/${item.session}/chapitre/${item._id}`}>{item.titre}</Menu.Item>
@@ -55,18 +57,19 @@ export default class TopBar extends Component {
 
 
   renderPublications() {
-    return (
-      <MenuItemGroup key={`publications`}>
-        <Menu.Item key={`publications`}>{`publication`}</Menu.Item>
-      </MenuItemGroup>
-    )
+    return this.props.publications.map((item, key) => {
+      return (
+        <MenuItemGroup key={key}>
+          <Menu.Item key={`publication/${item._id}`}>{item.titre}</Menu.Item>
+        </MenuItemGroup>
+      )
+    })
+   
   }
 
   render() {  
 
     let text = `Bienvenue, ${this.props.utilisateur}. Vous êtes un ${this.props.role}`;
-
-    // console.log(this.props)
 
     if (!this.props.loading) {
 
@@ -95,7 +98,7 @@ export default class TopBar extends Component {
             </SubMenu>
           }
 
-          {this.props.connecte &&
+          {/* {this.props.connecte &&
             <SubMenu
               key='chapitres'
               title='Chapitres'
@@ -104,8 +107,9 @@ export default class TopBar extends Component {
               {this.renderChapitres()}
 
             </SubMenu>
-          }
+          } */}
 
+          {(this.props.connecte && this.props.role === 'editeur') &&
             <SubMenu
               key='publications'
               title='Publications'
@@ -114,6 +118,7 @@ export default class TopBar extends Component {
               {this.renderPublications()}
 
             </SubMenu>
+          }
 
             <Menu.Item key='logs'>
               <Icon type="bars" /> Logs
@@ -143,9 +148,7 @@ export default class TopBar extends Component {
                 };
         
                 Meteor.call('notification', infos);
-                
-                // this.props.history.push('/login');
-  
+                  
                 }
               }
             > Logout ({text})</Menu.Item> 
@@ -159,30 +162,5 @@ export default class TopBar extends Component {
     } else {
       return <div>chargement</div>
     }
-
-
-  }
-
-   
+  }   
 }
-
-// const LogOut = (props) => {
-//   return (
-//     <Button
-//       text="Se déconnecter"
-//       colorScheme="primary"
-//       size="small"
-//       onPress={() => {
-//         console.log('click')
-//         localStorage.clear();
-//         Session.clear()
-//         Meteor.call('connexions.remove', props.userId);
-//         if (props.role == 'editeur') {
-//           Meteor.call('deconnexion.editeur')
-//         }
-//         props.history.push('/');
-//       }}
-//     />
-      
-//   )
-// }

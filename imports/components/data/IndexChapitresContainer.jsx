@@ -27,6 +27,9 @@ class IndexChapitresContainer extends Component {
     }
 
     render() {
+
+        // console.log(this.props)
+
         return (
             <IndexChapitres {...this.props} badges={this.state.badges} />
         )

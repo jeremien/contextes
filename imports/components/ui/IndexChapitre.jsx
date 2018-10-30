@@ -90,20 +90,22 @@ export default class IndexChapitres extends Component {
           type='primary'
           onClick={() => {
 
-            let infos = {
-              title: "message",
-              message: `${this.props.utilisateur} a rejoint le chapitre`,
-              type: "success"
+            if (this.props.connecte) {
+              let infos = {
+                title: "message",
+                message: `${this.props.utilisateur} a rejoint le chapitre`,
+                type: "success"
+              }
+  
+              Meteor.call('notification', infos);
+              Meteor.call('log.insert', 'notification', infos.message );
             }
-
-            Meteor.call('notification', infos);
-            Meteor.call('log.insert', 'notification', infos.message );
 
             this.props.history.push(`/session/${sessionId}/chapitre/${chapitreId}`);
 
           }}>
           rejoindre
-              </Button>
+        </Button>
       ]
     }
   }

@@ -85,21 +85,28 @@ class LandingPage extends Component {
                             }
                         />
 
-                        <Divider />
-                            <h3>Publication</h3>
+                        
+                        { this.props.role === 'editeur' && 
 
-                        <List 
-                            header={<div>Dernières publications</div>}
-                            bordered
-                            dataSource={this.props.publications}
-                            renderItem={(item) => {
-                                return (
-                                    <List.Item>
-                                        <Link to={`/publications/${item._id}`}>{item.titre}</Link>
-                                    </List.Item>
-                                )
-                            }}
-                        />
+                            <div>
+                                <Divider />
+                                <h3>Publication</h3>
+                        
+                                <List 
+                                    header={<div>Dernières publications</div>}
+                                    bordered
+                                    dataSource={this.props.publications}
+                                    renderItem={(item) => {
+                                        return (
+                                            <List.Item>
+                                                <Link to={`/publications/${item._id}`}>{item.titre}</Link>
+                                            </List.Item>
+                                        )
+                                    }}
+                                />
+                            </div>
+                        }  
+                      
                     </div>
                 )
 
