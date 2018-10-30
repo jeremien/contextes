@@ -39,7 +39,9 @@ class Login extends React.Component {
         Meteor.call('notification', infos);
         Meteor.call('log.insert', 'notification', infos.message );
 
-        this.props.history.push('/sessions');
+        if (this.props.history) {
+            this.props.history.push('/sessions');
+        }
     }
         else {
             message.error("indiquer un nom d'utilisateur")
