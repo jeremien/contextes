@@ -5,8 +5,9 @@ import { withTracker } from 'meteor/react-meteor-data'
 
 import { Sessions } from '../../api/collections/sessions';
 import { Chapitres } from '../../api/collections/chapitres';
+import { Publications } from '../../api/collections/publication';
 
-import { List } from 'antd';
+import { List, Divider } from 'antd';
 
 
 class LandingPage extends Component {
@@ -15,69 +16,92 @@ class LandingPage extends Component {
         super(props);
     }
 
-    dataFilter() {
-        // console.log('test')
-
-        const data = this.props.sessions.filter((item) => {
+    dataFilterSessions() {
+        return this.props.sessions.filter((item) => {
             return item.etat === 'edition';
         })
+    }
+
+    dataFilterChapitres() {
+
+        const data = this.dataFilterSessions()
 
         const chaps = data.map((session) => {
-            // console.log(session._id)
             return this.props.chapitres.filter((item) => {
                 return item.session === session._id
             })
         })
 
-        const finalData = chaps.reduce((acc, currValue) => {
+        const openChaps = chaps.map((chap) => {
+            return chap.filter((item) => {
+                return item.isOpen === true;
+            })
+        })
+
+        const finalData = openChaps.reduce((acc, currValue) => {
             return acc.concat(currValue)
         }, [])
 
-        console.log(finalData)
-
         return finalData;
-
     }
 
     render() {
 
-        console.log(this.props)
-
         if (!this.props.loading) {
 
-            if (!this.props.connecte) {
-
                 return (
-                    <List 
-                        header={<div>Dernières publications</div>}
-                        bordered
+                    <div>
+                        <h3>Transcription</h3>
+                        <List
+        
+                            header={<div>Chapitres ouverts</div>}
+                            bordered
+                            dataSource={this.dataFilterChapitres()}
+                            renderItem={(item, key) => {
+                        
+                                return (
+                                    <List.Item>
+                                        <Link to={`/session/${item.session}/chapitre/${item._id}`}>{item.titre}</Link>  
+                                    </List.Item>
+                                )
+                            }}
                     
-                    />
+                        />
+
+                        <Divider />
+                        
+                         <List
+                            header={<div>Sessions en cours d'édition</div>}
+                            bordered
+                            dataSource={this.dataFilterSessions()}
+                            renderItem={(item) => {
+                                    // console.log(item)
+                                    return (
+                                        <List.Item>
+                                            <Link to={`/sessions/${item._id}`}>{item.titre}</Link>
+                                        </List.Item>
+                                    )
+                                }
+                            }
+                        />
+
+                        <Divider />
+                            <h3>Publication</h3>
+
+                        <List 
+                            header={<div>Dernières publications</div>}
+                            bordered
+                            dataSource={this.props.publications}
+                            renderItem={(item) => {
+                                return (
+                                    <List.Item>
+                                        <Link to={`/publications/${item._id}`}>{item.titre}</Link>
+                                    </List.Item>
+                                )
+                            }}
+                        />
+                    </div>
                 )
-
-            } else {
-
-                return (
-                    <List
-        
-                        header={<div>Chapitres en cours d'édition</div>}
-                        bordered
-                        dataSource={this.dataFilter()}
-                        renderItem={(item, key) => {
-        
-                            // let date = item.toLocaleTimeString();
-        
-                            return (
-                                <List.Item>
-                                   <Link to={`/session/${item.session}/chapitre/${item._id}`}>{item.titre}</Link>  
-                                </List.Item>
-                            )
-                        }}
-                    
-                    />
-                )
-
-            }
 
         } else {
 
@@ -88,21 +112,25 @@ class LandingPage extends Component {
     }
 }
 
-
 export default withTracker(() => {
     const sessionsHandle = Meteor.subscribe('sessions');
     const chapitresHandle = Meteor.subscribe('chapitres');
-    const loading = !sessionsHandle.ready() && !chapitresHandle.ready();
+    const publicationsHandle = Meteor.subscribe('publications');
+    const loading = !sessionsHandle.ready() && !chapitresHandle.ready() && !publicationsHandle.ready();
     const sessions = Sessions.find({}).fetch();
     const chapitres = Chapitres.find({}).fetch();
+    const publications = Publications.find({}, {sort : { creation: -1}}).fetch();
     const sessionsExists = !loading && !!sessions;
     const chapitresExists = !loading && !!chapitres;
+    const publicationsExists = !loading && !!publications;
 
     return {
         loading,
         sessionsExists,
         chapitresExists,
+        publicationsExists,
         sessions: sessionsExists ? sessions : [{}],
-        chapitres: chapitresExists ? chapitres : []
+        chapitres: chapitresExists ? chapitres : [{}],
+        publications: publicationsExists ? publications : [{}]
     }
 })(LandingPage);

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {Link, Redirect} from 'react-router-dom'
 
-import { Menu, Icon } from 'antd';
+import { Menu, Icon, Switch } from 'antd';
 
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
@@ -70,14 +70,14 @@ export default class TopBar extends Component {
 
     if (!this.props.loading) {
 
-      return (
+      return (       
       
         <Menu
           mode='horizontal'
           selectedKeys={[this.state.current]}
           onClick={this.handClickMenu}
         > 
-          
+            
 
             <Menu.Item key='home'>
               <Icon type="home" />
@@ -152,8 +152,10 @@ export default class TopBar extends Component {
           }
           
         </Menu>
-  
       )
+
+       
+
     } else {
       return <div>chargement</div>
     }
