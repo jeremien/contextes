@@ -8,9 +8,6 @@ import React from 'react';
 import i18n from 'meteor/universe:i18n'
 import './main.html';
 import App from '../imports/components/App';
-import {
-  consolidateStreamedStyles
-} from 'styled-components';
 
 // import TestAPI from '../imports/components/ui/TestAPITestAPI'
 
@@ -18,7 +15,7 @@ import {
  * Debut du programme
  */
 Meteor.startup(() => {
-      
+
       // Socket io client
       const PORT = 8080;
       console.log(self.location.host)
@@ -50,6 +47,6 @@ Meteor.startup(() => {
         )
       });
 
-      Streamy.onConnect(function() {
-        console.log('stramy')
-      });
+    // Streamy.onConnect(function () {
+    //   console.log('stramy')
+    // });
