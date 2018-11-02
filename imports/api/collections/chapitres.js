@@ -40,6 +40,7 @@ Meteor.methods({
              * edition (par défaut), prepresse, archivee
              */
             etat: 'edition',
+            isOpen : true,
             utilisateurs_connectes: [],
             timer: duree,
             id_timer: null,
@@ -63,6 +64,14 @@ Meteor.methods({
         Chapitres.update(chapitreId, {
             $set: {
                 titre: titre
+            }
+        });
+    },
+
+    'chapitres.isOpen'(chapitreId, isOpen) {
+        Chapitres.update(chapitreId, {
+            $set: {
+                isOpen: !isOpen
             }
         });
     },

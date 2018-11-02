@@ -72,6 +72,7 @@ export default class AjouterChapitre extends Component {
             }
 
             Meteor.call('notification', infos);
+            Meteor.call('log.insert', 'notification', infos.message );
 
             this.setState({
                 titre: '',

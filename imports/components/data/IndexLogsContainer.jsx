@@ -9,7 +9,7 @@ class IndexLogsContainer extends React.Component {
 
     render() {
 
-        console.log(this.props)
+        // console.log(this.props)
 
         return <IndexLogs {...this.props} />
 

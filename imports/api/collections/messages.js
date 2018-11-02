@@ -28,7 +28,8 @@ Meteor.methods({
     'messages.insert'(auteur, message) {
         Messages.insert({            
             auteur: auteur,
-            message: message
+            message: message,
+            creation: new Date()
         });
     },
 })

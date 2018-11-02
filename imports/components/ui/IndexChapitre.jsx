@@ -9,17 +9,35 @@ export default class IndexChapitres extends Component {
     super(props);
 
     this.state = {
-      isOpen : true
+      isOpen : null
     }
 
     this.getBadge=this.getBadge.bind(this)
     this.handleChapitreFermer = this.handleChapitreFermer.bind(this);
   }
 
-  handleChapitreFermer() {
+  handleChapitreFermer(chapitreId) {
+
     this.setState( prevState => ({
       isOpen : !prevState.isOpen
-    }))
+    }));
+
+    Meteor.call('chapitres.isOpen', chapitreId, this.state.isOpen);
+
+    let chapitre = this.props.chapitres.find((item) => {
+      return item._id === chapitreId;
+    });
+
+    let etat = this.state.isOpen ? 'fermé' : 'ouvert'
+
+    let infos = {
+      title: `message de ${this.props.utilisateur}, l'éditeur`,
+      message: `le chapitre : ${chapitre.titre} est ${etat}`,
+      type: "warning"
+    }
+
+    Meteor.call('notification', infos);
+    Meteor.call('log.insert', 'notification', infos.message );
   }
 
   handleChapitreDelete(chapitreId) {
@@ -39,7 +57,7 @@ export default class IndexChapitres extends Component {
     Meteor.call('log.insert', 'notification', infos.message );
   }
 
-  renderActionsChapitres(chapitreId, sessionId) {
+  renderActionsChapitres(chapitreId, sessionId, isOpen) {
     if (!!this.props.connecte
       && this.props.role === "editeur") {
       return [
@@ -51,8 +69,8 @@ export default class IndexChapitres extends Component {
           voir
         </Button>,
          <Button
-         onClick={this.handleChapitreFermer}>
-         { this.state.isOpen ? 'ouvert' : 'fermer' }
+         onClick={() => this.handleChapitreFermer(chapitreId)}>
+         { isOpen ? 'ouvert' : 'fermer' }
         </Button>,
         <Popconfirm 
           title='Voulez-vous supprimer le chapitre ?'
@@ -72,20 +90,22 @@ export default class IndexChapitres extends Component {
           type='primary'
           onClick={() => {
 
-            let infos = {
-              title: "message",
-              message: `${this.props.utilisateur} a rejoint le chapitre`,
-              type: "success"
+            if (this.props.connecte) {
+              let infos = {
+                title: "message",
+                message: `${this.props.utilisateur} a rejoint le chapitre`,
+                type: "success"
+              }
+  
+              Meteor.call('notification', infos);
+              Meteor.call('log.insert', 'notification', infos.message );
             }
-
-            Meteor.call('notification', infos);
-            Meteor.call('log.insert', 'notification', infos.message );
 
             this.props.history.push(`/session/${sessionId}/chapitre/${chapitreId}`);
 
           }}>
           rejoindre
-              </Button>
+        </Button>
       ]
     }
   }
@@ -112,7 +132,7 @@ export default class IndexChapitres extends Component {
 
   render() {
 
-    // console.log(this.props.chapitres[0])
+    // console.log(this.props.chapitres)
 
     if (this.props.loading) {
       return (
@@ -129,7 +149,7 @@ export default class IndexChapitres extends Component {
           dataSource={this.props.chapitres}
           renderItem={item => (
             <List.Item
-              actions={this.renderActionsChapitres(item._id, item.session)}
+              actions={this.renderActionsChapitres(item._id, item.session, item.isOpen)}
             >
 
               <Badge count={this.getBadge(item._id)} >

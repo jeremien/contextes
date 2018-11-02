@@ -10,7 +10,7 @@
   "dependencies": {
     "@babel/runtime": "^7.1.2",
     "@material-ui/core": "^3.1.2",
-    "@react-pdf/renderer": "^1.0.0-alpha.18",
+    "@react-pdf/renderer": "^1.0.0-alpha.24",
     "antd": "^3.10.0",
     "bcrypt": "^2.0.1",
     "bindery": "^2.2.3",

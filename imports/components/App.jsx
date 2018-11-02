@@ -34,12 +34,11 @@ import TopBarContainer from './data/TopBarContainer';
 import DetailsChapitreContainer from './data/DetailsChapitreContainer';
 import LandingPage from './data/LandingPage';
 
-
-
 import { Layout, notification } from 'antd';
 
 import "antd/dist/antd.css";
-import Chatbox from './ui/Chatbox';
+
+import LayoutPDF from '../components/ui/LayoutPDF';
 
 const { Header, Content } = Layout;
 
@@ -107,6 +106,8 @@ class Application extends Component {
 
 
   render() {
+
+    // console.log(this.props)
     
     if (this.props.connecte) {
       Meteor.call('connexions.socket', this.props.connexion._id, this.props.socket.id)
@@ -126,7 +127,7 @@ class Application extends Component {
     return (
       <Router>
 
-                <Layout>
+                <Layout >
                   
                   <Header style={{backgroundColor:'white', position: 'fixed', zIndex: 1, width: '100%' }}>
 
@@ -140,7 +141,11 @@ class Application extends Component {
                     
                     <Route exact path="/sessions" render={(props) => <IndexSessionsContainer {...props} {...propsToPass} />} />
                     <Route path="/sessions/:sessionId" render={(props) => <DetailsSession {...props} {...propsToPass} />} />
+
                     <Route path="/session/:idSession/chapitre/:idChapitre" render={(props) => <DetailsChapitreContainer {...props} {...propsToPass} />} />
+
+                    {/* <Route exact path='/chapitres' render={(props) => <IndexChapitresContainer {...props} {...propsToPass} /> } /> */}
+
                   
                     <Route path="/publications" render={(props) => <IndexPublicationsContainer {...props} {...propsToPass} />} />
                     <Route exact path="/publication/:idPublication" render={(props) => <DetailsPublicationsContainer {...props} {...propsToPass} layout={false}/>} />
@@ -154,7 +159,7 @@ class Application extends Component {
 
                     {/* <Route path='**' render={() => <NoMatch />} /> */}
 
-                    <Route path="/test" render={(props) => <Chatbox {...this.props} {...propsToPass} />} />
+                    <Route path="/test" render={(props) => <LayoutPDF {...this.props} {...propsToPass} />} />
                   
                   </Content>  
                 </Layout>

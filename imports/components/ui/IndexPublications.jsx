@@ -1,12 +1,29 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { List } from 'antd';
+import { List, Button } from 'antd';
 
 class IndexPublications extends Component {
 
+    renderActionPublications(item) {
+
+        return [
+            <Button
+                type='danger'
+                onClick={() => {
+                    Meteor.call('publication.remove', item._id)
+                }}
+            >
+                Supprimer
+            </Button>
+        ]
+
+    }
+
     render() {
+
+        console.log(this.props)
         
-        if (this.props.publications != 0) {
+        if (this.props.publications != 0 && this.props.role === 'editeur') {
 
             return (
                 <List
@@ -16,7 +33,9 @@ class IndexPublications extends Component {
                     renderItem={ (item, index) => {
 
                         return (
-                            <List.Item>
+                            <List.Item
+                                actions={this.renderActionPublications(item)}
+                            >
                                <Link to={`/publication/${item._id}`}>{item.titre}</Link> 
                             </List.Item>
                         )
@@ -27,10 +46,8 @@ class IndexPublications extends Component {
 
         } else {
 
-            return <div>pas de document</div>
+            return <div>il n'y a pas de document ou vous n'êtes pas éditeur</div>
         }
-
-        return <div>index</div>
 
     }
 

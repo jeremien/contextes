@@ -74,15 +74,20 @@ export default class IndexSessions extends Component {
                     type='primary'
                     disabled={etat != 'edition'}
                     onClick={() => {
+                        console.log('session')
+                        if (this.props.connecte) {
 
-                        let infos = {
-                            title: "message",
-                            message: `${this.props.utilisateur} a rejoint la session`,
-                            type: "success"
+                            let infos = {
+                                title: "message",
+                                message: `${this.props.utilisateur} a rejoint la session`,
+                                type: "success"
+                            }
+    
+                            Meteor.call('notification', infos);
+                            Meteor.call('log.insert', 'notification', infos.message );    
+
                         }
-
-                        Meteor.call('notification', infos);
-
+                     
                         this.props.history.push(`/sessions/${sessionId}`)
                     }}>
                     rejoindre
@@ -116,6 +121,7 @@ export default class IndexSessions extends Component {
     }
 
     render() {
+        console.log(this.props)
         const { match, path, ...rest } = this.props;
         return (
 

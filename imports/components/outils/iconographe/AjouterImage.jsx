@@ -55,6 +55,7 @@ export default class AjouterImage extends Component {
         }
         else {
             Meteor.call('documents.addImage', this.props.chapitre.session, this.props.chapitre._id, this.props.utilisateur, image)
+            Meteor.call('log.insert', 'document', `${this.props.utilisateur} a ajouté une image` );
         }
     }
 

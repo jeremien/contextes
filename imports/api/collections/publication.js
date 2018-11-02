@@ -57,6 +57,12 @@ Meteor.methods({
             }
         })
     },
+
+    'publication.remove' (publicationId) {
+        Publications.remove({
+            _id : publicationId
+        })
+    }
     
 
 });

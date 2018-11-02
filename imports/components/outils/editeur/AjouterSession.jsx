@@ -110,6 +110,7 @@ class AjouterSession extends Component {
             };
 
             Meteor.call('notification', infos);
+            Meteor.call('log.insert', 'notification', infos.message );
         } else {
 
             message.error('Remplisser tous les champs!');
