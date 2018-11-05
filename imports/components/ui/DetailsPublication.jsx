@@ -14,7 +14,8 @@ class DetailsPublication extends Component {
 
         this.state = {
             modTitre : false,
-            titre : null        }
+            titre : null        
+        }
 
         this.changeTitre = this.changeTitre.bind(this);
         this.handleTitreChange = this.handleTitreChange.bind(this);
@@ -49,50 +50,44 @@ class DetailsPublication extends Component {
         
     }
 
- 
-
- 
-
     updateTitre() {
         this.setState({ modTitre : false })
         Meteor.call('publication.updateTitre', this.props._id, this.state.titre);
     }
 
     render() {
-        // console.log(this.state)
-        // console.log(this.props.layout)
 
-        let { data, _id, layout } = this.props;
-        // dataUpdate = [...data];
-        
-
+        let { data, _id, layout } = this.props;        
         let { modTitre, titre } = this.state;
         let dataLayout = this.renderDataLayout();
-        // console.log(data.join())
-
-        // console.log(dataUpdate)
 
         return (
             
-            <div>
-                   { modTitre ?
-                        <Input placeholder='titre'
-                            value={this.state.titre}
-                            onChange = { this.handleTitreChange }
-                            onPressEnter = { this.updateTitre }
-                        />  :
-                        <Tooltip title='Cliquer pour changer le titre de la publication et appuyer sur entrer'><h4 onClick={this.changeTitre}>{this.state.titre}</h4></Tooltip> 
-                   }
+            <div>   
+                
+                { !layout && 
+                    <div>
+                        <label>Modifier le titre</label>
+                        { modTitre ?
+                                    <Input placeholder={<h2>titre</h2>}
+                                        value={titre}
+                                        onChange = { this.handleTitreChange }
+                                        onPressEnter = { this.updateTitre }
+                                    />  :
+                                    <Tooltip title='Cliquer pour changer le titre de la publication et appuyer sur entrer'>
+                                        <h4 onClick={this.changeTitre}>{this.state.titre}</h4>
+                                    </Tooltip>
+                        }
 
-                    <Divider />
-
-                   
+                        <Divider />
+                    </div>
+                }
 
 
                 { 
                     !layout ? 
                         <SortablePublication data={data} id={_id} /> :
-                        <LayoutPublication data={dataLayout} />
+                        <LayoutPublication titre={this.props.titre} date={this.props.creation.toLocaleDateString()} data={dataLayout} />
                 }
                 
             </div>

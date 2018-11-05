@@ -8,6 +8,22 @@ class IndexPublications extends Component {
 
         return [
             <Button
+                type='default'
+                onClick={() => {
+                    this.props.history.push(`/publication/${item._id}`)
+                }}
+            >
+                Éditer
+            </Button>,
+            <Button
+                type='default'
+                onClick={() => {
+                    this.props.history.push(`/publication/${item._id}/layout`)
+                }}
+            >
+                Exporter
+            </Button>,
+            <Button
                 type='danger'
                 onClick={() => {
                     Meteor.call('publication.remove', item._id)
@@ -21,7 +37,7 @@ class IndexPublications extends Component {
 
     render() {
 
-        console.log(this.props)
+        // console.log(this.props)
         
         if (this.props.publications != 0 && this.props.role === 'editeur') {
 
@@ -36,7 +52,7 @@ class IndexPublications extends Component {
                             <List.Item
                                 actions={this.renderActionPublications(item)}
                             >
-                               <Link to={`/publication/${item._id}`}>{item.titre}</Link> 
+                               {item.creation.toLocaleDateString()} - {item.titre}
                             </List.Item>
                         )
 
