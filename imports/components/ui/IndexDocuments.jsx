@@ -13,7 +13,7 @@ import AjouterImage from '../outils/iconographe/AjouterImage';
 const { Meta } = Card;
 const { TextArea } = Input;
 
-const url = 'http://192.168.66.8:3000';
+// const url = 'http://192.168.66.8:3000';
 
 class IndexDocuments extends Component {
   constructor(props) {
@@ -25,7 +25,7 @@ class IndexDocuments extends Component {
       docId: null,
       contenu: '',
       toggleActionDocList: false,
-      url: null,
+      // url: null,
       isImage: false,
       test : 0,    
     }
@@ -103,7 +103,7 @@ class IndexDocuments extends Component {
     if (type === 'image') {
       let str = item.image.path;
       let img = str.substr(str.lastIndexOf('/') + 1)
-      res = `${url}/${img}`;
+      // res = `${url}/${img}`;
     }  
 
     // TODO : tester si c'est une image ou du texte
@@ -119,7 +119,7 @@ class IndexDocuments extends Component {
               this.setState({
                 docId,
                 contenu,
-                url : res
+                // url : res
               })
             }
             }
@@ -290,6 +290,7 @@ class IndexDocuments extends Component {
 
                   let img = Images.findOne({_id: item.image._id})
                   let link = img ? img.link() : null;
+                  // console.log(img, link)
 
                   return (
                           <List.Item
@@ -308,7 +309,7 @@ class IndexDocuments extends Component {
                                     visibleTexte: false,
                                     visibleImage: false,
                                     contenu: '',
-                                    url : null
+                                    // url : null
                                   })
                                 }}
                                 onCancel={this.handleCancel}
