@@ -85,6 +85,11 @@ class Application extends Component {
   }
 
   openNotification(title, message, type) {
+
+      notification.config({
+        placement : "bottomLeft"
+      }),
+
       notification[type]({
         message : title,
         description : message

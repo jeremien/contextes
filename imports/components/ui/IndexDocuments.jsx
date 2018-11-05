@@ -313,7 +313,7 @@ class IndexDocuments extends Component {
                                 }}
                                 onCancel={this.handleCancel}
                               > 
-                                {/* <img src={link} width='200px' /> */}
+                                <img src={link} width='200px' />
                                 <AjouterImage id={item.image._id} document={item} />
                                 <Divider />
 
