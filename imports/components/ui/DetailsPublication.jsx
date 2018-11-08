@@ -5,7 +5,7 @@ import LayoutPublication from './publication/LayoutPublication';
 
 import { Input, Button, Divider, Tooltip } from 'antd';
 import { Meteor } from 'meteor/meteor';
-
+import { markdown } from 'markdown';
 
 class DetailsPublication extends Component {
 
@@ -40,8 +40,17 @@ class DetailsPublication extends Component {
     }
 
     renderDataLayout() {
-        let res = this.props.data.join();
+        // let res = this.props.data.join();
+        // return res;
+
+        const html = this.props.data.map((item) => {
+            return markdown.toHTML(item);
+        })
+
+        const res = html.join('')
+
         return res;
+
     }
 
     handleTitreChange(event) {

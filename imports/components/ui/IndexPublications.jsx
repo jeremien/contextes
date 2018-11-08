@@ -46,13 +46,13 @@ class IndexPublications extends Component {
                     header={<div>liste des publications</div>}
                     bordered
                     dataSource={this.props.publications}
-                    renderItem={ (item, index) => {
+                    renderItem={ (item) => {
 
                         return (
                             <List.Item
                                 actions={this.renderActionPublications(item)}
                             >
-                               {item.creation.toLocaleDateString()} - {item.titre}
+                               {item.creation.toLocaleDateString()}, {item.titre}
                             </List.Item>
                         )
 
