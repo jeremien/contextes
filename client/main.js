@@ -29,8 +29,9 @@ Meteor.startup(() => {
             if (result == "http://localhost:3000/") {
               socket = require('socket.io-client')(`http://127.0.0.1:${PORT}`);
             } else {
+              result = result.slice(0, -5);
               socket = require('socket.io-client')(`${result}:${PORT}`);
-              // console.log(result)
+              console.log(result)
             }
 
             socket.on('connect', function () {
