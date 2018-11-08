@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Meteor} from 'meteor/meteor'
+import { Meteor } from 'meteor/meteor'
 import PropTypes from 'prop-types'
 import {
   BrowserRouter as Router,
@@ -34,9 +34,15 @@ import TopBarContainer from './data/TopBarContainer';
 import DetailsChapitreContainer from './data/DetailsChapitreContainer';
 import LandingPage from './data/LandingPage';
 
+
+
 import { Layout, notification } from 'antd';
 
 import "antd/dist/antd.css";
+<<<<<<< HEAD
+=======
+import Chatbox from './ui/Chatbox';
+>>>>>>> 1032ffa4f3dabf8aa6a0924e0250ebf1ff888dd0
 
 const { Header, Content } = Layout;
 
@@ -50,9 +56,9 @@ class Application extends Component {
     super(props);
 
     this.state = {
-      onAir : false
+      onAir: false
     }
-    
+
     this.handleLeavePage = this.handleLeavePage.bind(this);
     this.openNotification = this.openNotification.bind(this);
 
@@ -72,7 +78,7 @@ class Application extends Component {
   componentDidMount() {
     window.addEventListener("beforeunload", this.handleLeavePage);
     this.props.socket.on('logoutForce', this.logoutForce.bind(this));
-    this.props.socket.on('onAir', () => this.setState({ onAir : true }));
+    this.props.socket.on('onAir', () => this.setState({ onAir: true }));
     this.props.socket.on('offAir', () => this.setState({ onAir: false }));
 
     // notifications
@@ -83,6 +89,7 @@ class Application extends Component {
   }
 
   openNotification(title, message, type) {
+<<<<<<< HEAD
 
       notification.config({
         placement : "bottomLeft"
@@ -92,6 +99,12 @@ class Application extends Component {
         message : title,
         description : message
       })
+=======
+    notification[type]({
+      message: title,
+      description: message
+    })
+>>>>>>> 1032ffa4f3dabf8aa6a0924e0250ebf1ff888dd0
 
   }
 
@@ -110,63 +123,56 @@ class Application extends Component {
 
   render() {
 
-    // console.log(this.props)
-    
     if (this.props.connecte) {
       Meteor.call('connexions.socket', this.props.connexion._id, this.props.socket.id)
     }
     const { role, utilisateur, ...rest } = this.props.connexion
-    const propsToPass = { 
-      connecte: this.props.connecte, 
-      userId: this.props.connexion._id, 
-      role: role || "", 
-      utilisateur: utilisateur || "", 
-      socketId: this.props.socket.id, 
-      socket : this.props.socket,
+    const propsToPass = {
+      connecte: this.props.connecte,
+      userId: this.props.connexion._id,
+      role: role || "",
+      utilisateur: utilisateur || "",
+      socketId: this.props.socket.id,
+      socket: this.props.socket,
       loading: this.props.loading,
-      onAir : this.state.onAir
+      onAir: this.state.onAir
     }
 
     return (
       <Router>
 
-                <Layout >
-                  
-                  <Header style={{backgroundColor:'white', position: 'fixed', zIndex: 1, width: '100%' }}>
+        <Layout>
 
-                    <Route path="/" render={(props) => <TopBarContainer {...props} {...propsToPass} />} />
-                    
-                  </Header>
-                  
-                  <Content style={{ padding: '20px 50px', margin: '100px 0 0 0 '}}>
-                    
-                    {/* <Route path="/" render={(props) => <FilAriane {...props} {...propsToPass} />} /> */}
-                    
-                    <Route exact path="/sessions" render={(props) => <IndexSessionsContainer {...props} {...propsToPass} />} />
-                    <Route path="/sessions/:sessionId" render={(props) => <DetailsSession {...props} {...propsToPass} />} />
+          <Header style={{ backgroundColor: 'white', position: 'fixed', zIndex: 1, width: '100%' }}>
 
-                    <Route path="/session/:idSession/chapitre/:idChapitre" render={(props) => <DetailsChapitreContainer {...props} {...propsToPass} />} />
+            <Route path="/" render={(props) => <TopBarContainer {...props} {...propsToPass} />} />
 
-                    {/* <Route exact path='/chapitres' render={(props) => <IndexChapitresContainer {...props} {...propsToPass} /> } /> */}
+          </Header>
 
-                  
-                    <Route path="/publications" render={(props) => <IndexPublicationsContainer {...props} {...propsToPass} />} />
-                    <Route exact path="/publication/:idPublication" render={(props) => <DetailsPublicationsContainer {...props} {...propsToPass} layout={false}/>} />
-                    <Route path="/publication/:idPublication/layout" render={(props) => <DetailsPublicationsContainer {...props} {...propsToPass} layout={true} />} />
+          <Content style={{ padding: '20px 50px', margin: '100px 0 0 0 ' }}>
+
+            {/* <Route path="/" render={(props) => <FilAriane {...props} {...propsToPass} />} /> */}
+            <Route exact path="/sessions" render={(props) => <IndexSessionsContainer {...props} {...propsToPass} />} />
+            <Route path="/sessions/:sessionId" render={(props) => <DetailsSession {...props} {...propsToPass} />} />
+            <Route path="/session/:idSession/chapitre/:idChapitre" render={(props) => <DetailsChapitreContainer {...props} {...propsToPass} />} />
+
+            <Route path="/publications" render={(props) => <IndexPublicationsContainer {...props} {...propsToPass} />} />
+            <Route exact path="/publication/:idPublication" render={(props) => <DetailsPublicationsContainer {...props} {...propsToPass} layout={false} />} />
+            <Route path="/publication/:idPublication/layout" render={(props) => <DetailsPublicationsContainer {...props} {...propsToPass} layout={true} />} />
 
 
-                    <Route path="/logs" render={(props) => <IndexLogsContainer {...props} {...propsToPass} />} />
+            <Route path="/logs" render={(props) => <IndexLogsContainer {...props} {...propsToPass} />} />
 
-                    <Route exact path="/" render={(props) => <LandingPage {...props} {...propsToPass} />} />
-                    <Route path="/login" render={(props) => <Login {...props} {...propsToPass} />} /> 
+            <Route exact path="/" render={(props) => <LandingPage {...props} {...propsToPass} />} />
+            <Route path="/login" render={(props) => <Login {...props} {...propsToPass} />} />
 
-                    {/* <Route path='**' render={() => <NoMatch />} /> */}
+            {/* <Route path='**' render={() => <NoMatch />} /> */}
 
-                    {/* <Route path="/test" render={(props) => <LayoutPDF {...this.props} {...propsToPass} />} /> */}
-                  
-                  </Content>  
-                </Layout>
-      
+            <Route path="/test" render={(props) => <Chatbox {...this.props} {...propsToPass} />} />
+
+          </Content>
+        </Layout>
+
       </Router>
     )
   }
@@ -181,18 +187,26 @@ export default withTracker((props) => {
     const connexion = Connexions.findOne(localStorage.getItem('userId'))
     const connexionExists = !loading && !!connexion
     if (!connexionExists) {
+      if (!loading) {
+        Session.clear();
+        localStorage.clear();
+      }
       return {
         loading: false,
         connecte: false,
         connexion: {},
       }
     }
-    return {
-      loading,
-      connecte: connexionExists,
-      connexion: connexionExists ? connexion : {},
+    else {
+      return {
+        loading,
+        connecte: connexionExists,
+        connexion: connexionExists ? connexion : {},
+      }
     }
   }
+
+
   else {
     return {
       loading: false,

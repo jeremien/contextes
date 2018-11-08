@@ -123,7 +123,7 @@ export default class DetailsChapitre extends Component {
                             })
                         }}
                     >
-                        <Login />
+                        <Login chapitre={this.props.chapitre._id} role={this.props.session.role || {}} />
                     </Modal>
                 )
             }

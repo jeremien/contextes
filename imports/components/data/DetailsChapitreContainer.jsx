@@ -6,6 +6,7 @@ import PropTypes from 'prop-types'
 
 import { Chapitres } from '../../api/collections/chapitres';
 import { Connexions } from '../../api/collections/connexions';
+import { Sessions } from '../../api/collections/sessions'
 
 import AjouterDocument from '../outils/transcripteur/AjouterDocument';
 import CorrectionDocument from '../outils/correcteur/CorrectionDocument';
@@ -108,7 +109,10 @@ class DetailsChapitreContainer extends React.Component {
 export default withTracker((props) => {
     const connexionsHandle = Meteor.subscribe('connexions')
     const chapitresHandle = Meteor.subscribe('chapitres');
-    const loading = !chapitresHandle.ready() && !connexionsHandle.ready(); //vaut true si les données ne sont pas encore chargées.
+    const sessionsHandle = Meteor.subscribe('sessions');
+    const loading = !chapitresHandle.ready() && !connexionsHandle.ready() & !sessionsHandle.ready();; //vaut true si les données ne sont pas encore chargées.
+    const session = Sessions.findOne({ _id: props.match.params.sessionId })
+    const sessionExists = !loading && !!session
     var connexions = Connexions.find(
         {
             chapitre: props.match.params.idChapitre,
@@ -124,6 +128,7 @@ export default withTracker((props) => {
         connexionsExists,
         connexions: connexionsExists ? connexions.fetch() : [{}],
         chapitre: chapitreExists ? chapitre : [],
+        session: sessionExists ? session : []
     })
 })(DetailsChapitreContainer);
 

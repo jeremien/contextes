@@ -9,8 +9,7 @@ export const Images = new FilesCollection({
     collectionName: 'Images',
     debug: true,
     storagePath: () => {
-        return `${process.env.PWD}/../assets`;
-        // return `${process.env.PWD}/assets`;
+        return `${process.env.PWD}/assets`;
     },
     allowClientCode: false, // Disallow remove files from Client
     onBeforeUpload(file) {

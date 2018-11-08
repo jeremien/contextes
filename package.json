@@ -8,12 +8,23 @@
     "visualize": "meteor --production --extra-packages bundle-visualizer"
   },
   "dependencies": {
+<<<<<<< HEAD
     "@babel/runtime": "^7.1.2",
     "@progress/kendo-drawing": "^1.5.7",
     "@progress/kendo-react-pdf": "^2.3.1",
     "@react-pdf/renderer": "^1.0.0-alpha.24",
     "antd": "^3.10.0",
     "bcrypt": "^2.0.1",
+=======
+    "@babel/runtime": "^7.0.0-beta.55",
+    "@material-ui/core": "^3.1.2",
+    "@react-pdf/renderer": "^1.0.0-alpha.24",
+    "antd": "^3.10.0",
+    "bcrypt": "^2.0.1",
+    "binder": "^0.3.1",
+    "bindery": "^2.2.3",
+    "bindery-controls": "^1.1.1",
+>>>>>>> 1032ffa4f3dabf8aa6a0924e0250ebf1ff888dd0
     "bufferutil": "^4.0.0",
     "draft-js": "^0.10.5",
     "markdown": "^0.5.0",
@@ -29,7 +40,9 @@
     "socket.io": "^2.1.1",
     "socket.io-client": "^2.1.1",
     "styled-components": "^3.4.10",
-    "utf-8-validate": "^5.0.1"
+    "utf-8-validate": "^5.0.1",
+    "webpack": "^4.24.0",
+    "yoga-layout": "github:naminho/yoga-layout-windows"
   },
   "meteor": {
     "mainModule": {
