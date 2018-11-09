@@ -2,6 +2,8 @@ import { Mongo } from 'meteor/mongo';
 import { Meteor } from 'meteor/meteor';
 
 
+
+
 export const Publications = new Mongo.Collection('publications');
 
 if (Meteor.isServer) {
@@ -62,7 +64,23 @@ Meteor.methods({
         Publications.remove({
             _id : publicationId
         })
+    },
+
+    'publication.pdf' (publicationId) {
+        
+        const publication = Publications.findOne({ _id: publicationId });
+        createPdf(publication)
     }
     
 
 });
+
+
+const createPdf = function (publication) {
+
+    // let doc = new PDFDocument({ size : 'A4', margin: 50});
+    // doc.fontSize(12);
+    // doc.text('hello world', 10, 30, { align: 'center', width : 200 });
+    // doc.write(process.env.PWD + '/public/pdf/test.pdf');
+
+}

@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
 import { Publications } from '../../api/collections/publication'
+import { Link } from 'react-router-dom';
+
+import { Button, Divider } from 'antd';
 
 import DetailsPublication from '../ui/DetailsPublication';
 
@@ -15,12 +18,30 @@ class DetailsPublicationsContainer extends Component {
 
             let { publication } = this.props;
 
+            // console.log(publication._id)
+
             if (this.props.role === 'editeur') {
 
-                    return <DetailsPublication {...publication} {...this.props} />               
+                    return (
+                        <div>
+                            <Button.Group>
+                                <Button onClick={() => this.props.history.push(`/publications`)}>Retour aux publications</Button>
+                                <Button onClick={() => {
+                                    if( this.props.layout ) {
+                                        return this.props.history.push(`/publication/${publication._id}`)
+                                    } else {
+                                        return this.props.history.push(`/publication/${publication._id}/layout`)
+                                    }
+                                }}>{this.props.layout ? 'Éditer' : 'Exporter'}</Button>
+                            </Button.Group>
+                            <Divider/>
+                            <DetailsPublication {...publication} {...this.props} />
+                        </div>
+                        );               
             
             } else {
 
+                // TODO: afficher les publications à consulter pour les autres rôles
                 return <div>publication non modifiable</div>
             }
 

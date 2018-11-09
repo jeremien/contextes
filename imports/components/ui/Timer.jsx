@@ -109,7 +109,7 @@ class Timer extends Component {
                         <Slider
                             size="small"
                             min={5}
-                            max={30}
+                            max={3000}
                             value={parseInt(this.state.dureeBoucle)}
                             onChange={this.handleChange}
                             

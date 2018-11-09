@@ -1,32 +1,54 @@
 import React, { Component } from 'react';
-
-import Bindery from 'bindery';
-import Controls from 'bindery-controls';
-
+import { PDFExport } from '@progress/kendo-react-pdf';
+import { Button, Divider } from 'antd';
 class LayoutPublication extends Component {
 
-    componentDidMount() {
+    pdfExportComponent;
 
-        Bindery.makeBook({ 
-          content: '#content',
-          pageSetup : {
-            size : { width: '4in', height: '6in'},
-            margin: { top : '20pt', inner: '12pt', outer : '16pt', bottom: '20pt'},
-            // bleed : '12pt',
-          },
-          ControlsComponent : Controls
-        })
-      
-      }
+    exportPDF() {
+        this.pdfExportComponent.save();
+    }
 
     render() {
 
-      // console.log(this.props.data)
+        return (
+    
+            <div> 
+                
+                <Button.Group>
+                    <Button onClick={this.exportPDF.bind(this)}>Exporter en PDF</Button>
+                    <Button onClick={() => console.log('texte')} disabled>Exporter en Texte brut</Button>
+                    <Button onClick={() => console.log('image')} disabled>Exporter en Image</Button>
+                </Button.Group>
+                
+                <Divider/>
+                
+                <PDFExport 
+                    fileName={`${this.props.date}-${this.props.titre}.pdf`}
+                    title={`${this.props.titre}`}
+                    subject={`${this.props.titre}`}
+                    keywords='mots'
+                    ref={(component) => this.pdfExportComponent = component} 
+                    paperSize='A4'
+                    margin='1cm'
+                >
 
-        return <div id='content'>{this.props.data}</div>
+                    <div>
+                        <h2>{this.props.titre}</h2>
+                        {this.props.data}
+                    </div>
+                
+                </PDFExport>
+
+               
+    
+            </div>
+        )
+
 
     }
 
+ 
 
 }
 

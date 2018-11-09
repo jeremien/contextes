@@ -85,7 +85,7 @@ class SortablePublication extends Component {
         // let { data } = this.props;
         // dataUpdate = [...data]
 
-        console.log(this.state)
+        console.log(this.props)
 
         return ( 
             <div>
@@ -97,6 +97,8 @@ class SortablePublication extends Component {
                         />
 
                 <Button onClick={ this.sendTexte }>Ajouter du texte</Button> 
+                <Button onClick={ this.sendTexte } disabled>Ajouter un sous-titre</Button>
+                <Button onClick={ this.sendTexte } disabled>Ajouter un saut de page</Button>  
 
                 <Divider />
                 

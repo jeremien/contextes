@@ -39,7 +39,6 @@ import LandingPage from './data/LandingPage';
 import { Layout, notification } from 'antd';
 
 import "antd/dist/antd.css";
-import Chatbox from './ui/Chatbox';
 
 const { Header, Content } = Layout;
 
@@ -81,10 +80,15 @@ class Application extends Component {
   }
 
   openNotification(title, message, type) {
-    notification[type]({
-      message: title,
-      description: message
-    })
+
+      notification.config({
+        placement : "bottomLeft"
+      }),
+
+      notification[type]({
+        message : title,
+        description : message
+      })
 
   }
 

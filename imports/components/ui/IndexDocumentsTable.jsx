@@ -4,6 +4,7 @@ import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
 
 import { Documents } from '../../api/collections/documents';
+import { Images } from '../../api/collections/images';
 
 import { Table, Divider, Button, Switch, Icon } from 'antd';
 
@@ -42,13 +43,41 @@ class IndexDocumentsTable extends Component {
     const sessionId = this.props.chapitre.session;
 
     const contenu = this.state.publicationData.map((item) => {
-      return item.contenu;
+      
+      let link = null;
+      let obj = {};
+
+      let { contenu, image } = item;
+
+      if (image !== null) {
+        let img = Images.findOne({_id: image._id});
+        link = img ? img.link() : null;
+      }
+
+      if (!link) {
+
+        obj = {
+          texte : contenu      
+        }
+
+      } else {
+
+        obj = {
+          link,
+          legende : contenu      
+        }
+      }
+      
+
+      return obj;
     });
 
     const selection = {
       titre,
       contenu
     }
+
+    // console.log(selection);
     Meteor.call('publication.insert', selection, sessionId);
     
     this.props.history.push(`/publications`);

@@ -200,17 +200,17 @@ export default class AjouterChapitre extends Component {
 
             <Divider />
 
-            <FormItem label = "Durée des boucles" >
+            <FormItem label = "Durée des boucles en seconde" >
                 <Slider size = "small"
                     min = { 5 }
-                    max = { 120 }
+                    max = { 900 }
                     value = { this.state.duree }
                     onChange = { this.handleDureeChange }
                 />
 
                 <InputNumber size = "small"
                     min = { 5 }
-                    max = { 120 }
+                    max = { 900 }
                     step = { 5 }
                     value = { this.state.duree }
                     onChange = { this.handleDureeChange }
