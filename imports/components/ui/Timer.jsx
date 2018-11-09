@@ -42,7 +42,7 @@ class Timer extends Component {
     startTimer() {
 
         if (!this.state.timer) {
-            if (!this.props.connexions) {
+            if (!this.props.connexions.length) {
                 alert('Pas de transcripteurs connecté !')
             }
             else {
@@ -141,6 +141,6 @@ export default withTracker((props) => {
     return ({
         loading,
         connexionsExists,
-        connexions: connexionsExists ? connexions.fetch() : [{}],
+        connexions: connexionsExists ? connexions.fetch() : null,
     })
 })(Timer);

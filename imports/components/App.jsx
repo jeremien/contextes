@@ -63,24 +63,19 @@ class Application extends Component {
 
   static defaultProps = {
     connecte: false,
-    socket: {},
   }
 
-  static propTypes = {
-    connecte: PropTypes.bool.isRequired,
-    connexion: PropTypes.object.isRequired,
-    socket: PropTypes.object.isRequired,
-  }
 
   componentDidMount() {
     window.addEventListener("beforeunload", this.handleLeavePage);
-    this.props.socket.on('logoutForce', this.logoutForce.bind(this));
-    this.props.socket.on('onAir', () => this.setState({ onAir: true }));
-    this.props.socket.on('offAir', () => this.setState({ onAir: false }));
+    Streamy.on('logoutForce', this.logoutForce.bind(this));
+    Streamy.on('onAir', () => this.setState({ onAir : true }));
+    Streamy.on('offAir', () => this.setState({ onAir: false }));
 
     // notifications
 
-    this.props.socket.on('notification', (title, message, type) => {
+    Streamy.on('notification', (infos) => {
+      const {title, message, type} = infos;
       this.openNotification(title, message, type);
     });
   }
@@ -93,6 +88,9 @@ class Application extends Component {
 
   }
 
+  componentWillUnmount() {
+    // window.removeEventListener('beforeunload', this.handleLeavePage);
+  }
 
   logoutForce() {
     console.log('logout')
@@ -107,18 +105,18 @@ class Application extends Component {
 
 
   render() {
-
+    
+    
     if (this.props.connecte) {
-      Meteor.call('connexions.socket', this.props.connexion._id, this.props.socket.id)
+      Meteor.call('connexions.socket', this.props.connexion._id, Streamy.id())
     }
     const { role, utilisateur, ...rest } = this.props.connexion
-    const propsToPass = {
-      connecte: this.props.connecte,
-      userId: this.props.connexion._id,
-      role: role || "",
-      utilisateur: utilisateur || "",
-      socketId: this.props.socket.id,
-      socket: this.props.socket,
+    const propsToPass = { 
+      connecte: this.props.connecte, 
+      userId: this.props.connexion._id, 
+      role: role || "", 
+      utilisateur: utilisateur || "", 
+      socketId: Streamy.id(),
       loading: this.props.loading,
       onAir: this.state.onAir
     }

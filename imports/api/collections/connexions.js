@@ -15,11 +15,11 @@ if (Meteor.isServer) {
 
 Meteor.methods({
 
-    'connexions.insert'(utilisateur, role, socket) {
+    'connexions.insert'(utilisateur, role, socketId) {
         const id = Connexions.insert({
             utilisateur: utilisateur,
             role: role,
-            socket: socket,
+            socketId: socketId,
             session: "",
             chapitre: "",
             online: true,
@@ -98,12 +98,12 @@ Meteor.methods({
         })
     },
 
-    'connexions.socket'(utilisateur, socket) {
+    'connexions.socket'(utilisateur, socketId) {
         Connexions.update({
             _id: utilisateur
         }, {
             $set: {
-                socket: socket
+                socketId: socketId
             }
         })
     }
