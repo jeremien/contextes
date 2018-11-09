@@ -13,6 +13,7 @@ import {
 var globalChapitre; //Methode de la doc de CRONJob pour passer des arguments à la fonction appeler
 var rangOnAir = 0;
 var listeTranscripteurs = {};
+var trancripteursSimultanes = 1;
 
 const bound = Meteor.bindEnvironment((callback) => {
     callback();
@@ -35,8 +36,11 @@ function Next() {
     listeTranscripteurs.map((trancripteur) =>
         Meteor.call('message.client', trancripteur.socketId, 'offAir', {})
     );
-    rangOnAir = (rangOnAir + 1) % listeTranscripteurs.length
-    Meteor.call('message.client', listeTranscripteurs[rangOnAir].socketId, 'onAir', {});
+
+    for (var i = 0; i < trancripteursSimultanes; i++) {
+        rangOnAir = (rangOnAir + 1) % listeTranscripteurs.length
+        Meteor.call('message.client', listeTranscripteurs[rangOnAir].socketId, 'onAir', {});
+    }
 }
 
 Meteor.methods({
@@ -58,7 +62,10 @@ Meteor.methods({
     },
 
     'timer.next'() {
-        console.log(listeTranscripteurs)
         Next();
+    },
+
+    'timer.simultanes'(nombre) {
+        trancripteursSimultanes = nombre;
     }
 })

@@ -22,6 +22,7 @@ class Timer extends Component {
         this.state = {
             timer: false,
             dureeBoucle: this.props.chapitre.duree_boucle,
+            transcripteursSimultanes: 1,
         }
 
         this.startTimer = this.startTimer.bind(this);
@@ -112,6 +113,18 @@ class Timer extends Component {
                             max={3000}
                             value={parseInt(this.state.dureeBoucle)}
                             onChange={this.handleChange}
+                            
+                        />
+                        <h4>Nombre de transcirpteurs simultanés</h4>
+                        <Slider
+                            size="small"
+                            min={1}
+                            max={5}
+                            value={parseInt(this.state.transcripteursSimultanes)}
+                            onChange={(value) => {
+                                Meteor.call('timer.simultanes', value)
+                                this.setState({ transcripteursSimultanes: value });
+                            }}
                             
                         />
                     </div>

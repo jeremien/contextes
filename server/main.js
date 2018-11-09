@@ -17,7 +17,6 @@ import {
   Images
 } from '../imports/api/collections/images'
 
-import socket_io from 'socket.io';
 import './timer'
 import { Connexions } from '../imports/api/collections/connexions';
 import { Documents } from '../imports/api/collections/documents';
