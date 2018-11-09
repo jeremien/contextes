@@ -6,7 +6,6 @@ const ButtonGroup = Button.Group;
 
 class DisplayTimer extends Component {
 
-
     state = {
         buttonType: 'default'
     }

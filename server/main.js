@@ -24,22 +24,9 @@ import { Documents } from '../imports/api/collections/documents';
 import { Messages } from '../imports/api/collections/messages';
 
 Streamy.onConnect(function(socket) {
-  Clients.insert({
-    'sid': Streamy.id(socket)
-  });
+
 });
 
-/**
- * Initialisation des socket côté serveur
- */
-const PORT = 8080;
-//Pas besoin d'initilaiser un serveur avec le module http en plus.
-const io = socket_io(8080)
-
-// New client
-io.on('connection', function (socket) {
-  console.log('new socket client');
-});
 Meteor.startup(() => {
   // Connexions.remove({})
   Messages.remove({})
@@ -63,25 +50,22 @@ Meteor.startup(() => {
 
 Meteor.methods({
   'message.client'(socketId, typeMessage, data) {
-    io.to(`${socketId}`).emit(typeMessage, data)
+    Streamy.emit(typeMessage, data, Streamy.sockets(socketId));
   },
 
   'ejection.client'(id, socketId, online) {
     if (online) {
-      io.sockets.connected[socketId].emit('logoutForce');
+      Streamy.emit('logoutForce', {}, socketId);
     }
     // Meteor.call('connexion.remove', id)
   },
 
   'notification'(infos) {
-    console.log(infos)
-    let { title, message, type } = infos;
-    io.emit('notification', title, message, type)
-
+    Streamy.broadcast('notification', infos);
   },
 
   'deconnexion.editeur'() {
-    io.emit('logoutForce')
+    Streamy.broadcast('logoutForce')
   },
 
   'getIp'() {

@@ -25,7 +25,7 @@ class ConnexionsCourantes extends Component {
     
                             <li key={connexion._id}>
                                {connexion.utilisateur} ({connexion.role}) : {connexion.online ? <span>online</span> : "offline" }
-                               {this.props.role === "editeur" ?  <button onClick={(event) => Meteor.call('ejection.client', connexion._id, connexion.socket, connexion.online) }>Ejecter</button> : undefined }
+                               {this.props.role === "editeur" ?  <button onClick={(event) => Meteor.call('ejection.client', connexion._id, connexion.socketId, connexion.online) }>Ejecter</button> : undefined }
                             </li>
                         )
                     )}
