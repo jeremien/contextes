@@ -37,13 +37,14 @@ class Chatbox extends Component {
     chatList = (datas) => {
         return datas.map((data, index) => {
             // console.log(data)
-            return <li key={index}>{data.message} de {data.auteur}</li>
+            return <li key={index}> {data.auteur} a écrit : {data.message}</li>
         })
     }
 
     render() {
         return (
             <div className="chatbox">
+                <h3>Messages</h3>
                 {this.props.messagesExists &&
                     // <List
                     //     header={<div>Header</div>}
@@ -56,8 +57,8 @@ class Chatbox extends Component {
                         {this.chatList(this.props.messages)}
                     </ChatList>    
 
-                }
-                    <Input value={this.state.message} onChange={this.handleTyping} onPressEnter={this.handleSubmit} />
+                }   
+                    <Input value={this.state.message} onChange={this.handleTyping} onPressEnter={this.handleSubmit} placeholder='écrivez votre message' />
             </div>
 
         )

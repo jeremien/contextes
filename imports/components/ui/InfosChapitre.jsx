@@ -18,7 +18,7 @@ const tags = (props) => {
 
 export default function InfosChapitre(props) {
 
-    console.log(props)
+    // console.log(props)
 
     return (
         

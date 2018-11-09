@@ -88,9 +88,10 @@ class Login extends React.Component {
                             <Option value='editeur'>Éditeur</Option>
                         }
 
-                        {!this.props.loading && (this.props.transcripteurs.length < this.props.role.transcripteurs) &&
+                        {/* {!this.props.loading && (this.props.transcripteurs.length < this.props.role.transcripteurs) &&
                             < Option value='transcripteur'>Transcripteur</Option>
-                        }
+                        } */}
+                        < Option value='transcripteur'>Transcripteur</Option>
                         <Option value='correcteur'>Correcteur</Option>
                         <Option value='iconographe'>Iconographe</Option>
                         {/* <Option value='conformateur'>Conformateur</Option> */}

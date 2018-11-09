@@ -17,8 +17,8 @@ class LayoutPublication extends Component {
                 
                 <Button.Group>
                     <Button onClick={this.exportPDF.bind(this)}>Exporter en PDF</Button>
-                    <Button onClick={() => console.log('texte')}>Exporter en Texte brut</Button>
-                    <Button onClick={() => console.log('image')}>Exporter en Image</Button>
+                    <Button onClick={() => console.log('texte')} disabled>Exporter en Texte brut</Button>
+                    <Button onClick={() => console.log('image')} disabled>Exporter en Image</Button>
                 </Button.Group>
                 
                 <Divider/>

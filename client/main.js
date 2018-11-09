@@ -18,7 +18,7 @@ Meteor.startup(() => {
 
       // Socket io client
       const PORT = 8080;
-      console.log(self.location.host)
+      // console.log(self.location.host)
       var socket;
 
       Meteor.call("getIp", function (error, result) {
@@ -31,7 +31,7 @@ Meteor.startup(() => {
             } else {
               result = result.slice(0, -5);
               socket = require('socket.io-client')(`${result}:${PORT}`);
-              console.log(result)
+              // console.log(result)
             }
 
             socket.on('connect', function () {

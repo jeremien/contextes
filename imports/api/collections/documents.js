@@ -39,7 +39,7 @@ Meteor.methods({
             creation: new Date(),
             correction: false,
             conformation: false,
-            rejete: false,
+            rejete: true,
             type: "texte",
             dernireModificationPar: auteur,
             image: null,
@@ -101,7 +101,7 @@ Meteor.methods({
         Documents.insert({
             session: session,
             chapitre: chapitre,
-            contenu: null,
+            contenu: '',
             auteur: auteur,
             creation: new Date(),
             correction: false,

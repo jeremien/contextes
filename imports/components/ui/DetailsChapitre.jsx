@@ -4,6 +4,7 @@ import { Meteor } from 'meteor/meteor';
 import ConnexionsCourantes from '../outils/ConnexionsCourantes';
 import Chatbox from "./Chatbox";
 import Login from './Login';
+import DetailsDocumentsContainer from '../data/DetailsDocumentsContainer';
 
 import { Layout, Row, Col, Drawer, Switch, Button, Divider, Modal } from 'antd';
 
@@ -15,7 +16,7 @@ export default class DetailsChapitre extends Component {
         this.state = {
             visibleInfo: false,
             visibleChat: false,
-            visibleLogin : true,
+            visibleLogin : false,
             test: 0,
         }
 
@@ -35,7 +36,7 @@ export default class DetailsChapitre extends Component {
 
     render() {
 
-        // console.log(this.props)
+        console.log(this.props)
 
         if (this.props.loading) {
             
@@ -109,23 +110,34 @@ export default class DetailsChapitre extends Component {
             } else {
 
                 return (
-                    <Modal
-                        title='Login'
-                        visible={this.state.visibleLogin}
-                        // onOk={() => {
-                        //     this.setState({
-                        //         visibleLogin: false
-                        //     })
-                        // }}
-                        onCancel={() => {
-                            this.setState({
-                                visibleLogin: false
-                            })
-                        }}
-                    >
-                        <Login chapitre={this.props.chapitre._id} role={this.props.session.role || {}} />
-                    </Modal>
-                )
+                    
+                    <div>
+                        <h3>{`Chapitre ${this.props.chapitre.titre} en cours de transcription`}</h3>
+                        <DetailsDocumentsContainer {...this.props.chapitre} />
+                    </div>         
+                
+                    )
+    
+
+                // return (
+                //     <Modal
+                //         title='Login'
+                //         visible={this.state.visibleLogin}
+                //         // onOk={() => {
+                //         //     this.setState({
+                //         //         visibleLogin: false
+                //         //     })
+                //         // }}
+                //         onCancel={() => {
+                //             this.setState({
+                //                 visibleLogin: false
+                //             })
+                //         }}
+                //     >
+                //         <Login chapitre={this.props.chapitre._id} role={this.props.session.role || {}} />
+                //     </Modal>
+                // )
+
             }
 
         }

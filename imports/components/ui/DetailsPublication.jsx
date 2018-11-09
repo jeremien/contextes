@@ -66,6 +66,8 @@ class DetailsPublication extends Component {
 
     render() {
 
+        // console.log(this.props)
+
         let { data, _id, layout } = this.props;        
         let { modTitre, titre } = this.state;
         let dataLayout = this.renderDataLayout();
