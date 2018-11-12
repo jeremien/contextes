@@ -20,8 +20,15 @@ const Item = styled.div`
 `;
 
 const SortableItem = SortableElement( ( { value} ) => {
-    // console.log(value)
-    return <Item >{value}</Item>
+
+    let regex = RegExp(/(http(s?))\:\/\//gi);
+
+    if (regex.test(value)) {
+        return <Item ><img src={value} width='200px'/></Item>
+    } else {
+        return <Item >{value}</Item>
+    }
+
 });
 
 const SortableList = SortableContainer( ({ items }) => {
@@ -85,7 +92,7 @@ class SortablePublication extends Component {
         // let { data } = this.props;
         // dataUpdate = [...data]
 
-        console.log(this.props)
+        // console.log(this.props)
 
         return ( 
             <div>

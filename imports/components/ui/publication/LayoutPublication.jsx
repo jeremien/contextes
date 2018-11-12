@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { PDFExport } from '@progress/kendo-react-pdf';
 import { Button, Divider } from 'antd';
+import ReactMarkdown from 'react-markdown';
+
 class LayoutPublication extends Component {
 
     pdfExportComponent;
@@ -35,7 +37,10 @@ class LayoutPublication extends Component {
 
                     <div>
                         <h2>{this.props.titre}</h2>
-                        {this.props.data}
+                        {/* {this.props.data} */}
+                        <ReactMarkdown 
+                            source={this.props.data} 
+                        />
                     </div>
                 
                 </PDFExport>

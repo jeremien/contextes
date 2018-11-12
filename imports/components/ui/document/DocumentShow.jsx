@@ -8,7 +8,7 @@ const DocumentShow = (props) => {
 
         return (
 
-            <div><img src={props.link} width='100px' />{props.item.contenu}</div>
+            <div><img src={props.link} width='100px' /><p>{props.item.contenu}</p></div>
         )
 
     } else {

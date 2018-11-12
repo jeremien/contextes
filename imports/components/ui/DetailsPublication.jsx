@@ -26,7 +26,7 @@ class DetailsPublication extends Component {
 
     componentDidMount() {
 
-        let titre = this.props.titre;
+        let titre = this.props.publication.titre;
 
         this.setState({
             titre
@@ -40,14 +40,15 @@ class DetailsPublication extends Component {
     }
 
     renderDataLayout() {
-        // let res = this.props.data.join();
-        // return res;
 
-        const html = this.props.data.map((item) => {
-            return markdown.toHTML(item);
+        const str = this.props.publication.data.map((item) => {
+
+            console.log(item)
+
+            return item;
         })
 
-        const res = html.join('')
+        const res = str.join(' ')
 
         return res;
 
@@ -68,15 +69,17 @@ class DetailsPublication extends Component {
 
         // console.log(this.props)
 
-        let { data, _id, layout } = this.props;        
+        let { data, _id } = this.props.publication;        
         let { modTitre, titre } = this.state;
         let dataLayout = this.renderDataLayout();
+
+        // console.log(data)
 
         return (
             
             <div>   
                 
-                { !layout && 
+                { !this.props.layout && 
                     <div>
                         <label>Modifier le titre</label>
                         { modTitre ?
@@ -94,11 +97,13 @@ class DetailsPublication extends Component {
                     </div>
                 }
 
+                {/* <SortablePublication data={data} id={_id} /> */}
 
+                
                 { 
-                    !layout ? 
+                    !this.props.layout ? 
                         <SortablePublication data={data} id={_id} /> :
-                        <LayoutPublication titre={this.props.titre} date={this.props.creation.toLocaleDateString()} data={dataLayout} />
+                        <LayoutPublication titre={this.props.publication.titre} date={this.props.publication.creation.toLocaleDateString()} data={dataLayout} />
                 }
                 
             </div>

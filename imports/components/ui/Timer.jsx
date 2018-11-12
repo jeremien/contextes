@@ -91,13 +91,16 @@ class Timer extends Component {
     render() {
         // console.log(this.state)
 
+        let minutes = Math.floor(this.props.chapitre.timer / 60);
+        let seconds = this.props.chapitre.timer - minutes * 60;
+
         return (
             <div>
                 {this.props.role == "editeur" &&
 
                     <div>
                         <div style={{ fontSize: '1.5rem' }}>
-                            <Icon type='clock-circle'/>  {this.props.chapitre.timer}
+                            <Icon type='clock-circle'/>  {minutes}'{seconds}''
                         </div>
                         <Divider/>
                         <ButtonGroup>

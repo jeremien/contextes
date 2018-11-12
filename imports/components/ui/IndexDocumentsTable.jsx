@@ -42,10 +42,12 @@ class IndexDocumentsTable extends Component {
     const titre = this.props.chapitre.titre;
     const sessionId = this.props.chapitre.session;
 
-    const contenu = this.state.publicationData.map((item) => {
+    const getData = this.state.publicationData.map((item) => {
+
+      // console.log(item)
       
       let link = null;
-      let obj = {};
+      let arr = [];
 
       let { contenu, image } = item;
 
@@ -56,21 +58,19 @@ class IndexDocumentsTable extends Component {
 
       if (!link) {
 
-        obj = {
-          texte : contenu      
-        }
+        arr.push(contenu);
 
       } else {
 
-        obj = {
-          link,
-          legende : contenu      
-        }
+        arr.push(link);
+        arr.push(contenu);
       }
       
-
-      return obj;
+      // console.log(arr)
+      return arr;
     });
+
+    let contenu = [].concat.apply([], getData);
 
     const selection = {
       titre,

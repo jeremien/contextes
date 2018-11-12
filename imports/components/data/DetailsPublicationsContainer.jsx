@@ -12,7 +12,7 @@ class DetailsPublicationsContainer extends Component {
 
     render() {
 
-        // console.log(this.props)
+        // console.log(this.props.publication)
 
         if (this.props.publicationsExists && !this.props.loading) {
 
@@ -35,7 +35,7 @@ class DetailsPublicationsContainer extends Component {
                                 }}>{this.props.layout ? 'Éditer' : 'Exporter'}</Button>
                             </Button.Group>
                             <Divider/>
-                            <DetailsPublication {...publication} {...this.props} />
+                            <DetailsPublication {...this.props}  />
                         </div>
                         );               
             
