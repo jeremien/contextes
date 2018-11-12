@@ -7,7 +7,7 @@ import {
 
 export const Images = new FilesCollection({
     collectionName: 'Images',
-    debug: true,
+    debug: false,
     storagePath: () => {
         return `${process.env.PWD}/assets`;
     },
