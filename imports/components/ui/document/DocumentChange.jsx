@@ -11,7 +11,8 @@ class DocumentChange extends Component {
         super(props);
 
         this.state = {
-            contenu : ''
+            contenu : '',
+            isCorrected: false
         }
 
         this.handleChange = this.handleChange.bind(this);
@@ -21,7 +22,9 @@ class DocumentChange extends Component {
 
     componentDidMount() {
         this.setState({
-            contenu: this.props.item.contenu
+            contenu: this.props.item.contenu,
+            isCorrected : this.props.isCorrected
+
         })
     }
 
@@ -47,12 +50,22 @@ class DocumentChange extends Component {
         let { contenu } = this.state;
         let { correction } = this.props.item;
 
-        console.log(this.props.link)
+        // console.log(this.props.link)
+        // console.log(this.props)
 
         return (
             <div>
-                {this.props.link != undefined &&
-                    <img src={this.props.link} width='100px' />    
+                {this.props.link != undefined && (
+                    <div>
+                        <img src={this.props.link} width='100px' />
+                        <Button disabled >Modifier</Button>  
+                    </div>
+                    )  
+                }
+
+                { this.props.link === undefined &&
+                
+                    <Button disabled>Ajouter une image</Button>
                 }
                 <Input.TextArea
                     value={contenu}
@@ -62,12 +75,14 @@ class DocumentChange extends Component {
                     type={ correction ? 'default' : 'primary'}
                     onClick={this.documentSave}
                 >
-                    Corriger
+                    Enregistrer
                 </Button>
-             </div>
+                </div>
         )
-    }
 
+
+     
+    }
 }
 
 export default DocumentChange;

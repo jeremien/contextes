@@ -19,9 +19,11 @@ class IndexDocuments extends Component {
       docId: null,
       contenu: '',
       toggleActionDocList: true,
+      btnId: null
     }
 
     this.handleChange = this.handleChange.bind(this);
+    this.handleBtnCorrect = this.handleBtnCorrect.bind(this);
 
   }
 
@@ -35,8 +37,16 @@ class IndexDocuments extends Component {
     })
   }
 
+  handleBtnCorrect(e) {
+    this.setState({
+      btnId: e._id
+    })
+  }
+
 
   renderActionDocuments(item) {
+
+    // console.log(item)
 
     let docId = item._id;
     let rejete = item.rejete;
@@ -45,6 +55,13 @@ class IndexDocuments extends Component {
       && this.props.role === "editeur") {
 
         return [
+          <Button
+            type={item.correction ? 'default' : 'primary'}
+            onClick={() => this.handleBtnCorrect(item)}
+          >
+            { this.state.btnId === item._id ? 'En cours de correction' : 'Corriger' }
+
+          </Button>,
           <Button
             type='default'
             onClick={() => {
@@ -77,7 +94,15 @@ class IndexDocuments extends Component {
 
       } else {
 
-        return [];
+        return [
+          <Button
+            type={item.correction ? 'default' : 'primary'}
+            onClick={() => this.handleBtnCorrect(item)}
+          >
+          { this.state.btnId === item._id ? 'En cours de modification' : 'Corriger' }
+
+          </Button>,
+        ];
       }
     
   }
@@ -85,7 +110,7 @@ class IndexDocuments extends Component {
 
   render() {
 
-    // console.log(this.state, this.modifContent)
+    // console.log(this.state)
 
     if (this.props.documents != 0) {
 
@@ -122,17 +147,9 @@ class IndexDocuments extends Component {
                   <List.Item
                     actions={this.renderActionDocuments(item)}
                   >  
-                      { this.props.role === 'editeur' &&
-                        <DocumentShow {...item} link={link} />
-                      }
-                    
-                      { this.props.role === 'correcteur' &&
-                        <DocumentChange {...this.props} item={item} link={link} />
-                      }
-
-                      { this.props.role === 'iconographe' && 
-                        <DocumentShow {...item} link={link} />
-                      }
+                    {this.state.btnId === item._id ? 
+                      <DocumentChange {...this.props} item={item} link={link} /> 
+                      : <DocumentShow item={item} link={link}/>}
 
                   </List.Item>
                 )

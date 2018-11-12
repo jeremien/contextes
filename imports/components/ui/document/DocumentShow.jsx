@@ -2,20 +2,20 @@ import React from 'react';
 
 const DocumentShow = (props) => {
 
-    // console.log(props)
+    // console.log(props.item.contenu)
 
     if (props.link != undefined) {
 
         return (
 
-            <div><img src={props.link} width='100px' />{props.contenu}</div>
+            <div><img src={props.link} width='100px' />{props.item.contenu}</div>
         )
 
     } else {
 
         return (
 
-            <div>{props.contenu}</div>
+            <div>{props.item.contenu}</div>
         )
     }
   
