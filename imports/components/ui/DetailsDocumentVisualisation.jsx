@@ -7,7 +7,7 @@ const DetailsDocumentVisualisation = (props) => {
     // {props.image ? <img src={props.link} width='200px' /> : undefined}
 
     return <div>
-                {props.image ? <img src={props.link} width='200px' /> : undefined}
+                {/* {props.image ? <img src={props.link} width='200px' /> : undefined} */}
                 <ReactMarkdown
                     source={props.contenu}
                 />

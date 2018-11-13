@@ -121,7 +121,7 @@ export default class IndexSessions extends Component {
     }
 
     render() {
-        console.log(this.props)
+        // console.log(this.props)
         const { match, path, ...rest } = this.props;
         return (
 

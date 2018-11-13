@@ -1,23 +1,28 @@
 import React from 'react';
+import ReactMarkdown from 'react-markdown';
 
 const DocumentShow = (props) => {
 
     // console.log(props.item.contenu)
 
-    if (props.link != undefined) {
+    // if (props.link != undefined) {
 
-        return (
+    //     return (
 
-            <div><img src={props.link} width='100px' /><p>{props.item.contenu}</p></div>
-        )
+    //         <div><img src={props.link} width='100px' /><p>{props.item.contenu}</p></div>
+    //     )
 
-    } else {
+    // } else {
 
-        return (
+    //     return (
 
-            <div>{props.item.contenu}</div>
-        )
-    }
+    //         <div>{props.item.contenu}</div>
+    //     )
+    // }
+
+    return <ReactMarkdown 
+                source={props.item.contenu}
+            />
   
 
 }

@@ -38,9 +38,18 @@ class IndexDocuments extends Component {
   }
 
   handleBtnCorrect(e) {
-    this.setState({
-      btnId: e._id
-    })
+
+    if (this.state.btnId !== e._id) {
+      this.setState({
+        btnId: e._id
+      });
+    } else {
+      this.setState({
+        btnId: null
+      });
+    }
+
+  
   }
 
 
@@ -59,7 +68,7 @@ class IndexDocuments extends Component {
             type={item.correction ? 'default' : 'primary'}
             onClick={() => this.handleBtnCorrect(item)}
           >
-            { this.state.btnId === item._id ? 'En cours de correction' : 'Corriger' }
+            { this.state.btnId === item._id ? 'Réduire' : 'Corriger' }
 
           </Button>,
           <Button
