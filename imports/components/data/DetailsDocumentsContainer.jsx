@@ -19,17 +19,7 @@ class DetailsDocumentsContainer extends Component {
 
                     if (!item.rejete) {
 
-                        if (item.type != 'image') {
-
                             return <DetailsDocumentVisualisation key={item._id} {...item} />
-
-                        } else {
-
-                            let img = Images.findOne({_id: item.image._id});
-                            let link = img ? img.link() : null;
-                            return <DetailsDocumentVisualisation key={item._id} {...item} link={link} />
-                        
-                        }
                         
                     } else {
 

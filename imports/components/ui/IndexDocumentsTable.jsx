@@ -3,12 +3,12 @@ import { Session } from 'meteor/session';
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
 
-import ReactMarkrdown from 'react-markdown';
+import ReactMarkdown from 'react-markdown';
 
 import { Documents } from '../../api/collections/documents';
 import { Images } from '../../api/collections/images';
 
-import { Table, Divider, Button, Switch, Icon } from 'antd';
+import { Table, Divider, Button, Switch, Icon, message } from 'antd';
 
 
 class IndexDocumentsTable extends Component {
@@ -23,6 +23,7 @@ class IndexDocumentsTable extends Component {
       }
 
       this.exportData = this.exportData.bind(this);
+      this.exportNewDoc = this.exportNewDoc.bind(this);
 
   }  
 
@@ -36,6 +37,29 @@ class IndexDocumentsTable extends Component {
         item.key = key;
         return item;
     });
+
+  }
+
+  exportNewDoc() {
+
+    // console.log(this.state.publicationData)
+
+    let newContenu = '';
+
+    this.state.publicationData.forEach((item) => {
+      newContenu += ' ' + item.contenu
+    })
+
+    // console.log(newContenu)
+
+    Meteor.call('documents.insert', 
+                this.props.chapitre.session,
+                this.props.chapitre._id,
+                newContenu,
+                this.props.utilisateur 
+                );
+
+    message.success('nouveau document créé');
 
   }
 
@@ -88,14 +112,14 @@ class IndexDocumentsTable extends Component {
 
   render() {
 
-    // console.log(this.props.chapitre.session)
+    // console.log(this.props)
 
     const columns = [
         {
             title : 'Contenu',
             dataIndex : 'contenu',
             key: 'contenu',
-            render: (item) => <ReactMarkrdown source={item} />
+            render: (item) => <ReactMarkdown source={item} />
         },
         // {
         //     title : 'Auteur',
@@ -163,7 +187,7 @@ class IndexDocumentsTable extends Component {
             
               <div style={{ marginBottom: 16 }}> 
                 <Button
-                  onClick={() => console.log('nouveau doc')}
+                  onClick={this.exportNewDoc}
                 >
                   Exporter vers un nouveau document
                 </Button>
