@@ -8,7 +8,7 @@ import ReactMarkdown from 'react-markdown';
 import { Documents } from '../../api/collections/documents';
 import { Images } from '../../api/collections/images';
 
-import { Table, Divider, Button, Switch, Icon, message } from 'antd';
+import { Table, Divider, Button, Switch, Icon, message, Popconfirm } from 'antd';
 
 
 class IndexDocumentsTable extends Component {
@@ -27,15 +27,24 @@ class IndexDocumentsTable extends Component {
 
   }  
 
+  handleDocumentDelete(docId) {
+    Meteor.call('documents.remove', docId);
+  }
+
   renderDataTable() {
 
-    const data = this.props.documents.filter((item) => {
-      return item.rejete === false;
-    })
+    // const data = this.props.documents.filter((item) => {
+    //   return item.rejete === false;
+    // })
 
-    return data.map((item, key) => {
-        item.key = key;
-        return item;
+    // return data.map((item, key) => {
+    //     item.key = key;
+    //     return item;
+    // });
+
+    return this.props.documents.map((item, key) => {
+      item.key = key;
+      return item;
     });
 
   }
@@ -112,49 +121,75 @@ class IndexDocumentsTable extends Component {
 
   render() {
 
-    // console.log(this.props)
-
     const columns = [
         {
             title : 'Contenu',
             dataIndex : 'contenu',
-            key: 'contenu',
+            defaultSortOrder: 'descend',
+            sorter: (a, b) => a.contenu.length - b.contenu.length,
             render: (item) => <ReactMarkdown source={item} />
         },
-        // {
-        //     title : 'Auteur',
-        //     dataIndex : 'auteur',
-        //     key: 'auteur'
-        // },
+
         {
-            title : 'Creation',
+            title : 'Création',
             dataIndex : 'creation',
-            key: 'creation',
+            defaultSortOrder: 'descend',
+            sorter: (a, b) => a.creation - b.creation,
             render: (item) => item.toLocaleTimeString()
         },
         {
-            title : 'Corrigé',
+            title : 'Correction',
             dataIndex : 'correction',
-            key: 'correction',
-            // render: (item) => item.toString()
+            defaultSorterOrder: 'descend',
+            sorter: (a, b) => a.correction - b.correction,
             render: (item) => item ? <Icon type='check-circle' style={{ color : 'green'}} /> : <Icon type='close-circle' style={{ color : 'red'}} />
         },
         {
             title : 'Type',
             dataIndex : 'type',
-            key : 'type',
+            defaultSorterOrder: 'descend',
+            sorter: (a, b) => a.type - b.type,
             render: (item) => item != 'image' ? 'texte' : 'image'
+        },
+        {
+            title : 'Action',
+            key : 'action',
+            render : (item) => {
+              return (
+                <Button.Group>
+                  <Button
+                  type='default'
+                  onClick={() => {
+                    if (!item.rejete) {
+                      console.log('rejete')
+                      Meteor.call('documents.rejet', item._id);
+                    } else {
+                      console.log('accepter')
+                      Meteor.call('documents.accepte', item._id);
+                    }
+                  }
+                }
+                  icon={!item.rejete ? 'check' : 'loading'}
+                />
+                  <Popconfirm
+                    title='Voulez-vous supprimer le document ?'
+                    onConfirm={() => this.handleDocumentDelete(item._id)}
+                    onCancel={() => message.error('annulation')}
+                    okText='oui'
+                    cancelText='non'
+                  >
+                    <Button type='danger' icon='delete'/>
+                  </Popconfirm>
+                </Button.Group>
+              )
+            }
         }
-        // {
-        //     title : 'Rejeté',
-        //     dataIndex : 'rejete',
-        //     key: 'rejete',
-        //     render: (item) => item.toString()
-        // }
+     
 
     ];
 
     const data = this.renderDataTable();
+    // const data = this.props.documents;
 
     // console.log(data)
 
@@ -173,15 +208,15 @@ class IndexDocumentsTable extends Component {
 
         <div>
 
-          <h4>Publication</h4>
+          {/* <h4>Publication</h4> */}
           
-          <Switch 
+          {/* <Switch 
             defaultChecked={!this.state.toggleActionDocTable}
             onChange={() => this.setState({ toggleActionDocTable : !this.state.toggleActionDocTable})}
             style={{ marginBottom: '20px' }}
           />
 
-          { !this.state.toggleActionDocTable &&
+          { this.state.toggleActionDocTable && */}
 
             <div>
             
@@ -197,6 +232,7 @@ class IndexDocumentsTable extends Component {
                   Exporter vers une nouvelle publication
                 </Button>
                 <Button
+                  disabled
                   onClick={() => console.log('update pub')}
                 >
                   Ajouter à une publication existante
@@ -211,7 +247,7 @@ class IndexDocumentsTable extends Component {
                 />
 
             </div>
-          }    
+          {/* }     */}
 
         </div>
 
