@@ -6,7 +6,7 @@ import { Documents } from '../../api/collections/documents';
 import { Images } from '../../api/collections/images';
 
 
-import { List, Button, Switch, Popconfirm } from 'antd';
+import { List, Button, Switch, Popconfirm, message } from 'antd';
 
 import DocumentChange from './document/DocumentChange';
 import DocumentShow from './document/DocumentShow';
@@ -59,60 +59,141 @@ class IndexDocuments extends Component {
 
     let docId = item._id;
     let rejete = item.rejete;
-    
-    if (!!this.props.connecte
-      && this.props.role === "editeur") {
+    let type = item.type;
 
+
+    switch(this.props.role) {
+
+      case 'editeur':
+          
+        return [
+                <Button
+                  type={item.correction ? 'default' : 'primary'}
+                  onClick={() => this.handleBtnCorrect(item)}
+                  icon={this.state.btnId === item._id ? 'close' : 'edit'}
+                />,
+                <Button
+                  type='default'
+                  onClick={() => {
+                    if (!rejete) {
+                      console.log('rejete')
+                      Meteor.call('documents.rejet', docId);
+                    } else {
+                      console.log('accepter')
+                      Meteor.call('documents.accepte', docId);
+                    }
+                  }
+                }
+                  icon={!rejete ? 'check' : 'loading'}
+                />,
+                <Popconfirm
+                  title='Voulez-vous supprimer le document ?'
+                  onConfirm={() => this.handleDocumentDelete(docId)}
+                  onCancel={() => message.error('annulation')}
+                  okText='oui'
+                  cancelText='non'
+                >
+                  <Button type='danger' icon='delete'/>
+
+                </Popconfirm>
+        ]
+      
+      case 'correcteur':
+
+          return [
+            <Button
+              type={item.correction ? 'default' : 'primary'}
+              onClick={() => this.handleBtnCorrect(item)}
+              icon={this.state.btnId === item._id ? 'close' : 'edit'}
+            />,
+            <Popconfirm
+              title='Voulez-vous supprimer le document ?'
+              onConfirm={() => this.handleDocumentDelete(docId)}
+              onCancel={() => message.error('annulation')}
+              okText='oui'
+              cancelText='non'
+            >
+            { rejete ? <Button type='danger' icon='delete'/> : <Button type='danger' disabled icon='delete'/> }
+        
+            </Popconfirm>
+          ]
+        
+      case 'iconographe':
+        
         return [
           <Button
             type={item.correction ? 'default' : 'primary'}
             onClick={() => this.handleBtnCorrect(item)}
-          >
-            { this.state.btnId === item._id ? 'Réduire' : 'Corriger' }
-
-          </Button>,
-          <Button
-            type='default'
-            onClick={() => {
-              if (!rejete) {
-                console.log('rejete')
-                Meteor.call('documents.rejet', docId);
-              } else {
-                console.log('accepter')
-                Meteor.call('documents.accepte', docId);
-              }
-            }
-          }
-          >
-            {rejete ? 'Accepter' : 'Rejeter'}
-          </Button>,
+            icon={this.state.btnId === item._id ? 'close' : 'edit'}
+          />,
           <Popconfirm
-            title='Voulez-vous supprimer le document ?'
-            onConfirm={() => this.handleDocumentDelete(docId)}
-            onCancel={() => message.error('annulation')}
-            okText='oui'
-            cancelText='non'
-          >
-            <Button
-              type='danger'
-            >
-            Supprimer
-            </Button>
+             title='Voulez-vous supprimer le document ?'
+             onConfirm={() => this.handleDocumentDelete(docId)}
+             onCancel={() => message.error('annulation')}
+             okText='oui'
+             cancelText='non'
+           >
+            { rejete ? <Button type='danger' icon='delete'/> : <Button type='danger' disabled icon='delete'/> }
+        
           </Popconfirm>
         ]
 
-      } else {
+    }
 
-        return [
-          <Button
-            type={item.correction ? 'default' : 'primary'}
-            onClick={() => this.handleBtnCorrect(item)}
-          >
-          { this.state.btnId === item._id ? 'En cours de modification' : 'Corriger' }
+    
+    // if (!!this.props.connecte
+    //   && this.props.role === "editeur") {
 
-          </Button>,
-        ];
-      }
+    //     return [
+    //       <Button
+    //         type={item.correction ? 'default' : 'primary'}
+    //         onClick={() => this.handleBtnCorrect(item)}
+    //       >
+    //         { this.state.btnId === item._id ? 'Réduire' : 'Corriger' }
+
+    //       </Button>,
+    //       <Button
+    //         type='default'
+    //         onClick={() => {
+    //           if (!rejete) {
+    //             console.log('rejete')
+    //             Meteor.call('documents.rejet', docId);
+    //           } else {
+    //             console.log('accepter')
+    //             Meteor.call('documents.accepte', docId);
+    //           }
+    //         }
+    //       }
+    //       >
+    //         {rejete ? 'Accepter' : 'Rejeter'}
+    //       </Button>,
+    //       <Popconfirm
+    //         title='Voulez-vous supprimer le document ?'
+    //         onConfirm={() => this.handleDocumentDelete(docId)}
+    //         onCancel={() => message.error('annulation')}
+    //         okText='oui'
+    //         cancelText='non'
+    //       >
+    //         <Button
+    //           type='danger'
+    //         >
+    //         Supprimer
+    //         </Button>
+    //       </Popconfirm>
+    //     ]
+
+    //   } else {
+
+    //     return [
+    //       <Button
+    //         type={item.correction ? 'default' : 'primary'}
+    //         onClick={() => this.handleBtnCorrect(item)}
+    //       >
+    //       { this.state.btnId === item._id ? 'En cours de modification' : 'Corriger' }
+
+    //       </Button>,
+    //     ];
+    //   }
     
   }
 

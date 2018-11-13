@@ -2,8 +2,9 @@ import React, {Component} from 'react';
 import { Meteor } from 'meteor/meteor';
 import { Documents } from '../../../api/collections/documents';
 
+import AjouterImage from '../../outils/iconographe/AjouterImage';
 
-import { Input, Button } from 'antd';
+import { Input, Button, message } from 'antd';
 
 class DocumentChange extends Component {
 
@@ -40,7 +41,8 @@ class DocumentChange extends Component {
             this.props.item._id, 
             this.state.contenu, 
             this.props.utilisateur
-        )
+        );
+        message.success('le document est enregistré');
 
     }
 
@@ -51,23 +53,20 @@ class DocumentChange extends Component {
         let { correction } = this.props.item;
 
         // console.log(this.props.link)
-        // console.log(this.props)
+        console.log(this.props)
 
         return (
             <div>
-                {this.props.link != undefined && (
-                    <div>
-                        <img src={this.props.link} width='100px' />
-                        <Button disabled >Modifier</Button>  
-                    </div>
-                    )  
-                }
-
-                { this.props.link === undefined &&
                 
-                    <Button disabled>Ajouter une image</Button>
+                { this.props.role !== 'correcteur' ?
+                    <AjouterImage {...this.props} document={this.props.item} simpleBtn={true} /> :
+                    undefined
                 }
+                
+
                 <Input.TextArea
+                    // rows={10}
+                    autosize={true}
                     value={contenu}
                     onChange={this.handleChange}
                 />

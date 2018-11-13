@@ -3,12 +3,12 @@ import { Session } from 'meteor/session';
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
 
-import { Documents } from '../../api/collections/documents';
-import DetailsDocument from './DetailsDocument';
+import { Documents } from '../../../api/collections/documents';
+import DetailsDocument from '../DetailsDocument';
 
 import { List, Button, Modal, Input, Switch, Card, Avatar, Divider, Popconfirm, message } from 'antd';
-import { Images } from '../../api/collections/images';
-import AjouterImage from '../outils/iconographe/AjouterImage';
+import { Images } from '../../../api/collections/images';
+import AjouterImage from '../../outils/iconographe/AjouterImage';
 
 const { Meta } = Card;
 const { TextArea } = Input;

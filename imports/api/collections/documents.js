@@ -107,7 +107,7 @@ Meteor.methods({
         let img = Images.findOne({_id: image._id});
         let link = img ? img.link() : null;
 
-        console.log(link)
+        console.log('new doc image',link)
         let imageFormat = `![image](${link})`;
 
         Documents.insert({
@@ -119,18 +119,30 @@ Meteor.methods({
             creation: new Date(),
             correction: false,
             conformation: false,
-            rejete: false,
+            rejete: true,
             type: "image",
             dernireModificationPar: auteur,
             image: image,
         });
     },
 
-    'documents.updateImage'(document, image) {
+    'documents.updateImage'(documentId, documentContenu, image) {
+
+        let img = Images.findOne({_id: image._id});
+        let link = img ? img.link() : null;
+
+        // console.log('insert image to doc', link, document)
+        let imageFormat = `![image](${link})`;
+
+        let contenuFinal = `${imageFormat} ${documentContenu}`;
+
+        console.log(contenuFinal)
+
         Documents.update({
-            _id: document,
+            _id: documentId,
         }, {
             $set: {
+                contenu: contenuFinal,
                 image: image,
                 type: "image",
             }

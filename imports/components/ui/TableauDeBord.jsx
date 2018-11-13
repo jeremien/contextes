@@ -91,7 +91,7 @@ class TableauDeBord extends React.Component {
                         
                         </RadioGroup>
 
-                        <List
+                        {/* <List
                             style={{ margin: '10px' }}
                             size='small'
                             header={<div>Rôles</div>}
@@ -104,7 +104,7 @@ class TableauDeBord extends React.Component {
                                 )
                             }
                         >
-                        </List>
+                        </List> */}
 
                     </Col>
 

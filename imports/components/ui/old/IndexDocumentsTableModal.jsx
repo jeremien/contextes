@@ -3,10 +3,8 @@ import { Session } from 'meteor/session';
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
 
-import ReactMarkrdown from 'react-markdown';
-
-import { Documents } from '../../api/collections/documents';
-import { Images } from '../../api/collections/images';
+import { Documents } from '../../../api/collections/documents';
+import { Images } from '../../../api/collections/images';
 
 import { Table, Divider, Button, Switch, Icon } from 'antd';
 
@@ -95,7 +93,7 @@ class IndexDocumentsTable extends Component {
             title : 'Contenu',
             dataIndex : 'contenu',
             key: 'contenu',
-            render: (item) => <ReactMarkrdown source={item} />
+            render: (item) => item.split(' ')[0].toString() + '...'
         },
         // {
         //     title : 'Auteur',

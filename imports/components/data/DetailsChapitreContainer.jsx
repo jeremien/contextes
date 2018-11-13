@@ -72,7 +72,7 @@ class DetailsChapitreContainer extends React.Component {
                 return {
                     outilgauche: <InfosChapitre {...propToPass} />,
                     outildroit: <div>
-                                <AjouterImages {...propToPass} />
+                                <AjouterImages {...propToPass} simpleBtn={false}/>
                                 <IndexDocuments {...propToPass} />
                                 
                             </div>

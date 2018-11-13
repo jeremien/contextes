@@ -115,8 +115,8 @@ class Timer extends Component {
                             max={3000}
                             value={parseInt(this.state.dureeBoucle)}
                             onChange={this.handleChange}
-                            
                         />
+                        <h2>{ Math.floor(this.state.dureeBoucle / 60) } minutes </h2>
                     </div>
                    
                 }

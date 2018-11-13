@@ -7,7 +7,7 @@ import {  Form, Input, InputNumber, Button, message, Slider, Tag, Divider, Tool
 
 const FormItem = Form.Item;
 const {  TextArea } = Input;
-const dureeBoucle = 20;
+const dureeBoucle = 200;
 
 
 export default class AjouterChapitre extends Component {
@@ -200,21 +200,22 @@ export default class AjouterChapitre extends Component {
 
             <Divider />
 
-            <FormItem label = "Durée des boucles en seconde" >
+            <FormItem label = "Durée des boucles" >
                 <Slider size = "small"
                     min = { 5 }
-                    max = { 900 }
+                    max = { 3000 }
                     value = { this.state.duree }
                     onChange = { this.handleDureeChange }
                 />
 
-                <InputNumber size = "small"
+                {/* <InputNumber size = "small"
                     min = { 5 }
                     max = { 900 }
                     step = { 5 }
-                    value = { this.state.duree }
+                    value = { this.state.duree / 60 }
                     onChange = { this.handleDureeChange }
-                />
+                /> */}
+                <h2>{ Math.floor(this.state.duree / 60) } minutes </h2>
             </FormItem>
 
             <FormItem >
