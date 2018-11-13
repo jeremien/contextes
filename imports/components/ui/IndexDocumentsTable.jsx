@@ -161,10 +161,10 @@ class IndexDocumentsTable extends Component {
                   type='default'
                   onClick={() => {
                     if (!item.rejete) {
-                      console.log('rejete')
+                      // console.log('rejete')
                       Meteor.call('documents.rejet', item._id);
                     } else {
-                      console.log('accepter')
+                      // console.log('accepter')
                       Meteor.call('documents.accepte', item._id);
                     }
                   }

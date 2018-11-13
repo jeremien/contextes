@@ -18,6 +18,7 @@ export default class DetailsChapitre extends Component {
             visibleChat: false,
             visibleLogin : false,
             test: 0,
+            edition : false,
         }
 
         // this.showLoginModal = this.showLoginModal.bind(this);
@@ -60,22 +61,24 @@ export default class DetailsChapitre extends Component {
                         <Layout>
                             <h2>{this.props.chapitre.titre}</h2>
                             <div>
-                                <Button
-                                    onClick={() => this.setState({ visibleInfo: true })}
-                                >
-                                    Informations
-                                        </Button>
-                                <Button
-                                    onClick={() => this.setState({ visibleChat: true })}
-                                >
-                                    Discussion
-                                        </Button>
-    
-                                <Button
-                                    onClick={() => this.props.history.push(`/session/${this.props.chapitre.session}/chapitre/${this.props.chapitre._id}/draft`)}
-                                >
-                                    Brouillon
-                                </Button>
+                                <Button.Group>
+                                    <Button
+                                        onClick={() => this.setState({ visibleInfo: true })}
+                                    >
+                                        Informations
+                                            </Button>
+                                    <Button
+                                        onClick={() => this.setState({ visibleChat: true })}
+                                    >
+                                        Discussion
+                                            </Button>
+        
+                                    <Button
+                                        onClick={() => this.props.history.push(`/session/${this.props.chapitre.session}/chapitre/${this.props.chapitre._id}/draft`)}
+                                    >
+                                        Brouillon
+                                    </Button>
+                                </Button.Group>
     
                                 <Drawer
                                     title={`${this.props.chapitre.titre}`}
@@ -121,11 +124,14 @@ export default class DetailsChapitre extends Component {
                     return (
                     
                         <div>
-                            <Button onClick={() => this.props.history.push(`/session/${this.props.chapitre.session}/chapitre/${this.props.chapitre._id}`)}>{`Retour au chapitre ${this.props.chapitre.titre}`}</Button>
+                            <Button.Group>
+                                <Button onClick={() => this.props.history.push(`/session/${this.props.chapitre.session}/chapitre/${this.props.chapitre._id}`)}>{`Retour au chapitre ${this.props.chapitre.titre}`}</Button>
+                                { this.props.role === 'editeur' ? <Button onClick={() => this.setState({ edition : !this.state.edition})}>{this.state.edition ? 'Voir' : 'Editer' }</Button> : undefined}
+                            </Button.Group>
                             <Divider/>
                             <h3>{`Chapitre ${this.props.chapitre.titre} en cours de transcription`}</h3>
                             <Divider/>
-                            <DetailsDocumentsContainer {...this.props.chapitre} />
+                            <DetailsDocumentsContainer {...this.props.chapitre} {...this.props} edition={this.state.edition} />
                         </div>         
                     
                         )

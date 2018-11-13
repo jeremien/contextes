@@ -107,7 +107,7 @@ Meteor.methods({
         let img = Images.findOne({_id: image._id});
         let link = img ? img.link() : null;
 
-        console.log('new doc image',link)
+        // console.log('new doc image',link)
         let imageFormat = `![image](${link})`;
 
         Documents.insert({
@@ -136,7 +136,7 @@ Meteor.methods({
 
         let contenuFinal = `${imageFormat} ${documentContenu}`;
 
-        console.log(contenuFinal)
+        // console.log(contenuFinal)
 
         Documents.update({
             _id: documentId,

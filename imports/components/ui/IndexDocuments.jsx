@@ -141,60 +141,6 @@ class IndexDocuments extends Component {
     }
 
     
-    // if (!!this.props.connecte
-    //   && this.props.role === "editeur") {
-
-    //     return [
-    //       <Button
-    //         type={item.correction ? 'default' : 'primary'}
-    //         onClick={() => this.handleBtnCorrect(item)}
-    //       >
-    //         { this.state.btnId === item._id ? 'Réduire' : 'Corriger' }
-
-    //       </Button>,
-    //       <Button
-    //         type='default'
-    //         onClick={() => {
-    //           if (!rejete) {
-    //             console.log('rejete')
-    //             Meteor.call('documents.rejet', docId);
-    //           } else {
-    //             console.log('accepter')
-    //             Meteor.call('documents.accepte', docId);
-    //           }
-    //         }
-    //       }
-    //       >
-    //         {rejete ? 'Accepter' : 'Rejeter'}
-    //       </Button>,
-    //       <Popconfirm
-    //         title='Voulez-vous supprimer le document ?'
-    //         onConfirm={() => this.handleDocumentDelete(docId)}
-    //         onCancel={() => message.error('annulation')}
-    //         okText='oui'
-    //         cancelText='non'
-    //       >
-    //         <Button
-    //           type='danger'
-    //         >
-    //         Supprimer
-    //         </Button>
-    //       </Popconfirm>
-    //     ]
-
-    //   } else {
-
-    //     return [
-    //       <Button
-    //         type={item.correction ? 'default' : 'primary'}
-    //         onClick={() => this.handleBtnCorrect(item)}
-    //       >
-    //       { this.state.btnId === item._id ? 'En cours de modification' : 'Corriger' }
-
-    //       </Button>,
-    //     ];
-    //   }
-    
   }
 
 
@@ -238,8 +184,8 @@ class IndexDocuments extends Component {
                     actions={this.renderActionDocuments(item)}
                   >  
                     {this.state.btnId === item._id ? 
-                      <DocumentChange {...this.props} item={item} link={link} /> 
-                      : <DocumentShow item={item} link={link}/>}
+                      <DocumentChange {...this.props} item={item} /> 
+                      : <DocumentShow item={item} />}
 
                   </List.Item>
                 )

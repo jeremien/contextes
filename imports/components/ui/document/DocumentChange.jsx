@@ -53,7 +53,7 @@ class DocumentChange extends Component {
         let { correction } = this.props.item;
 
         // console.log(this.props.link)
-        console.log(this.props)
+        // console.log(this.props)
 
         return (
             <div>

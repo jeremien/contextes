@@ -32,8 +32,8 @@ export default class AjouterImage extends Component {
             onUploaded: (error, fileRef) => self.ajoutDocument(fileRef),
         }, false);
         upload.on('start', function () {
-            console.log('debut up')
-            console.log(upload)
+            // console.log('debut up')
+            // console.log(upload)
         });
 
         upload.on('end', function (error, fileRef) {
@@ -43,7 +43,7 @@ export default class AjouterImage extends Component {
                 console.log(fileRef)
                 alert('done');
             }
-            console.log('fin up')
+            // console.log('fin up')
 
         });
         upload.start();
@@ -51,7 +51,7 @@ export default class AjouterImage extends Component {
 
     ajoutDocument(image) {
         if (!!this.props.document) {
-            console.log(this.props.document.contenu)
+            // console.log(this.props.document.contenu)
             Meteor.call('documents.updateImage', this.props.document._id, this.props.document.contenu, image)
         }
         else {

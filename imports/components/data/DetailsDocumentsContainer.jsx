@@ -4,12 +4,15 @@ import { withTracker } from 'meteor/react-meteor-data'
 import { Documents } from '../../api/collections/documents'
 import { Images } from '../../api/collections/images';
 
-import DetailsDocumentVisualisation from '../ui/DetailsDocumentVisualisation';
+import DetailsDocumentVisualisation from '../ui/document/DetailsDocumentVisualisation';
+import DetailsDocumentEdition from '../ui/document/DetailsDocumentEdition';
 
 class DetailsDocumentsContainer extends Component {
 
 
     render() {
+
+        // console.log(this.props)
 
         if (!this.props.loading) {
 
@@ -19,7 +22,16 @@ class DetailsDocumentsContainer extends Component {
 
                     if (!item.rejete) {
 
-                            return <DetailsDocumentVisualisation key={item._id} {...item} />
+                            if (this.props.edition) {
+
+                                return <DetailsDocumentEdition key={item._id} {...item} />
+
+                            } else {
+                                
+                                return <DetailsDocumentVisualisation key={item._id} {...item} />
+
+                            }
+
                         
                     } else {
 

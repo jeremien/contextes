@@ -4,7 +4,7 @@ import ReactMarkdown from 'react-markdown';
 const DetailsDocumentVisualisation = (props) => {
 
 
-    return <div>
+    return <div className='visualisation'>
                 <ReactMarkdown
                     source={props.contenu}
                 />
