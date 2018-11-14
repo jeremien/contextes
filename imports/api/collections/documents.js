@@ -8,6 +8,9 @@ import {
     check
 } from 'meteor/check';
 
+import { Images } from './images';
+import Item from 'antd/lib/list/Item';
+
 export const Documents = new Mongo.Collection('documents');
 /**
  * Effectue une sauvegarde à chaque modification. 
@@ -31,6 +34,7 @@ Meteor.methods({
      * Le champ type peut être texte, image, note manuscrite, etc. Un type null correspond à un document supprimé
      */
     'documents.insert'(session, chapitre, contenu, auteur) {
+
         Documents.insert({
             session: session,
             chapitre: chapitre,
@@ -98,26 +102,47 @@ Meteor.methods({
     },
 
     'documents.addImage'(session, chapitre, auteur, image) {
+
+
+        let img = Images.findOne({_id: image._id});
+        let link = img ? img.link() : null;
+
+        // console.log('new doc image',link)
+        let imageFormat = `![image](${link})`;
+
         Documents.insert({
             session: session,
             chapitre: chapitre,
-            contenu: '',
+            contenu: imageFormat,
+            // contenu: '',
             auteur: auteur,
             creation: new Date(),
             correction: false,
             conformation: false,
-            rejete: false,
+            rejete: true,
             type: "image",
             dernireModificationPar: auteur,
             image: image,
         });
     },
 
-    'documents.updateImage'(document, image) {
+    'documents.updateImage'(documentId, documentContenu, image) {
+
+        let img = Images.findOne({_id: image._id});
+        let link = img ? img.link() : null;
+
+        // console.log('insert image to doc', link, document)
+        let imageFormat = `![image](${link})`;
+
+        let contenuFinal = `${imageFormat} ${documentContenu}`;
+
+        // console.log(contenuFinal)
+
         Documents.update({
-            _id: document,
+            _id: documentId,
         }, {
             $set: {
+                contenu: contenuFinal,
                 image: image,
                 type: "image",
             }

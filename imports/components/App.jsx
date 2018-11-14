@@ -141,7 +141,8 @@ class Application extends Component {
             {/* <Route path="/" render={(props) => <FilAriane {...props} {...propsToPass} />} /> */}
             <Route exact path="/sessions" render={(props) => <IndexSessionsContainer {...props} {...propsToPass} />} />
             <Route path="/sessions/:sessionId" render={(props) => <DetailsSession {...props} {...propsToPass} />} />
-            <Route path="/session/:idSession/chapitre/:idChapitre" render={(props) => <DetailsChapitreContainer {...props} {...propsToPass} />} />
+            <Route exact path="/session/:idSession/chapitre/:idChapitre" render={(props) => <DetailsChapitreContainer {...props} {...propsToPass} draft={false}/>} />
+            <Route path="/session/:idSession/chapitre/:idChapitre/draft" render={(props) => <DetailsChapitreContainer {...props} {...propsToPass} draft={true}/>} />
 
             <Route path="/publications" render={(props) => <IndexPublicationsContainer {...props} {...propsToPass} />} />
             <Route exact path="/publication/:idPublication" render={(props) => <DetailsPublicationsContainer {...props} {...propsToPass} layout={false} />} />

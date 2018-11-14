@@ -92,13 +92,16 @@ class Timer extends Component {
     render() {
         // console.log(this.state)
 
+        let minutes = Math.floor(this.props.chapitre.timer / 60);
+        let seconds = this.props.chapitre.timer - minutes * 60;
+
         return (
             <div>
                 {this.props.role == "editeur" &&
 
                     <div>
                         <div style={{ fontSize: '1.5rem' }}>
-                            <Icon type='clock-circle'/>  {this.props.chapitre.timer}
+                            <Icon type='clock-circle'/>  {minutes}'{seconds}''
                         </div>
                         <Divider/>
                         <ButtonGroup>
@@ -113,20 +116,8 @@ class Timer extends Component {
                             max={3000}
                             value={parseInt(this.state.dureeBoucle)}
                             onChange={this.handleChange}
-                            
                         />
-                        <h4>Nombre de transcirpteurs simultanés</h4>
-                        <Slider
-                            size="small"
-                            min={1}
-                            max={5}
-                            value={parseInt(this.state.transcripteursSimultanes)}
-                            onChange={(value) => {
-                                Meteor.call('timer.simultanes', value)
-                                this.setState({ transcripteursSimultanes: value });
-                            }}
-                            
-                        />
+                        <h2>{ Math.floor(this.state.dureeBoucle / 60) } minutes </h2>
                     </div>
                    
                 }

@@ -22,9 +22,9 @@ export default function InfosSession(props) {
             <p>auteur : {props.session.auteur}</p>
             <p>date de création : {props.session.creation.toLocaleDateString()}</p>
             <p>dernière modification : {props.session.lastModified.toLocaleDateString()}</p>
-            <ul>catégories : {
+            {/* <ul>catégories : {
                 categories(props)
-            }</ul>
+            }</ul> */}
         </Card>
     )
 

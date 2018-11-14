@@ -146,7 +146,7 @@ class AjouterSession extends Component {
                         />
                     </FormItem>
 
-                    <FormItem
+                    {/* <FormItem
                         label="Transcripteurs"
                     >   
                         <Slider 
@@ -165,7 +165,7 @@ class AjouterSession extends Component {
                             onChange={this.handleTranscripteursChange}
                         />
 
-                    </FormItem>
+                    </FormItem> */}
 
                     {/* <FormItem
                         label="Correcteurs"
@@ -190,7 +190,7 @@ class AjouterSession extends Component {
 
                     </FormItem> */}
 
-                    <Divider/>
+                    {/* <Divider/>
 
                     <FormItem
                         label="Catégorie"
@@ -205,7 +205,7 @@ class AjouterSession extends Component {
                     
                     </FormItem>
 
-                    <Divider/>
+                    <Divider/> */}
 
                     <FormItem >
                         <Button 

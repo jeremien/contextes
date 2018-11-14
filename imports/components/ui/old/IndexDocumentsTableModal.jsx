@@ -3,12 +3,10 @@ import { Session } from 'meteor/session';
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
 
-import ReactMarkdown from 'react-markdown';
+import { Documents } from '../../../api/collections/documents';
+import { Images } from '../../../api/collections/images';
 
-import { Documents } from '../../api/collections/documents';
-import { Images } from '../../api/collections/images';
-
-import { Table, Divider, Button, Switch, Icon, message, Popconfirm } from 'antd';
+import { Table, Divider, Button, Switch, Icon } from 'antd';
 
 
 class IndexDocumentsTable extends Component {
@@ -23,52 +21,19 @@ class IndexDocumentsTable extends Component {
       }
 
       this.exportData = this.exportData.bind(this);
-      this.exportNewDoc = this.exportNewDoc.bind(this);
 
   }  
 
-  handleDocumentDelete(docId) {
-    Meteor.call('documents.remove', docId);
-  }
-
   renderDataTable() {
 
-    // const data = this.props.documents.filter((item) => {
-    //   return item.rejete === false;
-    // })
-
-    // return data.map((item, key) => {
-    //     item.key = key;
-    //     return item;
-    // });
-
-    return this.props.documents.map((item, key) => {
-      item.key = key;
-      return item;
-    });
-
-  }
-
-  exportNewDoc() {
-
-    // console.log(this.state.publicationData)
-
-    let newContenu = '';
-
-    this.state.publicationData.forEach((item) => {
-      newContenu += ' ' + item.contenu
+    const data = this.props.documents.filter((item) => {
+      return item.rejete === false;
     })
 
-    // console.log(newContenu)
-
-    Meteor.call('documents.insert', 
-                this.props.chapitre.session,
-                this.props.chapitre._id,
-                newContenu,
-                this.props.utilisateur 
-                );
-
-    message.success('nouveau document créé');
+    return data.map((item, key) => {
+        item.key = key;
+        return item;
+    });
 
   }
 
@@ -121,75 +86,49 @@ class IndexDocumentsTable extends Component {
 
   render() {
 
+    // console.log(this.props.chapitre.session)
+
     const columns = [
         {
             title : 'Contenu',
             dataIndex : 'contenu',
-            defaultSortOrder: 'descend',
-            sorter: (a, b) => a.contenu.length - b.contenu.length,
-            render: (item) => <ReactMarkdown source={item} />
+            key: 'contenu',
+            render: (item) => item.split(' ')[0].toString() + '...'
         },
-
+        // {
+        //     title : 'Auteur',
+        //     dataIndex : 'auteur',
+        //     key: 'auteur'
+        // },
         {
-            title : 'Création',
+            title : 'Creation',
             dataIndex : 'creation',
-            defaultSortOrder: 'descend',
-            sorter: (a, b) => a.creation - b.creation,
+            key: 'creation',
             render: (item) => item.toLocaleTimeString()
         },
         {
-            title : 'Correction',
+            title : 'Corrigé',
             dataIndex : 'correction',
-            defaultSorterOrder: 'descend',
-            sorter: (a, b) => a.correction - b.correction,
+            key: 'correction',
+            // render: (item) => item.toString()
             render: (item) => item ? <Icon type='check-circle' style={{ color : 'green'}} /> : <Icon type='close-circle' style={{ color : 'red'}} />
         },
         {
             title : 'Type',
             dataIndex : 'type',
-            defaultSorterOrder: 'descend',
-            sorter: (a, b) => a.type - b.type,
+            key : 'type',
             render: (item) => item != 'image' ? 'texte' : 'image'
-        },
-        {
-            title : 'Action',
-            key : 'action',
-            render : (item) => {
-              return (
-                <Button.Group>
-                  <Button
-                  type='default'
-                  onClick={() => {
-                    if (!item.rejete) {
-                      // console.log('rejete')
-                      Meteor.call('documents.rejet', item._id);
-                    } else {
-                      // console.log('accepter')
-                      Meteor.call('documents.accepte', item._id);
-                    }
-                  }
-                }
-                  icon={!item.rejete ? 'check' : 'loading'}
-                />
-                  <Popconfirm
-                    title='Voulez-vous supprimer le document ?'
-                    onConfirm={() => this.handleDocumentDelete(item._id)}
-                    onCancel={() => message.error('annulation')}
-                    okText='oui'
-                    cancelText='non'
-                  >
-                    <Button type='danger' icon='delete'/>
-                  </Popconfirm>
-                </Button.Group>
-              )
-            }
         }
-     
+        // {
+        //     title : 'Rejeté',
+        //     dataIndex : 'rejete',
+        //     key: 'rejete',
+        //     render: (item) => item.toString()
+        // }
 
     ];
 
     const data = this.renderDataTable();
-    // const data = this.props.documents;
 
     // console.log(data)
 
@@ -208,21 +147,21 @@ class IndexDocumentsTable extends Component {
 
         <div>
 
-          {/* <h4>Publication</h4> */}
+          <h4>Publication</h4>
           
-          {/* <Switch 
+          <Switch 
             defaultChecked={!this.state.toggleActionDocTable}
             onChange={() => this.setState({ toggleActionDocTable : !this.state.toggleActionDocTable})}
             style={{ marginBottom: '20px' }}
           />
 
-          { this.state.toggleActionDocTable && */}
+          { !this.state.toggleActionDocTable &&
 
             <div>
             
               <div style={{ marginBottom: 16 }}> 
                 <Button
-                  onClick={this.exportNewDoc}
+                  onClick={() => console.log('nouveau doc')}
                 >
                   Exporter vers un nouveau document
                 </Button>
@@ -232,7 +171,6 @@ class IndexDocumentsTable extends Component {
                   Exporter vers une nouvelle publication
                 </Button>
                 <Button
-                  disabled
                   onClick={() => console.log('update pub')}
                 >
                   Ajouter à une publication existante
@@ -247,7 +185,7 @@ class IndexDocumentsTable extends Component {
                 />
 
             </div>
-          {/* }     */}
+          }    
 
         </div>
 

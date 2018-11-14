@@ -27,7 +27,8 @@ class DisplayTimer extends Component {
 
     render() {
 
-        // console.log(this.props)
+        let minutes = Math.floor(this.props.chapitre.timer / 60);
+        let seconds = this.props.chapitre.timer - minutes * 60;
 
         return (
             <ButtonGroup>
@@ -38,7 +39,7 @@ class DisplayTimer extends Component {
                     type={this.state.buttonType}
                     onClick={() => this.passerSonTour()}
                 >
-                    <Icon type='clock-circle' /> {this.props.chapitre.timer}
+                    <Icon type='clock-circle' /> {minutes}'{seconds}''
 
                 </Button>
 

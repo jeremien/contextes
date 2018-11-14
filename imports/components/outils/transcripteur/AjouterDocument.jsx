@@ -65,7 +65,7 @@ export default class AjouterDocument extends Component {
                     value={this.state.commentaire}
                     autosize={{ minRows: 10, maxRows: 200 }}
                     onChange={this.handleChange}
-                    onPressEnter={this.handleSubmit}
+                    // onPressEnter={this.handleSubmit}
                     style={{ fontSize: '1.5rem'}}
                 >
                     <div style={{ margin: '24px 0', fontSize: '50px'}} />

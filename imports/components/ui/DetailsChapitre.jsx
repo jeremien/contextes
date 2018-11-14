@@ -18,6 +18,7 @@ export default class DetailsChapitre extends Component {
             visibleChat: false,
             visibleLogin : false,
             test: 0,
+            edition : false,
         }
 
         // this.showLoginModal = this.showLoginModal.bind(this);
@@ -36,7 +37,7 @@ export default class DetailsChapitre extends Component {
 
     render() {
 
-        console.log(this.props)
+        // console.log(this.props)
 
         if (this.props.loading) {
             
@@ -53,59 +54,91 @@ export default class DetailsChapitre extends Component {
 
                 //TODO : ajouter le titre de la session dans le detail du chapitre
 
-                return (
+                if (!this.props.draft) {
 
-                    <Layout>
-                        <h2>{this.props.chapitre.titre}</h2>
+                    return (
+
+                        <Layout>
+                            <h2>{this.props.chapitre.titre}</h2>
+                            <div>
+                                <Button.Group>
+                                    <Button
+                                        onClick={() => this.setState({ visibleInfo: true })}
+                                    >
+                                        Informations
+                                            </Button>
+                                    <Button
+                                        onClick={() => this.setState({ visibleChat: true })}
+                                    >
+                                        Discussion
+                                            </Button>
+        
+                                    <Button
+                                        onClick={() => this.props.history.push(`/session/${this.props.chapitre.session}/chapitre/${this.props.chapitre._id}/draft`)}
+                                    >
+                                        Brouillon
+                                    </Button>
+                                </Button.Group>
+    
+                                <Drawer
+                                    title={`${this.props.chapitre.titre}`}
+                                    placement="left"
+                                    closable={true}
+                                    onClose={() => this.setState({ visibleInfo: false })}
+                                    visible={this.state.visibleInfo}
+                                >
+    
+                                    {this.props.outils.outilgauche}
+                                    
+                                    <Divider />
+                                    <ConnexionsCourantes {...this.props} />
+    
+                                </Drawer>
+    
+                                <Drawer
+                                    title="Discussion"
+                                    placement="right"
+                                    closable={true}
+                                    onClose={() => this.setState({ visibleChat: false })}
+                                    visible={this.state.visibleChat}
+                                >
+    
+                                    <Chatbox { ...this.props } />
+                                    
+    
+                                </Drawer>
+                            </div>
+    
+    
+                            <Divider />
+    
+                            {this.props.outils.outildroit}
+    
+                        </Layout>
+    
+                    )
+
+
+                } else {
+
+                    return (
+                    
                         <div>
-                            <Button
-                                onClick={() => this.setState({ visibleInfo: true })}
-                            >
-                                informations
-                                    </Button>
-                            <Button
-                                onClick={() => this.setState({ visibleChat: true })}
-                            >
-                                discussion
-                                    </Button>
+                            <Button.Group>
+                                <Button onClick={() => this.props.history.push(`/session/${this.props.chapitre.session}/chapitre/${this.props.chapitre._id}`)}>{`Retour au chapitre ${this.props.chapitre.titre}`}</Button>
+                                { this.props.role === 'editeur' ? <Button onClick={() => this.setState({ edition : !this.state.edition})}>{this.state.edition ? 'Voir' : 'Editer' }</Button> : undefined}
+                            </Button.Group>
+                            <Divider/>
+                            <h3>{`Chapitre ${this.props.chapitre.titre} en cours de transcription`}</h3>
+                            <Divider/>
+                            <DetailsDocumentsContainer {...this.props.chapitre} {...this.props} edition={this.state.edition} />
+                        </div>         
+                    
+                        )
 
-                            <Drawer
-                                title={`${this.props.chapitre.titre}`}
-                                placement="left"
-                                closable={true}
-                                onClose={() => this.setState({ visibleInfo: false })}
-                                visible={this.state.visibleInfo}
-                            >
+                }
+                
 
-                                {this.props.outils.outilgauche}
-                                
-                                <Divider />
-                                <ConnexionsCourantes {...this.props} />
-
-                            </Drawer>
-
-                            <Drawer
-                                title="Discussion"
-                                placement="right"
-                                closable={true}
-                                onClose={() => this.setState({ visibleChat: false })}
-                                visible={this.state.visibleChat}
-                            >
-
-                                <Chatbox { ...this.props } />
-                                
-
-                            </Drawer>
-                        </div>
-
-
-                        <Divider />
-
-                        {this.props.outils.outildroit}
-
-                    </Layout>
-
-                )
 
             } else {
 
@@ -117,26 +150,6 @@ export default class DetailsChapitre extends Component {
                     </div>         
                 
                     )
-    
-
-                // return (
-                //     <Modal
-                //         title='Login'
-                //         visible={this.state.visibleLogin}
-                //         // onOk={() => {
-                //         //     this.setState({
-                //         //         visibleLogin: false
-                //         //     })
-                //         // }}
-                //         onCancel={() => {
-                //             this.setState({
-                //                 visibleLogin: false
-                //             })
-                //         }}
-                //     >
-                //         <Login chapitre={this.props.chapitre._id} role={this.props.session.role || {}} />
-                //     </Modal>
-                // )
 
             }
 

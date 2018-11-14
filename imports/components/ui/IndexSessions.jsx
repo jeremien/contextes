@@ -83,7 +83,7 @@ export default class IndexSessions extends Component {
                                 type: "success"
                             }
     
-                            Meteor.call('notification', infos);
+                            // Meteor.call('notification', infos);
                             Meteor.call('log.insert', 'notification', infos.message );    
 
                         }
@@ -121,7 +121,7 @@ export default class IndexSessions extends Component {
     }
 
     render() {
-        console.log(this.props)
+        // console.log(this.props)
         const { match, path, ...rest } = this.props;
         return (
 

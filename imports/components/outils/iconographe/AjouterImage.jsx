@@ -32,8 +32,8 @@ export default class AjouterImage extends Component {
             onUploaded: (error, fileRef) => self.ajoutDocument(fileRef),
         }, false);
         upload.on('start', function () {
-            console.log('debut up')
-            console.log(upload)
+            // console.log('debut up')
+            // console.log(upload)
         });
 
         upload.on('end', function (error, fileRef) {
@@ -43,7 +43,7 @@ export default class AjouterImage extends Component {
                 console.log(fileRef)
                 alert('done');
             }
-            console.log('fin up')
+            // console.log('fin up')
 
         });
         upload.start();
@@ -60,7 +60,8 @@ export default class AjouterImage extends Component {
 
     ajoutDocument(image) {
         if (!!this.props.document) {
-            Meteor.call('documents.updateImage', this.props.document._id, image)
+            // console.log(this.props.document.contenu)
+            Meteor.call('documents.updateImage', this.props.document._id, this.props.document.contenu, image)
         }
         else {
             Meteor.call('documents.addImage', this.props.chapitre.session, this.props.chapitre._id, this.props.utilisateur, image)
@@ -69,30 +70,43 @@ export default class AjouterImage extends Component {
     }
 
     render() {
-        return (
 
-            <div className="ajouter-image">
-                <Switch
-                    defaultChecked={this.state.toggleAjouterImage}
-                    onChange={() => this.setState({ toggleAjouterImage: !this.state.toggleAjouterImage })}
-                    style={{ marginBottom: '20px' }}
-                />
+        if (!this.props.simpleBtn) {
 
-                {this.state.toggleAjouterImage &&
-                <div>
-                <Upload.Dragger data={this.handleSubmit}>
-                    <p className="ant-upload-drag-icon">
-                        <Icon type="inbox" />
-                    </p>
-                    <p className="ant-upload-text">Click or drag file to this area to upload</p>
-                    <p className="ant-upload-hint">Support for a single or bulk upload. Strictly prohibit from uploading company data or other band files</p>
-                </Upload.Dragger>
+            return (
 
-                <input value={this.state.lien} type="text" onChange={this.handleLoad} />
-                <button type="submit" placeholder="Envoyer" />
+                <div className="ajouter-image">
+                    <Switch
+                        defaultChecked={this.state.toggleAjouterImage}
+                        onChange={() => this.setState({ toggleAjouterImage: !this.state.toggleAjouterImage })}
+                        style={{ marginBottom: '20px' }}
+                    />
+    
+                    {this.state.toggleAjouterImage &&
+                    <Upload.Dragger data={this.handleSubmit}>
+                        <p className="ant-upload-drag-icon">
+                            <Icon type="inbox" />
+                        </p>
+                        <p className="ant-upload-text">Click or drag file to this area to upload</p>
+                        <p className="ant-upload-hint">Support for a single or bulk upload. Strictly prohibit from uploading company data or other band files</p>
+                    </Upload.Dragger>
+                    }
                 </div>
-                }
-            </div>
-        )
+            )
+
+        } else {
+
+            return (
+                    <div>
+                        <Upload name='upload file' data={this.handleSubmit} listType='picture'>
+                            <Button>
+                                <Icon type='upload' /> Ajouter une image
+                            </Button>
+                        </Upload>
+                    </div>
+                )
+
+        }
+
     }
 }

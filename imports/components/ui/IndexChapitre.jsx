@@ -97,7 +97,7 @@ export default class IndexChapitres extends Component {
                 type: "success"
               }
   
-              Meteor.call('notification', infos);
+              // Meteor.call('notification', infos);
               Meteor.call('log.insert', 'notification', infos.message );
             }
 
