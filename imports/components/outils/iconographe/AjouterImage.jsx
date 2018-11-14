@@ -49,6 +49,15 @@ export default class AjouterImage extends Component {
         upload.start();
     }
 
+    handleLoad(e) {
+        e.preventDefault();
+        // this.props.form.validateFields((err, values) => {
+        //   if (!err) {
+        //     console.log('Received values of form: ', values);
+        //   }
+        // });
+      }
+
     ajoutDocument(image) {
         if (!!this.props.document) {
             Meteor.call('documents.updateImage', this.props.document._id, image)
@@ -70,6 +79,7 @@ export default class AjouterImage extends Component {
                 />
 
                 {this.state.toggleAjouterImage &&
+                <div>
                 <Upload.Dragger data={this.handleSubmit}>
                     <p className="ant-upload-drag-icon">
                         <Icon type="inbox" />
@@ -77,6 +87,10 @@ export default class AjouterImage extends Component {
                     <p className="ant-upload-text">Click or drag file to this area to upload</p>
                     <p className="ant-upload-hint">Support for a single or bulk upload. Strictly prohibit from uploading company data or other band files</p>
                 </Upload.Dragger>
+
+                <input value={this.state.lien} type="text" onChange={this.handleLoad} />
+                <button type="submit" placeholder="Envoyer" />
+                </div>
                 }
             </div>
         )
