@@ -13,9 +13,11 @@ class LayoutPublication extends Component {
 
     render() {
 
+        // console.log(this.props.data)
+
         return (
     
-            <div> 
+            <div className='layout'> 
                 
                 <Button.Group>
                     <Button onClick={this.exportPDF.bind(this)}>Exporter en PDF</Button>
@@ -35,9 +37,8 @@ class LayoutPublication extends Component {
                     margin='1cm'
                 >
 
-                    <div>
+                    <div >
                         <h2>{this.props.titre}</h2>
-                        {/* {this.props.data} */}
                         <ReactMarkdown 
                             source={this.props.data} 
                         />

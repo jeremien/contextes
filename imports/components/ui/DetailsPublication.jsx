@@ -43,7 +43,7 @@ class DetailsPublication extends Component {
 
         const str = this.props.publication.data.map((item) => {
 
-            console.log(item)
+            // console.log(item)
 
             return item;
         })

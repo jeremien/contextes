@@ -51,15 +51,31 @@ class IndexDocumentsTable extends Component {
 
   exportNewDoc() {
 
-    // console.log(this.state.publicationData)
+    if (this.state.publicationData.length === 0) {
+      message.error("il n'y a pas de documents !");
+      return;
+    }
+
+    // if (this.state.publicationData.length === 1) {
+    //   message.error("il n'y a qu'un seul document!");
+    //   return;
+    // }
+
+    // this.state.publicationData.forEach((item) => {
+    //   if (item.type === 'image') {
+    //     message.error('les documents contiennent des images!');
+    //     return;
+    //   }
+    // })
 
     let newContenu = '';
 
     this.state.publicationData.forEach((item) => {
-      newContenu += ' ' + item.contenu
-    })
+      newContenu += `${item.contenu} `;
 
-    // console.log(newContenu)
+      // this.handleDocumentDelete(item._id);
+
+    })
 
     Meteor.call('documents.insert', 
                 this.props.chapitre.session,
@@ -68,7 +84,9 @@ class IndexDocumentsTable extends Component {
                 this.props.utilisateur 
                 );
 
-    message.success('nouveau document créé');
+    
+
+    message.success('le nouveau est document créé');
 
   }
 
@@ -97,7 +115,7 @@ class IndexDocumentsTable extends Component {
 
       } else {
 
-        arr.push(link);
+        arr.push(`![image](${link})`);
         arr.push(contenu);
       }
       
@@ -123,11 +141,36 @@ class IndexDocumentsTable extends Component {
 
     const columns = [
         {
-            title : 'Contenu',
+            title : 'Texte',
             dataIndex : 'contenu',
             defaultSortOrder: 'descend',
-            sorter: (a, b) => a.contenu.length - b.contenu.length,
-            render: (item) => <ReactMarkdown source={item} />
+            sorter: (a, b) => {
+              return !a.contenu - !b.contenu
+
+            },
+            render: (item) => {
+              if (!item) {
+                return <Icon type='close-circle' style={{ color : 'red'}} />
+              } else {
+                return <Icon type='check-circle' style={{ color : 'green'}} /> 
+              }
+            }
+        },
+
+        {
+          title : 'Image',
+          dataIndex : 'image',
+          defaultSortOrder: 'descend',
+          sorter: (a, b) => {
+            return !a.image - !b.image
+          },
+          render: (item) => {
+            if (!item) {
+              return <Icon type='close-circle' style={{ color : 'red'}} />
+            } else {
+              return <Icon type='check-circle' style={{ color : 'green'}} /> 
+            }
+          }
         },
 
         {
@@ -143,13 +186,6 @@ class IndexDocumentsTable extends Component {
             defaultSorterOrder: 'descend',
             sorter: (a, b) => a.correction - b.correction,
             render: (item) => item ? <Icon type='check-circle' style={{ color : 'green'}} /> : <Icon type='close-circle' style={{ color : 'red'}} />
-        },
-        {
-            title : 'Type',
-            dataIndex : 'type',
-            defaultSorterOrder: 'descend',
-            sorter: (a, b) => a.type - b.type,
-            render: (item) => item != 'image' ? 'texte' : 'image'
         },
         {
             title : 'Action',
@@ -221,11 +257,17 @@ class IndexDocumentsTable extends Component {
             <div>
             
               <div style={{ marginBottom: 16 }}> 
-                <Button
-                  onClick={this.exportNewDoc}
-                >
-                  Exporter vers un nouveau document
-                </Button>
+                {/* <Popconfirm
+                    title='Voulez-vous fusionner les documents ?'
+                    onConfirm={this.exportNewDoc}
+                    onCancel={() => message.error('annulation')}
+                    okText='oui'
+                    cancelText='non'
+                  > */}
+                  <Button
+                    disabled 
+                    onClick={this.exportNewDoc}>Fusionner les documents textes</Button>
+                {/* </Popconfirm> */}
                 <Button
                   onClick={this.exportData}
                 >
@@ -242,6 +284,32 @@ class IndexDocumentsTable extends Component {
                 <Table 
                     rowSelection={rowSelection}
                     columns={columns}
+                    expandedRowRender={(data) => {
+                    // console.log(data)
+
+                      if (!data.image) {
+                        
+                        return <ReactMarkdown source={data.contenu} />
+
+                      } else {
+
+                        let img, link, contenu;
+
+                        if (data.image != null) {
+                          img = Images.findOne({_id: data.image._id})
+                          link = img ? img.link() : null;
+                        }
+
+                        if (data.contenu === undefined) {
+                          return <img src={link} />
+                        } else {
+                          let contenu = `![image](${link}) ${data.contenu}`
+                          return <ReactMarkdown source={contenu} />
+                        }
+
+                      }
+
+                    }}
                     dataSource={data}
                     size='small'
                 />

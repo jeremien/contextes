@@ -1,6 +1,6 @@
 
 img {
-    width : 50px;
+    width : 100px;
 }
 
 .visualisation {
@@ -9,6 +9,18 @@ img {
 
     img {
         width : 250px;
+    }
+
+}
+
+.layout {
+
+    // background-color: white;
+
+    // font-family: $dejaVu-sans;
+
+    img {
+        width : 100%;
     }
 
 }

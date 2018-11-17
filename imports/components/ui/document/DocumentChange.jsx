@@ -4,7 +4,7 @@ import { Documents } from '../../../api/collections/documents';
 
 import AjouterImage from '../../outils/iconographe/AjouterImage';
 
-import { Input, Button, message } from 'antd';
+import { Input, Button, message, Divider } from 'antd';
 
 class DocumentChange extends Component {
 
@@ -63,6 +63,7 @@ class DocumentChange extends Component {
                     undefined
                 }
                 
+                { this.props.link ? <img src={this.props.link}/> : undefined}
 
                 <Input.TextArea
                     // rows={10}
@@ -76,6 +77,7 @@ class DocumentChange extends Component {
                 >
                     Enregistrer
                 </Button>
+                <Divider/>
                 </div>
         )
 

@@ -19,7 +19,7 @@ export default class IndexSessions extends Component {
         connecte: PropTypes.bool.isRequired,
         role: PropTypes.string.isRequired,
         utilisateur: PropTypes.string.isRequired,
-        socketId: PropTypes.string.isRequired,
+        // socketId: PropTypes.string.isRequired,
     };
 
     static defaultProps = {

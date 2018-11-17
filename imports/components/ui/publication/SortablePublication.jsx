@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-hoc';
 import { Input, Button, Divider } from 'antd';
+import ReactMarkdown from 'react-markdown';
+
 
 import styled from 'styled-components';
 
@@ -21,13 +23,17 @@ const Item = styled.div`
 
 const SortableItem = SortableElement( ( { value} ) => {
 
-    let regex = RegExp(/(http(s?))\:\/\//gi);
+    // console.log(value)
 
-    if (regex.test(value)) {
-        return <Item ><img src={value} width='200px'/></Item>
-    } else {
-        return <Item >{value}</Item>
-    }
+    // let regex = RegExp(/(http(s?))\:\/\//gi);
+
+    // if (regex.test(value)) {
+    //     return <Item ><img src={value} width='200px'/></Item>
+    // } else {
+    //     return <Item >{value}</Item>
+    // }
+
+    return <Item><ReactMarkdown source={value}></ReactMarkdown></Item>
 
 });
 

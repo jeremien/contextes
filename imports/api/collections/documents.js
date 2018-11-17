@@ -35,7 +35,20 @@ Meteor.methods({
      */
     'documents.insert'(session, chapitre, contenu, auteur) {
 
+        // let ref = null;
+        // let lastRef = Documents.findOne({}, {sort: {creation: -1}});
+        // console.log(lastRef.ref)
+
+        // if (lastRef != null) {
+        //     ref = lastRef.ref + 1;
+        // } else {
+        //     ref = 1;
+        // }
+
+        // console.log(ref)
+
         Documents.insert({
+            index : ref,
             session: session,
             chapitre: chapitre,
             contenu: contenu,
@@ -104,16 +117,16 @@ Meteor.methods({
     'documents.addImage'(session, chapitre, auteur, image) {
 
 
-        let img = Images.findOne({_id: image._id});
-        let link = img ? img.link() : null;
+        // let img = Images.findOne({_id: image._id});
+        // let link = img ? img.link() : null;
 
         // console.log('new doc image',link)
-        let imageFormat = `![image](${link})`;
+        // let imageFormat = `![image](${link})`;
 
         Documents.insert({
             session: session,
             chapitre: chapitre,
-            contenu: imageFormat,
+            // contenu: imageFormat,
             // contenu: '',
             auteur: auteur,
             creation: new Date(),
@@ -128,13 +141,13 @@ Meteor.methods({
 
     'documents.updateImage'(documentId, documentContenu, image) {
 
-        let img = Images.findOne({_id: image._id});
-        let link = img ? img.link() : null;
+        // let img = Images.findOne({_id: image._id});
+        // let link = img ? img.link() : null;
 
         // console.log('insert image to doc', link, document)
-        let imageFormat = `![image](${link})`;
+        // let imageFormat = `![image](${link})`;
 
-        let contenuFinal = `${imageFormat} ${documentContenu}`;
+        // let contenuFinal = `${imageFormat} ${documentContenu}`;
 
         // console.log(contenuFinal)
 
@@ -142,7 +155,7 @@ Meteor.methods({
             _id: documentId,
         }, {
             $set: {
-                contenu: contenuFinal,
+                // contenu: contenuFinal,
                 image: image,
                 type: "image",
             }
