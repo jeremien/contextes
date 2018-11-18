@@ -21,9 +21,11 @@ const Item = styled.div`
     margin-top : 5px;
 `;
 
-const SortableItem = SortableElement( ( { value} ) => {
+const SortableItem = SortableElement( ( item ) => {
 
-    // console.log(value)
+    // console.log(item)
+
+    
 
     // let regex = RegExp(/(http(s?))\:\/\//gi);
 
@@ -33,14 +35,24 @@ const SortableItem = SortableElement( ( { value} ) => {
     //     return <Item >{value}</Item>
     // }
 
-    return <Item><ReactMarkdown source={value}></ReactMarkdown></Item>
+    return <Item>
+                {/* <Button>{index}</Button> */}
+                <ReactMarkdown source={item.value}></ReactMarkdown>
+            </Item>
 
 });
 
 const SortableList = SortableContainer( ({ items }) => {
+
+    // console.log(items)
+
+    let cleanItems = items.filter(o => o);
+
+    // console.log(cleanItems)
+
     return (
         <Container>
-            {items.map((value, index) => {
+            {cleanItems.map((value, index) => {
                 return <SortableItem 
                             key={`item-${index}`}
                             index={index}
@@ -49,6 +61,7 @@ const SortableList = SortableContainer( ({ items }) => {
             })}
         </Container>
     )
+
 });
 
 class SortablePublication extends Component {

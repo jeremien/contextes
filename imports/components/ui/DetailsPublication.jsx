@@ -50,6 +50,8 @@ class DetailsPublication extends Component {
 
         const res = str.join(' ')
 
+        // console.log(res)
+
         return res;
 
     }
@@ -73,7 +75,7 @@ class DetailsPublication extends Component {
         let { modTitre, titre } = this.state;
         let dataLayout = this.renderDataLayout();
 
-        // console.log(data)
+        // console.log(typeof dataLayout, this.props.publication.creation)
 
         return (
             
@@ -102,9 +104,9 @@ class DetailsPublication extends Component {
                 
                 { 
                     !this.props.layout ? 
-                        <SortablePublication data={data} id={_id} /> :
+                        <SortablePublication data={data} id={_id} /> : 
                         <LayoutPublication titre={this.props.publication.titre} date={this.props.publication.creation.toLocaleDateString()} data={dataLayout} />
-                }
+                    }
                 
             </div>
                 

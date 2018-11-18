@@ -48,7 +48,7 @@ Meteor.methods({
         // console.log(ref)
 
         Documents.insert({
-            index : ref,
+            // index : ref,
             session: session,
             chapitre: chapitre,
             contenu: contenu,
