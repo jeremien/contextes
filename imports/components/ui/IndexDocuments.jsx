@@ -184,8 +184,8 @@ class IndexDocuments extends Component {
                     actions={this.renderActionDocuments(item)}
                   >  
                     {this.state.btnId === item._id ? 
-                      <DocumentChange {...this.props} item={item} /> 
-                      : <DocumentShow item={item} />}
+                      <DocumentChange {...this.props} item={item} link={link} /> 
+                      : <DocumentShow item={item} link={link} />}
 
                   </List.Item>
                 )

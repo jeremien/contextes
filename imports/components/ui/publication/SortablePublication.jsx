@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-hoc';
 import { Input, Button, Divider } from 'antd';
+import ReactMarkdown from 'react-markdown';
+
 
 import styled from 'styled-components';
 
@@ -19,22 +21,38 @@ const Item = styled.div`
     margin-top : 5px;
 `;
 
-const SortableItem = SortableElement( ( { value} ) => {
+const SortableItem = SortableElement( ( item ) => {
 
-    let regex = RegExp(/(http(s?))\:\/\//gi);
+    // console.log(item)
 
-    if (regex.test(value)) {
-        return <Item ><img src={value} width='200px'/></Item>
-    } else {
-        return <Item >{value}</Item>
-    }
+    
+
+    // let regex = RegExp(/(http(s?))\:\/\//gi);
+
+    // if (regex.test(value)) {
+    //     return <Item ><img src={value} width='200px'/></Item>
+    // } else {
+    //     return <Item >{value}</Item>
+    // }
+
+    return <Item>
+                {/* <Button>{index}</Button> */}
+                <ReactMarkdown source={item.value}></ReactMarkdown>
+            </Item>
 
 });
 
 const SortableList = SortableContainer( ({ items }) => {
+
+    // console.log(items)
+
+    let cleanItems = items.filter(o => o);
+
+    // console.log(cleanItems)
+
     return (
         <Container>
-            {items.map((value, index) => {
+            {cleanItems.map((value, index) => {
                 return <SortableItem 
                             key={`item-${index}`}
                             index={index}
@@ -43,6 +61,7 @@ const SortableList = SortableContainer( ({ items }) => {
             })}
         </Container>
     )
+
 });
 
 class SortablePublication extends Component {

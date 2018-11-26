@@ -22,8 +22,6 @@ import ReactNotification from "react-notifications-component";
 import IndexSessions from './ui/IndexSessions';
 import Login from './ui/Login';
 import TestAPI from './ui/TestAPI';
-// import FilAriane from './ui/FilAriane';
-import NoMatch from './ui/NoMatch';
 import DetailsSession from './ui/DetailsSession';
 
 import IndexSessionsContainer from './data/IndexSessionsContainer';
@@ -138,7 +136,6 @@ class Application extends Component {
 
           <Content style={{ padding: '20px 50px', margin: '100px 0 0 0 ' }}>
 
-            {/* <Route path="/" render={(props) => <FilAriane {...props} {...propsToPass} />} /> */}
             <Route exact path="/sessions" render={(props) => <IndexSessionsContainer {...props} {...propsToPass} />} />
             <Route path="/sessions/:sessionId" render={(props) => <DetailsSession {...props} {...propsToPass} />} />
             <Route exact path="/session/:idSession/chapitre/:idChapitre" render={(props) => <DetailsChapitreContainer {...props} {...propsToPass} draft={false}/>} />
@@ -153,8 +150,6 @@ class Application extends Component {
 
             <Route exact path="/" render={(props) => <LandingPage {...props} {...propsToPass} />} />
             <Route path="/login" render={(props) => <Login {...props} {...propsToPass} />} />
-
-            {/* <Route path='**' render={() => <NoMatch />} /> */}
 
             <Route path="/test" render={(props) => <Chatbox {...this.props} {...propsToPass} />} />
 

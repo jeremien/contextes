@@ -109,10 +109,10 @@ export default class AjouterImage extends Component {
         } else {
 
             return (
-                <div>
-                    <Upload name='upload file' data={this.handleSubmit} listType='picture'>
-                        <Button>
-                            <Icon type='upload' /> Ajouter une image
+                    <div>
+                        <Upload name='upload file' data={this.handleSubmit} listType='picture'>
+                            <Button>
+                                <Icon type='upload' /> Ajouter ou modifier une image 
                             </Button>
                     </Upload>
                 </div>

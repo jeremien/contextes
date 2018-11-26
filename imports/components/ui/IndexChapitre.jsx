@@ -69,8 +69,9 @@ export default class IndexChapitres extends Component {
           voir
         </Button>,
          <Button
-         onClick={() => this.handleChapitreFermer(chapitreId)}>
-         { isOpen ? 'ouvert' : 'fermer' }
+          // disabled
+          onClick={() => this.handleChapitreFermer(chapitreId)}>
+          { isOpen ? 'ouvert' : 'fermer' }
         </Button>,
         <Popconfirm 
           title='Voulez-vous supprimer le chapitre ?'

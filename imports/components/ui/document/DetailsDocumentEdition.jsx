@@ -1,16 +1,22 @@
 import React, { Component } from 'react';
 
 import DocumentChange from './DocumentChange';
+import { Images } from '../../../api/collections/images';
 
-class DetailsDocumentEdition extends Component {
+
+const DetailsDocumentEdition = (props) => {
+
+    let link;
+
+    if (props.image !== null) {
+        let img = Images.findOne({_id: props.image._id});
+        link = img ? img.link() : null;
+      }
 
 
-    render() {
-        // console.log(this.props)
+    return <DocumentChange {...props} item={props} link={link}/>
 
-        return <DocumentChange {...this.props} item={this.props}/>
 
-    }
 
 }
 

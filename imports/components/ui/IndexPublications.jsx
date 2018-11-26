@@ -37,7 +37,7 @@ class IndexPublications extends Component {
 
     render() {
 
-        // console.log(this.props)
+        // console.log(this.props.publications)
         
         if (this.props.publications != 0 && this.props.role === 'editeur') {
 

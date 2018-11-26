@@ -26,8 +26,9 @@ class Timer extends Component {
         }
 
         this.startTimer = this.startTimer.bind(this);
-        this.stopTimer = this.stopTimer.bind(this)
-        this.handleChange = this.handleChange.bind(this)
+        this.stopTimer = this.stopTimer.bind(this);
+        this.handleChangeTimer = this.handleChangeTimer.bind(this);
+        this.handleChangeTranscripteurs = this.handleChangeTranscripteurs.bind(this);
      
     }
 
@@ -79,7 +80,7 @@ class Timer extends Component {
     }
 
     //Memo bug : la durée enregistrée est différente d'une seconde.
-    handleChange(value) {
+    handleChangeTimer(value) {
         Meteor.call('chapitres.timer.duree', this.props.chapitre._id, value)
         if (this.state.timer) {
             Meteor.call('timer.stop', this.props.chapitre)
@@ -87,6 +88,13 @@ class Timer extends Component {
         }
         this.setState({ dureeBoucle: value });
 
+    }
+
+    handleChangeTranscripteurs(value) {
+
+        Meteor.call('timer.simultanes', value);
+
+        this.setState({ transcripteursSimultanes: value });
     }
 
     render() {
@@ -115,9 +123,23 @@ class Timer extends Component {
                             min={5}
                             max={3000}
                             value={parseInt(this.state.dureeBoucle)}
-                            onChange={this.handleChange}
+                            onChange={this.handleChangeTimer}
                         />
+                        
                         <h2>{ Math.floor(this.state.dureeBoucle / 60) } minutes </h2>
+
+                        <h4>Nombre de transcripteurs simultanés</h4>
+
+                        <Slider
+                            size="small"
+                            min={1}
+                            max={10}
+                            value={this.state.transcripteursSimultanes}
+                            onChange={this.handleChangeTranscripteurs}
+                        />
+
+                        <h2>{ this.state.transcripteursSimultanes } transcripteurs simultanés </h2>
+
                     </div>
                    
                 }
