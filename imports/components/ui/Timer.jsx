@@ -121,10 +121,6 @@ class Timer extends Component {
                     </div>
                    
                 }
-
-
-               
-
                      
             </div>
         )

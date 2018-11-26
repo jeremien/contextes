@@ -11,6 +11,7 @@ import '../imports/api/collections/images';
 import '../imports/api/collections/messages';
 import '../imports/api/collections/publication';
 import '../imports/api/collections/logs';
+import '../lib/images'
 
 
 import {
@@ -18,12 +19,20 @@ import {
 } from '../imports/api/collections/images'
 
 import './timer'
-import { Connexions } from '../imports/api/collections/connexions';
-import { Documents } from '../imports/api/collections/documents';
-import { Messages } from '../imports/api/collections/messages';
-import { Logs } from '../imports/api/collections/logs';
+import {
+  Connexions
+} from '../imports/api/collections/connexions';
+import {
+  Documents
+} from '../imports/api/collections/documents';
+import {
+  Messages
+} from '../imports/api/collections/messages';
+import {
+  Logs
+} from '../imports/api/collections/logs';
 
-Streamy.onConnect(function(socket) {
+Streamy.onConnect(function (socket) {
 
 });
 
@@ -39,6 +48,11 @@ Meteor.startup(() => {
     'update': function () {
       return true;
     },
+  });
+  Images.load('https://raw.githubusercontent.com/VeliovGroup/Meteor-Files/master/logo.png', {
+    fileName: 'logo.png',
+    fileId: 'abc123myId', //optional
+    meta: {}
   });
 
   // console.log(process.env)

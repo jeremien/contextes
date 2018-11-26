@@ -10,9 +10,11 @@ export default class AjouterImage extends Component {
     constructor(props) {
         super(props);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleLoad = this.handleLoad.bind(this)
         this.fileInput = React.createRef();
-        this.state={
+        this.state = {
             toggleAjouterImage: true,
+            url: "",
         }
     }
 
@@ -24,7 +26,7 @@ export default class AjouterImage extends Component {
         if (!!this.props.id) {
             Meteor.call('image.remove', this.props.id)
         }
-        
+
         const upload = Images.insert({
             file: file,
             streams: 'dynamic',
@@ -49,14 +51,17 @@ export default class AjouterImage extends Component {
         upload.start();
     }
 
-    handleLoad(e) {
-        e.preventDefault();
-        // this.props.form.validateFields((err, values) => {
-        //   if (!err) {
-        //     console.log('Received values of form: ', values);
-        //   }
-        // });
-      }
+    handleLoad(event) {
+        event.preventDefault();
+        let self = this
+        if (!!this.props.id) {
+            Meteor.call('image.remove', this.props.id)
+        }
+        if (!!this.state.url) {
+            Meteor.call('image.load', this.state.url, this.props.document, this.props.chapitre.session, this.props.chapitre._id, this.props.utilisateur)
+            this.setState({ url: "" })
+        }
+    }
 
     ajoutDocument(image) {
         if (!!this.props.document) {
@@ -65,7 +70,7 @@ export default class AjouterImage extends Component {
         }
         else {
             Meteor.call('documents.addImage', this.props.chapitre.session, this.props.chapitre._id, this.props.utilisateur, image)
-            Meteor.call('log.insert', 'document', `${this.props.utilisateur} a ajouté une image` );
+            Meteor.call('log.insert', 'document', `${this.props.utilisateur} a ajouté une image`);
         }
     }
 
@@ -81,15 +86,22 @@ export default class AjouterImage extends Component {
                         onChange={() => this.setState({ toggleAjouterImage: !this.state.toggleAjouterImage })}
                         style={{ marginBottom: '20px' }}
                     />
-    
+
                     {this.state.toggleAjouterImage &&
-                    <Upload.Dragger data={this.handleSubmit}>
-                        <p className="ant-upload-drag-icon">
-                            <Icon type="inbox" />
-                        </p>
-                        <p className="ant-upload-text">Click or drag file to this area to upload</p>
-                        <p className="ant-upload-hint">Support for a single or bulk upload. Strictly prohibit from uploading company data or other band files</p>
-                    </Upload.Dragger>
+                        <div>
+                            <Upload.Dragger data={this.handleSubmit}>
+                                <p className="ant-upload-drag-icon">
+                                    <Icon type="inbox" />
+                                </p>
+                                <p className="ant-upload-text">Click or drag file to this area to upload</p>
+                                <p className="ant-upload-hint">Support for a single or bulk upload. Strictly prohibit from uploading company data or other band files</p>
+                            </Upload.Dragger>
+
+                            <form className="url-image" onSubmit={this.handleLoad}>
+                                <input className="url" value={this.state.url} onChange={(event) => { this.setState({ url: event.target.value }) }} />
+                                <button type="submit" value="submit" placeholder="envoyer" />
+                            </form>
+                        </div>
                     }
                 </div>
             )
@@ -97,14 +109,14 @@ export default class AjouterImage extends Component {
         } else {
 
             return (
-                    <div>
-                        <Upload name='upload file' data={this.handleSubmit} listType='picture'>
-                            <Button>
-                                <Icon type='upload' /> Ajouter une image
+                <div>
+                    <Upload name='upload file' data={this.handleSubmit} listType='picture'>
+                        <Button>
+                            <Icon type='upload' /> Ajouter une image
                             </Button>
-                        </Upload>
-                    </div>
-                )
+                    </Upload>
+                </div>
+            )
 
         }
 

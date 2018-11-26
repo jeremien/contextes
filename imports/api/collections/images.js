@@ -34,19 +34,28 @@ if (Meteor.isServer) {
 function ajoutDocument(fileRef, doc) {
     if (doc) {
         Meteor.call('documents.updateImage', doc, image)
-    }
-    else {
+    } else {
         Meteor.call('documents.addImage', this.props.chapitre.session, this.props.chapitre._id, this.props.utilisateur, image)
-        Meteor.call('log.insert', 'document', `${this.props.utilisateur} a ajouté une image` );
+        Meteor.call('log.insert', 'document', `${this.props.utilisateur} a ajouté une image`);
     }
 }
-Meteor.methods({
-    'image.load'(lien, doc) {
-        Images.load('https://raw.githubusercontent.com/VeliovGroup/Meteor-Files/master/logo.png', {
-            fileName: 'logo.png',
-            fileId: 'abc123myId', //optional
-            meta: {},
-            onAfterUpload: (error, fileRef) => ajoutDocument(fileRef, doc),
-        });
-    }
-})
+ 
+function load() {
+    Images.load('https://raw.githubusercontent.com/VeliovGroup/Meteor-Files/master/logo.png', {
+        fileName: 'logo.png',
+        fileId: 'abc123myId', //optional
+        meta: {}
+    });
+}
+
+
+// Meteor.methods({
+//     'image.load'(lien, doc) {
+//         // Images.load('https://o.aolcdn.com/images/dims3/GLOB/crop/1048x525+0+53/resize/630x315!/format/jpg/quality/85/http%3A%2F%2Fo.aolcdn.com%2Fhss%2Fstorage%2Fmidas%2Ff57d0720404e30b68000b049768694de%2F205334265%2Fgvh.jpg', {
+//         //     fileName: 'logo.png',
+//         //     meta: {},
+//         //     onAfterUpload: (error, fileRef) => ajoutDocument(fileRef, doc),
+//         // });
+//         load();
+//     }
+// })
