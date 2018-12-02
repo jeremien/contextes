@@ -26,10 +26,15 @@ Meteor.methods({
      * @param {*} message Contenu du message envoyé
      */
     'messages.insert'(auteur, message) {
-        Messages.insert({            
+        Messages.insert({
             auteur: auteur,
             message: message,
             creation: new Date()
         });
+        Meteor.call('notification', {
+            title: 'Nouveau message',
+            message: auteur + ' : ' + message.slice(0, 20),
+            type: 'success'
+        })
     },
 })
