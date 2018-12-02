@@ -17,8 +17,6 @@ import '../lib/images'
 import {
   Images
 } from '../imports/api/collections/images'
-
-import './timer'
 import {
   Connexions
 } from '../imports/api/collections/connexions';
