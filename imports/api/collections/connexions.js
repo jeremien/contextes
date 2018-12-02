@@ -23,6 +23,7 @@ Meteor.methods({
             session: "",
             chapitre: "",
             online: true,
+            typing: false,
         });
 
         return id
@@ -105,6 +106,24 @@ Meteor.methods({
             $set: {
                 socketId: socketId
             }
+        })
+    },
+
+    'connexions.ecrit' (utilisateur) {
+        Connexions.update({
+            _id: utilisateur
+        },
+        {
+            $set: {typing: true}
+        })
+    },
+
+    'connexions.ecrit.pas' (utilisateur) {
+        Connexions.update({
+            _id: utilisateur
+        },
+        {
+            $set: {typing: false}
         })
     }
 })
