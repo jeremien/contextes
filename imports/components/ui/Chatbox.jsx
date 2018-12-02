@@ -24,14 +24,15 @@ class Chatbox extends Component {
     }
 
     handleSubmit() {
-        Meteor.call('messages.insert', this.props.utilisateur, this.state.message)
-        Meteor.call('log.insert', 'message', `${this.props.utilisateur} a écrit : ${this.state.message}` );
-        this.setState({message: ""})
-        
+        if (!!this.state.message) {
+            Meteor.call('messages.insert', this.props.utilisateur, this.state.message)
+            Meteor.call('log.insert', 'message', `${this.props.utilisateur} a écrit : ${this.state.message}`);
+            this.setState({ message: "" })
+        }
     }
 
-    handleTyping(e){
-        this.setState({message: e.target.value})
+    handleTyping(e) {
+        this.setState({ message: e.target.value })
     }
 
     chatList = (datas) => {
@@ -55,10 +56,10 @@ class Chatbox extends Component {
                     // />
                     <ChatList>
                         {this.chatList(this.props.messages)}
-                    </ChatList>    
+                    </ChatList>
 
-                }   
-                    <Input value={this.state.message} onChange={this.handleTyping} onPressEnter={this.handleSubmit} placeholder='écrivez votre message' />
+                }
+                <Input value={this.state.message} onChange={this.handleTyping} onPressEnter={this.handleSubmit} placeholder='écrivez votre message' />
             </div>
 
         )

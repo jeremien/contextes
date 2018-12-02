@@ -32,7 +32,7 @@ export default class IndexSessions extends Component {
 
         let session = this.props.sessions.find((item) => {
             return item._id === sessionId;
-          });
+        });
 
         let infos = {
             title: "message de l'éditeur",
@@ -64,7 +64,7 @@ export default class IndexSessions extends Component {
                     cancelText='non'
                 >
                     <Button type='danger'> supprimer </Button>
-                
+
                 </Popconfirm>
             ]
         } else {
@@ -75,6 +75,20 @@ export default class IndexSessions extends Component {
                     disabled={etat != 'edition'}
                     onClick={() => {
                         console.log('session')
+                        // let sessionOk = false;
+                        // if (this.props.userSession.map) {
+                        //     this.props.userSession.map((session) => {
+                        //         if (session == this.props.match.params.idSession) {
+                        //             sessionOk = true;
+                        //         }
+                        //     })
+                        // }
+                        // // this.props.history.push('/sessions')
+                        // if (!sessionOk) {
+                        //     alert('pas connecte')
+                        //     console.log(this.props)
+                        // }
+
                         if (this.props.connecte) {
 
                             let infos = {
@@ -82,16 +96,17 @@ export default class IndexSessions extends Component {
                                 message: `${this.props.utilisateur} a rejoint la session`,
                                 type: "success"
                             }
-    
+
                             // Meteor.call('notification', infos);
-                            Meteor.call('log.insert', 'notification', infos.message );    
+                            Meteor.call('log.insert', 'notification', infos.message);
 
                         }
-                     
+
                         this.props.history.push(`/sessions/${sessionId}`)
-                    }}>
+                    }}
+                >
                     rejoindre
-                    </Button>
+                    </Button >
             ]
         }
 
@@ -112,9 +127,9 @@ export default class IndexSessions extends Component {
         var nombre = 0
 
         this.props.badges.map((badge) => {
-                if (badge._id == session) {
-                    nombre = badge.sum
-                }
+            if (badge._id == session) {
+                nombre = badge.sum
+            }
         })
 
         return nombre
@@ -127,46 +142,46 @@ export default class IndexSessions extends Component {
 
             <div className='index-session'>
 
-                    {this.props.role === 'editeur' &&
-                        <div>
-                            <h4>Ajout d'une nouvelle session</h4>
-                            <Switch
-                                defaultChecked={this.state.toggleActionSession}
-                                onChange={() => this.setState({ toggleActionSession: !this.state.toggleActionSession })}
-                                style={{ marginBottom: '20px' }}
-                            />
-                        </div>
-                    }
+                {this.props.role === 'editeur' &&
+                    <div>
+                        <h4>Ajout d'une nouvelle session</h4>
+                        <Switch
+                            defaultChecked={this.state.toggleActionSession}
+                            onChange={() => this.setState({ toggleActionSession: !this.state.toggleActionSession })}
+                            style={{ marginBottom: '20px' }}
+                        />
+                    </div>
+                }
 
-                    {this.state.toggleActionSession && this.props.role === 'editeur' ?
+                {this.state.toggleActionSession && this.props.role === 'editeur' ?
 
-                        <div>
-                            {this.props.action}
-                            <Divider />
-                        </div>
+                    <div>
+                        {this.props.action}
+                        <Divider />
+                    </div>
 
-                        : undefined 
-                    }
+                    : undefined
+                }
 
 
-                    <List
-                        header={<div>listes des sessions</div>}
-                        itemLayout='horizontal'
-                        bordered
-                        dataSource={this.props.sessions}
-                        renderItem={item => {
+                <List
+                    header={<div>listes des sessions</div>}
+                    itemLayout='horizontal'
+                    bordered
+                    dataSource={this.props.sessions}
+                    renderItem={item => {
 
-                            return (<List.Item
-                                actions={this.renderActionsSessions(item._id, item.etat)}
-                            >
-                                <Badge count={this.getBadge(item._id)} >
-                                    {item.titre} ({item.etat})
+                        return (<List.Item
+                            actions={this.renderActionsSessions(item._id, item.etat)}
+                        >
+                            <Badge count={this.getBadge(item._id)} >
+                                {item.titre} ({item.etat})
                                 </Badge>
 
-                            </List.Item>
-                            )
-                        }}
-                    />
+                        </List.Item>
+                        )
+                    }}
+                />
             </div>
         )
     }
