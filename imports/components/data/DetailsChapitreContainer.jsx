@@ -9,6 +9,7 @@ import { Connexions } from '../../api/collections/connexions';
 import { Sessions } from '../../api/collections/sessions'
 
 import AjouterDocument from '../outils/transcripteur/AjouterDocument';
+import Typing from '../outils/transcripteur/Typing';
 import CorrectionDocument from '../outils/correcteur/CorrectionDocument';
 import DetailsDocumentsConformateur from '../outils/conformateur/DetailsDocumentsConformateur';
 import AjouterImages from '../outils/iconographe/AjouterImage'
@@ -21,7 +22,6 @@ import IndexDocuments from '../ui/IndexDocuments';
 import InfosChapitre from '../ui/InfosChapitre';
 import DetailsChapitre from '../ui/DetailsChapitre';
 
-import DisplayTimer from '../ui/DisplayTimer';
 
 import { Divider } from 'antd';
 
@@ -47,7 +47,7 @@ class DetailsChapitreContainer extends React.Component {
                     outildroit: <div>
                                     <AlertMessage {...propToPass} />
                                     <Divider/>
-                                    <DisplayTimer {...propToPass} />
+                                    <Typing {...propToPass} />
                                     <Divider/>
                                     <AjouterDocument {...propToPass} />
                                 </div>
@@ -82,10 +82,7 @@ class DetailsChapitreContainer extends React.Component {
                 return {
                     outilgauche: <InfosChapitre {...propToPass} />,
                     outildroit: <div>
-                            {/* <IndexDocuments {...propToPass} />
-                            <Divider/> */}
                             <IndexDocumentsTable {...propToPass} />
-                            {/* <AjouterImages {...propToPass} /> */}
                         </div>
                 }
                 break;
@@ -119,6 +116,10 @@ export default withTracker((props) => {
             role: { $ne: 'editeur' }
         },
     );
+    const transcripteurs = Connexions.find({
+        chapitre: props.match.params.idChapitre,
+        role: 'transcripteur',
+    })
     const chapitre = Chapitres.findOne({ _id: props.match.params.idChapitre });
     const connexionsExists = !loading && !!connexions;
     const chapitreExists = !loading && !!chapitre; //vaut false si aucun chapitre n'existe ou si aucun n'a été trouvé
@@ -128,7 +129,8 @@ export default withTracker((props) => {
         connexionsExists,
         connexions: connexionsExists ? connexions.fetch() : [{}],
         chapitre: chapitreExists ? chapitre : [],
-        session: sessionExists ? session : []
+        session: sessionExists ? session : [],
+        transcripteurs: !!transcripteurs ? transcripteurs.fetch() : [{}],
     })
 })(DetailsChapitreContainer);
 

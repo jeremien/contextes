@@ -1,5 +1,4 @@
 import React from 'react';
-import Timer from './Timer'
 
 import { Button, Icon, Divider } from 'antd';
 
@@ -39,8 +38,6 @@ export default function InfosChapitre(props) {
             <p>tags : {tags(props)}</p>
 
             <Divider/>
-            <Timer {...props} />
-
         </div>
     )
 }

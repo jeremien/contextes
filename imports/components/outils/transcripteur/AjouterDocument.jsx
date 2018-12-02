@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types'
 import { Meteor } from 'meteor/meteor';
 
-import { Form, Input, Button, message } from 'antd';
+import { Form, Input, Button, message } from 'antd';
 
-const { TextArea } = Input;
+const { TextArea } = Input;
 
 export default class AjouterDocument extends Component {
 
@@ -20,8 +20,21 @@ export default class AjouterDocument extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-   
-    
+    /**
+     * A choisir : statut typing quand des charactères sont entrés ou quand le formulaire a le focus
+     */
+
+    // componentDidUpdate() {
+    //     if (!!this.state.commentaire) {
+    //         Meteor.call('connexions.ecrit', this.props.userId)
+    //     }
+    //     else {
+    //         Meteor.call('connexions.ecrit.pas', this.props.userId)
+    //     }
+    // }
+
+
+
     handleSubmit(event) {
         event.preventDefault();
         const auteur = this.props.utilisateur;
@@ -31,19 +44,19 @@ export default class AjouterDocument extends Component {
         if (this.state.commentaire) {
 
             Meteor.call('documents.insert', session, chapitre, this.state.commentaire, auteur)
-    
+
             this.setState({
                 commentaire: ''
             });
-    
-            Meteor.call('log.insert', 'document', `${auteur} a écrit ${this.state.commentaire}` );
+
+            Meteor.call('log.insert', 'document', `${auteur} a écrit ${this.state.commentaire}`);
 
         } else {
 
             message.error('Écrivez un texte!');
 
         }
-       
+
     }
 
     handleChange(event) {
@@ -59,29 +72,31 @@ export default class AjouterDocument extends Component {
             <Form
                 onSubmit={this.handleSubmit}
             >
-                
+
                 <TextArea
                     placeholder='texte'
                     value={this.state.commentaire}
                     autosize={{ minRows: 10, maxRows: 200 }}
                     onChange={this.handleChange}
                     // onPressEnter={this.handleSubmit}
-                    style={{ fontSize: '1.5rem'}}
+                    style={{ fontSize: '1.5rem' }}
+                    onBlur={() => { Meteor.call('connexions.ecrit.pas', this.props.userId) }}
+                    onFocus={() => { Meteor.call('connexions.ecrit', this.props.userId) }}
                 >
-                    <div style={{ margin: '24px 0', fontSize: '50px'}} />
+                    <div style={{ margin: '24px 0', fontSize: '50px' }} />
                 </TextArea>
-                <Button.Group style={{ margin: '24px 0'}}>
+                <Button.Group style={{ margin: '24px 0' }}>
 
-                    <Button 
-                        type="primary" 
-                        htmlType="submit" 
+                    <Button
+                        type="primary"
+                        htmlType="submit"
                     >
                         Enregistrer
                     </Button>
 
-                    <Button 
-                        type="danger" 
-                        onClick={() => this.setState({ 
+                    <Button
+                        type="danger"
+                        onClick={() => this.setState({
                             commentaire: ''
                         })}
                     >
@@ -89,7 +104,7 @@ export default class AjouterDocument extends Component {
                     </Button>
 
                 </Button.Group>
-              
+
 
             </Form>
         )
