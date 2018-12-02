@@ -111,10 +111,12 @@ class Application extends Component {
     
     if (this.props.connecte) {
       Meteor.call('connexions.socket', this.props.connexion._id, Streamy.id())
+      // const ConnexionContext = React.createContext(this.props.connexion);
     }
-    const { role, utilisateur, ...rest } = this.props.connexion
+    const { role, utilisateur, session, ...rest } = this.props.connexion
     const propsToPass = { 
-      connecte: this.props.connecte, 
+      connecte: this.props.connecte,
+      userSession: session, 
       userId: this.props.connexion._id, 
       role: role || "", 
       utilisateur: utilisateur || "", 
