@@ -20,7 +20,7 @@ Meteor.methods({
             utilisateur: utilisateur,
             role: role,
             socketId: socketId,
-            session: "",
+            session: [],
             chapitre: "",
             online: true,
             typing: false,
@@ -29,16 +29,15 @@ Meteor.methods({
         return id
     },
 
-    // 'connexions.session' (utilisateur, session) {
-    //     Connexions.update({
-    //         _id: utilisateur
-    //     }, {
-    //         $set: {
-    //             session: session,
-    //             online: true,
-    //         }
-    //     })
-    // },
+    'connexions.session' (utilisateur, session) {
+        Connexions.update({
+            _id: utilisateur
+        }, {
+            $push: {
+                session: session,
+            }
+        })
+    },
 
     'connexions.chapitre'(utilisateur, session, chapitre) {
         // console.log('connexion chap')
@@ -46,7 +45,6 @@ Meteor.methods({
             _id: utilisateur
         }, {
             $set: {
-                session: session,
                 chapitre: chapitre,
                 online: true,
             }
