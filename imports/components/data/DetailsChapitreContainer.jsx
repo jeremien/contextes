@@ -23,7 +23,7 @@ import InfosChapitre from '../ui/InfosChapitre';
 import DetailsChapitre from '../ui/DetailsChapitre';
 
 
-import { Divider } from 'antd';
+import { Divider } from 'antd';
 
 
 class DetailsChapitreContainer extends React.Component {
@@ -39,98 +39,114 @@ class DetailsChapitreContainer extends React.Component {
         role: ""
     }
 
-    getOutils(propToPass) {
-        switch (this.props.role) {
-            case 'transcripteur':
-                return {
-                    outilgauche: <InfosChapitre {...propToPass} />,
-                    outildroit: <div>
-                                    <AlertMessage {...propToPass} />
-                                    <Divider/>
-                                    <Typing {...propToPass} />
-                                    <Divider/>
-                                    <AjouterDocument {...propToPass} />
-                                </div>
-                }
-                break;
-            case 'correcteur':
-                return {
-                    outilgauche: <InfosChapitre {...propToPass} />,
-                    outildroit: <div>
+    // componentWillMount() {
+    //     let sessionOk = false;
+    //     if (this.props.userSession.map) {
+    //         this.props.userSession.map((session) => {
+    //             if (session == this.props.match.params.idSession) {
+    //                 sessionOk = true;
+    //             }
+    //         })
+    //     }
+    //         // this.props.history.push('/sessions')
+    //         if (!sessionOk) {
+    //             alert('pas connecte')
+    //             console.log(this.props)
+    //         }
+    //     }
+
+        getOutils(propToPass) {
+            switch (this.props.role) {
+                case 'transcripteur':
+                    return {
+                        outilgauche: <InfosChapitre {...propToPass} />,
+                        outildroit: <div>
+                            <AlertMessage {...propToPass} />
+                            <Divider />
+                            <Typing {...propToPass} />
+                            <Divider />
+                            <AjouterDocument {...propToPass} />
+                        </div>
+                    }
+                    break;
+                case 'correcteur':
+                    return {
+                        outilgauche: <InfosChapitre {...propToPass} />,
+                        outildroit: <div>
                             <IndexDocuments {...propToPass} />
                             {/* <CorrectionDocument {...propToPass} /> */}
                         </div>
-                }
-                break;
-            // case 'conformateur':
-            //     return {
-            //         outilgauche: <InfosChapitre {...propToPass} />,
-            //         outildroit: <DetailsDocumentsConformateur {...propToPass} />
-            //     }
-            
-            case 'iconographe':
-                return {
-                    outilgauche: <InfosChapitre {...propToPass} />,
-                    outildroit: <div>
-                                <AjouterImages {...propToPass} simpleBtn={false}/>
-                                <IndexDocuments {...propToPass} />
-                                
-                            </div>
-                }
+                    }
+                    break;
+                // case 'conformateur':
+                //     return {
+                //         outilgauche: <InfosChapitre {...propToPass} />,
+                //         outildroit: <DetailsDocumentsConformateur {...propToPass} />
+                //     }
 
-            case 'editeur':
-                return {
-                    outilgauche: <InfosChapitre {...propToPass} />,
-                    outildroit: <div>
+                case 'iconographe':
+                    return {
+                        outilgauche: <InfosChapitre {...propToPass} />,
+                        outildroit: <div>
+                            <AjouterImages {...propToPass} simpleBtn={false} />
+                            <IndexDocuments {...propToPass} />
+
+                        </div>
+                    }
+
+                case 'editeur':
+                    return {
+                        outilgauche: <InfosChapitre {...propToPass} />,
+                        outildroit: <div>
                             <IndexDocumentsTable {...propToPass} />
                         </div>
-                }
-                break;
-            default:
-                return <h2>Pas d'outils</h2>
+                    }
+                    break;
+                default:
+                    return <h2>Pas d'outils</h2>
+            }
         }
-    }
 
-    render() {
-        if (this.props.chapitreExists && !this.props.loading) {
-            var { match, path, ...rest } = this.props;
-            const outils = this.getOutils({ ...rest });
-            return <DetailsChapitre outils={outils} {...rest} test={this.test}/>
+        render() {
+            if (this.props.chapitreExists && !this.props.loading) {
+                var { match, path, ...rest } = this.props;
+                const outils = this.getOutils({ ...rest });
+                return <DetailsChapitre outils={outils} {...rest} test={this.test} />
+            }
+            else {
+                return <h3>Chargement</h3>
+            }
         }
-        else {
-            return <h3>Chargement</h3>
-        }
-    }
-};
+    };
 
-export default withTracker((props) => {
-    const connexionsHandle = Meteor.subscribe('connexions')
-    const chapitresHandle = Meteor.subscribe('chapitres');
-    const sessionsHandle = Meteor.subscribe('sessions');
-    const loading = !chapitresHandle.ready() && !connexionsHandle.ready() & !sessionsHandle.ready();; //vaut true si les données ne sont pas encore chargées.
-    const session = Sessions.findOne({ _id: props.match.params.sessionId })
-    const sessionExists = !loading && !!session
-    var connexions = Connexions.find(
-        {
+    export default withTracker((props) => {
+        const connexionsHandle = Meteor.subscribe('connexions')
+        const chapitresHandle = Meteor.subscribe('chapitres');
+        const sessionsHandle = Meteor.subscribe('sessions');
+        const loading = !chapitresHandle.ready() && !connexionsHandle.ready() & !sessionsHandle.ready();; //vaut true si les données ne sont pas encore chargées.
+        const session = Sessions.findOne({ _id: props.match.params.sessionId })
+        const sessionExists = !loading && !!session
+        var connexions = Connexions.find(
+            {
+                chapitre: props.match.params.idChapitre,
+                role: { $ne: 'editeur' }
+            },
+        );
+        const transcripteurs = Connexions.find({
             chapitre: props.match.params.idChapitre,
-            role: { $ne: 'editeur' }
-        },
-    );
-    const transcripteurs = Connexions.find({
-        chapitre: props.match.params.idChapitre,
-        role: 'transcripteur',
-    })
-    const chapitre = Chapitres.findOne({ _id: props.match.params.idChapitre });
-    const connexionsExists = !loading && !!connexions;
-    const chapitreExists = !loading && !!chapitre; //vaut false si aucun chapitre n'existe ou si aucun n'a été trouvé
-    return ({
-        loading,
-        chapitreExists,
-        connexionsExists,
-        connexions: connexionsExists ? connexions.fetch() : [{}],
-        chapitre: chapitreExists ? chapitre : [],
-        session: sessionExists ? session : [],
-        transcripteurs: !!transcripteurs ? transcripteurs.fetch() : [{}],
-    })
-})(DetailsChapitreContainer);
+            role: 'transcripteur',
+        })
+        const chapitre = Chapitres.findOne({ _id: props.match.params.idChapitre });
+        const connexionsExists = !loading && !!connexions;
+        const chapitreExists = !loading && !!chapitre; //vaut false si aucun chapitre n'existe ou si aucun n'a été trouvé
+        return ({
+            loading,
+            chapitreExists,
+            connexionsExists,
+            connexions: connexionsExists ? connexions.fetch() : [{}],
+            chapitre: chapitreExists ? chapitre : [],
+            session: sessionExists ? session : [],
+            transcripteurs: !!transcripteurs ? transcripteurs.fetch() : [{}],
+        })
+    }) (DetailsChapitreContainer);
 
