@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import {Link, Redirect} from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 
-import { Menu, Icon, Switch } from 'antd';
+import { Menu, Icon, Select } from 'antd';
 
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
@@ -12,18 +12,24 @@ export default class TopBar extends Component {
     super(props);
 
     this.state = {
-      current : 'home'
+      current: 'home',
+      role: '',
     }
 
     this.handClickMenu = this.handClickMenu.bind(this);
+    this.handleRole = this.handleRole.bind(this)
 
+  }
+
+  componentDidMount() {
+    this.props.role && this.setState({ role: this.props.role })
   }
 
   handClickMenu(e) {
     if (e.key === 'home') {
       this.props.history.push(`/`);
       this.setState({
-        current : 'home'
+        current: 'home'
       })
     } else {
       this.props.history.push(`/${e.key}`);
@@ -33,6 +39,10 @@ export default class TopBar extends Component {
     }
   }
 
+  handleRole(role) {
+    this.setState({ role: role })
+    Meteor.call('connexions.role', this.props.userId, role)
+  }
 
   renderSessions() {
     return this.props.sessions.map((item, key) => {
@@ -64,29 +74,29 @@ export default class TopBar extends Component {
         </MenuItemGroup>
       )
     })
-   
+
   }
 
-  render() {  
+  render() {
 
     let text = `Bienvenue, ${this.props.utilisateur}. Vous êtes un ${this.props.role}`;
 
     if (!this.props.loading) {
 
-      return (       
-      
+      return (
+
         <Menu
           mode='horizontal'
           selectedKeys={[this.state.current]}
           onClick={this.handClickMenu}
-        > 
-            
+        >
 
-            <Menu.Item key='home'>
-              <Icon type="home" />
-            </Menu.Item>
-          
-          
+
+          <Menu.Item key='home'>
+            <Icon type="home" />
+          </Menu.Item>
+
+
           {this.props.connecte &&
             <SubMenu
               key='sessions'
@@ -94,7 +104,7 @@ export default class TopBar extends Component {
               onTitleClick={this.handClickMenu}
             >
               {this.renderSessions()}
-    
+
             </SubMenu>
           }
 
@@ -120,47 +130,67 @@ export default class TopBar extends Component {
             </SubMenu>
           }
 
-            <Menu.Item key='logs'>
-              <Icon type="bars" /> Logs
+          <Menu.Item key='logs'>
+            <Icon type="bars" /> Logs
             </Menu.Item>
-          
 
-          {!this.props.connecte ? 
-            <Menu.Item 
+
+          {!this.props.connecte ?
+            <Menu.Item
               key='login'
-            >Login</Menu.Item> :  
-            <Menu.Item 
-              key='login' 
+            >Login</Menu.Item> :
+            <Menu.Item
+              key='login'
               onClick={() => {
                 console.log('logout')
                 localStorage.clear();
                 Session.clear()
-                
+
                 Meteor.call('connexions.remove', this.props.userId);
-                  if (this.props.role == 'editeur') {
-                    Meteor.call('deconnexion.editeur')
-                  }
-                
-                let infos = {
-                  title : "message général",
-                  message : `déconnexion de ${this.props.utilisateur} comme ${this.props.role}`,
-                  type : "info"
-                };
-        
-                Meteor.call('notification', infos);
-                  
+                if (this.props.role == 'editeur') {
+                  Meteor.call('deconnexion.editeur')
                 }
+
+                let infos = {
+                  title: "message général",
+                  message: `déconnexion de ${this.props.utilisateur} comme ${this.props.role}`,
+                  type: "info"
+                };
+
+                Meteor.call('notification', infos);
+
               }
-            > Logout ({text})</Menu.Item> 
+              }
+            > Logout ({text})</Menu.Item>
           }
-          
+          {this.props.connecte &&
+            <Menu.Item
+              key='role'
+            >
+              <Select
+                defaultValue={this.props.role}
+                placeHolder="Choisissez un nouveau role"
+                style={{ width: 200 }}
+                onChange={this.handleRole}
+              >
+                <Select.Option value='editeur'>Éditeur</Select.Option>
+                <Select.Option value='transcripteur'>Transcripteur</Select.Option>
+                <Select.Option value='correcteur'>Correcteur</Select.Option>
+                <Select.Option value='iconographe'>Iconographe</Select.Option>
+                {/* <Select.Option value='conformateur'>Conformateur</Select.Option> */}
+
+              </Select>
+            </Menu.Item>
+          }
+
+
         </Menu>
       )
 
-       
+
 
     } else {
       return <div>chargement</div>
     }
-  }   
+  }
 }

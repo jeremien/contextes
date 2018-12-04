@@ -29,6 +29,10 @@ Meteor.methods({
         return id
     },
 
+    'connexions.role'(utilisateur, role) {
+        Connexions.update({_id: utilisateur}, {$set: {role: role}})
+    },
+
     'connexions.session' (utilisateur, session) {
         Connexions.update({
             _id: utilisateur
