@@ -1,39 +1,101 @@
-import React, { Component } from 'react';
-import { Session } from 'meteor/session';
-import { Meteor } from 'meteor/meteor';
-import { withTracker } from 'meteor/react-meteor-data';
-import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom'
-import ReactNotification from "react-notifications-component";
+import React from 'react';
+import CameraPhoto, { FACING_MODES } from 'jslib-html5-camera-photo';
 
-import { List, Button, Modal, Form, Input, Icon, Card, Carousel } from 'antd'
-
-class TestAPI extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            value: initialValue
-        }
-          this.handleValueChange = this.handleValueChange.bind(this)
+export default class TestAPI extends React.Component {
+  constructor (props, context) {
+    super(props, context);
+    this.cameraPhoto = null;
+    this.videoRef = React.createRef();
+    this.state = {
+      dataUri: '',
     }
+  }
 
+  componentDidMount () {
+    // We need to instantiate CameraPhoto inside componentDidMount because we
+    // need the refs.video to get the videoElement so the component has to be
+    // mounted.
+    this.cameraPhoto = new CameraPhoto(this.videoRef.current);
+  }
 
-    handleValueChange(value) {
-        // this.setState({value: value});
-        console.log(value)
-      };
+  startCamera (idealFacingMode, idealResolution) {
+    this.cameraPhoto.startCamera(idealFacingMode, idealResolution)
+      .then(() => {
+        console.log('camera is started !');
+      })
+      .catch((error) => {
+        console.error('Camera not started!', error);
+      });
+    console.log(this.videoRef)
+  }
 
-      onChange = ({ value }) => {
-        this.setState({ value })
-      }
-    render() {
+  startCameraMaxResolution (idealFacingMode) {
+    this.cameraPhoto.startCameraMaxResolution(idealFacingMode)
+      .then(() => {
+        console.log('camera is started !');
+      })
+      .catch((error) => {
+        console.error('Camera not started!', error);
+      });
+  }
 
-        return (
-            <div style={{ margin: "20px" }}>
-        {/* <CannerEditor value={this.state.value} onChange={this.onChange} /> */}
+  takePhoto () {
+    const config = {
+      sizeFactor: 1
+    };
+
+    let dataUri = this.cameraPhoto.getDataUri(config);
+    this.setState({ dataUri });
+  }
+
+  stopCamera () {
+    this.cameraPhoto.stopCamer
+    a()
+      .then(() => {
+        console.log('Camera stoped!');
+      })
+      .catch((error) => {
+        console.log('No camera to stop!:', error);
+      });
+  }
+
+  render () {
+    return (
+      <div>
+        <button onClick={ () => {
+          let facingMode = FACING_MODES.ENVIRONMENT;
+          let idealResolution = { width: 640, height: 480 };
+          this.startCamera(facingMode, idealResolution);
+        }}> Start environment facingMode resolution ideal 640 by 480 </button>
+
+        <button onClick={ () => {
+          let facingMode = FACING_MODES.USER;
+          this.startCamera(facingMode, {});
+        }}> Start user facingMode resolution default </button>
+
+        <button onClick={ () => {
+          let facingMode = FACING_MODES.USER;
+          this.startCameraMaxResolution(facingMode);
+        }}> Start user facingMode resolution maximum </button>
+
+        <button onClick={ () => {
+          this.takePhoto();
+        }}> Take photo </button>
+
+        <button onClick={ () => {
+          this.stopCamera();
+        }}> Stop </button>
+
+        <video
+          ref={this.videoRef}
+          autoPlay="true"
+        />
+        <img
+          alt="imgCamera"
+          src={this.state.dataUri}
+        />
       </div>
-        )
-
-    }
+    );
+  }
 }
 
-export default TestAPI;
