@@ -153,7 +153,7 @@ class Application extends Component {
             <Route exact path="/" render={(props) => <LandingPage {...props} {...propsToPass} />} />
             <Route path="/login" render={(props) => <Login {...props} {...propsToPass} />} />
 
-            <Route path="/test" render={(props) => <Chatbox {...this.props} {...propsToPass} />} />
+            <Route path="/test" render={(props) => <TestAPI {...this.props} {...propsToPass} />} />
 
           </Content>
         </Layout>

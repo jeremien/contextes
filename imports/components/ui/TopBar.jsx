@@ -84,6 +84,7 @@ export default class TopBar extends Component {
     if (!this.props.loading) {
 
       return (
+        <div>
 
         <Menu
           mode='horizontal'
@@ -163,6 +164,10 @@ export default class TopBar extends Component {
               }
             > Logout ({text})</Menu.Item>
           }
+          
+
+        </Menu>
+        <Menu>
           {this.props.connecte &&
             <Menu.Item
               key='role'
@@ -183,8 +188,8 @@ export default class TopBar extends Component {
             </Menu.Item>
           }
 
-
         </Menu>
+        </div>
       )
 
 

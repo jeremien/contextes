@@ -12,6 +12,7 @@ import '../imports/api/collections/messages';
 import '../imports/api/collections/publication';
 import '../imports/api/collections/logs';
 import '../lib/images'
+import './video'
 
 
 import {
