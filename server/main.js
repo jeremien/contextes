@@ -83,6 +83,6 @@ Meteor.methods({
   },
 
   'getIp'() {
-    return process.env.ROOT_URL
+    return process.env.IP || '127.0.0.1'
   }
 })

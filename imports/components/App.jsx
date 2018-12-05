@@ -107,8 +107,6 @@ class Application extends Component {
 
 
   render() {
-    
-    
     if (this.props.connecte) {
       Meteor.call('connexions.socket', this.props.connexion._id, Streamy.id())
       // const ConnexionContext = React.createContext(this.props.connexion);
