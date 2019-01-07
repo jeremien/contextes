@@ -1,3 +1,4 @@
+accounts-base@1.4.3
 allow-deny@1.1.0
 autoupdate@1.5.0
 babel-compiler@7.2.3
@@ -16,6 +17,7 @@ coffeescript@1.0.17
 ddp@1.4.0
 ddp-client@2.3.3
 ddp-common@1.4.0
+ddp-rate-limiter@1.0.7
 ddp-server@2.2.0
 deps@1.0.12
 diff-sequence@1.1.1
@@ -38,6 +40,7 @@ inter-process-messaging@0.1.0
 jquery@1.11.11
 launch-screen@1.1.1
 livedata@1.0.18
+localstorage@1.2.0
 logging@1.1.20
 matb33:collection-hooks@0.8.4
 meteor@1.9.2
@@ -67,12 +70,14 @@ ostrio:cron-jobs@2.2.1
 ostrio:files@1.10.2
 promise@0.11.1
 random@1.1.0
+rate-limit@1.0.9
 react-meteor-data@0.2.16
 reactive-dict@1.2.1
 reactive-var@1.0.11
 reload@1.2.0
 retry@1.1.0
 routepolicy@1.1.0
+service-configuration@1.0.11
 session@1.2.0
 shell-server@0.4.0
 simple:json-routes@2.1.0

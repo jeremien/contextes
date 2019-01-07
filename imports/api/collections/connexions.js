@@ -7,6 +7,7 @@ import {
 
 export const Connexions = new Mongo.Collection('connexions');
 
+
 if (Meteor.isServer) {
     Meteor.publish('connexions', function connexionsPublication() {
         return Connexions.find();
@@ -30,17 +31,17 @@ Meteor.methods({
     },
 
     'connexions.role'(utilisateur, role) {
-        Connexions.update({_id: utilisateur}, {$set: {role: role}})
+        Connexions.update({ _id: utilisateur }, { $set: { role: role } })
     },
 
-    'connexions.session' (utilisateur, session) {
+    'connexions.session'(utilisateur, session) {
         Connexions.update({
             _id: utilisateur
         }, {
-            $push: {
-                session: session,
-            }
-        })
+                $push: {
+                    session: session,
+                }
+            })
     },
 
     'connexions.chapitre'(utilisateur, session, chapitre) {
@@ -48,11 +49,11 @@ Meteor.methods({
         Connexions.update({
             _id: utilisateur
         }, {
-            $set: {
-                chapitre: chapitre,
-                online: true,
-            }
-        })
+                $set: {
+                    chapitre: chapitre,
+                    online: true,
+                }
+            })
     },
 
     // 'deconnection.session' (utilisateur) {
@@ -85,47 +86,47 @@ Meteor.methods({
         Connexions.update({
             _id: utilisateur
         }, {
-            $set: {
-                online: true
-            }
-        })
+                $set: {
+                    online: true
+                }
+            })
     },
 
     'connexions.offline'(utilisateur) {
         Connexions.update({
             _id: utilisateur
         }, {
-            $set: {
-                online: false
-            }
-        })
+                $set: {
+                    online: false
+                }
+            })
     },
 
     'connexions.socket'(utilisateur, socketId) {
         Connexions.update({
             _id: utilisateur
         }, {
-            $set: {
-                socketId: socketId
-            }
-        })
+                $set: {
+                    socketId: socketId
+                }
+            })
     },
 
-    'connexions.ecrit' (utilisateur) {
+    'connexions.ecrit'(utilisateur) {
         Connexions.update({
             _id: utilisateur
         },
-        {
-            $set: {typing: true}
-        })
+            {
+                $set: { typing: true }
+            })
     },
 
-    'connexions.ecrit.pas' (utilisateur) {
+    'connexions.ecrit.pas'(utilisateur) {
         Connexions.update({
             _id: utilisateur
         },
-        {
-            $set: {typing: false}
-        })
+            {
+                $set: { typing: false }
+            })
     }
 })

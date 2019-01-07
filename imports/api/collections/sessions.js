@@ -77,12 +77,6 @@ Meteor.methods({
         });
     },
 
-    'sessions.connexion' (sessionId, utilisateur) {
-        Session.update(sessionId, {
-            $add
-        })
-    },
-
     'sessions.deconnexion' (sessionId, utilisateur) {
 
     },

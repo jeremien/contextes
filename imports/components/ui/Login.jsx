@@ -50,6 +50,7 @@ class Login extends React.Component {
 
     handleRoleChange(value) {
         this.setState({ role: value });
+        
     }
 
     handleUsername(e) {
