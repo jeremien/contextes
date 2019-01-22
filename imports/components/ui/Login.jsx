@@ -25,7 +25,7 @@ class Login extends React.Component {
         event.preventDefault();
 
         if (!!this.state.username && !!this.state.role) {
-            Meteor.call('connexions.insert', this.state.username, this.state.role, this.props.socketId, function (error, id) {
+            Meteor.call('connexions.insert.local', this.state.username, this.state.role, this.props.socketId, function (error, id) {
                 localStorage.setItem('userId', id)
                 Session.set('userId', id)
             });
