@@ -4,9 +4,15 @@ import {
 import {
     Meteor
 } from 'meteor/meteor';
+import { Accounts } from 'meteor/accounts-base'
 
+/**
+ * Collection gérant les informations de connexions.
+ * Si il y a besoin de la version web, le système d'utilisateur de Meteor est utilisé en parallèle. 
+ * Toute les informations annexes (role, sessions, etc) restent stockées dans la collection Connexions.
+ * Cela facilite le passage d'une version à l'autre et est plus facile à utiliser que des champs personnalisés dans la base de données user de Meteor.
+ */
 export const Connexions = new Mongo.Collection('connexions');
-
 
 if (Meteor.isServer) {
     Meteor.publish('connexions', function connexionsPublication() {
@@ -16,20 +22,46 @@ if (Meteor.isServer) {
 
 Meteor.methods({
 
-    'connexions.insert'(utilisateur, role, socketId) {
-        const id = Connexions.insert({
-            utilisateur: utilisateur,
-            role: role,
-            socketId: socketId,
-            session: [],
-            chapitre: "",
-            online: true,
-            typing: false,
-        });
-
-        return id
+    'connexions.insert.web'(utilisateur, password, email) {
+        const data = {
+            username: utilisateur,
+            password: password,
+            email: email,
+        };
+        const id = Accounts.createUser(data);        
+        return id;
     },
 
+    'connexions.insert.local'(idMeteor, utilisateur, role, socketId) {
+
+        let id = null;
+        if (!!idMeteor) {
+            id = Connexions.insert({
+                _id: idMeteor,
+                username: utilisateur,
+                role: role,
+                socketId: socketId,
+                session: [],
+                chapitre: "",
+                online: true,
+                typing: false,
+                userSession: [],
+            });
+        }
+        else {
+            id = Connexions.insert({
+                username: utilisateur,
+                role: role,
+                socketId: socketId,
+                session: [],
+                chapitre: "",
+                online: true,
+                typing: false,
+                userSession: [],
+            });
+        }
+        return id;
+    },
     'connexions.role'(utilisateur, role) {
         Connexions.update({ _id: utilisateur }, { $set: { role: role } })
     },
