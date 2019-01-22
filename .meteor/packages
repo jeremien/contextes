@@ -29,3 +29,5 @@ meteorhacks:aggregate
 yuukan:streamy
 simple:rest
 accounts-base
+accounts-password
+accounts-ui
