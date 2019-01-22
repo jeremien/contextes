@@ -41,9 +41,9 @@ class DetailsChapitreContainer extends React.Component {
 
     componentWillMount() {
         let sessionOk = false;
-        if (!this.props.userSession.includes(this.props.match.params.sessionId)) {
+        // if (!this.props.userSession.includes(this.props.match.params.sessionId)) {
 
-        }
+        // }
 
     }
 
@@ -100,19 +100,14 @@ class DetailsChapitreContainer extends React.Component {
     }
 
     render() {
-        if (!this.props.userSession.includes(this.props.match.params.sessionId)) {
-            if (this.props.chapitreExists && !this.props.loading) {
-                var { match, path, ...rest } = this.props;
-                const outils = this.getOutils({ ...rest });
-                return <DetailsChapitre outils={outils} {...rest} test={this.test} />
-            }
-
-            else {
-                return <h3>Chargement</h3>
-            }
+        if (this.props.chapitreExists && !this.props.loading) {
+            var { match, path, ...rest } = this.props;
+            const outils = this.getOutils({ ...rest });
+            return <DetailsChapitre outils={outils} {...rest} test={this.test} />
         }
+
         else {
-            return <ConnexionSession {...this.props} />
+            return <h3>Chargement</h3>
         }
     }
 };
