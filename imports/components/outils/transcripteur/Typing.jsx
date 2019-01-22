@@ -19,7 +19,7 @@ export default class Typing extends Component {
                     {this.props.transcripteurs.map((transcripteur) => (
     
                             <li key={transcripteur._id}>
-                               {transcripteur.utilisateur} : {transcripteur.typing ? <span>En train d'écrire</span> : <span>Inactif</span>}
+                               {transcripteur.username} : {transcripteur.typing ? <span>En train d'écrire</span> : <span>Inactif</span>}
                             </li>
                         )
                     )}
