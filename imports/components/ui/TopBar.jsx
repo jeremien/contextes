@@ -86,30 +86,30 @@ export default class TopBar extends Component {
       return (
         <div>
 
-        <Menu
-          mode='horizontal'
-          selectedKeys={[this.state.current]}
-          onClick={this.handClickMenu}
-        >
+          <Menu
+            mode='horizontal'
+            selectedKeys={[this.state.current]}
+            onClick={this.handClickMenu}
+          >
 
 
-          <Menu.Item key='home'>
-            <Icon type="home" />
-          </Menu.Item>
+            <Menu.Item key='home'>
+              <Icon type="home" />
+            </Menu.Item>
 
 
-          {this.props.connecte &&
-            <SubMenu
-              key='sessions'
-              title='Sessions'
-              onTitleClick={this.handClickMenu}
-            >
-              {this.renderSessions()}
+            {this.props.connecte &&
+              <SubMenu
+                key='sessions'
+                title='Sessions'
+                onTitleClick={this.handClickMenu}
+              >
+                {this.renderSessions()}
 
-            </SubMenu>
-          }
+              </SubMenu>
+            }
 
-          {/* {this.props.connecte &&
+            {/* {this.props.connecte &&
             <SubMenu
               key='chapitres'
               title='Chapitres'
@@ -120,75 +120,82 @@ export default class TopBar extends Component {
             </SubMenu>
           } */}
 
-          {(this.props.connecte && this.props.role === 'editeur') &&
-            <SubMenu
-              key='publications'
-              title='Publications'
-              onTitleClick={this.handClickMenu}
-            >
-              {this.renderPublications()}
-
-            </SubMenu>
-          }
-
-          <Menu.Item key='logs'>
-            <Icon type="bars" /> Logs
-            </Menu.Item>
-
-
-          {!this.props.connecte ?
-            <Menu.Item
-              key='login'
-            >Login</Menu.Item> :
-            <Menu.Item
-              key='login'
-              onClick={() => {
-                console.log('logout')
-                localStorage.clear();
-                Session.clear()
-
-                Meteor.call('connexions.remove', this.props.userId);
-                if (this.props.role == 'editeur') {
-                  Meteor.call('deconnexion.editeur')
-                }
-
-                let infos = {
-                  title: "message général",
-                  message: `déconnexion de ${this.props.utilisateur} comme ${this.props.role}`,
-                  type: "info"
-                };
-
-                Meteor.call('notification', infos);
-
-              }
-              }
-            > Logout ({text})</Menu.Item>
-          }
-          
-
-        </Menu>
-        <Menu>
-          {this.props.connecte &&
-            <Menu.Item
-              key='role'
-            >
-              <Select
-                defaultValue={this.props.role}
-                placeHolder="Choisissez un nouveau role"
-                style={{ width: 200 }}
-                onChange={this.handleRole}
+            {(this.props.connecte && this.props.role === 'editeur') &&
+              <SubMenu
+                key='publications'
+                title='Publications'
+                onTitleClick={this.handClickMenu}
               >
-                <Select.Option value='editeur'>Éditeur</Select.Option>
-                <Select.Option value='transcripteur'>Transcripteur</Select.Option>
-                <Select.Option value='correcteur'>Correcteur</Select.Option>
-                <Select.Option value='iconographe'>Iconographe</Select.Option>
-                {/* <Select.Option value='conformateur'>Conformateur</Select.Option> */}
+                {this.renderPublications()}
 
-              </Select>
+              </SubMenu>
+            }
+
+            <Menu.Item key='logs'>
+              <Icon type="bars" /> Logs
             </Menu.Item>
-          }
 
-        </Menu>
+
+            {!this.props.connecte ?
+              <Menu.Item
+                key='login'
+              >Login</Menu.Item> :
+              <Menu.Item
+                key='login'
+                onClick={() => {
+                  console.log('logout')
+                  Meteor.call('connexions.remove', this.props.userId);
+                  /**
+                   * Logout version web. A commenter si serveur local
+                   */
+                  Meteor.logout(function (error) {
+                    console.log('erreur logout :', error)
+                  })
+
+                  localStorage.clear();
+                  Session.clear()
+
+                  if (this.props.role == 'editeur') {
+                    Meteor.call('deconnexion.editeur')
+                  }
+
+                  let infos = {
+                    title: "message général",
+                    message: `déconnexion de ${this.props.utilisateur} comme ${this.props.role}`,
+                    type: "info"
+                  };
+
+                  Meteor.call('notification', infos);
+
+                }
+                }
+              > Logout ({text})</Menu.Item>
+            }
+
+
+          </Menu>
+          <Menu>
+            {this.props.connecte &&
+              <Menu.Item
+                key='role'
+              >
+                <Select
+                  defaultValue={this.props.role}
+                  placeHolder="Choisissez un nouveau role"
+                  style={{ width: 200 }}
+                  onChange={this.handleRole}
+                >
+                  <Select.Option value='editeur'>Éditeur</Select.Option>
+                  <Select.Option value='transcripteur'>Transcripteur</Select.Option>
+                  <Select.Option value='correcteur'>Correcteur</Select.Option>
+                  <Select.Option value='iconographe'>Iconographe</Select.Option>
+                  {/* <Select.Option value='conformateur'>Conformateur</Select.Option> */}
+
+                </Select>
+              </Menu.Item>
+            }
+
+          </Menu>
         </div>
       )
 
