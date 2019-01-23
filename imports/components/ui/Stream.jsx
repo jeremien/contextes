@@ -16,9 +16,10 @@ export default class Stream extends React.Component {
     componentDidMount() {
         Meteor.call('getIp', (error, result) => {
             // this.setState({ip: ip})
-            console.log(result)
+            console.log('result :', result)
             this.setState({ip: result})
             if (flvjs.isSupported()) {
+                console.log("supported")
                 var videoElement = document.getElementById('videoElement');
                 this.flvPlayer = flvjs.createPlayer({
                     type: 'flv',
