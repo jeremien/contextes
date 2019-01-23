@@ -23,7 +23,8 @@ export default class Stream extends React.Component {
                 var videoElement = document.getElementById('videoElement');
                 this.flvPlayer = flvjs.createPlayer({
                     type: 'flv',
-                    url: `ws://${result}:8000/live/${this.props.chapitre}.flv`,
+                    // url: `ws://${result}:8000/live/${this.props.chapitre}.flv`,
+                    url: `ws://127.0.0.1:8000/live/${this.props.chapitre}.flv`,
                 },
                     {
                         enableStashBuffer: false,

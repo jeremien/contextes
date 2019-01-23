@@ -38,7 +38,6 @@ import { Layout, notification } from 'antd';
 
 import "antd/dist/antd.css";
 // import ConnexionSession from './VersionWeb/ConnexionSession';
-import LoginWeb from './VersionWeb/LoginWeb';
 
 const { Header, Content } = Layout;
 
@@ -158,17 +157,8 @@ class Application extends Component {
             {/**
             * Route pour la version Web
             */}
-            {/* <Route path="/login" render={(props) => <Login {...props} {...propsToPass} />} /> */}
+            <Route path="/login" render={(props) => <Login {...props} {...propsToPass} />} />
             <Route path="/sessions/:sessionId" render={(props) => <DetailsSession {...props} {...propsToPass} />} />
-
-            {/**
-            * Route pour la versino serveur local
-            */}
-            <Route path="/login" render={(props) => <LoginWeb {...props} {...propsToPass} />} />
-            {/* <Route path="/sessions/:sessionId" render={(props) => <ConnexionSession {...props} {...propsToPass} />} /> */}
-
-
-
 
             <Route path="/test" render={(props) => <TestAPI {...this.props} {...propsToPass} />} />
 
@@ -179,8 +169,34 @@ class Application extends Component {
     )
   }
 };
+
 /**
- * Tracker pour la version serveur local
+ * Tacker pour la version web
+ */
+export default withTracker((props) => {
+  const connexionsHandle = Meteor.subscribe('connexions');
+  const loading = !connexionsHandle.ready()
+  if (!!Meteor.user()) {
+    const user = Meteor.user()
+    const connexion = Connexions.findOne(Meteor.userId())
+    return {
+      loading: loading,
+      connecte: !!Meteor.user(),
+      connexion: connexion ? connexion : {}
+    }
+  }
+  else {
+    return {
+      loading: false,
+      connecte: false,
+      connexion: {},
+    }
+  }
+})(Application);
+
+
+/**
+ * Tracker pour la version serveur local------------------------------------------------
  */
 
 // export default withTracker((props) => {
@@ -221,27 +237,6 @@ class Application extends Component {
 //   }
 
 // })(Application);
-
 /**
- * Tacker pour la version web
+ * ----------------------------------------------------------------------------------------------
  */
-export default withTracker((props) => {
-  const connexionsHandle = Meteor.subscribe('connexions');
-  const loading = !connexionsHandle.ready()
-  if (!!Meteor.user()) {
-    const user = Meteor.user()
-    const connexion = Connexions.findOne(Meteor.userId())
-    return {
-      loading: loading,
-      connecte: !!Meteor.user(),
-      connexion: connexion ? connexion : {}
-    }
-  }
-  else {
-    return {
-      loading: false,
-      connecte: false,
-      connexion: {},
-    }
-  }
-})(Application);
