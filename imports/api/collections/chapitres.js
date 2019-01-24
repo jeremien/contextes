@@ -20,18 +20,13 @@ if (Meteor.isServer) {
     // })
 
     Meteor.publish('chapitres', function (session) {
-        if (Roles.userIsInRole(this.userId, "admis", session)) {
-      
-          return Meteor.secrets.find({session: session});
-      
-        } else {
-      
-          // user not authorized. do not publish secrets
-          this.stop();
-          return;
-      
+        if (Roles.userIsInRole(this.userId, "admis", session.session)) {
+            return Chapitres.find({ session: session.session })
         }
-      });
+        else {
+            return Chapitres.find({ fields: { _id: 0 } });
+        }
+    });
 }
 
 Meteor.methods({
@@ -54,7 +49,7 @@ Meteor.methods({
              * edition (par défaut), prepresse, archivee
              */
             etat: 'edition',
-            isOpen : true,
+            isOpen: true,
             utilisateurs_connectes: [],
             timer: duree,
             id_timer: null,
@@ -105,20 +100,20 @@ Meteor.methods({
         Chapitres.update({
             _id: chapitreId
         }, {
-            $addToSet: {
-                utilisateurs_connectes: utilisateur
-            }
-        })
+                $addToSet: {
+                    utilisateurs_connectes: utilisateur
+                }
+            })
     },
 
     'chapitres.deconnexion'(chapitreId, utilisateur) {
         Chapitres.update({
             _id: chapitreId
         }, {
-            $pull: {
-                utilisateurs_connectes: utilisateur
-            }
-        })
+                $pull: {
+                    utilisateurs_connectes: utilisateur
+                }
+            })
     },
 
     'chapitres.timer.update'(chapitreId, dureeBoucle) {
@@ -129,19 +124,19 @@ Meteor.methods({
             Chapitres.update({
                 _id: chapitreId
             }, {
-                $set: {
-                    timer: dureeBoucle,
-                }
-            })
+                    $set: {
+                        timer: dureeBoucle,
+                    }
+                })
             Meteor.call('timer.next')
         } else {
             Chapitres.update({
                 _id: chapitreId
             }, {
-                $set: {
-                    timer: newTimer
-                }
-            })
+                    $set: {
+                        timer: newTimer
+                    }
+                })
         }
 
     },
@@ -150,41 +145,41 @@ Meteor.methods({
         Chapitres.update({
             _id: chapitreId
         }, {
-            $set: {
-                timer: debut,
-                id_timer: null
-            }
-        })
+                $set: {
+                    timer: debut,
+                    id_timer: null
+                }
+            })
     },
 
     'chapitres.timer.set'(chapitreId, timerId) {
         Chapitres.update({
             _id: chapitreId
         }, {
-            $set: {
-                id_timer: timerId
-            }
-        })
+                $set: {
+                    id_timer: timerId
+                }
+            })
     },
 
     'chapitres.timer.duree'(chapitreId, duree) {
         Chapitres.update({
             _id: chapitreId
         }, {
-            $set: {
-                duree_boucle: duree
-            }
-        })
+                $set: {
+                    duree_boucle: duree
+                }
+            })
     },
 
     'chapitres.etat.update'(sessionId, etat) {
         Chapitres.update({
             session: sessionId
         }, {
-            $set: {
-                etat: etat
-            }
-        });
+                $set: {
+                    etat: etat
+                }
+            });
     },
 
     'chapitres.nombre.badge'() {
