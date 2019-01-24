@@ -23,6 +23,25 @@ class Login extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this)
         this.handleRoleChange = this.handleRoleChange.bind(this)
+        this.connexion = this.connexion.bind(this)
+    }
+
+    connexion() {
+        Meteor.loginWithPassword(this.state.username, this.state.password, function (error) {
+            console.log("erreur connexion :", error)
+        })
+        let infos = {
+            title: "message général",
+            message: `connexion de ${this.state.username} comme ${this.state.role}`,
+            type: "info"
+        };
+
+        Meteor.call('notification', infos);
+        Meteor.call('log.insert', 'notification', infos.message);
+
+        if (this.props.history) {
+            this.props.history.push('/sessions');
+        }
     }
 
     handleSubmit(event) {
@@ -33,34 +52,37 @@ class Login extends React.Component {
             //Chontrole choix entre inscription et connexion
             if (this.state.inscription) {
                 const { username, role, socketId } = { username: this.state.username, role: this.state.role, scoketId: this.props.socketId }
-                Meteor.call('connexions.insert.web', username, this.state.password, this.state.email, role, socketId, function (error, idMeteor) {
+                // Meteor.call('connexions.insert.web', username, this.state.password, this.state.email, role, socketId, function (error, idMeteor) {
+                //     if (error) {
+                //         alert(error)
+                //     }
+                //     else {
+                //         self.setState({inscription: false})
+                //         alert('Compte créé, vous pouvez maintenant vous connectez')
+                //         Meteor.call('connexions.insert.local', idMeteor, username, role, socketId)
+                //     }
+                // })
+                Accounts.createUser({ username: username, password: this.state.password, email: this.state.email }, function (error) {
                     if (error) {
                         alert(error)
                     }
                     else {
-                        self.setState({inscription: false})
-                        alert('Compte créé, vous pouvez maintenant vous connectez')
-                        Meteor.call('connexions.insert.local', idMeteor, username, role, socketId)
+                        Meteor.call('connexions.insert.local', Meteor.userId(), username, role, socketId, function (error) {
+                            if (error) {
+                                alert('Erreur à la création du compte', error)
+                            }
+                            else {
+                                alert('Compte créé, vous allez maintenant être connectez')
+                                self.connexion();
+                            }
+                        })
+
                     }
                 })
             }
 
             else {
-                Meteor.loginWithPassword(this.state.username, this.state.password, function (error) {
-                    console.log("erreur connexion :", error)
-                })
-                let infos = {
-                    title: "message général",
-                    message: `connexion de ${this.state.username} comme ${this.state.role}`,
-                    type: "info"
-                };
-
-                Meteor.call('notification', infos);
-                Meteor.call('log.insert', 'notification', infos.message);
-
-                if (this.props.history) {
-                    this.props.history.push('/sessions');
-                }
+                this.connexion();
             }
         }
         else {
@@ -70,7 +92,7 @@ class Login extends React.Component {
 
     handleRoleChange(value) {
         this.setState({ role: value });
-        
+
     }
 
     handleInputChange(event) {
@@ -94,9 +116,9 @@ class Login extends React.Component {
                     style={{ marginBottom: '20px' }}
                 />
                 {this.state.inscription ?
-                <h3>Inscription</h3>
-                :
-                <h3>Connexion</h3>
+                    <h3>Inscription</h3>
+                    :
+                    <h3>Connexion</h3>
                 }
 
                 <Form
