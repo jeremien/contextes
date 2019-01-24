@@ -42,6 +42,7 @@ Meteor.methods({
             utilisateurs_connectes: [],
             utilisateurs_ayant_participe: [],
             categories: categories,
+            password: 'test',
         });
     },
 
@@ -84,6 +85,16 @@ Meteor.methods({
     'sessions.etat.update'(sessionId, etat) {
         Sessions.update({_id: sessionId}, {$set: {etat: etat}});
         Meteor.call('chapitres.etat.update', sessionId, etat)
+    },
+
+    'sessions.connexion'(userId, session, password) {
+        if (password == Sessions.findOne({_id: session}).password) {
+            Roles.addUsersToRoles(userId, "admis", session);
+            return true;
+        }
+        else {
+            return false;
+        }
     },
     
 })

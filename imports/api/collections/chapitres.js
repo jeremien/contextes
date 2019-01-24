@@ -15,9 +15,23 @@ export const Chapitres = new Mongo.Collection('chapitres');
 // Chapitres.attachCollectionRevisions(CollectionRevisions.Chapitres);
 
 if (Meteor.isServer) {
-    Meteor.publish('chapitres', function chapitresPublication() {
-        return Chapitres.find();
-    })
+    // Meteor.publish('chapitres', function chapitresPublication() {
+    //     return Chapitres.find();
+    // })
+
+    Meteor.publish('chapitres', function (session) {
+        if (Roles.userIsInRole(this.userId, "admis", session)) {
+      
+          return Meteor.secrets.find({session: session});
+      
+        } else {
+      
+          // user not authorized. do not publish secrets
+          this.stop();
+          return;
+      
+        }
+      });
 }
 
 Meteor.methods({
