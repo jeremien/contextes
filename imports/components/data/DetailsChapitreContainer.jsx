@@ -114,7 +114,7 @@ class DetailsChapitreContainer extends React.Component {
 
 export default withTracker((props) => {
     const connexionsHandle = Meteor.subscribe('connexions')
-    const chapitresHandle = Meteor.subscribe('chapitres');
+    const chapitresHandle = Meteor.subscribe('chapitres', {session: props.match.params.idSession})
     const sessionsHandle = Meteor.subscribe('sessions');
     const loading = !chapitresHandle.ready() && !connexionsHandle.ready() & !sessionsHandle.ready();; //vaut true si les données ne sont pas encore chargées.
     const session = Sessions.findOne({ _id: props.match.params.sessionId })
@@ -130,6 +130,7 @@ export default withTracker((props) => {
         role: 'transcripteur',
     })
     const chapitre = Chapitres.findOne({ _id: props.match.params.idChapitre });
+    console.log('detail chap cont', chapitre)
     const connexionsExists = !loading && !!connexions;
     const chapitreExists = !loading && !!chapitre; //vaut false si aucun chapitre n'existe ou si aucun n'a été trouvé
     return ({

@@ -18,7 +18,6 @@ class IndexLogsContainer extends React.Component {
 }
 
 export default IndexLogsContainer = withTracker((props) => {
-
     const logsHandle = Meteor.subscribe('logs');
     const loading = !logsHandle.ready();
     const logs = Logs.find().fetch();

@@ -121,7 +121,7 @@ class TableauDeBord extends React.Component {
 }
 
 export default TableauDeBordContainer = withTracker((props) => {
-    const chapitresHandle = Meteor.subscribe('chapitres');
+    const chapitresHandle = Meteor.subscribe('chapitres', {session: props.session._id});
     const loading = !chapitresHandle.ready()
     const chapitres = Chapitres.find({ session: props.session._id }).fetch();
     const chapitresExists = !loading && !!chapitres;

@@ -19,7 +19,6 @@ class IndexPublicationsContainer extends React.Component {
 }
 
 export default IndexPublicationsContainer = withTracker((props) => {
-
     const publicationsHandle = Meteor.subscribe('publications');
     const loading = !publicationsHandle.ready();
     const publications = Publications.find().fetch();

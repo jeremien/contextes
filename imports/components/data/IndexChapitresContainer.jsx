@@ -37,7 +37,7 @@ class IndexChapitresContainer extends Component {
 };
 
 export default IndexChapitresContainer = withTracker((props) => {
-    const chapitresHandle = Meteor.subscribe('chapitres');
+    const chapitresHandle = Meteor.subscribe('chapitres', {session: props.sessionId})
     const loading = !chapitresHandle.ready();
     const chapitres = Chapitres.find({ session: props.sessionId }).fetch()
     const chapitresExists = !loading && !!chapitres;

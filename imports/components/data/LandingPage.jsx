@@ -121,7 +121,7 @@ class LandingPage extends Component {
 
 export default withTracker(() => {
     const sessionsHandle = Meteor.subscribe('sessions');
-    const chapitresHandle = Meteor.subscribe('chapitres');
+    const chapitresHandle = Meteor.subscribe('chapitres', {session: '*'});
     const publicationsHandle = Meteor.subscribe('publications');
     const loading = !sessionsHandle.ready() && !chapitresHandle.ready() && !publicationsHandle.ready();
     const sessions = Sessions.find({}).fetch();
