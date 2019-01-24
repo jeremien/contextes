@@ -142,10 +142,11 @@ class Login extends React.Component {
 
                         <Input
                             placeholder='votre mot de passe'
-                            prefix={<Icon type="password" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                            prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
                             value={password}
                             onChange={this.handleInputChange}
                             name='password'
+                            type='password'
                         />
 
                     </FormItem>
