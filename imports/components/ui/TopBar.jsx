@@ -31,7 +31,12 @@ export default class TopBar extends Component {
       this.setState({
         current: 'home'
       })
-    } else {
+    } 
+    
+    else if (e.key == 'role') {
+
+    }
+    else {
       this.props.history.push(`/${e.key}`);
       this.setState({
         current: e.key
@@ -172,9 +177,6 @@ export default class TopBar extends Component {
               > Logout ({text})</Menu.Item>
             }
 
-
-          </Menu>
-          <Menu>
             {this.props.connecte &&
               <Menu.Item
                 key='role'
@@ -194,7 +196,6 @@ export default class TopBar extends Component {
                 </Select>
               </Menu.Item>
             }
-
           </Menu>
         </div>
       )
