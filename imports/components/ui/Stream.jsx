@@ -32,7 +32,12 @@ export default class Stream extends React.Component {
                     <div>
                         <Player
                             ref="player"
-                            autoPlay>
+                            autoPlay
+                            fluid={false}
+                            height={200}
+                            width={300}
+                            aspectRatio={"16:9"}
+                            >
                             <HLSSource
                                 isVideoChild
                                 src={`http://${this.state.ip}:3002/live/${this.props.chapitre}/index.m3u8`}
