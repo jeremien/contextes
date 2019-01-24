@@ -37,7 +37,7 @@ import LandingPage from './data/LandingPage';
 import { Layout, notification } from 'antd';
 
 import "antd/dist/antd.css";
-// import ConnexionSession from './VersionWeb/ConnexionSession';
+import ConnexionSession from './ui/ConnexionSession';
 
 const { Header, Content } = Layout;
 
@@ -158,7 +158,7 @@ class Application extends Component {
             * Route pour la version Web
             */}
             <Route path="/login" render={(props) => <Login {...props} {...propsToPass} />} />
-            <Route path="/sessions/:sessionId" render={(props) => <DetailsSession {...props} {...propsToPass} />} />
+            <Route path="/sessions/:sessionId" render={(props) => <ConnexionSession {...props} {...propsToPass} />} />
 
             <Route path="/test" render={(props) => <TestAPI {...this.props} {...propsToPass} />} />
 
