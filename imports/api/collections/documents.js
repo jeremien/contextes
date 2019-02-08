@@ -63,6 +63,17 @@ Meteor.methods({
         });
     },
 
+    'documents.plenty.insert'(contenu) {
+
+        console.log(contenu)
+
+        // Documents.insert({
+        //     contenu : contenu
+        // });
+
+        Documents.insert(contenu);
+    },
+
     /**
      * Permet de "supprimer un document" en le modifiant. Le contenu est vider et les métadatas sont conservées.
      * La version précédente est sauvagardée automatiquement dans le champs revisions.

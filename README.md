@@ -70,5 +70,26 @@ Pour supprimer un document : une requete DELETE à l'adresse /nom-collection/_id
 Pour l'instant elles ne sont pas accessibles, mais pourront l'être si besoin
 
 
+## exemples 
+  
+curl -d '{"session": "gbSSZycPAYdBdLF58", "chapitre": "dkwXkDnSjJwyTBg7H", "contenu": "hello", "auteur": "joe"}' -H "Content-Type: application/json" -X POST http://192.168.5.134:3000/documents
+
+-u jeremie:bobbob
+
+jeremie
+bobbob
+E3LoSJLEGesE5pL3C
+
+curl -d '{"session": "gbSSZycPAYdBdLF58", "chapitre": "dkwXkDnSjJwyTBg7H", "contenu": "hello", "auteur": "joe"}' -H "Content-Type: application/json" -X POST http://vps615848.ovh.net/methods/documents.insert
 
 
+http://vps615848.ovh.net/publications/api-routes
+
+
+# cross origin
+
+https://enable-cors.org/server_meteor.html
+
+# deployement
+
+http://vps615848.ovh.net/
