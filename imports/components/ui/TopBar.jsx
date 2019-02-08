@@ -84,6 +84,8 @@ export default class TopBar extends Component {
 
   render() {
 
+    console.log(this.props)
+
     let text = `Bienvenue, ${this.props.utilisateur}. Vous êtes un ${this.props.role}`;
 
     if (!this.props.loading) {
@@ -114,32 +116,6 @@ export default class TopBar extends Component {
               </SubMenu>
             }
 
-            {/* {this.props.connecte &&
-            <SubMenu
-              key='chapitres'
-              title='Chapitres'
-              onTitleClick={this.handClickMenu}
-            >
-              {this.renderChapitres()}
-
-            </SubMenu>
-          } */}
-
-            {(this.props.connecte && this.props.role === 'editeur') &&
-              <SubMenu
-                key='publications'
-                title='Publications'
-                onTitleClick={this.handClickMenu}
-              >
-                {this.renderPublications()}
-
-              </SubMenu>
-            }
-
-            <Menu.Item key='logs'>
-              <Icon type="bars" /> Logs
-            </Menu.Item>
-
 
             {!this.props.connecte ?
               <Menu.Item
@@ -154,7 +130,11 @@ export default class TopBar extends Component {
                    * Logout version web. A commenter si serveur local
                    */
                   Meteor.logout(function (error) {
-                    console.log('erreur logout :', error)
+                    if (error) {
+                      console.log('erreur logout :', error)
+                    } else {
+                      console.log('logout');
+                    }
                   })
 
                   localStorage.clear();

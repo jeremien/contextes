@@ -41,10 +41,7 @@ class DetailsChapitreContainer extends React.Component {
 
     componentWillMount() {
         let sessionOk = false;
-        // if (!this.props.userSession.includes(this.props.match.params.sessionId)) {
-
-        // }
-
+  
     }
 
     getOutils(propToPass) {
@@ -66,16 +63,10 @@ class DetailsChapitreContainer extends React.Component {
                     outilgauche: <InfosChapitre {...propToPass} />,
                     outildroit: <div>
                         <IndexDocuments {...propToPass} />
-                        {/* <CorrectionDocument {...propToPass} /> */}
                     </div>
                 }
                 break;
-            // case 'conformateur':
-            //     return {
-            //         outilgauche: <InfosChapitre {...propToPass} />,
-            //         outildroit: <DetailsDocumentsConformateur {...propToPass} />
-            //     }
-
+ 
             case 'iconographe':
                 return {
                     outilgauche: <InfosChapitre {...propToPass} />,
@@ -130,7 +121,6 @@ export default withTracker((props) => {
         role: 'transcripteur',
     })
     const chapitre = Chapitres.findOne({ _id: props.match.params.idChapitre });
-    console.log('detail chap cont', chapitre)
     const connexionsExists = !loading && !!connexions;
     const chapitreExists = !loading && !!chapitre; //vaut false si aucun chapitre n'existe ou si aucun n'a été trouvé
     return ({

@@ -27,17 +27,34 @@ class Login extends React.Component {
     }
 
     connexion() {
-        Meteor.loginWithPassword(this.state.username, this.state.password, function (error) {
-            console.log("erreur connexion :", error)
-        })
-        let infos = {
-            title: "message général",
-            message: `connexion de ${this.state.username} comme ${this.state.role}`,
-            type: "info"
-        };
 
-        Meteor.call('notification', infos);
-        Meteor.call('log.insert', 'notification', infos.message);
+        const { username, role, socketId } = { username: this.state.username, role: this.state.role, socketId: this.props.socketId }
+        
+        Meteor.loginWithPassword(username, this.state.password, function (error) {
+
+            if (error) {
+                console.log("erreur connexion :", error);
+            } else {
+                console.log(Meteor.userId(), username, role, socketId)
+                console.log("connexion réussie")
+                Meteor.call('connexions.insert.local', Meteor.userId(),username, role, socketId, function (error) {
+                    if (error) {
+                        alert('Erreur à la connection', error);
+                    } else {
+                        alert('Vous êtes connecté');
+                    }
+                });
+            }
+            
+        });
+        // let infos = {
+        //     title: "message général",
+        //     message: `connexion de ${this.state.username} comme ${this.state.role}`,
+        //     type: "info"
+        // };
+
+        // Meteor.call('notification', infos);
+        // Meteor.call('log.insert', 'notification', infos.message);
 
         if (this.props.history) {
             this.props.history.push('/sessions');
@@ -51,7 +68,7 @@ class Login extends React.Component {
         if (!!this.state.username && !!this.state.role) {
             //Chontrole choix entre inscription et connexion
             if (this.state.inscription) {
-                const { username, role, socketId } = { username: this.state.username, role: this.state.role, scoketId: this.props.socketId }
+                const { username, role, socketId } = { username: this.state.username, role: this.state.role, socketId: this.props.socketId }
                 // Meteor.call('connexions.insert.web', username, this.state.password, this.state.email, role, socketId, function (error, idMeteor) {
                 //     if (error) {
                 //         alert(error)
@@ -67,21 +84,24 @@ class Login extends React.Component {
                         alert(error)
                     }
                     else {
-                        Meteor.call('connexions.insert.local', Meteor.userId(), username, role, socketId, function (error) {
-                            if (error) {
-                                alert('Erreur à la création du compte', error)
-                            }
-                            else {
-                                alert('Compte créé, vous allez maintenant être connectez')
-                                self.connexion();
-                            }
-                        })
+                        // this.connexion();
+                        self.connexion();
+                        // Meteor.call('connexions.insert.local', Meteor.userId(), username, role, socketId, function (error) {
+                        //     if (error) {
+                        //         alert('Erreur à la création du compte', error);
+                        //     }
+                        //     else {
+                        //         alert('Compte créé, vous allez maintenant être connectez');
+                        //         self.connexion();
+                        //     }
+                        // })
 
                     }
                 })
             }
 
             else {
+                console.log('connection en cours')
                 this.connexion();
             }
         }
@@ -107,6 +127,9 @@ class Login extends React.Component {
     render() {
 
         const { username, password, email } = this.state;
+
+        // console.log(this.state)
+
         return (
             <div>
                 <Switch

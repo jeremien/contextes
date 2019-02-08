@@ -21,6 +21,8 @@ import ReactNotification from "react-notifications-component";
 
 import IndexSessions from './ui/IndexSessions';
 import Login from './ui/Login';
+import LoginLocal from './ui/LoginLocal';
+
 import TestAPI from './ui/TestAPI';
 import DetailsSession from './ui/DetailsSession';
 
@@ -153,6 +155,11 @@ class Application extends Component {
 
             <Route exact path="/" render={(props) => <LandingPage {...props} {...propsToPass} />} />
 
+            {/*
+              version local
+            */}
+
+            {/* <Route path="/login" render={(props) => <LoginLocal {...props} {...propsToPass} />} /> */}
 
             {/**
             * Route pour la version Web
@@ -173,6 +180,7 @@ class Application extends Component {
 /**
  * Tacker pour la version web
  */
+
 export default withTracker((props) => {
   const connexionsHandle = Meteor.subscribe('connexions');
   const loading = !connexionsHandle.ready()
@@ -237,6 +245,7 @@ export default withTracker((props) => {
 //   }
 
 // })(Application);
+
 /**
  * ----------------------------------------------------------------------------------------------
  */

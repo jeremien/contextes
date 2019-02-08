@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
 
 import ConnexionsCourantes from '../outils/ConnexionsCourantes';
-import Stream from './Stream'
+// import Stream from './Stream'
 import Chatbox from "./Chatbox";
 import Login from './Login';
 import DetailsDocumentsContainer from '../data/DetailsDocumentsContainer';
-import flvjs from 'flv.js'
+// import flvjs from 'flv.js'
 
 import { Layout, Row, Col, Drawer, Switch, Button, Divider, Modal } from 'antd';
 
@@ -20,7 +20,7 @@ export default class DetailsChapitre extends Component {
             visibleLogin: false,
             test: 0,
             edition: false,
-            toggleStream: true,
+            // toggleStream: true,
         }
 
         // this.showLoginModal = this.showLoginModal.bind(this);
@@ -64,7 +64,7 @@ export default class DetailsChapitre extends Component {
                         <Layout>
                             <h2>{this.props.chapitre.titre}</h2>
                             <div>
-                                <Button.Group>
+                                {/* <Button.Group>
                                     <Button
                                         onClick={() => this.setState({ visibleInfo: true })}
                                     >
@@ -81,8 +81,8 @@ export default class DetailsChapitre extends Component {
                                     >
                                         Brouillon
                                     </Button>
-                                </Button.Group>
-                                <Divider />
+                                </Button.Group> */}
+                                {/* <Divider />
                                 <Switch
                                     defaultChecked={this.state.toggleStream}
                                     onChange={() => { this.setState({ toggleStream: !this.state.toggleStream }) }}
@@ -90,9 +90,9 @@ export default class DetailsChapitre extends Component {
                                 />
                                 {this.state.toggleStream &&
                                     <Stream chapitre={this.props.chapitre._id} />
-                                }
+                                } */}
 
-                                <Drawer
+                                {/* <Drawer
                                     title={`${this.props.chapitre.titre}`}
                                     placement="left"
                                     closable={true}
@@ -118,15 +118,15 @@ export default class DetailsChapitre extends Component {
                                     <Chatbox {...this.props} />
 
 
-                                </Drawer>
+                                </Drawer> */}
                             </div>
 
 
-                            <Divider />
+                            {/* <Divider /> */}
 
                             {this.props.outils.outildroit}
 
-                            <Divider />
+                            {/* <Divider /> */}
 
                         </Layout>
 

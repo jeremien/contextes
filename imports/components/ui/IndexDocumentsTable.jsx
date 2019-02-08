@@ -33,15 +33,6 @@ class IndexDocumentsTable extends Component {
 
   renderDataTable() {
 
-    // const data = this.props.documents.filter((item) => {
-    //   return item.rejete === false;
-    // })
-
-    // return data.map((item, key) => {
-    //     item.key = key;
-    //     return item;
-    // });
-
     return this.props.documents.map((item, key) => {
       item.key = key;
       return item;
@@ -56,24 +47,10 @@ class IndexDocumentsTable extends Component {
       return;
     }
 
-    // if (this.state.publicationData.length === 1) {
-    //   message.error("il n'y a qu'un seul document!");
-    //   return;
-    // }
-
-    // this.state.publicationData.forEach((item) => {
-    //   if (item.type === 'image') {
-    //     message.error('les documents contiennent des images!');
-    //     return;
-    //   }
-    // })
-
     let newContenu = '';
 
     this.state.publicationData.forEach((item) => {
       newContenu += `${item.contenu} `;
-
-      // this.handleDocumentDelete(item._id);
 
     })
 
@@ -96,8 +73,6 @@ class IndexDocumentsTable extends Component {
     const sessionId = this.props.chapitre.session;
 
     const getData = this.state.publicationData.map((item) => {
-
-      // console.log(item)
       
       let link = null;
       let arr = [];
@@ -119,7 +94,6 @@ class IndexDocumentsTable extends Component {
         arr.push(contenu);
       }
       
-      // console.log(arr)
       return arr;
     });
 
@@ -130,7 +104,6 @@ class IndexDocumentsTable extends Component {
       contenu
     }
 
-    // console.log(selection);
     Meteor.call('publication.insert', selection, sessionId);
     
     this.props.history.push(`/publications`);
@@ -225,15 +198,10 @@ class IndexDocumentsTable extends Component {
     ];
 
     const data = this.renderDataTable();
-    // const data = this.props.documents;
-
-    // console.log(data)
 
     const rowSelection = {
       onChange: (selectedRowKeys, selectedRows) => {
-        // console.log(selectedRowKeys, selectedRows);
-        // console.log('keys', selectedRowKeys)
-        // console.log('data', selectedRows)
+    
         this.setState({ publicationData : selectedRows })
       }
     }
@@ -244,48 +212,29 @@ class IndexDocumentsTable extends Component {
 
         <div>
 
-          {/* <h4>Publication</h4> */}
-          
-          {/* <Switch 
-            defaultChecked={!this.state.toggleActionDocTable}
-            onChange={() => this.setState({ toggleActionDocTable : !this.state.toggleActionDocTable})}
-            style={{ marginBottom: '20px' }}
-          />
-
-          { this.state.toggleActionDocTable && */}
 
             <div>
             
               <div style={{ marginBottom: 16 }}> 
-                {/* <Popconfirm
-                    title='Voulez-vous fusionner les documents ?'
-                    onConfirm={this.exportNewDoc}
-                    onCancel={() => message.error('annulation')}
-                    okText='oui'
-                    cancelText='non'
-                  > */}
-                  <Button
+     
+                <Button
                     disabled 
-                    onClick={this.exportNewDoc}>Fusionner les documents textes</Button>
-                {/* </Popconfirm> */}
+                    onClick={this.exportNewDoc}>
+                    Fusionner les documents 
+                </Button>
                 <Button
                   onClick={this.exportData}
                 >
-                  Exporter vers une nouvelle publication
+                  Exporter vers un fichier 
                 </Button>
-                <Button
-                  disabled
-                  onClick={() => console.log('update pub')}
-                >
-                  Ajouter à une publication existante
-                </Button>
+       
+       
               </div> 
 
                 <Table 
                     rowSelection={rowSelection}
                     columns={columns}
                     expandedRowRender={(data) => {
-                    // console.log(data)
 
                       if (!data.image) {
                         
