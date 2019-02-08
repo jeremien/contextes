@@ -50,10 +50,7 @@ class DetailsChapitreContainer extends React.Component {
                 return {
                     outilgauche: <InfosChapitre {...propToPass} />,
                     outildroit: <div>
-                        <AlertMessage {...propToPass} />
-                        <Divider />
                         <Typing {...propToPass} />
-                        <Divider />
                         <AjouterDocument {...propToPass} />
                     </div>
                 }

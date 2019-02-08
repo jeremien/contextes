@@ -27,8 +27,7 @@ import TestAPI from './ui/TestAPI';
 import DetailsSession from './ui/DetailsSession';
 
 import IndexSessionsContainer from './data/IndexSessionsContainer';
-import IndexPublicationsContainer from './data/IndexPublicationsContainer';
-import DetailsPublicationsContainer from './data/DetailsPublicationsContainer';
+
 import IndexLogsContainer from './data/IndexLogsContainer';
 import TopBarContainer from './data/TopBarContainer';
 import DetailsChapitreContainer from './data/DetailsChapitreContainer';
@@ -132,24 +131,21 @@ class Application extends Component {
     return (
       <Router>
 
-        <Layout>
+        <>
 
-          <Header style={{ backgroundColor: 'white', position: 'fixed', zIndex: 1, width: '100%' }}>
+        {/* <Layout> */}
+
+          {/* <Header style={{ backgroundColor: 'white', position: 'fixed', zIndex: 1, width: '100%' }}> */}
 
             <Route path="/" render={(props) => <TopBarContainer {...props} {...propsToPass} />} />
-          </Header>
+          {/* </Header> */}
 
-          <Content style={{ padding: '20px 50px', margin: '100px 0 0 0 ' }}>
+          {/* <Content style={{ padding: '20px 50px', margin: '100px 0 0 0 ' }}> */}
 
 
             <Route exact path="/sessions" render={(props) => <IndexSessionsContainer {...props} {...propsToPass} />} />
             <Route exact path="/session/:idSession/chapitre/:idChapitre" render={(props) => <DetailsChapitreContainer {...props} {...propsToPass} draft={false} />} />
-            <Route path="/session/:idSession/chapitre/:idChapitre/draft" render={(props) => <DetailsChapitreContainer {...props} {...propsToPass} draft={true} />} />
-
-            <Route path="/publications" render={(props) => <IndexPublicationsContainer {...props} {...propsToPass} />} />
-            <Route exact path="/publication/:idPublication" render={(props) => <DetailsPublicationsContainer {...props} {...propsToPass} layout={false} />} />
-            <Route path="/publication/:idPublication/layout" render={(props) => <DetailsPublicationsContainer {...props} {...propsToPass} layout={true} />} />
-
+            {/* <Route path="/session/:idSession/chapitre/:idChapitre/draft" render={(props) => <DetailsChapitreContainer {...props} {...propsToPass} draft={true} />} /> */}
 
             <Route path="/logs" render={(props) => <IndexLogsContainer {...props} {...propsToPass} />} />
 
@@ -169,16 +165,17 @@ class Application extends Component {
 
             <Route path="/test" render={(props) => <TestAPI {...this.props} {...propsToPass} />} />
 
-          </Content>
-        </Layout>
+          {/* </Content> */}
+        {/* </Layout> */}
 
+        </>
       </Router >
     )
   }
 };
 
 /**
- * Tacker pour la version web
+ * Tracker pour la version web
  */
 
 export default withTracker((props) => {

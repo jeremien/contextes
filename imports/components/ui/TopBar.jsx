@@ -1,6 +1,4 @@
 import React, { Component } from 'react'
-import { Link, Redirect } from 'react-router-dom'
-
 import { Menu, Icon, Select } from 'antd';
 
 const SubMenu = Menu.SubMenu;
@@ -84,8 +82,6 @@ export default class TopBar extends Component {
 
   render() {
 
-    console.log(this.props)
-
     let text = `Bienvenue, ${this.props.utilisateur}. Vous êtes un ${this.props.role}`;
 
     if (!this.props.loading) {
@@ -144,13 +140,13 @@ export default class TopBar extends Component {
                     Meteor.call('deconnexion.editeur')
                   }
 
-                  let infos = {
-                    title: "message général",
-                    message: `déconnexion de ${this.props.utilisateur} comme ${this.props.role}`,
-                    type: "info"
-                  };
+                  // let infos = {
+                  //   title: "message général",
+                  //   message: `déconnexion de ${this.props.utilisateur} comme ${this.props.role}`,
+                  //   type: "info"
+                  // };
 
-                  Meteor.call('notification', infos);
+                  // Meteor.call('notification', infos);
 
                 }
                 }
@@ -171,7 +167,6 @@ export default class TopBar extends Component {
                   <Select.Option value='transcripteur'>Transcripteur</Select.Option>
                   <Select.Option value='correcteur'>Correcteur</Select.Option>
                   <Select.Option value='iconographe'>Iconographe</Select.Option>
-                  {/* <Select.Option value='conformateur'>Conformateur</Select.Option> */}
 
                 </Select>
               </Menu.Item>

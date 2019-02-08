@@ -5,9 +5,10 @@ import { withTracker } from 'meteor/react-meteor-data'
 
 import { Sessions } from '../../api/collections/sessions';
 import { Chapitres } from '../../api/collections/chapitres';
-import { Publications } from '../../api/collections/publication';
 
 import { List, Divider } from 'antd';
+
+import Liste from '../utils/Liste';
 
 
 class LandingPage extends Component {
@@ -25,6 +26,7 @@ class LandingPage extends Component {
     dataFilterChapitres() {
 
         const data = this.dataFilterSessions()
+        // console.log(data)
 
         const chaps = data.map((session) => {
             return this.props.chapitres.filter((item) => {
@@ -42,54 +44,24 @@ class LandingPage extends Component {
             return acc.concat(currValue)
         }, [])
 
+
         return finalData;
     }
 
     render() {
 
+
         if (!this.props.loading) {
 
-                return (
-                    <div>
-                        <h3>Transcription</h3>
-                        <List
-        
-                            header={<div>Chapitres ouverts</div>}
-                            bordered
-                            dataSource={this.dataFilterChapitres()}
-                            renderItem={(item, key) => {
-                        
-                                return (
-                                    <List.Item>
-                                        <Link to={`/session/${item.session}/chapitre/${item._id}`}>{item.titre}</Link>  
-                                    </List.Item>
-                                )
-                            }}
-                    
-                        />
+                return <ul>
 
-                        <Divider />
-                        
-                         <List
-                            header={<div>Sessions en cours d'édition</div>}
-                            bordered
-                            dataSource={this.dataFilterSessions()}
-                            renderItem={(item) => {
-                                    // console.log(item)
-                                    return (
-                                        <List.Item>
-                                            <Link to={`/sessions/${item._id}`}>{item.titre}</Link>
-                                        </List.Item>
-                                    )
-                                }
+                            {
+                                this.props.sessions.map((item) => {
+                                    return <li key={item._id}><Link to={`/sessions/${item._id}`}>{item.titre}</Link></li>
+                                })
+
                             }
-                        />
-
-                        
-
-                      
-                    </div>
-                )
+                        </ul>
 
         } else {
 
@@ -102,23 +74,18 @@ class LandingPage extends Component {
 
 export default withTracker(() => {
     const sessionsHandle = Meteor.subscribe('sessions');
-    const chapitresHandle = Meteor.subscribe('chapitres', {session: '*'});
-    const publicationsHandle = Meteor.subscribe('publications');
-    const loading = !sessionsHandle.ready() && !chapitresHandle.ready() && !publicationsHandle.ready();
+    const chapitresHandle = Meteor.subscribe('chapitres', { session: '*' });
+    const loading = !sessionsHandle.ready() && !chapitresHandle.ready();
     const sessions = Sessions.find({}).fetch();
     const chapitres = Chapitres.find({}).fetch();
-    const publications = Publications.find({}, {sort : { creation: -1}}).fetch();
     const sessionsExists = !loading && !!sessions;
     const chapitresExists = !loading && !!chapitres;
-    const publicationsExists = !loading && !!publications;
 
     return {
         loading,
         sessionsExists,
         chapitresExists,
-        publicationsExists,
         sessions: sessionsExists ? sessions : [{}],
         chapitres: chapitresExists ? chapitres : [{}],
-        publications: publicationsExists ? publications : [{}]
     }
 })(LandingPage);

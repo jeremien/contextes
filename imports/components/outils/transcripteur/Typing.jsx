@@ -12,18 +12,16 @@ export default class Typing extends Component {
         if (!!this.props.transcripteurs) {
 
             return (
-                <div className="typing">
-
-                    <h3>Transcritpeurs connectées</h3>
+                <ul className="typing">
 
                     {this.props.transcripteurs.map((transcripteur) => (
     
                             <li key={transcripteur._id}>
-                               {transcripteur.username} : {transcripteur.typing ? <span>En train d'écrire</span> : <span>Inactif</span>}
+                               {transcripteur.username} est {transcripteur.typing ? <span>en train d'écrire</span> : <span>inactif</span>}
                             </li>
                         )
                     )}
-                </div>
+                </ul>
             )
 
         } else {
