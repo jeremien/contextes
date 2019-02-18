@@ -1,0 +1,43 @@
+
+
+#detailschapitre--gauche {
+
+    width: 40%;
+    height: calc(100vh - 3rem);
+
+}
+
+#detailschapitre--droit {
+
+    width: 60%;
+
+
+}
+
+.ajouterdocument {
+    width: 95%;
+    // margin: 2rem;
+    // position: fixed;
+
+    textarea {
+        width: 100%;
+        outline: none;
+        resize: none;
+    }
+}
+
+.typing {
+
+    padding: 0;
+    margin : 0;
+    width: 100%;
+
+    li {
+        list-style: none;
+    }
+
+}
+
+.listedocuments {
+    // background: red;
+}

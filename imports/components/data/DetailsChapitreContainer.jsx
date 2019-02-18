@@ -13,16 +13,11 @@ import Typing from '../outils/transcripteur/Typing';
 import CorrectionDocument from '../outils/correcteur/CorrectionDocument';
 import AjouterImages from '../outils/iconographe/AjouterImage'
 
-// import AlertMessage from '../ui/old/AlertMessage';
-
-import IndexDocumentsTable from '../ui/IndexDocumentsTable';
-import IndexDocuments from '../ui/IndexDocuments';
+import IndexDocumentsContainer from '../data/IndexDocumentsContainer';
 
 import InfosChapitre from '../ui/InfosChapitre';
 import DetailsChapitre from '../ui/DetailsChapitre';
 
-
-import { Divider } from 'antd';
 
 
 class DetailsChapitreContainer extends React.Component {
@@ -47,18 +42,20 @@ class DetailsChapitreContainer extends React.Component {
         switch (this.props.role) {
             case 'transcripteur':
                 return {
-                    outilgauche: <InfosChapitre {...propToPass} />,
-                    outildroit: <div>
-                        <Typing {...propToPass} />
+                    outilgauche:  <>
                         <AjouterDocument {...propToPass} />
-                    </div>
+                        </>,
+                    outildroit: <>
+                                <Typing {...propToPass} />
+                                <IndexDocumentsContainer {...propToPass} />
+                            </>
                 }
                 break;
             case 'correcteur':
                 return {
                     outilgauche: <InfosChapitre {...propToPass} />,
                     outildroit: <div>
-                        <IndexDocuments {...propToPass} />
+                        {/* <IndexDocuments {...propToPass} /> */}
                     </div>
                 }
                 break;
@@ -68,7 +65,7 @@ class DetailsChapitreContainer extends React.Component {
                     outilgauche: <InfosChapitre {...propToPass} />,
                     outildroit: <div>
                         <AjouterImages {...propToPass} simpleBtn={false} />
-                        <IndexDocuments {...propToPass} />
+                        {/* <IndexDocuments {...propToPass} /> */}
 
                     </div>
                 }
@@ -94,7 +91,7 @@ class DetailsChapitreContainer extends React.Component {
         }
 
         else {
-            return <h3>Chargement</h3>
+            return <div>Chargement</div>
         }
     }
 };

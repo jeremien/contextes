@@ -5,25 +5,23 @@ import { withTracker } from 'meteor/react-meteor-data';
 import { Connexions } from '../../api/collections/connexions'
 import { Accounts } from 'meteor/accounts-base'
 
-import { Form, Input, Button, Select, Icon, message, Switch } from 'antd';
-
-const FormItem = Form.Item;
-const Option = Select.Option;
-
+import Modal from 'react-modal';
 class Login extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             username: '',
-            password: "",
+            password: '',
             email: '',
-            role: Session.get('role') || null,
+            role: Session.get('role') || 'editeur',
             inscription: false,
+            modalIsOpen : true
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this)
         this.handleRoleChange = this.handleRoleChange.bind(this)
         this.connexion = this.connexion.bind(this)
+        this.handleConnectionChange = this.handleConnectionChange.bind(this);
     }
 
     connexion() {
@@ -47,14 +45,14 @@ class Login extends React.Component {
             }
             
         });
-        // let infos = {
-        //     title: "message général",
-        //     message: `connexion de ${this.state.username} comme ${this.state.role}`,
-        //     type: "info"
-        // };
 
-        // Meteor.call('notification', infos);
-        // Meteor.call('log.insert', 'notification', infos.message);
+        let infos = {
+            title: "message général",
+            message: `connexion de ${this.state.username} comme ${this.state.role}`,
+            type: "info"
+        };
+
+        Meteor.call('notification', infos);
 
         if (this.props.history) {
             this.props.history.push('/sessions');
@@ -62,39 +60,21 @@ class Login extends React.Component {
     }
 
     handleSubmit(event) {
+
+
         event.preventDefault();
         const self = this;
         //Controle du remplissage des champs
         if (!!this.state.username && !!this.state.role) {
             //Chontrole choix entre inscription et connexion
             if (this.state.inscription) {
-                const { username, role, socketId } = { username: this.state.username, role: this.state.role, socketId: this.props.socketId }
-                // Meteor.call('connexions.insert.web', username, this.state.password, this.state.email, role, socketId, function (error, idMeteor) {
-                //     if (error) {
-                //         alert(error)
-                //     }
-                //     else {
-                //         self.setState({inscription: false})
-                //         alert('Compte créé, vous pouvez maintenant vous connectez')
-                //         Meteor.call('connexions.insert.local', idMeteor, username, role, socketId)
-                //     }
-                // })
+                const { username } = { username: this.state.username, role: this.state.role, socketId: this.props.socketId }
                 Accounts.createUser({ username: username, password: this.state.password, email: this.state.email }, function (error) {
                     if (error) {
-                        alert(error)
+                        alert(error);
                     }
                     else {
-                        // this.connexion();
                         self.connexion();
-                        // Meteor.call('connexions.insert.local', Meteor.userId(), username, role, socketId, function (error) {
-                        //     if (error) {
-                        //         alert('Erreur à la création du compte', error);
-                        //     }
-                        //     else {
-                        //         alert('Compte créé, vous allez maintenant être connectez');
-                        //         self.connexion();
-                        //     }
-                        // })
 
                     }
                 })
@@ -106,12 +86,13 @@ class Login extends React.Component {
             }
         }
         else {
-            message.error("indiquer un nom d'utilisateur et/ou un role")
+            alert("indiquer un nom d'utilisateur et/ou un role")
         }
     }
 
-    handleRoleChange(value) {
-        this.setState({ role: value });
+    handleRoleChange(e) {
+        console.log(e.target.value)
+        this.setState({ role: e.target.value });
 
     }
 
@@ -124,103 +105,71 @@ class Login extends React.Component {
         });
     }
 
+    handleConnectionChange() {
+        this.setState({ inscription : !this.state.inscription })
+    }
+
     render() {
 
-        const { username, password, email } = this.state;
-
-        // console.log(this.state)
+        const { inscription, role } = this.state;
 
         return (
-            <div>
-                <Switch
-                    defaultChecked={this.state.toggleInscription}
-                    checked={this.state.inscription}
-                    onChange={() => this.setState({ inscription: !this.state.inscription })}
-                    style={{ marginBottom: '20px' }}
-                />
-                {this.state.inscription ?
-                    <h3>Inscription</h3>
-                    :
-                    <h3>Connexion</h3>
-                }
+            <div className='login--container'>
 
-                <Form
-                    layout='inline'
-                    onSubmit={this.handleSubmit}
-                >
+                <Modal 
+                
+                    isOpen={true}
+                    ariaHideApp={false}
+                    className='login--modal'
+                    overlayClassName='login--overlay'
+                
+                >   
+                    {/* { inscription ? <p>inscription</p> : <p>connexion</p>} */}
 
-                    <FormItem>
+                    <form className='login--form' onSubmit={this.handleSubmit}>
 
-                        <Input
-                            placeholder='votre nom'
-                            prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                            value={username}
-                            onChange={this.handleInputChange}
-                            name='username'
-                        />
+                        <label>
+                            <select name="connection" value={inscription} onChange={this.handleConnectionChange}>
+                                <option value={true}>inscription</option>
+                                <option value={false}>connection</option>
+                            </select>
+                        </label>
 
-                    </FormItem>
+                        <label>
+                            Nom
+                            <input type='text' name='username' onChange={this.handleInputChange}/>
+                        </label>
 
-                    <FormItem>
+                        <label>
+                            Mot de passe
+                            <input type='password' name='password' onChange={this.handleInputChange}/>
+                        </label>
 
-                        <Input
-                            placeholder='votre mot de passe'
-                            prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                            value={password}
-                            onChange={this.handleInputChange}
-                            name='password'
-                            type='password'
-                        />
+                        { inscription && 
+                              <label>
+                                Email
+                                <input type='email' name='email' onChange={this.handleInputChange}/>
+                              </label>
+                        }
 
-                    </FormItem>
+                        <label>
+                            Rôle
+                            <select name="role" value={role} onChange={this.handleRoleChange}>
+                                <option value='editeur'>éditeur</option>
+                                <option value='transcripteur'>transcripteur</option>
+                                <option value='correcteur'>correcteur</option>
+                                <option value='iconographe'>iconographe</option>
+                            </select>
+                        </label>
 
-                    {this.state.inscription &&
-                        <FormItem>
+                        <label>
+                        <input type='submit' value='connexion' />
+                        </label>
 
-                            <Input
-                                placeholder='votre adresse mail'
-                                prefix={<Icon type="email" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                                value={email}
-                                onChange={this.handleInputChange}
-                                name='email'
-                            />
+                    </form>
 
-                        </FormItem>
-                    }
-
-                    <FormItem>
-                        <Button
-                            type='primary'
-                            htmlType='submit'
-                        >
-                            Envoyer
-                    </Button>
-                    </FormItem>
-
-                    <FormItem>
-
-                        <Select
-                            defaultValue={this.state.role}
-                            style={{ width: 200 }}
-                            onChange={this.handleRoleChange}
-                        >
-                            {!this.props.loading && (this.props.editeur.length == 0) &&
-                                <Option value='editeur'>Éditeur</Option>
-                            }
-
-                            {/* {!this.props.loading && (this.props.transcripteurs.length < this.props.role.transcripteurs) &&
-                            < Option value='transcripteur'>Transcripteur</Option>
-                        } */}
-                            <Option value='transcripteur'>Transcripteur</Option>
-                            <Option value='correcteur'>Correcteur</Option>
-                            <Option value='iconographe'>Iconographe</Option>
-                            {/* <Option value='conformateur'>Conformateur</Option> */}
-
-                        </Select>
-                    </FormItem>
-          
-
-                </Form >
+                </Modal>
+             
             </div>
 
         );

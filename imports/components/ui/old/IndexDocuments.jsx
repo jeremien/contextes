@@ -2,14 +2,14 @@ import React, { Component, PropTypes } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
 
-import { Documents } from '../../api/collections/documents';
-import { Images } from '../../api/collections/images';
+import { Documents } from '../../../api/collections/documents';
+import { Images } from '../../../api/collections/images';
 
 
 import { List, Button, Switch, Popconfirm, message } from 'antd';
 
-import DocumentChange from './document/DocumentChange';
-import DocumentShow from './document/DocumentShow';
+import DocumentChange from '../document/DocumentChange';
+import DocumentShow from '../document/DocumentShow';
 
 class IndexDocuments extends Component {
   constructor(props) {
