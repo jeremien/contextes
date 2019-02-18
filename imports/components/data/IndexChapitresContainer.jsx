@@ -15,16 +15,16 @@ class IndexChapitresContainer extends Component {
         }
     }
 
-    // componentDidMount() {
-    //     Meteor.call('documents.nombre.badge', (error, result) => {
-    //         if (error) {
-    //             console.log(error)
-    //         }
-    //         else {
-    //             this.setState({ badges: result })
-    //         }
-    //     })
-    // }
+    componentDidMount() {
+        Meteor.call('documents.nombre.badge', (error, result) => {
+            if (error) {
+                console.log(error)
+            }
+            else {
+                this.setState({ badges: result })
+            }
+        })
+    }
 
     render() {
 

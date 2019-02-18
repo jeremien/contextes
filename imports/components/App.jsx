@@ -15,10 +15,10 @@ import ConnexionSession from './ui/ConnexionSession';
 import IndexSessionsContainer from './data/IndexSessionsContainer';
 
 import TopBarContainer from './data/TopBarContainer';
+import AlertMessage from './ui/AlertMessage';
 import DetailsChapitreContainer from './data/DetailsChapitreContainer';
 import LandingPage from './data/LandingPage';
 
-// import { notification } from 'antd';
 
 /**
  * Composant principal de l'application. Gère les routes publiques.
@@ -28,11 +28,11 @@ class Application extends Component {
     super(props);
 
     this.state = {
-      onAir: false
+      onAir: false,
+      alert : null
     }
 
     this.handleLeavePage = this.handleLeavePage.bind(this);
-    this.openNotification = this.openNotification.bind(this);
 
   }
 
@@ -47,26 +47,16 @@ class Application extends Component {
     Streamy.on('onAir', () => this.setState({ onAir: true }));
     Streamy.on('offAir', () => this.setState({ onAir: false }));
 
-    // notifications
 
-    // Streamy.on('notification', (infos) => {
-    //   const { title, message, type } = infos;
-    //   this.openNotification(title, message, type);
-    // });
-  }
-
-  openNotification(title, message, type) {
-
-    notification.config({
-      placement: "bottomLeft"
-    }),
-
-      notification[type]({
-        message: title,
-        description: message
+    Streamy.on('notification', (infos) => {
+      const { title, message, type } = infos;
+      this.setState({
+        alert : message
       })
-
+    });
   }
+
+
 
  
   logoutForce() {
@@ -105,6 +95,7 @@ class Application extends Component {
         <div className='root--container'>
 
             <Route path="/" render={(props) => <TopBarContainer {...props} {...propsToPass} />} />
+            <Route path="/" render={() => <AlertMessage alert={this.state.alert} />} />
 
             <article>
               <Route exact path="/" render={(props) => <LandingPage {...props} {...propsToPass} />} />

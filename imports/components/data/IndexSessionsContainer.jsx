@@ -49,6 +49,7 @@ class IndexSessionsContainer extends Component {
     }
 
     render() {
+
         return (
             <IndexSessions {...this.props} action={this.getAction()} badges={this.state.badges} />
         )

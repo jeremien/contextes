@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
 
+import { renderBadges } from '../utils/badges';
 export default class IndexSessions extends Component {
-    
-    constructor(props) {
-        super(props)
-    }
 
     handleSessionDelete(sessionId) {
 
@@ -30,15 +27,15 @@ export default class IndexSessions extends Component {
 
         return this.props.sessions.map((item, key) => {
             
+            let badges = renderBadges(this.props.badges, item._id);
+
             return (
                 <div className='x jc bb py' key={key}>
                         
                        <p> N°{key + 1} </p>
                         <p>{item.titre}</p>
-                        {/* <p>{item.description}</p> */}
-                        {/* <p>{item.auteur}</p> */}
-                        {/* <p>{item.creation.toString()}</p> */}
-                        <p>{item.etat}</p>
+                        <p>état : {item.etat}</p>
+                        <p> chapitres : { badges ? badges : '0' }</p>
                         <p className='lk crs' onClick={() => this.props.history.push(`/sessions/${item._id}`) }>rejoindre</p>
                         { role === 'editeur' ? <p className='lk crs' onClick={() => this.handleSessionDelete(item._id)}>supprimer</p> : undefined }
                

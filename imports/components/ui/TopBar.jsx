@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
+import ChatBox from './Chatbox';
 export default class TopBar extends Component {
 
   constructor(props) {
@@ -30,14 +31,14 @@ export default class TopBar extends Component {
   renderSessions() {
     return this.props.sessions.map((item, key) => {
       return (
-          <p className='lk crs' key={item._id} onClick={() => {
+          <li className='lk crs' key={item._id} onClick={() => {
               this.props.history.push(`/sessions/${item._id}`);
               this.setState({ showMenu : false });
               }
             }
           >
             {item.titre}
-          </p>
+          </li>
       )
     });
   }
@@ -111,7 +112,14 @@ export default class TopBar extends Component {
                                         : 
                                         <Link to={'/login'} onClick={() => this.setState({ showMenu : false })}>Connection</Link> 
                                     }
-                
+
+                                    <p className='lk crs' onClick={() => {
+                                      this.props.history.push(`/`);
+                                      this.setState({ showMenu : false });
+                                    }
+
+                                    }>Accueil</p>
+
                                     <p className='lk crs' onClick={() => {
                                       this.props.history.push(`/sessions`);
                                       this.setState({ showMenu : false });
@@ -154,7 +162,7 @@ export default class TopBar extends Component {
                 
                 { 
                   showChatbox ? <aside id='chatbox' className='bg bl bcb py px active'>
-                                  chatbox
+                                  <ChatBox {...this.props} />
                                 </aside> 
                               
                               : undefined
