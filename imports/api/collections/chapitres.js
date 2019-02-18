@@ -20,12 +20,16 @@ if (Meteor.isServer) {
     // })
 
     Meteor.publish('chapitres', function (session) {
+        // console.log(session.session)
         if (Roles.userIsInRole(this.userId, "admis", session.session)) {
+            // console.log('admis')
             return Chapitres.find({ session: session.session })
         }
         else {
+            // console.log('non admis')
             return Chapitres.find({ fields: { _id: 0 } });
         }
+        // return Chapitres.find({ session: session.session })
     });
 }
 

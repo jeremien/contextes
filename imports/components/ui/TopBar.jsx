@@ -1,8 +1,5 @@
-import React, { Component } from 'react'
-import { Menu, Icon, Select } from 'antd';
-
-const SubMenu = Menu.SubMenu;
-const MenuItemGroup = Menu.ItemGroup;
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 export default class TopBar extends Component {
 
@@ -10,175 +7,170 @@ export default class TopBar extends Component {
     super(props);
 
     this.state = {
-      current: 'home',
       role: '',
+      showMenu : false,
+      showChatbox : false,
+      showRole : false
     }
 
-    this.handClickMenu = this.handClickMenu.bind(this);
     this.handleRole = this.handleRole.bind(this)
 
   }
 
   componentDidMount() {
-    this.props.role && this.setState({ role: this.props.role })
+    this.props.role && this.setState({ role: this.props.role });
   }
 
-  handClickMenu(e) {
-    if (e.key === 'home') {
-      this.props.history.push(`/`);
-      this.setState({
-        current: 'home'
-      })
-    } 
-    
-    else if (e.key == 'role') {
-
-    }
-    else {
-      this.props.history.push(`/${e.key}`);
-      this.setState({
-        current: e.key
-      })
-    }
-  }
 
   handleRole(role) {
-    this.setState({ role: role })
-    Meteor.call('connexions.role', this.props.userId, role)
+    this.setState({ role, showRole : false });
+    Meteor.call('connexions.role', this.props.userId, role);
   }
 
   renderSessions() {
     return this.props.sessions.map((item, key) => {
       return (
-        <MenuItemGroup key={key}>
-          <Menu.Item key={`sessions/${item._id}`}>{item.titre}</Menu.Item>
-        </MenuItemGroup>
+          <p className='lk crs' key={item._id} onClick={() => {
+              this.props.history.push(`/sessions/${item._id}`);
+              this.setState({ showMenu : false });
+              }
+            }
+          >
+            {item.titre}
+          </p>
       )
-    })
-  }
-
-  renderChapitres() {
-    return this.props.chapitres.map((item, key) => {
-      return (
-        <MenuItemGroup key={key}>
-          <Menu.Item key={`session/${item.session}/chapitre/${item._id}`}>{item.titre}</Menu.Item>
-        </MenuItemGroup>
-      )
-    })
-
-  }
-
-
-  renderPublications() {
-    return this.props.publications.map((item, key) => {
-      return (
-        <MenuItemGroup key={key}>
-          <Menu.Item key={`publication/${item._id}`}>{item.titre}</Menu.Item>
-        </MenuItemGroup>
-      )
-    })
-
+    });
   }
 
   render() {
 
-    let text = `Bienvenue, ${this.props.utilisateur}. Vous êtes un ${this.props.role}`;
+    let { showMenu, showChatbox, showRole } = this.state;
+
+    let text, role;
+
+    if (this.props.connecte) {
+
+        switch (this.props.role) {
+            case 'editeur':
+                role = 'editeur.rice';
+                break;
+            case 'transcripteur':
+                role = 'transcripteur.rice'
+                break;
+            case 'correcteur':
+                role = 'correcteur.rice'
+                break;
+            case 'iconographe':
+                role = 'iconographe'
+                break;
+            default:
+                role = ''
+        }
+
+        text = `${this.props.utilisateur}, ${role}`;
+    } else {
+        text = `vous n'êtes pas connecté.e`
+    }
+
 
     if (!this.props.loading) {
 
       return (
-        <div>
+        <header id='topbar' >
+            <div className='topbar--container fsc'>
+                <div className='topbar--menu bb br bcb py px crs' onClick={() => this.setState({ showMenu : !showMenu})}>
+                    { showMenu ? 'Fermer' : 'Menu'}
+                </div>
 
-          <Menu
-            mode='horizontal'
-            selectedKeys={[this.state.current]}
-            onClick={this.handClickMenu}
-          >
+                { showMenu ?  <aside id='menu' className='bg br bcb py px active'>                    
+                    
 
+                                    { this.props.connecte ? <p className='lk crs' onClick={() => {
+                                            console.log('logout')
+                                            Meteor.call('connexions.remove', this.props.userId);
+                                        
+                                            Meteor.logout(function (error) {
+                                              if (error) {
+                                                console.log('erreur logout :', error)
+                                              } else {
+                                                console.log('logout');
+                                              }
+                                            })
+                          
+                                            localStorage.clear();
+                                            Session.clear();
+                          
+                                            if (this.props.role == 'editeur') {
+                                              Meteor.call('deconnexion.editeur');
+                                            }
+                
+                                            this.setState({ showMenu : false });
+                                            this.props.history.push(`/login`);
+                                          }
+                                        }> Déconnexion </p> 
+                                        : 
+                                        <Link to={'/login'} onClick={() => this.setState({ showMenu : false })}>Connection</Link> 
+                                    }
+                
+                                    <p className='lk crs' onClick={() => {
+                                      this.props.history.push(`/sessions`);
+                                      this.setState({ showMenu : false });
+                                    }
+                                      
+                                      }>Sessions</p>
+                
+                                        { this.renderSessions() }
+ 
+                                </aside> 
+                                
+                          : undefined
+                }
+                
+                <div className='topbar--info bb br bcb py px crs' onClick={() => this.setState({ showRole : !showRole})}>
 
-            <Menu.Item key='home'>
-              <Icon type="home" />
-            </Menu.Item>
+                    { showRole ? 'Fermer' : `${text}`}
+                    
+                </div>
 
-
-            {this.props.connecte &&
-              <SubMenu
-                key='sessions'
-                title='Sessions'
-                onTitleClick={this.handClickMenu}
-              >
-                {this.renderSessions()}
-
-              </SubMenu>
-            }
-
-
-            {!this.props.connecte ?
-              <Menu.Item
-                key='login'
-              >Login</Menu.Item> :
-              <Menu.Item
-                key='login'
-                onClick={() => {
-                  console.log('logout')
-                  Meteor.call('connexions.remove', this.props.userId);
-                  /**
-                   * Logout version web. A commenter si serveur local
-                   */
-                  Meteor.logout(function (error) {
-                    if (error) {
-                      console.log('erreur logout :', error)
-                    } else {
-                      console.log('logout');
-                    }
-                  })
-
-                  localStorage.clear();
-                  Session.clear()
-
-                  if (this.props.role == 'editeur') {
-                    Meteor.call('deconnexion.editeur')
-                  }
-
-                  // let infos = {
-                  //   title: "message général",
-                  //   message: `déconnexion de ${this.props.utilisateur} comme ${this.props.role}`,
-                  //   type: "info"
-                  // };
-
-                  // Meteor.call('notification', infos);
+                { 
+                  showRole ?  <aside id='role' className='bg br bb bl bcb py px active'>
+                    
+                                    <p className='crs lk' onClick={() => this.handleRole('editeur')}>éditeur.rice</p>
+                                    <p className='crs lk' onClick={() => this.handleRole('transcripteur')}>transcripteur.rice</p>
+                                    <p className='crs lk' onClick={() => this.handleRole('correcteur')}>correcteur.rice</p>
+                                    <p className='crs lk' onClick={() => this.handleRole('iconographe')}>iconographe</p>
+                                
+                                </aside> 
+                            
+                            : undefined
 
                 }
+
+               
+
+                <div className='topbar--chatbox bb bcb py px crs' onClick={() => this.setState({ showChatbox : !showChatbox})}>
+                   { showChatbox ? 'Fermer' : 'Conversation' } 
+                </div>
+                
+                { 
+                  showChatbox ? <aside id='chatbox' className='bg bl bcb py px active'>
+                                  chatbox
+                                </aside> 
+                              
+                              : undefined
                 }
-              > Logout ({text})</Menu.Item>
-            }
-
-            {this.props.connecte &&
-              <Menu.Item
-                key='role'
-              >
-                <Select
-                  defaultValue={this.props.role}
-                  placeHolder="Choisissez un nouveau role"
-                  style={{ width: 200 }}
-                  onChange={this.handleRole}
-                >
-                  <Select.Option value='editeur'>Éditeur</Select.Option>
-                  <Select.Option value='transcripteur'>Transcripteur</Select.Option>
-                  <Select.Option value='correcteur'>Correcteur</Select.Option>
-                  <Select.Option value='iconographe'>Iconographe</Select.Option>
-
-                </Select>
-              </Menu.Item>
-            }
-          </Menu>
-        </div>
+               
+            </div>
+           
+        </header>
       )
 
-
-
     } else {
-      return <div>chargement</div>
+      return (
+        <div id='topbar'>
+            <div className='topbar--container topbar--loading fsc bb bcb py px '>chargement</div>
+        </div>
+      )
     }
   }
 }

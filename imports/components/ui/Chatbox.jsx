@@ -3,11 +3,8 @@ import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
 import { Messages } from '../../api/collections/messages';
 import { List, message, Avatar, Spin, Input, Divider } from 'antd';
-import styled from 'styled-components';
 
-const ChatList = styled.ul`
-    list-style : none;
-`
+
 
 class Chatbox extends Component {
     constructor(props) {
@@ -37,7 +34,6 @@ class Chatbox extends Component {
 
     chatList = (datas) => {
         return datas.map((data, index) => {
-            // console.log(data)
             return <li key={index}> {data.auteur} a écrit : {data.message}</li>
         })
     }
@@ -47,16 +43,8 @@ class Chatbox extends Component {
             <div className="chatbox">
                 <h3>Messages</h3>
                 {this.props.messagesExists &&
-                    // <List
-                    //     header={<div>Header</div>}
-                    //     footer={<div>Footer</div>}
-                    //     bordered
-                    //     dataSource={this.props.messages}
-                    //     renderItem={item => (<List.Item>{item.message}, <i>de {item.auteur}</i></List.Item>)}
-                    // />
-                    <ChatList>
-                        {this.chatList(this.props.messages)}
-                    </ChatList>
+        
+                        this.chatList(this.props.messages)
 
                 }
                 <Input value={this.state.message} onChange={this.handleTyping} onPressEnter={this.handleSubmit} placeholder='écrivez votre message' />

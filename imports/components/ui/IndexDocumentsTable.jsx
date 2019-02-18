@@ -3,7 +3,7 @@ import { Session } from 'meteor/session';
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
 
-import ReactMarkdown from 'react-markdown';
+// import ReactMarkdown from 'react-markdown';
 
 import { Documents } from '../../api/collections/documents';
 import { Images } from '../../api/collections/images';
@@ -238,7 +238,8 @@ class IndexDocumentsTable extends Component {
 
                       if (!data.image) {
                         
-                        return <ReactMarkdown source={data.contenu} />
+                        // return <ReactMarkdown source={data.contenu} />
+                        return <div></div>
 
                       } else {
 
@@ -253,7 +254,8 @@ class IndexDocumentsTable extends Component {
                           return <img src={link} />
                         } else {
                           let contenu = `![image](${link}) ${data.contenu}`
-                          return <ReactMarkdown source={contenu} />
+                          // return <ReactMarkdown source={contenu} />
+                          return <div></div>
                         }
 
                       }

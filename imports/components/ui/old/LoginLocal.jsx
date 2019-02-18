@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Session } from 'meteor/session';
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
-import { Connexions } from '../../api/collections/connexions'
+import { Connexions } from '../../../api/collections/connexions'
 
 import { Form, Input, Button, Select, Icon, message } from 'antd';
 

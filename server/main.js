@@ -4,15 +4,11 @@ import {
 
 import '../imports/api/collections/documents';
 import '../imports/api/collections/sessions';
-import '../imports/api/collections/test';
 import '../imports/api/collections/chapitres';
 import '../imports/api/collections/connexions';
 import '../imports/api/collections/images';
 import '../imports/api/collections/messages';
-import '../imports/api/collections/publication';
-import '../imports/api/collections/logs';
 import '../lib/images'
-import './video'
 
 
 import {
@@ -27,9 +23,7 @@ import {
 import {
   Messages
 } from '../imports/api/collections/messages';
-import {
-  Logs
-} from '../imports/api/collections/logs';
+
 
 Streamy.onConnect(function (socket) {
 
@@ -37,7 +31,6 @@ Streamy.onConnect(function (socket) {
 
 Meteor.startup(() => {
   // Connexions.remove({});
-  Logs.remove({});
   Messages.remove({});
   Images.allow({
     'insert': function () {

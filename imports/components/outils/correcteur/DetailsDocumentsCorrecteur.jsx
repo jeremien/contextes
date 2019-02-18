@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { Link } from 'react-router-dom'
-import Modal from 'react-responsive-modal';
+// import Modal from 'react-responsive-modal';
 
 export default class DetailsDocumentsCorrecteur extends Component {
 
@@ -46,10 +46,10 @@ export default class DetailsDocumentsCorrecteur extends Component {
 
                     {this.state.revised ? <p>document corrigé</p> : undefined}
 
-                    <Modal open={open} onClose={this.onCloseModal} >
+                    {/* <Modal open={open} onClose={this.onCloseModal} >
                         <textarea name="correction" cols="30" rows="10" value={this.state.contenu} onChange={this.handleChange.bind(this)}>                        
                         </textarea>
-                    </Modal>
+                    </Modal> */}
                     
 
                 </li>

@@ -11,10 +11,9 @@ import { Sessions } from '../../api/collections/sessions'
 import AjouterDocument from '../outils/transcripteur/AjouterDocument';
 import Typing from '../outils/transcripteur/Typing';
 import CorrectionDocument from '../outils/correcteur/CorrectionDocument';
-import DetailsDocumentsConformateur from '../outils/conformateur/DetailsDocumentsConformateur';
 import AjouterImages from '../outils/iconographe/AjouterImage'
 
-import AlertMessage from '../ui/AlertMessage';
+// import AlertMessage from '../ui/old/AlertMessage';
 
 import IndexDocumentsTable from '../ui/IndexDocumentsTable';
 import IndexDocuments from '../ui/IndexDocuments';

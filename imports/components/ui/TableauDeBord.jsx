@@ -50,12 +50,9 @@ class TableauDeBord extends React.Component {
           }
       
         Meteor.call('notification', infos);
-        Meteor.call('log.insert', 'notification', infos.message );
     }
 
     render() {
-
-        console.log(this.props)
 
         if (this.props.loading) {
 

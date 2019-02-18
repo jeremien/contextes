@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactMarkdown from 'react-markdown';
+// import ReactMarkdown from 'react-markdown';
 
 const DocumentShow = (props) => {
 
@@ -11,19 +11,19 @@ const DocumentShow = (props) => {
 
             <div>
                 <img src={props.link} />
-                <ReactMarkdown
+                {/* <ReactMarkdown
                     source={props.item.contenu}
-                />
+                /> */}
             </div>
         )
 
     } else {
 
         return (
-
-            <ReactMarkdown
-                source={props.item.contenu}
-            />
+            <div></div>
+            // <ReactMarkdown
+            //     source={props.item.contenu}
+            // />
         )
     }
 

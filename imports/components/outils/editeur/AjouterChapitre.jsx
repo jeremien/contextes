@@ -7,7 +7,6 @@ import {  Form, Input, InputNumber, Button, message, Slider, Tag, Divider, Tool
 
 const FormItem = Form.Item;
 const {  TextArea } = Input;
-const dureeBoucle = 200;
 
 
 export default class AjouterChapitre extends Component {
@@ -18,8 +17,6 @@ export default class AjouterChapitre extends Component {
         this.state = {
             titre: '',
             description: '',
-            duree: dureeBoucle,
-            tags: [],
             inputVisible: false,
             inputValue: ''
         }
@@ -27,13 +24,8 @@ export default class AjouterChapitre extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleTitreChange = this.handleTitreChange.bind(this);
         this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
-        this.handleDureeChange = this.handleDureeChange.bind(this);
 
-        //tags
-        this.handleCloseTag = this.handleCloseTag.bind(this);
-        this.showInputTag = this.showInputTag.bind(this);
-        this.handleInputChangeTag = this.handleInputChangeTag.bind(this);
-        this.handleInputConfirmTag = this.handleInputConfirmTag.bind(this);
+
 
     }
 
@@ -45,9 +37,6 @@ export default class AjouterChapitre extends Component {
         this.setState({ description: event.target.value });
     }
 
-    handleDureeChange(value) {
-        this.setState( { duree: value });
-    }
 
 
     handleSubmit(event) {
@@ -61,9 +50,7 @@ export default class AjouterChapitre extends Component {
                 session,
                 this.state.titre,
                 auteur,
-                this.state.value,
-                this.state.duree,
-                this.state.tags)
+                )
 
             let infos = {
                 title: `message de l'éditeur`,
@@ -72,14 +59,10 @@ export default class AjouterChapitre extends Component {
             }
 
             Meteor.call('notification', infos);
-            Meteor.call('log.insert', 'notification', infos.message );
 
             this.setState({
                 titre: '',
-                description: '',
-                duree: dureeBoucle,
-                tags: [],
-                tagCourant: ""
+                description: ''
             });
 
         } else {
@@ -89,45 +72,7 @@ export default class AjouterChapitre extends Component {
         }
     }
 
-    // tags
-
-    handleCloseTag(removedTag) {
-        const tags = this.state.tags.filter((tag) => {
-                return tag !== removedTag
-            })
-        this.setState({ tags });
-    }
-
-    showInputTag() {
-        this.setState({
-                inputVisible: true
-            },
-            () => this.input.focus())
-    }
-
-    handleInputChangeTag(e) {
-        this.setState({
-            inputValue: e.target.value
-        })
-    }
-
-    handleInputConfirmTag() {
-        const state = this.state;
-        const inputValue = state.inputValue;
-        let tags = state.tags;
-
-        if (inputValue && tags.indexOf(inputValue) == -1) {
-            tags = [...tags, inputValue];
-        }
-
-        this.setState({
-            tags,
-            inputVisible: false,
-            inputValue: ''
-        });
-    }
-
-    saveInputRef = input => this.input = input
+  
 
     render() {
 
@@ -148,76 +93,6 @@ export default class AjouterChapitre extends Component {
                 /> 
             </FormItem>
 
-            <FormItem label = 'Tags' >
-
-            {
-                this.state.tags.map((tag, index) => {
-                    const isLongTag = tag.length > 20;
-                    const tagElem = ( 
-                        <Tag key = { tag }
-                        closable = { index !== 0 }
-                        afterClose = {
-                            () => this.handleCloseTag(tag) } >
-
-                        { isLongTag ? `${tag.slice(0,20)}...` : tag }
-
-                        </Tag>
-                    )
-
-                    return isLongTag ? < Tooltip title = { tag }
-                    key = { tag } > { tagElem } </Tooltip> : tagElem;
-                })
-            }
-
-            {
-                this.state.inputVisible && (
-
-                    <Input ref = { this.saveInputRef }
-                        type = 'text'
-                        size = 'small'
-                        style = {
-                            { width: 78 } }
-                        value = { this.state.inputValue }
-                        onChange = { this.handleInputChangeTag }
-                        onBlur = { this.handleInputConfirmTag }
-                        onPressEnter = { this.handleInputConfirmTag }
-                    />
-
-                )
-            }
-
-            {
-                !this.state.inputVisible && ( <Tag onClick = { this.showInputTag }
-                    style = {
-                        { background: '#fff', borderStyle: 'dashed' } } >
-                    <Icon type = 'plus' /> New Tag </Tag>
-                )
-            }
-
-
-
-            </FormItem>
-
-            <Divider />
-
-            <FormItem label = "Durée des boucles" >
-                <Slider size = "small"
-                    min = { 5 }
-                    max = { 3000 }
-                    value = { this.state.duree }
-                    onChange = { this.handleDureeChange }
-                />
-
-                {/* <InputNumber size = "small"
-                    min = { 5 }
-                    max = { 900 }
-                    step = { 5 }
-                    value = { this.state.duree / 60 }
-                    onChange = { this.handleDureeChange }
-                /> */}
-                <h2>{ Math.floor(this.state.duree / 60) } minutes </h2>
-            </FormItem>
-
             <FormItem >
                 <Button type = "primary"
                     htmlType = "submit" >
@@ -228,7 +103,6 @@ export default class AjouterChapitre extends Component {
                         () => this.setState({
                             titre: '',
                             description: '',
-                            duree: dureeBoucle
                         })
                 } >
                     Reset 

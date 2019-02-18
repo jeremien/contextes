@@ -50,12 +50,6 @@ class ConnexionSession extends React.Component {
         }
         else {
             return (
-                // <div>
-                //     <form>
-                //         <input type='password' value={this.state.password} onChange={this.handlePassword}/>
-                //         <button onSubmit={this.handleSubmit} type="submit" value="envoyer" placeholder="envoyer" />
-                //     </form>
-                // </div>
                 <Form
                     layout='inline'
                     onSubmit={this.handleSubmit}

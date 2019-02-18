@@ -189,6 +189,15 @@ class Login extends React.Component {
                     }
 
                     <FormItem>
+                        <Button
+                            type='primary'
+                            htmlType='submit'
+                        >
+                            Envoyer
+                    </Button>
+                    </FormItem>
+
+                    <FormItem>
 
                         <Select
                             defaultValue={this.state.role}
@@ -209,14 +218,7 @@ class Login extends React.Component {
 
                         </Select>
                     </FormItem>
-                    <FormItem>
-                        <Button
-                            type='primary'
-                            htmlType='submit'
-                        >
-                            Envoyer
-                    </Button>
-                    </FormItem>
+          
 
                 </Form >
             </div>

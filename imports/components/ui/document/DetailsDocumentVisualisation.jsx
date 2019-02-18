@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactMarkdown from 'react-markdown';
+// import ReactMarkdown from 'react-markdown';
 import { Images } from '../../../api/collections/images';
 
 
@@ -32,9 +32,9 @@ const DetailsDocumentVisualisation = (props) => {
 
     return <div className='visualisation'>
                 {/* <img src={link} /> */}
-                <ReactMarkdown
+                {/* <ReactMarkdown
                     source={contenu}
-                />
+                /> */}
             </div>
 
 }

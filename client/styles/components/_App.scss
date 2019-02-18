@@ -1,27 +1,17 @@
 
-img {
-    width : 100px;
+.root--container {
+    display: block;
+    // right: 0;
+    // left: 0;
+    margin: 0;
+    padding: 0;
 }
 
-.visualisation {
-
-    // background-color: white;
-
-    img {
-        width : 250px;
-    }
-
+article, aside, header, footer, main, nav, section {
+    display: block;
 }
 
-.layout {
-
-    // background-color: white;
-
-    // font-family: $dejaVu-sans;
-
-    img {
-        width : 100%;
-        margin-bottom: 20px;
-    }
-
+article {
+    margin-top : 3.5rem;
+    
 }

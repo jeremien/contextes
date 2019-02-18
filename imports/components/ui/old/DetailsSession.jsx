@@ -4,9 +4,9 @@ import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
-import { Sessions } from '../../api/collections/sessions';
-import IndexChapitreContainer from '../data/IndexChapitresContainer';
-import TableauDeBord from './TableauDeBord';
+import { Sessions } from '../../../api/collections/sessions';
+import IndexChapitreContainer from '../../data/IndexChapitresContainer';
+import TableauDeBord from '../TableauDeBord';
 
 import { Switch } from 'antd';
 
@@ -39,29 +39,36 @@ class DetailsSession extends React.Component {
 
             return (
 
-                <section className='x xw fsc'>
+                <div >
 
                     {(!!this.props.connecte && this.props.role == "editeur") ?
                         
-                        <div id='detailsession--form' className='br py px'>                         
+                        <div>
+                            <h4>Ajout d'un nouveau chapitre</h4>
+                            <Switch 
+                                defaultChecked={this.state.toggleActionChapitre}
+                                onChange={() => this.setState({ toggleActionChapitre: !this.state.toggleActionChapitre})}
+                                style={{ marginBottom: '20px' }}
+                            />
 
-                            <TableauDeBord session={this.props.session} /> 
+                            { this.state.toggleActionChapitre ? 
+                                <TableauDeBord session={this.props.session} /> : undefined
+                            }    
+                            
                         
                         </div>    
                         :
                         undefined
                     }
 
-                    <div id='detailsession--liste' className='py px'>
-                        <IndexChapitreContainer 
-                            {...this.props}
-                            sessionId={this.props.session._id} 
-                            role={this.props.role} 
-                            connecte={this.props.connecte} 
-                        />
-                    </div>
+                    <IndexChapitreContainer 
+                        {...this.props}
+                        sessionId={this.props.session._id} 
+                        role={this.props.role} 
+                        connecte={this.props.connecte} 
+                    />
 
-                </section>
+                </div>
             )
         }
         else {
