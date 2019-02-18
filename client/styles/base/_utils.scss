@@ -23,10 +23,27 @@
     left: 0;
 }
 
+.reset {
+    margin: 0;
+    padding: 0;
+}
+
 .lk {
     text-decoration: underline;
 }
 
+.txta {
+    outline : none;
+    resize: none;
+}
+
+.btt {
+    border: 1px solid black;
+}
+
+.ls {
+    list-style: none;
+}
 .crs {
     cursor: pointer;
 }
@@ -35,8 +52,16 @@
     width: calc(100% - 2rem);
 }
 
+.wfull {
+    width: 100%;
+}
+
 .mb {
     margin-bottom: 1rem;
+}
+
+.mxr {
+    margin-right: 5%;
 }
 
 .mxa {

@@ -2,23 +2,26 @@ import React from 'react'
 import { Session } from 'meteor/session';
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 
 import { Chapitres } from '../../api/collections/chapitres';
 import { Connexions } from '../../api/collections/connexions';
-import { Sessions } from '../../api/collections/sessions'
+import { Sessions } from '../../api/collections/sessions';
 
+// transcripteur
 import AjouterDocument from '../outils/transcripteur/AjouterDocument';
 import Typing from '../outils/transcripteur/Typing';
-import CorrectionDocument from '../outils/correcteur/CorrectionDocument';
-import AjouterImages from '../outils/iconographe/AjouterImage'
 
+// iconographe
+import AjouterImages from '../outils/iconographe/AjouterImage';
+
+// correcteur
+import CorrectionDocument from '../outils/correcteur/CorrectionDocument';
+
+// shared
 import IndexDocumentsContainer from '../data/IndexDocumentsContainer';
 
-import InfosChapitre from '../ui/InfosChapitre';
 import DetailsChapitre from '../ui/DetailsChapitre';
-
-
 
 class DetailsChapitreContainer extends React.Component {
     constructor(props) {
@@ -42,44 +45,36 @@ class DetailsChapitreContainer extends React.Component {
         switch (this.props.role) {
             case 'transcripteur':
                 return {
-                    outilgauche:  <>
-                        <AjouterDocument {...propToPass} />
-                        </>,
+                    outilgauche: <AjouterDocument {...propToPass} />,
                     outildroit: <>
-                                <Typing {...propToPass} />
-                                <IndexDocumentsContainer {...propToPass} />
-                            </>
+                                    <Typing {...propToPass} />
+                                    <IndexDocumentsContainer {...propToPass} />
+                                </>
                 }
                 break;
-            case 'correcteur':
-                return {
-                    outilgauche: <InfosChapitre {...propToPass} />,
-                    outildroit: <div>
-                        {/* <IndexDocuments {...propToPass} /> */}
-                    </div>
-                }
-                break;
- 
+            
             case 'iconographe':
                 return {
-                    outilgauche: <InfosChapitre {...propToPass} />,
-                    outildroit: <div>
-                        <AjouterImages {...propToPass} simpleBtn={false} />
-                        {/* <IndexDocuments {...propToPass} /> */}
-
-                    </div>
+                    outilgauche: <AjouterImages {...propToPass} />,
+                    outildroit:  <IndexDocumentsContainer {...propToPass} />
                 }
+
+            case 'correcteur':
+                return {
+                    outilgauche: <IndexDocumentsContainer {...propToPass} /> ,
+                    outildroit: <CorrectionDocument {...propToPass} />
+                }
+                break;
 
             case 'editeur':
                 return {
-                    outilgauche: <InfosChapitre {...propToPass} />,
-                    outildroit: <div>
-                        <IndexDocumentsTable {...propToPass} />
-                    </div>
+                    outilgauche: undefined,
+                    outildroit: undefined
                 }
                 break;
+
             default:
-                return <h2>Pas d'outils</h2>
+                return <p>Pas d'outils</p>
         }
     }
 

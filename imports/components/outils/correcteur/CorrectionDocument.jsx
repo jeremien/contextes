@@ -4,20 +4,19 @@ import { withTracker } from 'meteor/react-meteor-data';
 
 import { Documents } from '../../../api/collections/documents';
 
-// import IndexDocumentsCorrecteur from './IndexDocumentsCorrecteur';
 import DetailsDocumentsCorrecteur from './DetailsDocumentsCorrecteur';
-// import AjouterImage from '../iconographe/AjouterImage'
 
 class CorrectionDocument extends Component {
 
     render() {
+
+        console.log(this.props)
         return (
             <div>
 
                 {this.props.documents.map((document) =>
                     <div key={document._id}>
-                        <DetailsDocumentsCorrecteur document={document} />
-                        {/* <AjouterImage document={document} /> */}
+                        <DetailsDocumentsCorrecteur document={document} utilisateur={this.props.utilisateur} />
                     </div>
                 )}
 

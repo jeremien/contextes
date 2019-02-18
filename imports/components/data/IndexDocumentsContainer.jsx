@@ -20,9 +20,7 @@ class IndexDocuments extends Component {
     } else {
 
       return (
-        <div>
-          <h3>pas de documents</h3>
-        </div>
+        <div>pas de documents</div>
       )
 
     }

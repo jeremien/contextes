@@ -14,10 +14,10 @@ export default class Typing extends Component {
             return (
                 <div className="x bb py">
                     
-                    <ul className="typing">
+                    <ul className="typing ls reset">
                     {this.props.transcripteurs.map((transcripteur) => (
     
-                            <li key={transcripteur._id}>
+                            <li classname='' key={transcripteur._id}>
                                {transcripteur.username} : {transcripteur.typing ? <span className='fcr'>en train d'écrire</span> : <span>n'écrit pas</span>}
                             </li>
                         )

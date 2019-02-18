@@ -12,7 +12,8 @@ export default class AjouterDocument extends Component {
         super(props);
 
         this.state = {
-            commentaire: ""
+            commentaire: "",
+            alert : undefined
         }
 
         this.handleChange = this.handleChange.bind(this);
@@ -30,39 +31,46 @@ export default class AjouterDocument extends Component {
             Meteor.call('documents.insert', session, chapitre, this.state.commentaire, auteur)
 
             this.setState({
-                commentaire: ''
+                commentaire: '',
+                alert : 'Document enregistré'
             });
 
         } else {
 
-           alert('Écrivez un texte!');
+        //    alert('Écrivez un texte!');
+            this.setState({
+                alert : 'Écrivez un texte!'
+            })
 
         }
 
     }
 
     handleChange(event) {
-        this.setState({ commentaire: event.target.value })
+        this.setState({ commentaire: event.target.value, alert : 'Rédaction' })
     }
 
     render() {
 
-         let { commentaire } = this.state;
+         let { commentaire, alert } = this.state;
 
         return (
 
             <form className='ajouterdocument' onSubmit={this.handleSubmit}>
 
+                <p>{alert}</p>
+
                 <textarea 
+                    className='wfull txta py px btt'
                     value={commentaire}
-                    placeholder='texte'
-                    rows='5'
+                    // placeholder='texte'
+                    // rows='5'
                     onChange={this.handleChange}
                     onBlur={() => { Meteor.call('connexions.ecrit.pas', this.props.userId) }}
                     onFocus={() => { Meteor.call('connexions.ecrit', this.props.userId) }}
                 />
 
-                <input type='submit' value='enregistrer'/>
+                <input className='wfull fsc btt py px crs' type='submit' value='enregistrer'/>
 
             </form>
         )
