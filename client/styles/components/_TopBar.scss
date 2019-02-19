@@ -84,3 +84,26 @@
 //     transform: translateX(calc(25vw + 1px));
 //     opacity: 0;
 // }
+
+.chatbox {
+
+
+    input {
+
+        padding: 0.5rem;
+        margin-bottom: 5%;
+
+
+        outline: none;
+       
+        &:focus {
+            border-color: red;
+        }
+    }
+}
+
+.chatbox--message {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}

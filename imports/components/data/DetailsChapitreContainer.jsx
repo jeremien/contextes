@@ -13,7 +13,7 @@ import AjouterDocument from '../outils/transcripteur/AjouterDocument';
 import Typing from '../outils/transcripteur/Typing';
 
 // iconographe
-import AjouterImages from '../outils/iconographe/AjouterImage';
+import AjouterImage from '../outils/iconographe/AjouterImage';
 
 // correcteur
 import CorrectionDocument from '../outils/correcteur/CorrectionDocument';
@@ -43,19 +43,19 @@ class DetailsChapitreContainer extends React.Component {
 
     getOutils(propToPass) {
         switch (this.props.role) {
+
+            // TODO: ajouter un role lecteur / lectrice
+
             case 'transcripteur':
                 return {
-                    outilgauche: <AjouterDocument {...propToPass} />,
-                    outildroit: <>
-                                    <Typing {...propToPass} />
-                                    <IndexDocumentsContainer {...propToPass} />
-                                </>
+                    outilgauche: <div><AjouterDocument {...propToPass} /><Typing {...propToPass} /></div>,
+                    outildroit: <IndexDocumentsContainer {...propToPass} />
                 }
                 break;
             
             case 'iconographe':
                 return {
-                    outilgauche: <AjouterImages {...propToPass} />,
+                    outilgauche: <AjouterImage {...propToPass} />,
                     outildroit:  <IndexDocumentsContainer {...propToPass} />
                 }
 

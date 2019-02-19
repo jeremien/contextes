@@ -6,8 +6,6 @@ import { withTracker } from 'meteor/react-meteor-data'
 import { Sessions } from '../../api/collections/sessions';
 import { Chapitres } from '../../api/collections/chapitres';
 
-import { List, Divider } from 'antd';
-
 import Liste from '../utils/Liste';
 
 

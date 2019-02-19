@@ -48,16 +48,13 @@ class Application extends Component {
     Streamy.on('offAir', () => this.setState({ onAir: false }));
 
 
-    Streamy.on('notification', (infos) => {
-      const { title, message, type } = infos;
+    Streamy.on('notification', (message) => {
+
       this.setState({
         alert : message
-      })
+      });
     });
   }
-
-
-
  
   logoutForce() {
     localStorage.clear();
@@ -97,7 +94,7 @@ class Application extends Component {
             <Route path="/" render={(props) => <TopBarContainer {...props} {...propsToPass} />} />
             <Route path="/" render={() => <AlertMessage alert={this.state.alert} />} />
 
-            <article>
+            <article >
               <Route exact path="/" render={(props) => <LandingPage {...props} {...propsToPass} />} />
 
               <Route path="/login" render={(props) => <Login {...props} {...propsToPass} />} />

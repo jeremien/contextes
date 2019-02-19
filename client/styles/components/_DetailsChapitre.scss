@@ -1,17 +1,21 @@
 
 
 #detailschapitre--gauche {
-    width: 50%;
+    width: 40%;
     height: calc(100vh - 3rem);
 }
 
 #detailschapitre--droit {
-    width: 50%;
+    width: 100%;
+    // position: fixed;
+    overflow: scroll;
 }
 
 .ajouterdocument {
     // margin: 1rem;
     // margin-right: 5%;
+
+    // height: 5rem;
     
     textarea {
         box-sizing: border-box;
@@ -24,8 +28,20 @@
 
 .listedocuments {
     // background: red;
+    // overflow: scroll;
+    img {
+        width: 200px;
+    }
 }
 
 .detailsdocuments {
-    margin: 1.5rem;
+    // margin: 1.5rem;
+
+    textarea {
+        box-sizing: border-box;
+    }
+}
+
+.ajouterimage {
+    
 }

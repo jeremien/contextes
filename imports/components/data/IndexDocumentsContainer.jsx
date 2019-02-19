@@ -32,7 +32,7 @@ class IndexDocuments extends Component {
 export default IndexDocumentsContainer = withTracker((props) => {
   const documentsHandler = Meteor.subscribe('documents');
   const loading = !documentsHandler.ready();
-  const documents = Documents.find( { chapitre: props.chapitre._id }).fetch();
+  const documents = Documents.find( { chapitre: props.chapitre._id }, { sort: { creation : -1}} ).fetch();
   const images = Documents.find({ chapitre: props.chapitre._id, type: "image" }, {fields: {image : 1}}).fetch();
   const documentsExists = !loading && !!documents;
   const imagesExists = !loading && !!document;

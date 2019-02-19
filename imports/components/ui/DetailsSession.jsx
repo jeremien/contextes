@@ -8,9 +8,6 @@ import { Sessions } from '../../api/collections/sessions';
 import IndexChapitreContainer from '../data/IndexChapitresContainer';
 import TableauDeBord from './TableauDeBord';
 
-import { Switch } from 'antd';
-
-
 class DetailsSession extends React.Component {
 
     constructor(props) {

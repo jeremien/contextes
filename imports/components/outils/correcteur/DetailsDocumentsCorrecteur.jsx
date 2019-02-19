@@ -27,20 +27,18 @@ export default class DetailsDocumentCorrecteur extends Component {
 
     render() {
 
-        console.log(this.props)
+        // console.log(this.props)
 
         let { contenu } = this.state;
 
         return (
-            <div className='detailsdocuments'>
+            <form className='detailsdocuments'>
                 <textarea
-                    className='wfull txta px py mxa btt'
-                    // cols='50'
-                    // rows='10'
+                    className='wfull txta py px btt fsc'
                     value={contenu}
                     onChange={this.handleChange}
                 />
-            </div>
+            </form>
         )
 
     }

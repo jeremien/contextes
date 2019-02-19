@@ -11,9 +11,7 @@
     justify-content: space-between;
 }
 
-.fcr {
-    color: red;
-}
+
 
 .r {
     right: 0;
@@ -54,6 +52,11 @@
 
 .wfull {
     width: 100%;
+}
+
+.wmax {
+    max-width: '100%';
+    max-height: '100%';
 }
 
 .mb {
@@ -110,4 +113,24 @@
 
 .bg {
     background: #e9eaeb;
+}
+
+.cff {
+    color : grey;
+}
+
+.cfbl {
+    color: blue;
+}
+
+.fcr {
+    color: red;
+}
+
+.cfb {
+    color: black;
+}
+
+.cfgr {
+    color: green;
 }

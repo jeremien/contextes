@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
 
-import { Form, Input, Button, message } from 'antd';
-
-const { TextArea } = Input;
-
 export default class AjouterDocument extends Component {
 
     constructor(props) {
@@ -28,7 +24,10 @@ export default class AjouterDocument extends Component {
 
         if (this.state.commentaire) {
 
-            Meteor.call('documents.insert', session, chapitre, this.state.commentaire, auteur)
+            Meteor.call('documents.insert', session, chapitre, this.state.commentaire, auteur);
+
+            let notification = { titre : this.props.utilisateur, message : "j'ajoute un document" }
+            Meteor.call('notification', notification);
 
             this.setState({
                 commentaire: '',
@@ -58,20 +57,20 @@ export default class AjouterDocument extends Component {
 
             <form className='ajouterdocument' onSubmit={this.handleSubmit}>
 
-                <p>{alert}</p>
-
                 <textarea 
-                    className='wfull txta py px btt'
+                    className='wfull txta py px btt fsc'
                     value={commentaire}
-                    // placeholder='texte'
-                    // rows='5'
+                    rows='10'
                     onChange={this.handleChange}
                     onBlur={() => { Meteor.call('connexions.ecrit.pas', this.props.userId) }}
                     onFocus={() => { Meteor.call('connexions.ecrit', this.props.userId) }}
                 />
+                
+                <p>{alert}</p>
 
                 <input className='wfull fsc btt py px crs' type='submit' value='enregistrer'/>
 
+                
             </form>
         )
     }

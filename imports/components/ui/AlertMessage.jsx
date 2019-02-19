@@ -1,8 +1,8 @@
 import React from 'react';
 
-const AlertMessage = (props) => {
+import Moment from 'react-moment';
 
-    let date = Date.now();
+const AlertMessage = (props) => {
 
         return (
 
@@ -11,8 +11,8 @@ const AlertMessage = (props) => {
                 <div className='alert--container bb bcb py px'>
 
                    { props.alert ? 
-                        <span>message de service à {date} : {props.alert}</span> :
-                        <span>pas de message</span>
+                        <span className='cff'>À <Moment format='HH:mm'>{Date.now()}</Moment>, {props.alert.titre} dit <span className='cfb'>{props.alert.message}</span> </span> :
+                        <span className='cff'>pas de message</span>
                     } 
 
                 </div>
