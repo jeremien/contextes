@@ -5,7 +5,6 @@ import { withTracker } from 'meteor/react-meteor-data'
 
 
 import { Sessions } from '../../api/collections/sessions';
-import { Chapitres } from '../../api/collections/chapitres'
 import IndexSessions from '../ui/IndexSessions'
 import AjouterSession from '../outils/editeur/AjouterSession'
 
@@ -50,9 +49,18 @@ class IndexSessionsContainer extends Component {
 
     render() {
 
-        return (
-            <IndexSessions {...this.props} action={this.getAction()} badges={this.state.badges} />
-        )
+        if (!this.props.loading && this.props.sessionsExists) {
+
+            return (
+                <IndexSessions {...this.props} action={this.getAction()} badges={this.state.badges} />
+            )
+
+        } else {
+
+            return <p>chargement en cours</p>
+        }
+
+  
     }
 };
 

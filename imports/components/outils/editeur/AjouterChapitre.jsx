@@ -1,13 +1,5 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types'
 import { Meteor } from 'meteor/meteor';
-import { Session } from 'meteor/session';
-
-import {  Form, Input, InputNumber, Button, message, Slider, Tag, Divider, Tooltip, Icon } from 'antd';
-
-const FormItem = Form.Item;
-const {  TextArea } = Input;
-
 
 export default class AjouterChapitre extends Component {
 
@@ -17,57 +9,64 @@ export default class AjouterChapitre extends Component {
         this.state = {
             titre: '',
             description: '',
-            inputVisible: false,
-            inputValue: ''
+            alert: undefined
         }
 
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleTitreChange = this.handleTitreChange.bind(this);
-        this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
-
-
+        this.handleInput = this.handleInput.bind(this);
 
     }
 
-    handleTitreChange(event) {
-        this.setState({ titre: event.target.value });
+
+    handleInput(e) {
+        const t = e.target;
+        const value = t.value;
+        const name = t.name
+
+        this.setState({
+            [name] : value
+        });
     }
-
-    handleDescriptionChange(event) {
-        this.setState({ description: event.target.value });
-    }
-
-
 
     handleSubmit(event) {
+        
         event.preventDefault();
-        const auteur = Session.get('utilisateur');
-        const session = this.props.sessionId;
 
-        if (this.state.titre && this.state.description) {
+        const auteur = this.props.utilisateur;
+        const { titre, description} = this.state;
+
+        const session = this.props.session._id;
+
+        if (titre && description) {
+
+            console.log('auteur', auteur, 'description', description)
+
             Meteor.call(
                 'chapitres.insert',
                 session,
-                this.state.titre,
+                titre,
                 auteur,
-                )
+                description,
+                );
 
-            let infos = {
-                title: `message de l'éditeur`,
-                message: `création d'un chapitre : ${this.state.titre}`,
-                type: "success"
+            let notification = {
+                titre: auteur,
+                message: `a créé.e le chapitre ${titre}`,
             }
 
-            Meteor.call('notification', infos);
+            Meteor.call('notification', notification);
 
             this.setState({
                 titre: '',
-                description: ''
+                description: '',
+                alert : 'chapitre créé'
             });
 
         } else {
 
-            message.error('Remplisser tous les champs!');
+            this.setState({
+                alert : 'Remplissez le titre et la description'
+            })
 
         }
     }
@@ -76,41 +75,33 @@ export default class AjouterChapitre extends Component {
 
     render() {
 
+        let { titre, description, alert } = this.state;
+
         return (
 
-            <Form onSubmit = { this.handleSubmit } >
+            <form className='ajouter-chapitre' onSubmit={this.handleSubmit}>
+                    
+            <input 
+                className='btt reset py px mb'
+                type='text' 
+                name='titre' 
+                value={titre} 
+                onChange={this.handleInput} 
+                placeholder='titre du chapitre'
+            />
+            <textarea 
+                className='wfull txta py px btt fsc mb'
+                name='description'
+                value={description}
+                onChange={this.handleInput}
+                placeholder='description'
+            />
 
-            <FormItem label = 'Nouveau chapitre' >
-                <Input placeholder = 'Titre'
-                    value = { this.state.titre }
-                    onChange = { this.handleTitreChange }
-                /> 
-                <TextArea placeholder = 'Description'
-                    value = { this.state.description }
-                    autosize = {
-                    { minRows: 2, maxRows: 6 } }
-                    onChange = { this.handleDescriptionChange }
-                /> 
-            </FormItem>
+            <p>{alert}</p>     
 
-            <FormItem >
-                <Button type = "primary"
-                    htmlType = "submit" >
-                    Créer le chapitre 
-                </Button>
-                <Button type = "danger"
-                    onClick = {
-                        () => this.setState({
-                            titre: '',
-                            description: '',
-                        })
-                } >
-                    Reset 
-                </Button> 
-            </FormItem>
+            <input className='wfull fsc btt py px crs' type='submit' value='enregistrer'/>  
 
-            </Form>
-
+        </form>
           
         )
     }

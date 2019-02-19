@@ -5,8 +5,8 @@ import { withTracker } from 'meteor/react-meteor-data';
 
 // import ReactMarkdown from 'react-markdown';
 
-import { Documents } from '../../api/collections/documents';
-import { Images } from '../../api/collections/images';
+import { Documents } from '../../../api/collections/documents';
+import { Images } from '../../../api/collections/images';
 
 import { Table, Divider, Button, Switch, Icon, message, Popconfirm } from 'antd';
 

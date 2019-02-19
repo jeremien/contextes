@@ -34,14 +34,61 @@
     }
 }
 
-.detailsdocuments {
+.details-documents {
     // margin: 1.5rem;
 
     textarea {
         box-sizing: border-box;
+
+        &:focus {
+            border-color: red;
+        }
     }
 }
 
 .ajouterimage {
     
+}
+
+.ajoutersession {
+    
+
+    input {
+        background: #e9eaeb;
+        outline: none;
+        &:focus {
+            border-color: red;
+        }
+    }
+
+    textarea {
+        box-sizing: border-box;
+        background: #e9eaeb;
+        outline: none;
+        &:focus {
+            border-color: red;
+        }
+    }
+}
+
+.ajouter-chapitre {
+    
+
+    input {
+        background: #e9eaeb;
+        outline: none;
+        &:focus {
+            border-color: red;
+        }
+    }
+
+    textarea {
+        background: #e9eaeb;
+        outline: none;
+        box-sizing: border-box;
+
+        &:focus {
+            border-color: red;
+        }
+    }
 }

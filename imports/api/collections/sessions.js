@@ -27,22 +27,21 @@ Meteor.methods({
      * @param {string} titre - Le titre de la session
      * @param {objet} auteur - Contient le l'id et le nom du créateur de la session sous la forme {auteurId: ObjetId, auteurNom: string}.
      */
-    'sessions.insert' (titre, auteur, description, roles, categories) {
+    'sessions.insert' (titre, auteur, description, password) {
+
+        if (password === '') {
+            password = 'test';
+        }
+
         Sessions.insert({
-            titre: titre,
-            auteur: auteur,
+            titre,
+            auteur,
             creation: new Date(),
-            description: description,
-            /**
-             * Etats possibles : 
-             * edition (par défaut), prepresse, archivee
-             */
+            description,
             etat: "edition",
-            roles: roles,
             utilisateurs_connectes: [],
             utilisateurs_ayant_participe: [],
-            categories: categories,
-            password: 'test',
+            password,
         });
     },
 

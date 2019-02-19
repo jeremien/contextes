@@ -10,7 +10,6 @@ class CorrectionDocument extends Component {
 
     render() {
 
-        console.log(this.props)
         return (
             <div>
 
@@ -32,7 +31,7 @@ export default CorrectionDocumentContainer = withTracker((props) => {
 
     const documentsHandler = Meteor.subscribe('documents');
     const loading = !documentsHandler.ready();
-    const documents = Documents.find({ chapitre: props.chapitre._id }).fetch();
+    const documents = Documents.find({ chapitre: props.chapitre._id },{ sort: { creation : -1}}).fetch();
     const documentsExists = !loading && !!documents;
 
     return {

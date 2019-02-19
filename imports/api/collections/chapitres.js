@@ -15,9 +15,6 @@ export const Chapitres = new Mongo.Collection('chapitres');
 // Chapitres.attachCollectionRevisions(CollectionRevisions.Chapitres);
 
 if (Meteor.isServer) {
-    // Meteor.publish('chapitres', function chapitresPublication() {
-    //     return Chapitres.find();
-    // })
 
     Meteor.publish('chapitres', function (session) {
         // console.log(session.session)
@@ -40,12 +37,12 @@ Meteor.methods({
      * @param {*} auteur Personne qui a créer le chapitre par défaut
      * @param {integer} duree Durée du chapitre en minutes
      */
-    'chapitres.insert'(session, titre, auteur, description, duree, tags) {
+    'chapitres.insert'(session, titre, auteur, description) {
+
         Chapitres.insert({
-            session: session,
-            titre: titre,
-            auteur: auteur,
-            description,
+            session,
+            titre,
+            auteur,
             description,
             creation: new Date(),
             /**
@@ -54,11 +51,7 @@ Meteor.methods({
              */
             etat: 'edition',
             isOpen: true,
-            utilisateurs_connectes: [],
-            timer: duree,
-            id_timer: null,
-            duree_boucle: duree,
-            tags: tags,
+            utilisateurs_connectes: []
         });
     },
 

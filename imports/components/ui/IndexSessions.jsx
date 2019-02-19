@@ -8,43 +8,61 @@ export default class IndexSessions extends Component {
 
     handleSessionDelete(sessionId) {
 
-        Meteor.call('sessions.remove', sessionId);
+        if (this.props.badges.length === 0) {
 
-        let session = this.props.sessions.find((item) => {
-            return item._id === sessionId;
-        });
+            Meteor.call('sessions.remove', sessionId);
 
-        let infos = {
-            title: "message de l'éditeur",
-            message: `suppression de la session : ${session.titre}`,
-            type: "warning"
-        };
+            let session = this.props.sessions.find((item) => {
+                return item._id === sessionId;
+            });
 
-        Meteor.call('notification', infos);
+            let notification = {
+                titre: this.props.utilisateur,
+                message: `suppression de la session ${session.titre}`,
+            };
+
+            Meteor.call('notification', notification);
+
+        } else {
+
+            alert('la session contient des chapitres');
+
+        }
+       
     }
 
     renderSessions() {
 
-        let { role } = this.props;
+        if (this.props.sessions.length != 0) {
 
-        return this.props.sessions.map((item, key) => {
+            let { role } = this.props;
+
+            return this.props.sessions.map((item, key) => {
             
-            let badges = renderBadges(this.props.badges, item._id);
+                let badges = renderBadges(this.props.badges, item._id);
 
-            return (
-                <div className='x jc bb py' key={key}>
-                        
-                       <p> N°{key + 1} </p>
-                       <p className='cff'><Moment format='DD/MM/YYYY'>{item.creation}</Moment></p>
-                        <p>{item.titre}</p>
-                        <p className='cff'>{item.etat}</p>
-                        <p> { badges ? badges : '0' } <span className='cff'>chapitres</span></p>
-                        <p className='lk crs' onClick={() => this.props.history.push(`/sessions/${item._id}`) }>rejoindre</p>
-                        { role === 'editeur' ? <p className='lk crs' onClick={() => this.handleSessionDelete(item._id)}>supprimer</p> : undefined }
-               
-                </div>
-            )
-        });
+                return (
+                    <div className='x jc bb py' key={key}>
+                            
+                        <p> N°{key + 1} </p>
+                        <p className='cff'><Moment format='DD/MM/YYYY'>{item.creation}</Moment></p>
+                            <p>{item.titre}</p>
+                            <p>{item.auteur}</p>
+                            <p className='cff'>{item.etat}</p>
+                            <p> { badges ? badges : 'pas de' } <span className='cff'>chapitre(s)</span></p>
+                            <p className='lk crs' onClick={() => this.props.history.push(`/sessions/${item._id}`) }>rejoindre</p>
+                            { role === 'editeur' ? <p className='lk crs' onClick={() => this.handleSessionDelete(item._id)}>supprimer</p> : undefined }
+                
+                    </div>
+                )
+            });
+        
+        } else {
+
+            return <p>il n'y a pas de sessions</p>
+        }
+
+        
     }
   
     render() {
@@ -65,7 +83,7 @@ export default class IndexSessions extends Component {
 
                 <div id='indexsession--liste' className='py px'>
 
-                    { this.props.sessions ? this.renderSessions() : 'pas de sessions' }
+                   { this.renderSessions() }
 
                 </div>
             

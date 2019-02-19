@@ -1,35 +1,11 @@
-import React, { Component, PropTypes } from 'react';
-import { Session } from 'meteor/session';
+import React, { Component} from 'react';
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
-
 import { Sessions } from '../../api/collections/sessions';
 import IndexChapitreContainer from '../data/IndexChapitresContainer';
 import TableauDeBord from './TableauDeBord';
 
-class DetailsSession extends React.Component {
-
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            toggleActionChapitre : false
-        }
-    }
-
-    
-
-    componentDidMount() {
-        if (this.props.connecte) {
-            // TODO methode connexion.session ?
-            // Meteor.call('connexions.session', this.props.utilisateur, this.props.sessionId); 
-        }
-    };
-
-    componentWillUnmount() {
-        // Meteor.call('sessions.deconnexion', this.props.utilisateur);
-    }
+class DetailsSession extends Component {
 
     render() {
         if (!this.props.loading && this.props.sessionExists) {
@@ -42,7 +18,7 @@ class DetailsSession extends React.Component {
                         
                         <div id='detailsession--form' className='br py px'>                         
 
-                            <TableauDeBord session={this.props.session} /> 
+                            <TableauDeBord session={this.props.session} utilisateur={this.props.utilisateur}/> 
                         
                         </div>    
                         :
@@ -62,11 +38,7 @@ class DetailsSession extends React.Component {
             )
         }
         else {
-            return (
-                <div >
-                    <h2>Choisir une session à afficher</h2>
-                </div>
-            );
+            return <p>chargement de la session</p>
         }
     }
 }

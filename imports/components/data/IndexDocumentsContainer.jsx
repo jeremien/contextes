@@ -1,12 +1,9 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
-
 import { Documents } from '../../api/collections/documents';
-import { Images } from '../../api/collections/images';
 
 import ListeDocuments from '../outils/ListeDocuments';
-
 class IndexDocuments extends Component {
 
   render() {
@@ -20,12 +17,10 @@ class IndexDocuments extends Component {
     } else {
 
       return (
-        <div>pas de documents</div>
+        <div>il n'y a pas de documents</div>
       )
 
     }
-
-
   }
 }
 

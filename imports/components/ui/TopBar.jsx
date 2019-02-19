@@ -101,9 +101,9 @@ export default class TopBar extends Component {
                                             localStorage.clear();
                                             Session.clear();
                           
-                                            if (this.props.role == 'editeur') {
-                                              Meteor.call('deconnexion.editeur');
-                                            }
+                                            // if (this.props.role == 'editeur') {
+                                            //   Meteor.call('deconnexion.editeur');
+                                            // }
                 
                                             this.setState({ showMenu : false });
                                             this.props.history.push(`/login`);

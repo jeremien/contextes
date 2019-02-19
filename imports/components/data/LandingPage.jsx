@@ -6,45 +6,42 @@ import { withTracker } from 'meteor/react-meteor-data'
 import { Sessions } from '../../api/collections/sessions';
 import { Chapitres } from '../../api/collections/chapitres';
 
-import Liste from '../utils/Liste';
-
-
 class LandingPage extends Component {
     
     constructor(props) {
         super(props);
     }
 
-    dataFilterSessions() {
-        return this.props.sessions.filter((item) => {
-            return item.etat === 'edition';
-        })
-    }
+    // dataFilterSessions() {
+    //     return this.props.sessions.filter((item) => {
+    //         return item.etat === 'edition';
+    //     })
+    // }
 
-    dataFilterChapitres() {
+    // dataFilterChapitres() {
 
-        const data = this.dataFilterSessions()
-        // console.log(data)
+    //     const data = this.dataFilterSessions()
+    //     // console.log(data)
 
-        const chaps = data.map((session) => {
-            return this.props.chapitres.filter((item) => {
-                return item.session === session._id
-            })
-        })
+    //     const chaps = data.map((session) => {
+    //         return this.props.chapitres.filter((item) => {
+    //             return item.session === session._id
+    //         })
+    //     })
 
-        const openChaps = chaps.map((chap) => {
-            return chap.filter((item) => {
-                return item.isOpen === true;
-            })
-        })
+    //     const openChaps = chaps.map((chap) => {
+    //         return chap.filter((item) => {
+    //             return item.isOpen === true;
+    //         })
+    //     })
 
-        const finalData = openChaps.reduce((acc, currValue) => {
-            return acc.concat(currValue)
-        }, [])
+    //     const finalData = openChaps.reduce((acc, currValue) => {
+    //         return acc.concat(currValue)
+    //     }, [])
 
 
-        return finalData;
-    }
+    //     return finalData;
+    // }
 
     render() {
 

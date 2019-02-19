@@ -39,7 +39,7 @@ class Login extends React.Component {
                     if (error) {
                         alert('Erreur à la connection', error);
                     } else {
-                        alert('Vous êtes connecté');
+                        // alert('Vous êtes connecté');
                     }
                 });
             }
@@ -47,9 +47,8 @@ class Login extends React.Component {
         });
 
         let infos = {
-            title: "message général",
-            message: `connexion de ${this.state.username} comme ${this.state.role}`,
-            type: "info"
+            titre: this.state.username,
+            message: `je suis connecté.e comme ${this.state.role}`
         };
 
         Meteor.call('notification', infos);

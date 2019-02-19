@@ -1,8 +1,6 @@
-import React, { Component, PropTypes } from 'react';
-import { Session } from 'meteor/session';
+import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
-import { BrowserRouter as Router, Route, Link, Switch }from 'react-router-dom'
 
 import { Chapitres } from '../../api/collections/chapitres'
 
@@ -10,15 +8,7 @@ import AjouterChapitre from '../outils/editeur/AjouterChapitre';
 
 import InfosSessions from './InfosSession';
 
-import { Row, Col, Checkbox, Radio, List, Divider } from 'antd';
-
-const CheckboxGroup = Checkbox.Group;
-const RadioGroup = Radio.Group;
-const RadioButton = Radio.Button;
-
-
-
-class TableauDeBord extends React.Component {
+class TableauDeBord extends Component {
     
     constructor(props) {
         super(props);
@@ -29,90 +19,45 @@ class TableauDeBord extends React.Component {
         this.handleEtat = this.handleEtat.bind(this);
     }
     
-    renderRoles() {
-        const data = Object.entries(this.props.session.roles).map(([role, nombre]) => {
-          return { role, nombre };
-        })
-        return data;
-    }
 
     handleEtat(event) {
+        
         Meteor.call('sessions.etat.update', this.props.session._id, event.target.value)
 
-        // let session = this.props.session.find((item) => {
-        //     return item._id === this.props.session._id;
-        //   });
-
-        let infos = {
-            title: `message de ${this.props.utilisateur}, l'éditeur`,
-            message: `la session : ${this.props.session.titre} est ${event.target.value}`,
-            type: "warning"
-          }
+        let notification = {
+            titre: this.props.utilisateur,
+            message: `j'ai changé.e le statut de la session ${this.props.session.titre} en ${event.target.value}`          }
       
-        Meteor.call('notification', infos);
+        Meteor.call('notification', notification);
     }
 
     render() {
 
-        if (this.props.loading) {
+        if (!this.props.loading) {
 
             return (
-                <h3>Chargement en cours</h3>
+                <div className='tableaudebord'>
+                
+                    <InfosSessions session={this.props.session} />
+
+                    <form className='mb'>
+                        <select name="statut" value={this.props.session.etat} onChange={this.handleEtat}>
+                            <option value='edition'>edition</option>
+                            <option value='completee'>completee</option>
+                            <option value='archivee'>archivee</option>
+                        </select>
+                    </form>
+
+                    <AjouterChapitre {...this.props} />
+
+                </div>
             )
             
         }
 
         else {
 
-            return (
-
-                <Row gutter={16}>
-                    
-                    <Col span={12}>
-
-                        <InfosSessions session={this.props.session} />
-
-                    </Col>
-                    
-                    <Col span={12}>
-
-
-                        <RadioGroup
-                            size='small'
-                            value={this.props.session.etat}
-                            onChange={this.handleEtat}
-                        >
-                            <RadioButton value='edition'>Édition</RadioButton>
-                            <RadioButton value='completee'>Complétée</RadioButton>
-                            <RadioButton value='archivee'>Archivée</RadioButton>
-                        
-                        </RadioGroup>
-
-                        {/* <List
-                            style={{ margin: '10px' }}
-                            size='small'
-                            header={<div>Rôles</div>}
-                            bordered
-                            dataSource={this.renderRoles()}
-                            renderItem={item => (
-                                <List.Item>
-                                    {item.role} : {item.nombre}
-                                </List.Item>
-                                )
-                            }
-                        >
-                        </List> */}
-
-                    </Col>
-
-                    <Divider />
-
-                    <AjouterChapitre sessionId={this.props.session._id} />
-
-                </Row>
-
-             
-            )
+            return <p>chargement en cours</p>
         }
     }
 }

@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types'
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
 
 import { Chapitres } from '../../api/collections/chapitres'
 import IndexChapitre from '../ui/IndexChapitre'
-import { Documents } from '../../api/collections/documents'
 
 class IndexChapitresContainer extends Component {
     constructor(props) {
@@ -37,7 +35,7 @@ class IndexChapitresContainer extends Component {
         } else {
 
             return (
-                <p>il n'y a pas de chapitres dans cette session</p>
+                <p>chargement en cours</p>
             )
         }
 

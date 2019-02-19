@@ -27,14 +27,15 @@ export default class DetailsDocumentCorrecteur extends Component {
 
     render() {
 
-        // console.log(this.props)
+        // TODO: identifier l'image
+        // console.log(!!this.props.document.image)
 
         let { contenu } = this.state;
 
         return (
-            <form className='detailsdocuments'>
+            <form className='details-documents'>
                 <textarea
-                    className='wfull txta py px btt fsc'
+                    className={!!this.props.document.image ? 'wfull txta py px btt fsc bg bcbb' : 'wfull txta py px btt fsc bg'}
                     value={contenu}
                     onChange={this.handleChange}
                 />
