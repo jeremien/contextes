@@ -4,7 +4,7 @@ module.exports = {
         // TODO: set host address, username, and authentication method
         host: '51.75.140.117',
         username: 'root',
-        password: 'eRwJqo2A'
+        password: ''
         // pem: '/home/jeremie/.ssh/id_rsa',
         // opts: {
         //   port: 54678
