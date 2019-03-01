@@ -1,15 +1,7 @@
-import {
-    Mongo
-} from 'meteor/mongo';
-import {
-    Meteor
-} from 'meteor/meteor';
-import {
-    check
-} from 'meteor/check';
-
+import { Mongo } from 'meteor/mongo';
+import { Meteor } from 'meteor/meteor';
+import { check } from 'meteor/check';
 import { Images } from './images';
-import Item from 'antd/lib/list/Item';
 
 export const Documents = new Mongo.Collection('documents');
 /**
@@ -63,16 +55,30 @@ Meteor.methods({
         });
     },
 
-    'documents.plenty.insert'(contenu) {
+    // methods pour api rest
 
-        console.log(contenu)
+    'documents.test.insert'(contenu) {
 
-        // Documents.insert({
-        //     contenu : contenu
-        // });
+        let lastDoc = Documents.findOne({}, {sort: {creation: -1}});
+        let auteur = 'externe';
 
-        Documents.insert(contenu);
+        let newDoc = {
+            session : lastDoc.session,
+            chapitre : lastDoc.chapitre,
+            contenu : contenu.contenu,
+            auteur : auteur,
+            creation: new Date(),
+            correction: false,
+            conformation: false,
+            rejete: true,
+            type: "texte",
+            dernireModificationPar: auteur,
+            image: null,
+        }
+
+        Documents.insert(newDoc);
     },
+
 
     /**
      * Permet de "supprimer un document" en le modifiant. Le contenu est vider et les métadatas sont conservées.
