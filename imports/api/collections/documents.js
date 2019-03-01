@@ -80,6 +80,7 @@ Meteor.methods({
      * @param {ObjectId} documentId Identifiant Mongo du document à supprimer
      */
     'documents.remove'(idSuppression) {
+        // console.log(idSuppression)
         Documents.remove({
             $or: [{
                 _id: idSuppression

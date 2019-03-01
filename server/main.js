@@ -91,5 +91,19 @@ Meteor.methods({
 
   'getIp'() {
     return process.env.IP || '127.0.0.1'
+  },
+
+  'reset'(type) {
+
+    switch (type) {
+      case 'message':
+        Messages.remove({});
+        break;
+      
+      default:
+        console.log('no type')
+    }
+      
+    console.log(type)
   }
 })

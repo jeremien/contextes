@@ -23,8 +23,6 @@ export default class IndexChapitres extends Component {
 
       let { role } = this.props;
 
-      console.log(this.props)
-
       return this.props.chapitres.map((item, key) => {
   
         let badges = renderBadges(this.props.badges, item._id);

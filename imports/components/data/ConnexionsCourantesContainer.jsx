@@ -19,14 +19,17 @@ class ConnexionsCourantesContainer extends React.Component {
     }
 
     render() {
+
+        // console.log(this.props)
+
         if (this.props.loading) {
-            return <h3>Chargement</h3>
+            return <p>Chargement</p>
         }
         if (this.props.connexionsExists) {
             return <ConnexionsCourantes {...this.props} />
         }
         else {
-            return <h3>Pas de personnes connectées actuellement</h3>
+            return <p>Il n'y a pas de personnes connectées actuellement</p>
         }
     }
 };

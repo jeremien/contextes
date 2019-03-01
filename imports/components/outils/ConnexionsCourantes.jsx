@@ -11,6 +11,7 @@ import { createConnection } from 'net';
 class ConnexionsCourantes extends Component {
 
     render() {
+
         if (this.props.loading) {
             return <h3>Chargement</h3>
         }
@@ -19,16 +20,18 @@ class ConnexionsCourantes extends Component {
             return (
                 <div className="connexions">
 
-                    <h3>Personnes connectées</h3>
+                    <p>Il y a 0 personnes connectées</p>
 
-                    {this.props.connexions.map((connexion) => (
-    
+                    { this.props.connexions.map((connexion) => {
+
+                        return (
                             <li key={connexion._id}>
-                               {connexion.utilisateur} ({connexion.role}) : {connexion.online ? <span>online</span> : "offline" }
-                               {this.props.role === "editeur" ?  <button onClick={(event) => Meteor.call('ejection.client', connexion._id, connexion.socketId, connexion.online) }>Ejecter</button> : undefined }
+                               {connexion.username} ({connexion.role}) : {connexion.online ? "online" : "offline" }
+                               {/* {this.props.role === "editeur" ?  <button onClick={(event) => Meteor.call('ejection.client', connexion._id, connexion.socketId, connexion.online) }>Ejecter</button> : undefined } */}
                             </li>
                         )
-                    )}
+
+                    })}
                 </div>
             )
 

@@ -8,6 +8,10 @@ import { Chapitres } from '../../api/collections/chapitres';
 import { Connexions } from '../../api/collections/connexions';
 import { Sessions } from '../../api/collections/sessions';
 
+// editeur
+import InfosChapitre from '../outils/editeur/InfosChapitre';
+import TableDocuments from '../outils/editeur/TableDocuments';
+
 // transcripteur
 import AjouterDocument from '../outils/transcripteur/AjouterDocument';
 import Typing from '../outils/transcripteur/Typing';
@@ -20,7 +24,6 @@ import CorrectionDocument from '../outils/correcteur/CorrectionDocument';
 
 // shared
 import IndexDocumentsContainer from '../data/IndexDocumentsContainer';
-
 import DetailsChapitre from '../ui/DetailsChapitre';
 
 class DetailsChapitreContainer extends React.Component {
@@ -68,8 +71,8 @@ class DetailsChapitreContainer extends React.Component {
 
             case 'editeur':
                 return {
-                    outilgauche: undefined,
-                    outildroit: undefined
+                    outilgauche: <InfosChapitre {...propToPass} />,
+                    outildroit: <IndexDocumentsContainer {...propToPass} />
                 }
                 break;
 

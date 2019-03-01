@@ -4,15 +4,26 @@ import { withTracker } from 'meteor/react-meteor-data';
 import { Documents } from '../../api/collections/documents';
 
 import ListeDocuments from '../outils/ListeDocuments';
+import TableDocuments from '../outils/editeur/TableDocuments';
 class IndexDocuments extends Component {
 
   render() {
 
-    if (this.props.documents != 0) {
+    if (this.props.documents.length !== 0) {
 
-      return (<div className='listedocuments'>
+      if (this.props.role === 'editeur') {
+        return (<div className='table-documents'>
+            <TableDocuments  documents={this.props.documents} />
+                </div>)
+
+      } else {
+        return (<div className='liste-documents'>
             <ListeDocuments  documents={this.props.documents} />
           </div>)
+
+      }
+   
+
 
     } else {
 

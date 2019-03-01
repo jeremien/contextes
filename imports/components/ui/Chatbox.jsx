@@ -34,6 +34,12 @@ class Chatbox extends Component {
     }
 
     chatList = (datas) => {
+
+        if (datas.length > 15) {
+            let last = datas.pop();
+            Meteor.call('messages.remove', last._id);
+        }
+
         return datas.map((data, index) => {
             return <li key={index}> <span className='cff'>{data.auteur}</span> {data.message}</li>
         })

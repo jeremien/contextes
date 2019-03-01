@@ -1,0 +1,49 @@
+.table-documents {
+
+    table {
+        border-collapse: collapse;
+        border: 1px solid black;
+        width: 100%;
+    }
+
+    th, td {
+        padding: 10px;
+    }
+
+}
+
+.table-documents--head {
+    padding: 5px;
+    height: 25px;
+
+    tr,th,td {
+        text-align: center;
+        vertical-align: center;
+        // color: white;
+        background: lighten(black, 85%);
+        border: 1px solid black;
+
+        &:hover {
+            background: black;
+            color: white;
+        }
+    }
+}
+
+.table-documents--content {
+    th,td {
+        height: 25px;
+        border: 1px solid black;
+    }
+
+    tr {    
+
+        text-align: center;
+        // background: lighten(black, 65%);
+
+        &:nth-child(even) {
+            background:lighten(black, 85%);
+        }
+
+    }
+}

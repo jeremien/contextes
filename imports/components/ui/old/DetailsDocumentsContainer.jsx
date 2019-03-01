@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
-import { Documents } from '../../api/collections/documents'
-import { Images } from '../../api/collections/images';
+import { Documents } from '../../../api/collections/documents'
+import { Images } from '../../../api/collections/images';
 
-import DetailsDocumentVisualisation from '../ui/document/DetailsDocumentVisualisation';
-import DetailsDocumentEdition from '../ui/document/DetailsDocumentEdition';
+import DetailsDocumentVisualisation from '../document/DetailsDocumentVisualisation';
+import DetailsDocumentEdition from '../document/DetailsDocumentEdition';
 
 class DetailsDocumentsContainer extends Component {
 

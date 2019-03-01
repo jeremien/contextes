@@ -193,5 +193,9 @@ Meteor.methods({
                 allowDiskUse: true
             }).toArray());
         }
+    },
+
+    'chapitres.export'(id) {
+        console.log('chapitre export', id)
     }
 })

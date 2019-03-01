@@ -39,4 +39,9 @@ Meteor.methods({
         //     type: 'success'
         // })
     },
+    'messages.remove'(id) {
+        Messages.remove({
+            _id : id
+        });
+    }
 })

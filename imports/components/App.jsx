@@ -19,6 +19,7 @@ import TopBarContainer from './data/TopBarContainer';
 import AlertMessage from './ui/AlertMessage';
 import DetailsChapitreContainer from './data/DetailsChapitreContainer';
 import LandingPage from './data/LandingPage';
+import Reset from './data/Reset';
 
 
 /**
@@ -100,13 +101,16 @@ class Application extends Component {
             <Route path="/" render={() => <AlertMessage alert={this.state.alert} />} />
 
             <article >
-    <Route exact path="/" render={(props) => Meteor.userId() ? <LandingPage {...props} {...propsToPass} /> : <Redirect to={{ pathname: '/login', state: { from: props.location } }} /> } />
+              <Route exact path="/" render={(props) => Meteor.userId() ? <LandingPage {...props} {...propsToPass} /> : <Redirect to={{ pathname: '/login', state: { from: props.location } }} /> } />
 
               <Route path="/login" render={(props) => <Login {...props} {...propsToPass} />} />
               
               <Route exact path="/sessions" render={(props) => <IndexSessionsContainer {...props} {...propsToPass} />} />
               <Route path="/sessions/:sessionId" render={(props) => <ConnexionSession {...props} {...propsToPass} />} />
               <Route exact path="/session/:idSession/chapitre/:idChapitre" render={(props) => <DetailsChapitreContainer {...props} {...propsToPass} />} />    
+
+              <Route exact path="/reset" render={(props) => <Reset {...props} />} />
+
             </article>
            
             
