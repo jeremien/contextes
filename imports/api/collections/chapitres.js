@@ -1,14 +1,7 @@
-import {
-    Mongo
-} from 'meteor/mongo';
-import {
-    Meteor
-} from 'meteor/meteor';
-import {
-    check
-} from 'meteor/check';
-import {
-    Documents
+import { Mongo } from 'meteor/mongo';
+import { Meteor } from 'meteor/meteor';
+import { check } from 'meteor/check';
+import { Documents 
 } from './documents';
 
 export const Chapitres = new Mongo.Collection('chapitres');
@@ -195,7 +188,11 @@ Meteor.methods({
         }
     },
 
-    'chapitres.export'(id) {
-        console.log('chapitre export', id)
-    }
+    // 'chapitres.export'(chapitre) {
+    //     const selection = Documents.find({
+    //         chapitre: chapitre
+    //     }).fetch();
+    //     console.log(selection)
+
+    // }
 })

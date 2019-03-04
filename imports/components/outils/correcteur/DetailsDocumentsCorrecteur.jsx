@@ -11,6 +11,7 @@ export default class DetailsDocumentCorrecteur extends Component {
         }
 
         this.handleChange = this.handleChange.bind(this);
+        this.handleEnter = this.handleEnter.bind(this);
     }
 
     componentDidMount() {
@@ -21,6 +22,16 @@ export default class DetailsDocumentCorrecteur extends Component {
 
     handleChange(event) {
         this.setState({ contenu: event.target.value, revised : true });
+        // Meteor.call('documents.update', this.props.document._id, this.state.contenu, this.props.utilisateur);
+
+    }
+
+    handleEnter(event) {
+        // console.log(event)
+        if (event.key !== 'Enter' ) {
+            return;
+        }
+        console.log('enter')
         Meteor.call('documents.update', this.props.document._id, this.state.contenu, this.props.utilisateur);
 
     }
@@ -38,6 +49,7 @@ export default class DetailsDocumentCorrecteur extends Component {
                     className={!!this.props.document.image ? 'wfull txta py px btt fsc bg bcbb' : 'wfull txta py px btt fsc bg'}
                     value={contenu}
                     onChange={this.handleChange}
+                    onKeyPress={this.handleEnter}
                 />
             </form>
         )

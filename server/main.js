@@ -1,6 +1,10 @@
-import {
-  Meteor
-} from 'meteor/meteor';
+import { Meteor } from 'meteor/meteor';
+
+import fs from 'fs';
+// import archiver from 'archiver';
+import Moment from 'moment';
+
+import { getImagesPath, getText } from '../imports/components/utils/Archive';
 
 import '../imports/api/collections/documents';
 import '../imports/api/collections/sessions';
@@ -10,19 +14,10 @@ import '../imports/api/collections/images';
 import '../imports/api/collections/messages';
 import '../lib/images'
 
-
-import {
-  Images
-} from '../imports/api/collections/images'
-import {
-  Connexions
-} from '../imports/api/collections/connexions';
-import {
-  Documents
-} from '../imports/api/collections/documents';
-import {
-  Messages
-} from '../imports/api/collections/messages';
+import { Images } from '../imports/api/collections/images'
+import { Connexions } from '../imports/api/collections/connexions';
+import { Documents } from '../imports/api/collections/documents';
+import { Messages } from '../imports/api/collections/messages';
 
 
 Streamy.onConnect(function (socket) {
@@ -105,5 +100,69 @@ Meteor.methods({
     }
       
     console.log(type)
+  },
+
+  'chapitres.export'(chapitre) {
+
+    const selection = Documents.find({
+        chapitre: chapitre
+    }).fetch();
+
+    const data = JSON.stringify(selection);
+
+    const images = getImagesPath(selection);
+    const text = getText(selection);
+
+    const date = Moment().format('DD-MM-YY');
+    const dir = `${process.env.PWD}/public/${date}`;
+    const imageDir = `${process.env.PWD}/assets/`;
+
+    try {
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir);
+      };
+    } catch (error) {
+      console.log(error);
+    }
+
+    try {
+      if (images.length !== 0) {
+        images.forEach((item) => {
+          fs.copyFile(`${imageDir}${item}`, `${dir}/${item}`, (error) => {
+            if (error) {
+              console.log(error);
+              return;
+            }
+          });
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+   
+    fs.writeFile(`${process.env.PWD}/public/${date}/data.json`, data, (error) => {
+      if (error) {
+        console.log(error);
+        return;
+      };
+    });
+
+    fs.writeFile(`${process.env.PWD}/public/${date}/data.txt`, text, (error) => {
+      if (error) {
+        console.log(error);
+        return;
+      };
+    });
+
+    //TODO: compresser le dossier et accéder via l'interface
+
+    // const out = fs.createWriteStream(`${process.env.PWD}/public/${date}.zip`);
+    // const archiver = archiver('zip', { 
+    //   zlib : { level : 9 }
+    // });
+
+    // out.on()
+
+
   }
-})
+});

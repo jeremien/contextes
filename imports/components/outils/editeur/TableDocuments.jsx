@@ -14,7 +14,7 @@ class TableDocuments extends Component {
         super(props);
 
         this.state = {
-            data : [],
+            data : props.documents,
             sortDate : false,
             sortContenu : false,
             sortCorrection : false,
@@ -26,16 +26,14 @@ class TableDocuments extends Component {
 
     }
 
-    componentWillMount() {
-        this.setState({
-            data : this.props.documents
-        });
-    }
+    // componentWillMount() {
+    //     this.setState({
+    //         data : this.props.documents
+    //     });
+    // }
 
 
     componentWillReceiveProps() {
-        // console.log('comp will receive props', this.props, this.state)
-        // let data = Array.from(this.props.documents)
         this.setState({
             data : this.props.documents
         });
@@ -44,8 +42,6 @@ class TableDocuments extends Component {
 
 
     onSortBy(event) {
-
-        // console.log(this.state)
 
         let id = event.target.dataset.id;
         let { data, sortDate, sortContenu, sortCorrection, sortAuteur, sortType } = this.state;
@@ -97,9 +93,7 @@ class TableDocuments extends Component {
 
         let { data } = this.state;
 
-        if (data.length > 1) {
-
-            // console.log(this.state)
+        if (data.length > 0) {
 
               return (
 
@@ -115,7 +109,7 @@ class TableDocuments extends Component {
                         </tr>
                     </thead>
                     <tbody className='table-documents--content'>
-                        <DocumentsShow documents={this.state.data} />
+                        <DocumentsShow documents={this.props.documents} />
                     </tbody>
                 </table>
 
@@ -129,20 +123,3 @@ class TableDocuments extends Component {
 }
 
 export default TableDocuments;
-
-// export default TableDocuments = withTracker((props) => {
-//     const documentsHandler = Meteor.subscribe('documents');
-//     const loading = !documentsHandler.ready();
-//     const documents = Documents.find( { chapitre: props.chapitre._id }, { sort: { creation : -1}} ).fetch();
-//     const images = Documents.find({ chapitre: props.chapitre._id, type: "image" }, {fields: {image : 1}}).fetch();
-//     const documentsExists = !loading && !!documents;
-//     const imagesExists = !loading && !!document;
-//     return {
-//       loading,
-//       documentsExists,
-//       documents: documentsExists ? documents : [],
-//       imagesExists,
-//       images: imagesExists ? images : {}
-//     }
-//   })(TableDocuments);
-
