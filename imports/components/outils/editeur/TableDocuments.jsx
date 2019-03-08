@@ -1,12 +1,6 @@
 import React, { Component } from 'react';
-// import { Meteor } from 'meteor/meteor';
-// import { withTracker } from 'meteor/react-meteor-data';
-// import { Documents } from '../../../api/collections/documents';
-
 import DocumentsShow from './Documents';
-
 import { sortData } from '../../utils/Sort';
-
 
 class TableDocuments extends Component {
 
@@ -14,7 +8,7 @@ class TableDocuments extends Component {
         super(props);
 
         this.state = {
-            data : props.documents,
+            data : [],
             sortDate : false,
             sortContenu : false,
             sortCorrection : false,
@@ -26,26 +20,24 @@ class TableDocuments extends Component {
 
     }
 
-    // componentWillMount() {
-    //     this.setState({
-    //         data : this.props.documents
-    //     });
-    // }
-
-
-    componentWillReceiveProps() {
+    componentWillMount() {
         this.setState({
             data : this.props.documents
         });
-        this.forceUpdate()
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.documents !== this.props.documents) {
+            this.setState({
+                data : nextProps.documents
+            });
+        }
+    }
 
     onSortBy(event) {
 
         let id = event.target.dataset.id;
         let { data, sortDate, sortContenu, sortCorrection, sortAuteur, sortType } = this.state;
-
 
         switch (id) {
 
@@ -105,11 +97,11 @@ class TableDocuments extends Component {
                             <td data-id='correction'>correction</td>
                             <td data-id='auteur'>auteur</td>
                             <td data-id='type'>type</td>
-                            <td data-id='supprimer'>supprimer</td>
+                            <td data-id='action'>action</td>
                         </tr>
                     </thead>
                     <tbody className='table-documents--content'>
-                        <DocumentsShow documents={this.props.documents} />
+                        <DocumentsShow documents={data} />
                     </tbody>
                 </table>
 

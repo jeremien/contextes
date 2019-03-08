@@ -16,3 +16,4 @@ Images.on('afterUpload', function(fileRef) {
     });
   }
 });
+

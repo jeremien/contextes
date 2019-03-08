@@ -1,8 +1,6 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
-
-import { Images } from '../../api/collections/images';
-
+import { getImageLink } from '../utils/Images';
 
 import Moment from 'react-moment';
 
@@ -10,12 +8,7 @@ const ListeDocuments = (props) => {
 
     return props.documents.map((item) => {
 
-        let img, link;
-
-        if (item.image != null) {
-            img = Images.findOne({_id: item.image._id})
-            link = img ? img.link() : null;
-        }
+        let link = getImageLink(item);
 
         return (
                 <div key={item._id} className='wmax'>  
@@ -28,7 +21,7 @@ const ListeDocuments = (props) => {
                     />
                 </div>
             )
-    })
+    });
 
 }
 

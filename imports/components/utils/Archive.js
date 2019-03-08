@@ -1,8 +1,6 @@
 
 const getImagesPath = (documents) => {
     
-    // console.log(documents);
-
     let images = documents.filter((item) => {
         return item.image !== null;
     });
@@ -15,7 +13,16 @@ const getImagesPath = (documents) => {
 const getText = (documents) => {
     
     const text = documents.map((item) => {
-        return item.contenu;
+
+        let contenu = [];
+
+        if (item.image !== null) {
+            contenu.push(`image : ${item.image._id}`);
+        }
+
+        contenu.push(item.contenu);
+        
+        return contenu;
     });
     
     return text.join('\n');

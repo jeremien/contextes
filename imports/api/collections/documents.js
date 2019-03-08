@@ -1,7 +1,5 @@
 import { Mongo } from 'meteor/mongo';
 import { Meteor } from 'meteor/meteor';
-import { check } from 'meteor/check';
-import { Images } from './images';
 
 export const Documents = new Mongo.Collection('documents');
 /**
@@ -27,20 +25,7 @@ Meteor.methods({
      */
     'documents.insert'(session, chapitre, contenu, auteur) {
 
-        // let ref = null;
-        // let lastRef = Documents.findOne({}, {sort: {creation: -1}});
-        // console.log(lastRef.ref)
-
-        // if (lastRef != null) {
-        //     ref = lastRef.ref + 1;
-        // } else {
-        //     ref = 1;
-        // }
-
-        // console.log(ref)
-
         Documents.insert({
-            // index : ref,
             session: session,
             chapitre: chapitre,
             contenu: contenu,
@@ -86,7 +71,11 @@ Meteor.methods({
      * @param {ObjectId} documentId Identifiant Mongo du document à supprimer
      */
     'documents.remove'(idSuppression) {
-        // console.log(idSuppression)
+
+        //TODO: supprimer les images
+
+        Meteor.call('image.remove', idSuppression);
+
         Documents.remove({
             $or: [{
                 _id: idSuppression
@@ -95,7 +84,8 @@ Meteor.methods({
             }, {
                 chapitre: idSuppression
             }]
-        })
+        });
+
     },
     /**
      * La sauvegarde de la version précédente est faire grâce au module todda00:collection-revisions
@@ -129,23 +119,15 @@ Meteor.methods({
     },
 
     'commenrtaires.getVersion'(documentId) {
-        return Documents.findOne(documentId).revisions.length
+        return Documents.findOne(documentId).revisions.length;
     },
 
     'documents.addImage'(session, chapitre, auteur, image) {
 
-
-        // let img = Images.findOne({_id: image._id});
-        // let link = img ? img.link() : null;
-
-        // console.log('new doc image',link)
-        // let imageFormat = `![image](${link})`;
-
         Documents.insert({
             session: session,
             chapitre: chapitre,
-            // contenu: imageFormat,
-            // contenu: '',
+            contenu: '',
             auteur: auteur,
             creation: new Date(),
             correction: false,
@@ -159,21 +141,10 @@ Meteor.methods({
 
     'documents.updateImage'(documentId, documentContenu, image) {
 
-        // let img = Images.findOne({_id: image._id});
-        // let link = img ? img.link() : null;
-
-        // console.log('insert image to doc', link, document)
-        // let imageFormat = `![image](${link})`;
-
-        // let contenuFinal = `${imageFormat} ${documentContenu}`;
-
-        // console.log(contenuFinal)
-
         Documents.update({
             _id: documentId,
         }, {
             $set: {
-                // contenu: contenuFinal,
                 image: image,
                 type: "image",
             }
@@ -194,23 +165,5 @@ Meteor.methods({
                 allowDiskUse: true
             }).toArray());
         }
-    },
-
-    'documents.nombre.badge'() {
-        const pipeline = {
-            $group: {
-                _id: "$chapitre",
-                sum: {
-                    $sum: 1
-                }
-            }
-        }
-        if (Meteor.isServer) {
-            return Promise.await(Documents.rawCollection().aggregate(pipeline, {
-                allowDiskUse: true
-            }).toArray());
-        }
     }
-
-
-})
+});

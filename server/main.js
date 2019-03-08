@@ -1,8 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 
 import fs from 'fs';
-// import archiver from 'archiver';
 import Moment from 'moment';
+import compressing from 'compressing';
 
 import { getImagesPath, getText } from '../imports/components/utils/Archive';
 
@@ -42,11 +42,6 @@ Meteor.startup(() => {
     meta: {}
   });
 
-  // console.log(process.env)
-
-  // Meteor.publish('documents', () => {
-  //   return Documents.find();
-  // })
   JsonRoutes.setResponseHeaders({
     "Cache-Control": "no-store",
     "Pragma": "no-cache",
@@ -55,11 +50,6 @@ Meteor.startup(() => {
     "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Requested-With"
   });
 
-  // Listen to incoming HTTP requests, can only be used on the server
-  // WebApp.rawConnectHandlers.use("/methods/documents.test.insert",function(req, res, next) {
-  //   res.setHeader("Access-Control-Allow-Origin", "*");
-  //   return next();
-  // });
 
 })
 
@@ -73,7 +63,6 @@ Meteor.methods({
     if (online) {
       Streamy.emit('logoutForce', {}, socketId);
     }
-    // Meteor.call('connexion.remove', id)
   },
 
   'notification'(infos) {
@@ -106,7 +95,7 @@ Meteor.methods({
 
     const selection = Documents.find({
         chapitre: chapitre
-    }).fetch();
+    }, { sort: { creation : -1}} ).fetch();
 
     const data = JSON.stringify(selection);
 
@@ -156,13 +145,18 @@ Meteor.methods({
 
     //TODO: compresser le dossier et accéder via l'interface
 
-    // const out = fs.createWriteStream(`${process.env.PWD}/public/${date}.zip`);
-    // const archiver = archiver('zip', { 
-    //   zlib : { level : 9 }
-    // });
+    compressing.tar.compressDir(`${process.env.PWD}/public/${date}`, `${process.env.PWD}/public/${date}.tar`)
+      .then().catch();
 
-    // out.on()
+    Meteor.call('chapitres.archive', chapitre, `${process.env.ROOT_URL}${date}.tar`);
 
+    return `${process.env.ROOT_URL}${date}.tar`;
+  },
 
+  'image.remove'(id) {
+    const doc = Documents.findOne(id);
+    if (doc.image !== null) {
+      Images.remove({ _id : doc.image._id });
+    }
   }
 });
