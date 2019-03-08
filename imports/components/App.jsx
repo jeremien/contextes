@@ -17,6 +17,7 @@ import IndexSessionsContainer from './data/IndexSessionsContainer';
 
 import TopBarContainer from './data/TopBarContainer';
 import AlertMessage from './ui/AlertMessage';
+import Breadcrumb from './ui/Breadcrumb';
 import DetailsChapitreContainer from './data/DetailsChapitreContainer';
 import LandingPage from './data/LandingPage';
 import Reset from './data/Reset';
@@ -99,6 +100,7 @@ class Application extends Component {
 
             <Route path="/" render={(props) => <TopBarContainer {...props} {...propsToPass} />} />
             <Route path="/" render={() => <AlertMessage alert={this.state.alert} />} />
+            <Route path="/" render={(props) => <Breadcrumb {...props} />} />
 
             <article >
               <Route exact path="/" render={(props) => Meteor.userId() ? <LandingPage {...props} {...propsToPass} /> : <Redirect to={{ pathname: '/login', state: { from: props.location } }} /> } />

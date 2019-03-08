@@ -51,7 +51,10 @@ export default class IndexSessions extends Component {
                             <p className='cff'>{item.etat}</p>
                             <p> { badges ? badges : 'pas de' } <span className='cff'>chapitre(s)</span></p>
                             <p className='lk crs' onClick={() => this.props.history.push(`/sessions/${item._id}`) }>rejoindre</p>
-                            { role === 'editeur' ? <p className='lk crs' onClick={() => this.handleSessionDelete(item._id)}>supprimer</p> : undefined }
+                            { role === 'editeur' ? <p className='lk crs' onClick={() => {
+                                // if (window.confirm('supprimer cette session ?'))
+                                this.handleSessionDelete(item._id)
+                                }}>supprimer</p> : undefined }
                 
                     </div>
                 )

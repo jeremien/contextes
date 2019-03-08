@@ -50,7 +50,7 @@ Meteor.methods({
     },
 
     'chapitres.remove'(idSuppression) {
-        Meteor.call('documents.remove', idSuppression)
+        Meteor.call('documents.remove', idSuppression, false)
         Chapitres.remove({
             $or: [{
                 _id: idSuppression
@@ -86,14 +86,19 @@ Meteor.methods({
     },
 
     'chapitres.getVersion'(chapitreId) {
-        return Chapitres.findOne(chapitreId).revisions.length
+        return Chapitres.findOne(chapitreId).revisions.length;
+    },
+
+    'chapitres.getTitre'(chapitreId) {
+        console.log(chapitreId)
+        return Chapitres.find({ _id : chapitreId }).fetch();
     },
 
     'chapitres.getAllCommentaires'(chapitre) {
         Meteor.subscribe('documents')
         return Documents.find({
             chapitre: chapitre
-        })
+        });
     },
 
     'chapitres.connexion'(chapitreId, utilisateur) {

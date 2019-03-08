@@ -70,11 +70,11 @@ Meteor.methods({
      * La version précédente est sauvagardée automatiquement dans le champs revisions.
      * @param {ObjectId} documentId Identifiant Mongo du document à supprimer
      */
-    'documents.remove'(idSuppression) {
+    'documents.remove'(idSuppression, isDocument = true) {
 
-        //TODO: supprimer les images
-
-        Meteor.call('image.remove', idSuppression);
+        if (isDocument) {
+            Meteor.call('image.remove', idSuppression);
+        }
 
         Documents.remove({
             $or: [{

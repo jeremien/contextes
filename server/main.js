@@ -36,11 +36,11 @@ Meteor.startup(() => {
       return true;
     },
   });
-  Images.load('https://raw.githubusercontent.com/VeliovGroup/Meteor-Files/master/logo.png', {
-    fileName: 'logo.png',
-    fileId: 'abc123myId', //optional
-    meta: {}
-  });
+  // Images.load('https://raw.githubusercontent.com/VeliovGroup/Meteor-Files/master/logo.png', {
+  //   fileName: 'logo.png',
+  //   fileId: 'abc123myId', //optional
+  //   meta: {}
+  // });
 
   JsonRoutes.setResponseHeaders({
     "Cache-Control": "no-store",
@@ -150,7 +150,12 @@ Meteor.methods({
 
     Meteor.call('chapitres.archive', chapitre, `${process.env.ROOT_URL}${date}.tar`);
 
-    return `${process.env.ROOT_URL}${date}.tar`;
+    if (!Meteor.isProduction) {
+      return `${process.env.ROOT_URL}${date}.tar`;
+    } else {
+      return `${process.env.ROOT_URL}/${date}.tar`;
+    }
+
   },
 
   'image.remove'(id) {

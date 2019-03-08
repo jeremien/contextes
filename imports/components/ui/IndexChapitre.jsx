@@ -37,7 +37,10 @@ export default class IndexChapitres extends Component {
                   <p className='cff'>{item.isOpen ? 'ouvert' : 'fermé'}</p>
                   <p> { badges ? badges : '0' } <span className='cff'>documents</span></p>
                   <p className='lk crs' onClick={() => this.props.history.push(`/session/${item.session}/chapitre/${item._id}`) }>rejoindre</p>
-                  { role === 'editeur' ? <p className='lk crs' onClick={() => this.handleChapitreDelete(item._id)}>supprimer</p> : undefined }
+                  { role === 'editeur' ? <p className='lk crs' onClick={() => {
+                    // if (window.confirm('supprimer ce chapitre ?'));
+                    this.handleChapitreDelete(item._id);
+                    }}>supprimer</p> : undefined }
           
           </div>
         )
