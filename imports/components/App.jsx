@@ -100,7 +100,7 @@ class Application extends Component {
 
             <Route path="/" render={(props) => <TopBarContainer {...props} {...propsToPass} />} />
             <Route path="/" render={() => <AlertMessage alert={this.state.alert} />} />
-            <Route path="/" render={(props) => <Breadcrumb {...props} />} />
+            <Route path="/" render={(props) => <Breadcrumb {...props} {...propsToPass} />} />
 
             <article >
               <Route exact path="/" render={(props) => Meteor.userId() ? <LandingPage {...props} {...propsToPass} /> : <Redirect to={{ pathname: '/login', state: { from: props.location } }} /> } />

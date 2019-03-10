@@ -103,8 +103,8 @@ Meteor.methods({
     const text = getText(selection);
 
     const date = Moment().format('DD-MM-YY');
-    const dir = `${process.env.PWD}/public/${date}`;
-    const imageDir = `${process.env.PWD}/assets/`;
+    const dir = Meteor.isProduction ? '/opt/contexte/current/bundle/programs/web.browser/app/' : `${process.env.PWD}/public/${date}/`;
+    const imageDir = Meteor.isProduction ? '/opt/contexte/current/bundle/assets/' : `${process.env.PWD}/assets/`;
 
     try {
       if (!fs.existsSync(dir)) {
@@ -117,7 +117,7 @@ Meteor.methods({
     try {
       if (images.length !== 0) {
         images.forEach((item) => {
-          fs.copyFile(`${imageDir}${item}`, `${dir}/${item}`, (error) => {
+          fs.copyFile(`${imageDir}${item}`, `${dir}${item}`, (error) => {
             if (error) {
               console.log(error);
               return;
@@ -128,31 +128,52 @@ Meteor.methods({
     } catch (error) {
       console.log(error);
     }
-   
-    fs.writeFile(`${process.env.PWD}/public/${date}/data.json`, data, (error) => {
-      if (error) {
-        console.log(error);
-        return;
-      };
-    });
 
-    fs.writeFile(`${process.env.PWD}/public/${date}/data.txt`, text, (error) => {
-      if (error) {
-        console.log(error);
-        return;
-      };
-    });
-
-    //TODO: compresser le dossier et accéder via l'interface
-
-    compressing.tar.compressDir(`${process.env.PWD}/public/${date}`, `${process.env.PWD}/public/${date}.tar`)
-      .then().catch();
-
-    Meteor.call('chapitres.archive', chapitre, `${process.env.ROOT_URL}${date}.tar`);
 
     if (!Meteor.isProduction) {
+      fs.writeFile(`${process.env.PWD}/public/${date}/data.json`, data, (error) => {
+        if (error) {
+          console.log(error);
+          return;
+        };
+      });
+  
+      fs.writeFile(`${process.env.PWD}/public/${date}/data.txt`, text, (error) => {
+        if (error) {
+          console.log(error);
+          return;
+        };
+      });
+    
+      compressing.tar.compressDir(`${process.env.PWD}/public/${date}`, `${process.env.PWD}/public/${date}.tar`)
+        .then().catch();
+
+    } else {
+
+      fs.writeFile(`/opt/contexte/current/bundle/programs/web.browser/app/${date}/data.json`, data, (error) => {
+        if (error) {
+          console.log(error);
+          return;
+        };
+      });
+  
+      fs.writeFile(`/opt/contexte/current/bundle/programs/web.browser/app/${date}/data.txt`, text, (error) => {
+        if (error) {
+          console.log(error);
+          return;
+        };
+      });
+    
+      compressing.tar.compressDir(`/opt/contexte/current/bundle/programs/web.browser/app/${date}`, `/opt/contexte/current/bundle/programs/web.browser/app/${date}.tar`)
+        .then().catch();
+    }
+   
+
+    if (!Meteor.isProduction) {
+      Meteor.call('chapitres.archive', chapitre, `${process.env.ROOT_URL}${date}.tar`);
       return `${process.env.ROOT_URL}${date}.tar`;
     } else {
+      Meteor.call('chapitres.archive', chapitre, `${process.env.ROOT_URL}/${date}.tar`);
       return `${process.env.ROOT_URL}/${date}.tar`;
     }
 
