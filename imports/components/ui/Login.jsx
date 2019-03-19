@@ -32,14 +32,10 @@ class Login extends React.Component {
 
             if (error) {
                 console.log("erreur connexion :", error);
-<<<<<<< HEAD
-                alert(error.reason)
-=======
 
                 alert(error.reason)
                 console.log(error.reason)
 
->>>>>>> master
             } else {
                 console.log(Meteor.userId(), username, role, socketId)
                 console.log("connexion réussie")
