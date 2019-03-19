@@ -19,6 +19,8 @@ import { Connexions } from '../imports/api/collections/connexions';
 import { Documents } from '../imports/api/collections/documents';
 import { Messages } from '../imports/api/collections/messages';
 
+import { createSmallImage } from './processImages';
+
 
 Streamy.onConnect(function (socket) {
 
@@ -182,7 +184,8 @@ Meteor.methods({
   'image.remove'(id) {
     const doc = Documents.findOne(id);
     if (doc.image !== null) {
-      Images.remove({ _id : doc.image._id });
+      Images.remove({ _id : doc.image });
     }
   }
+
 });

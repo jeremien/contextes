@@ -1,6 +1,8 @@
 import { Mongo } from 'meteor/mongo';
 import { Meteor } from 'meteor/meteor';
 
+import { Images } from './images';
+
 export const Documents = new Mongo.Collection('documents');
 /**
  * Effectue une sauvegarde à chaque modification. 

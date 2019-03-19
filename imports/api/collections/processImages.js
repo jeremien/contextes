@@ -1,4 +1,4 @@
-import { Images } from '../imports/api/collections/images';
+import { Images } from './images';
 import gm from 'gm';
 import fs from 'fs';
 

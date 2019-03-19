@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
-import { Link } from 'react-router-dom'
 import { Images } from '../../../api/collections/images'
-import { Documents } from '../../../api/collections/documents'
 
 export default class AjouterImage extends Component {
     constructor(props) {
@@ -13,14 +11,8 @@ export default class AjouterImage extends Component {
             file: null
         }
 
-
-        // this.handleSubmit = this.handleSubmit.bind(this);
-        // this.handleLoad = this.handleLoad.bind(this)
-
         this.onFileChange = this.onFileChange.bind(this);
         this.onFileSubmit = this.onFileSubmit.bind(this);
-
-        // this.fileInput = React.createRef();
       
     }
 
@@ -31,7 +23,6 @@ export default class AjouterImage extends Component {
     onFileSubmit(e) {
         e.preventDefault();
 
-        // console.log(this.state.file)
         this.fileUpload(this.state.file);
         let notification = { titre : this.props.utilisateur, message : "j'ajoute une image" }
             Meteor.call('notification', notification);
@@ -60,7 +51,6 @@ export default class AjouterImage extends Component {
 
         upload.on('start', function () {
             console.log('debut up')
-            // console.log(upload)
         });
 
         upload.on('uploaded', function(error, fileRef) {
@@ -74,36 +64,18 @@ export default class AjouterImage extends Component {
             if (error) {
                 alert('Error during upload: ' + error);
             } else {
-                console.log(fileRef)
-                // alert('done');
+                console.log('end')
             }
 
         });
         upload.start();
     }
 
-    // handleLoad(event) {
-        
-    //     event.preventDefault();
-        
-    //     let self = this
-
-    //     if (!!this.props.id) {
-    //         Meteor.call('image.remove', this.props.id);
-    //     }
-    //     if (!!this.state.url) {
-    //         Meteor.call('image.load', this.state.url, this.props.document, this.props.chapitre.session, this.props.chapitre._id, this.props.utilisateur);
-    //         this.setState({ url: "" })
-    //     }
-    // }
 
     ajoutDocument(image) {
-        if (!!this.props.document) {
-            Meteor.call('documents.updateImage', this.props.document._id, this.props.document.contenu, image);
-        }
-        else {
-            Meteor.call('documents.addImage', this.props.chapitre.session, this.props.chapitre._id, this.props.utilisateur, image);
-        }
+
+        Meteor.call('documents.addImage', this.props.chapitre.session, this.props.chapitre._id, this.props.utilisateur, image._id);
+        
     }
 
     render() {
@@ -118,11 +90,6 @@ export default class AjouterImage extends Component {
                 <input className='wfull fsc btt py px crs' type="submit" value="enregistrer" placeholder="envoyer" />
 
             </form>
-
-            {/* <form className="url-image" onSubmit={this.handleLoad}>
-                <input className="url" value={this.state.url} onChange={(event) => { this.setState({ url: event.target.value }) }} />
-                <input className='wfull fsc btt py px crs' type="submit" value="enregister" />
-            </form> */}
 
         </div>
        )
