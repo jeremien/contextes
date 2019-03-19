@@ -6,6 +6,8 @@
     right: 25%;
     bottom: 25%;
     background-color: #e9eaeb;
+    outline: none;
+
 }
 
 .login--overlay {
@@ -15,11 +17,14 @@
     right: 0;
     bottom: 0;
     background-color: #e9eaeb;
+    outline: none;
+
 }
 
 .login--form {
 
     width: 100%;
+    outline: none;
 
     input[type=text] {
         width: 100%;

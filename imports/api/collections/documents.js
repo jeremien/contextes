@@ -25,7 +25,17 @@ Meteor.methods({
      */
     'documents.insert'(session, chapitre, contenu, auteur) {
 
+        let ref = null;
+        let lastRef = Documents.findOne({ chapitre : chapitre }, {sort: { ref: -1 }});
+
+        if (lastRef != undefined) {
+            ref = parseInt(lastRef.ref) + 1;
+        } else {
+            ref = 1;
+        }
+        
         Documents.insert({
+            ref : parseInt(ref),
             session: session,
             chapitre: chapitre,
             contenu: contenu,
@@ -48,6 +58,7 @@ Meteor.methods({
         let auteur = 'externe';
 
         let newDoc = {
+            ref : parseInt(lastDoc.ref),
             session : lastDoc.session,
             chapitre : lastDoc.chapitre,
             contenu : contenu.contenu,
@@ -62,6 +73,63 @@ Meteor.methods({
         }
 
         Documents.insert(newDoc);
+    },
+
+    'documents.plenty.insert'(contenu) {
+
+        console.log(contenu.type, contenu)
+
+        let lastDoc = Documents.findOne({}, {sort: {creation: -1}});
+        let auteur = 'plenty';
+
+        if (lastDoc) {
+
+            if (contenu.type === 'text') {
+
+                let newDoc = {
+                    ref : parseInt(lastDoc.ref),
+                    session : lastDoc.session,
+                    chapitre : lastDoc.chapitre,
+                    contenu : contenu.data,
+                    data : [ contenu.x, contenu.y, contenu.z ],
+                    auteur : auteur,
+                    creation: new Date(),
+                    correction: false,
+                    conformation: false,
+                    rejete: true,
+                    type: "texte",
+                    dernireModificationPar: auteur,
+                    image: null,
+                }
+                
+                Documents.insert(newDoc);
+            
+            } else {
+
+                let newDoc = {
+                    ref : parseInt(lastDoc.ref),
+                    session : lastDoc.session,
+                    chapitre : lastDoc.chapitre,
+                    contenu : contenu.data,
+                    data : [ contenu.x, contenu.y, contenu.z ],
+                    auteur : auteur,
+                    creation: new Date(),
+                    correction: false,
+                    conformation: false,
+                    rejete: true,
+                    type: "svg",
+                    dernireModificationPar: auteur,
+                    image: null,
+                }
+                
+                Documents.insert(newDoc);
+
+            }
+
+        } else {
+            console.log('pas de documents')
+        }
+
     },
 
 
@@ -102,6 +170,15 @@ Meteor.methods({
         });
     },
 
+    'documents.ref.update'(documentId, ref, oldRef, chapitre) {
+        let prevRef = Documents.findOne({"$and" : [ { chapitre : chapitre}, {ref: parseInt(ref)}]});
+        // update previous doc
+        Documents.update(prevRef._id, { $set : { ref : parseInt(oldRef) }});
+        // update current doc
+        Documents.update(documentId, { $set: { ref : parseInt(ref) }});
+
+    },
+
     'documents.rejet'(documentId) {
         Documents.update(documentId, {
             $set: {
@@ -124,7 +201,17 @@ Meteor.methods({
 
     'documents.addImage'(session, chapitre, auteur, image) {
 
+        let ref = null;
+        let lastRef = Documents.findOne({ chapitre : chapitre }, {sort: { ref: -1 }});
+
+        if (lastRef != undefined) {
+            ref = parseInt(lastRef.ref) + 1;
+        } else {
+            ref = 1;
+        }
+
         Documents.insert({
+            ref : parseInt(ref),
             session: session,
             chapitre: chapitre,
             contenu: '',

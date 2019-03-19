@@ -3,6 +3,18 @@
 
 const sortData = (data, type, asc) => {
 
+    if (type === 'ref') {
+        if (asc) {
+            return data.slice().sort((a, b) => {
+                return (a.ref > b.ref) ? 1 : -1;
+            });    
+        } else {
+            return data.slice().sort((a, b) => {
+                return (a.ref < b.ref) ? 1 : -1;
+            });    
+        }
+    }
+
     if (type === 'date') {
         if (asc) {
             return data.slice().sort((a, b) => {

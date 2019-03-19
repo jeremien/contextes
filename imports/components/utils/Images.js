@@ -9,4 +9,6 @@ const getImageLink = (document) => {
     }
 };
 
+
+
 export { getImageLink };

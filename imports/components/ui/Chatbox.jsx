@@ -35,7 +35,7 @@ class Chatbox extends Component {
 
     chatList = (datas) => {
 
-        if (datas.length > 15) {
+        if (datas.length > 40) {
             let last = datas.pop();
             Meteor.call('messages.remove', last._id);
         }
@@ -50,13 +50,7 @@ class Chatbox extends Component {
         return (
             <form className="chatbox" onSubmit={this.handleSubmit}>
 
-                <input 
-                    className='btt reset'
-                    type='text'
-                    value={this.state.message}
-                    onChange={this.handleTyping}
-                    placeholder='message'
-                />
+               
   
                 {this.props.messagesExists &&
                     <ul className='chatbox--message'>
@@ -64,6 +58,14 @@ class Chatbox extends Component {
                     </ul>
                 
                 }
+
+                <input 
+                    className='btt mt reset'
+                    type='text'
+                    value={this.state.message}
+                    onChange={this.handleTyping}
+                    placeholder='message'
+                />
 
                 </form>
 

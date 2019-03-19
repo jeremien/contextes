@@ -11,6 +11,7 @@
     "@babel/runtime": "^7.1.2",
     "bcrypt": "^3.0.4",
     "compressing": "^1.4.0",
+    "gm": "^1.23.1",
     "moment": "^2.24.0",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
@@ -18,6 +19,7 @@
     "react-modal": "^3.8.1",
     "react-moment": "^0.8.4",
     "react-router-dom": "^4.3.1",
+    "spawn-sync": "^2.0.0",
     "utf-8-validate": "^5.0.1",
     "webpack": "^4.24.0"
   },

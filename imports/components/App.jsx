@@ -21,6 +21,7 @@ import Breadcrumb from './ui/Breadcrumb';
 import DetailsChapitreContainer from './data/DetailsChapitreContainer';
 import LandingPage from './data/LandingPage';
 import Reset from './data/Reset';
+import DetailsSession from './ui/DetailsSession';
 
 
 /**
@@ -108,7 +109,8 @@ class Application extends Component {
               <Route path="/login" render={(props) => <Login {...props} {...propsToPass} />} />
               
               <Route exact path="/sessions" render={(props) => <IndexSessionsContainer {...props} {...propsToPass} />} />
-              <Route path="/sessions/:sessionId" render={(props) => <ConnexionSession {...props} {...propsToPass} />} />
+              {/* <Route path="/sessions/:sessionId" render={(props) => <ConnexionSession {...props} {...propsToPass} />} /> */}
+              <Route path="/sessions/:sessionId" render={(props) => <DetailsSession {...props} {...propsToPass} />} />
               <Route exact path="/session/:idSession/chapitre/:idChapitre" render={(props) => <DetailsChapitreContainer {...props} {...propsToPass} />} />    
 
               <Route exact path="/reset" render={(props) => <Reset {...props} />} />

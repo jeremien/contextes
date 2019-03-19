@@ -143,14 +143,14 @@ export default class TopBar extends Component {
                 { 
                   showRole ?  <aside id='role' className='bg br bb bl bcb py px active'>
                     
-                                    <p className='crs lk' onClick={() => this.handleRole('editeur')}>éditeur.rice</p>
-                                    <p className='crs lk' onClick={() => this.handleRole('transcripteur')}>transcripteur.rice</p>
-                                    <p className='crs lk' onClick={() => this.handleRole('correcteur')}>correcteur.rice</p>
-                                    <p className='crs lk' onClick={() => this.handleRole('iconographe')}>iconographe</p>
-                                
-                                </aside> 
-                            
-                            : undefined
+                            <p className='crs lk' onClick={() => this.handleRole('editeur')}>éditeur.rice</p>
+                            <p className='crs lk' onClick={() => this.handleRole('transcripteur')}>transcripteur.rice</p>
+                            <p className='crs lk' onClick={() => this.handleRole('correcteur')}>correcteur.rice</p>
+                            <p className='crs lk' onClick={() => this.handleRole('iconographe')}>iconographe</p>
+                        
+                        </aside> 
+                    
+                    : undefined
 
                 }
 

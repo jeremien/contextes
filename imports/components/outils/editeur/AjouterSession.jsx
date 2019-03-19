@@ -85,14 +85,14 @@ export default class AjouterSession extends Component {
                         onChange={this.handleInput}
                         placeholder='description'
                     />
-                      <input 
+                      {/* <input 
                         className='btt reset py px mb'
                         type='text' 
                         name='password' 
                         value={password} 
                         onChange={this.handleInput} 
                         placeholder='mot de passe'
-                    />    
+                    />     */}
 
                     <p>{alert}</p>     
 

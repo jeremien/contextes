@@ -37,7 +37,8 @@ class Login extends React.Component {
                 console.log("connexion réussie")
                 Meteor.call('connexions.insert.local', Meteor.userId(),username, role, socketId, function (error) {
                     if (error) {
-                        alert('Erreur à la connection', error);
+                        console.log('erreur', error);
+                        // alert('Erreur à la connection', error);
                     } else {
                         // alert('Vous êtes connecté');
                     }
@@ -127,13 +128,24 @@ class Login extends React.Component {
 
                     <form className='login--form' onSubmit={this.handleSubmit}>
 
-                        <label>
+                        {/* <label>
                             <select name="connection" value={inscription} onChange={this.handleConnectionChange}>
                                 <option value={true}>inscription</option>
                                 <option value={false}>connection</option>
                             </select>
+                        </label> */}
+
+                        <label>
+                            <input type="radio" value={!inscription} checked={!inscription} onChange={this.handleConnectionChange}/>
+                            connection
                         </label>
 
+
+                        <label>
+                            <input type="radio" value={inscription} checked={inscription} onChange={this.handleConnectionChange}/>
+                            inscription
+                        </label>
+                        <p></p>
                         <label>
                             Nom
                             <input type='text' name='username' onChange={this.handleInputChange}/>

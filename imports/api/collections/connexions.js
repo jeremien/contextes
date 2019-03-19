@@ -33,7 +33,7 @@ Meteor.methods({
     },
 
     'connexions.insert.local'(idMeteor, utilisateur, role, socketId) {
-        console.log(!!idMeteor)
+        // console.log(!!idMeteor)
         let id = null;
         if (!!idMeteor) {
             id = Connexions.insert({

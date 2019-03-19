@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import DocumentsShow from './Documents';
+import DocumentsShow from './DocumentsShow';
 import { sortData } from '../../utils/Sort';
 
 class TableDocuments extends Component {
@@ -9,6 +9,7 @@ class TableDocuments extends Component {
 
         this.state = {
             data : [],
+            sortRef : false,
             sortDate : false,
             sortContenu : false,
             sortCorrection : false,
@@ -37,9 +38,16 @@ class TableDocuments extends Component {
     onSortBy(event) {
 
         let id = event.target.dataset.id;
-        let { data, sortDate, sortContenu, sortCorrection, sortAuteur, sortType } = this.state;
+        let { data, sortRef, sortDate, sortContenu, sortCorrection, sortAuteur, sortType } = this.state;
 
         switch (id) {
+
+            case 'ref':
+                this.setState({
+                    data : sortData(data, 'ref', sortRef),
+                    sortRef : !sortRef
+                });
+                break;
 
             case 'date':
                 this.setState({
@@ -92,6 +100,7 @@ class TableDocuments extends Component {
                 <table>
                     <thead>
                         <tr className="table-documents--head" onClick={this.onSortBy}>
+                            <td data-id='ref'>réf.</td>
                             <td data-id='date'>date</td>
                             <td data-id='contenu'>contenu</td>
                             <td data-id='correction'>correction</td>

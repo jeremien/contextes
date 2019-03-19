@@ -9,18 +9,23 @@ export const Chapitres = new Mongo.Collection('chapitres');
 
 if (Meteor.isServer) {
 
-    Meteor.publish('chapitres', function (session) {
-        // console.log(session.session)
-        if (Roles.userIsInRole(this.userId, "admis", session.session)) {
-            // console.log('admis')
-            return Chapitres.find({ session: session.session })
-        }
-        else {
-            // console.log('non admis')
-            return Chapitres.find({ fields: { _id: 0 } });
-        }
-        // return Chapitres.find({ session: session.session })
-    });
+    Meteor.publish('chapitres', function chapitresPublication() {
+        return Chapitres.find()
+    })
+
+    //TODO: probleme avec simple rest > session undefined
+    // Meteor.publish('chapitres', function (session) {
+    //     console.log(session)
+    //     if (Roles.userIsInRole(this.userId, "admis", session.session)) {
+    //         // console.log('admis')
+    //         return Chapitres.find({ session: session.session })
+    //     }
+    //     else {
+    //         // console.log('non admis')
+    //         return Chapitres.find({ fields: { _id: 0 } });
+    //     }
+    //     // return Chapitres.find({ session: session.session })
+    // });
 }
 
 Meteor.methods({
@@ -90,8 +95,14 @@ Meteor.methods({
     },
 
     'chapitres.getTitre'(chapitreId) {
-        console.log(chapitreId)
-        return Chapitres.find({ _id : chapitreId }).fetch();
+        // console.log(chapitreId)
+        // let chapitre = Chapitres.find({ _id : chapitreId }).fetch();
+        let chapitre = Chapitres.findOne(chapitreId);
+        // console.log(chapitre.titre)
+        if (chapitre) {
+            // console.log(chapitre.titre)
+            return chapitre.titre
+        }
     },
 
     'chapitres.getAllCommentaires'(chapitre) {
