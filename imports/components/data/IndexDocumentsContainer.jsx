@@ -9,6 +9,8 @@ class IndexDocuments extends Component {
 
   render() {
 
+    let { role } = this.props;
+
     if (this.props.documents.length !== 0) {
 
       if (this.props.role === 'editeur') {
@@ -18,7 +20,7 @@ class IndexDocuments extends Component {
 
       } else {
         return (<div className='liste-documents'>
-            <ListeDocuments  documents={this.props.documents} />
+            <ListeDocuments {...this.props}  documents={this.props.documents} role={role} />
           </div>)
 
       }

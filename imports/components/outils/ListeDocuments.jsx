@@ -1,8 +1,11 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown/with-html';
+import Moment from 'react-moment';
+
+import ModifierImage from './iconographe/ModifierImage';
+
 import { getImageLink } from '../utils/Images';
 
-import Moment from 'react-moment';
 
 const ListeDocuments = (props) => {
 
@@ -12,12 +15,18 @@ const ListeDocuments = (props) => {
 
             return (
                 <div key={item._id} className='wmax'>  
+                    
                     <p className='cff'><Moment format='HH:mm:ss'>{item.creation}</Moment></p>
+                    
                     { link ? <img src={link} /> : undefined } 
+                    
                     <ReactMarkdown
                         source={item.contenu}
                         escapeHtml={false}
                     />
+                    
+                    { props.role === 'iconographe' ? <ModifierImage {...props} documentId={item._id} /> : undefined }
+
                 </div>
             )
         

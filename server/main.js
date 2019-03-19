@@ -38,11 +38,7 @@ Meteor.startup(() => {
       return true;
     },
   });
-  // Images.load('https://raw.githubusercontent.com/VeliovGroup/Meteor-Files/master/logo.png', {
-  //   fileName: 'logo.png',
-  //   fileId: 'abc123myId', //optional
-  //   meta: {}
-  // });
+
 
   JsonRoutes.setResponseHeaders({
     "Cache-Control": "no-store",

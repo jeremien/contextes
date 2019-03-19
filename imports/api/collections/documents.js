@@ -1,7 +1,6 @@
 import { Mongo } from 'meteor/mongo';
 import { Meteor } from 'meteor/meteor';
-
-import { Images } from './images';
+import { Images } from './images';
 
 export const Documents = new Mongo.Collection('documents');
 /**
@@ -228,7 +227,10 @@ Meteor.methods({
         });
     },
 
-    'documents.updateImage'(documentId, documentContenu, image) {
+    'documents.updateImage'(documentId, image) {
+
+        let doc = Documents.findOne({ _id : documentId});
+        Images.remove({_id : doc.image});
 
         Documents.update({
             _id: documentId,
