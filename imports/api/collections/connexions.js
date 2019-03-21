@@ -28,7 +28,7 @@ Meteor.methods({
             password: password,
             email: email,
         };
-        const id = Accounts.createUser(data);        
+        const id = Accounts.createUser(data);
         return id;
     },
 
@@ -36,17 +36,36 @@ Meteor.methods({
         // console.log(!!idMeteor)
         let id = null;
         if (!!idMeteor) {
-            id = Connexions.insert({
-                _id: idMeteor,
-                username: utilisateur,
-                role: role,
-                socketId: socketId,
-                session: [],
-                chapitre: "",
-                online: true,
-                typing: false,
-                userSession: [],
-            });
+            if (Connexions.findOne({ _id: idMeteor })) {
+                Connexions.update({
+                    _id: idMeteor
+                },
+                    {
+                        $set: {
+                            username: utilisateur,
+                            role: role,
+                            socketId: socketId,
+                            session: [],
+                            chapitre: "",
+                            online: true,
+                            typing: false,
+                        }
+                    })
+                id = idMeteor;
+            }
+            else {
+                id = Connexions.insert({
+                    _id: idMeteor,
+                    username: utilisateur,
+                    role: role,
+                    socketId: socketId,
+                    session: [],
+                    chapitre: "",
+                    online: true,
+                    typing: false,
+                    userSession: [],
+                });
+            }
         }
         else {
             id = Connexions.insert({
