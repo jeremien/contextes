@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import Moment from 'react-moment';
 import { Meteor } from 'meteor/meteor';
+
 import { getImageLink } from '../../utils/Images';
+import ButtonRejet from './ButtonRejet';
 
 class DocumentsShow extends Component {
 
     constructor(props) {
         super(props);
- 
+
         this.handleRemove = this.handleRemove.bind(this);
         this.handleSelectedChange = this.handleSelectedChange.bind(this);
     }
@@ -44,10 +46,7 @@ class DocumentsShow extends Component {
                     <td><span>{ data.type }</span></td>
                     <td><span>
 
-                        <button onClick={() => {
-                            if (window.confirm('supprimer ce document ?'))
-                            this.handleRemove(data._id)
-                        }}>accepter</button>
+                       <ButtonRejet rejete={data.rejete} id={data._id} />
 
                         <button onClick={() => {
                         if (window.confirm('supprimer ce document ?'))

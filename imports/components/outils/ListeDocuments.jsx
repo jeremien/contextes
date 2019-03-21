@@ -11,7 +11,10 @@ const ListeDocuments = (props) => {
 
     return props.documents.map((item) => {
 
-        let link = getImageLink(item);
+
+        if (item.rejete) {
+
+            let link = getImageLink(item);
 
             return (
                 <div key={item._id} className='wmax'>  
@@ -29,6 +32,8 @@ const ListeDocuments = (props) => {
 
                 </div>
             )
+
+        }
         
         
     });

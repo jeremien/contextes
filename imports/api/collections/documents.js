@@ -44,7 +44,7 @@ Meteor.methods({
             creation: new Date(),
             correction: false,
             conformation: false,
-            rejete: true,
+            rejete: false,
             type: "texte",
             dernireModificationPar: auteur,
             image: null,
@@ -77,7 +77,7 @@ Meteor.methods({
             creation: new Date(),
             correction: false,
             conformation: false,
-            rejete: true,
+            rejete: false,
             type: "texte",
             dernireModificationPar: auteur,
             image: null,
@@ -116,7 +116,7 @@ Meteor.methods({
                     creation: new Date(),
                     correction: false,
                     conformation: false,
-                    rejete: true,
+                    rejete: false,
                     type: "texte",
                     dernireModificationPar: auteur,
                     image: null,
@@ -136,7 +136,7 @@ Meteor.methods({
                     creation: new Date(),
                     correction: false,
                     conformation: false,
-                    rejete: true,
+                    rejete: false,
                     type: "svg",
                     dernireModificationPar: auteur,
                     image: null,
@@ -200,21 +200,21 @@ Meteor.methods({
 
     },
 
-    'documents.rejet'(documentId) {
+    'documents.rejet'(documentId, rejete) {
         Documents.update(documentId, {
             $set: {
-                rejete: true
+                rejete: !rejete
             }
         });
     },
 
-    'documents.accepte'(documentId) {
-        Documents.update(documentId, {
-            $set: {
-                rejete: false
-            }
-        });
-    },
+    // 'documents.accepte'(documentId) {
+    //     Documents.update(documentId, {
+    //         $set: {
+    //             rejete: false
+    //         }
+    //     });
+    // },
 
     'commenrtaires.getVersion'(documentId) {
         return Documents.findOne(documentId).revisions.length;
