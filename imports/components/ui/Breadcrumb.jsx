@@ -32,7 +32,6 @@ class Breadcrumb extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-
         if (prevProps.location.pathname !== this.props.location.pathname) {
 
             let { pathname } = this.props.location;
@@ -48,21 +47,20 @@ class Breadcrumb extends Component {
             } else if (chapitre) {
                 let currentChapitre = /\/session\/(.*)\/chapitre\/(.*)/g.exec(pathname);
                 let chapitre = Meteor.call('chapitres.getTitre', currentChapitre[2]);
-                console.log(chapitre)
+                // console.log('chapitre', chapitre)
             }
 
-            this.setState({
-            });
         }
     }
     /**
      * To Do:
      * Afficher nom chapitre & session
      * */
-
     renderBreadcrumb() {
 
         let { pathname } = this.props.location;
+
+
         // let { pathname } = this.state;
 
         let regexSessions = RegExp('\/sessions\/(.*)', 'g');
@@ -70,6 +68,8 @@ class Breadcrumb extends Component {
 
         let session = regexSessions.test(pathname);
         let chapitre = regexChapitre.test(pathname);
+
+
 
         if (pathname === '/') {
 
@@ -82,24 +82,44 @@ class Breadcrumb extends Component {
         } else if (session) {
 
             let currentSession = /\/sessions\/(.*)/g.exec(pathname);
-            return <span><Link to={'/'}>accueil</Link> / <Link to={"/sessions"}>sessions</Link> / session : {currentSession[1]} </span>;
+            Meteor.call('sessions.getTitre', currentSession[1], (error, result) => {
+                if (error) {
+                    console.log(error)
+                }
+                else {
+                    this.setState({
+                        session: result
+                    })
+                };
+            })
+            return <span><Link to={'/'}>accueil</Link> / <Link to={"/sessions"}>sessions</Link> / session : {this.state.session} </span>;
 
         } else if (chapitre) {
             let currentSession = /\/session\/(.*)\/chapitre\/(.*)/g.exec(pathname);
 
-            let chapitre = Meteor.call('chapitres.getTitre', currentSession[2]);
+            // let chapitre = Meteor.call('chapitres.getTitre', currentSession[2]);
 
+            Meteor.call('chapitres.getTitre', currentSession[2], (error, result) => {
+                if (error) {
+                    console.log(error)
+                }
+                else {
+                    this.setState({
+                        chapitre: result
+                    })
+                };
+            })
 
             if (chapitre) {
                 // console.log(chapitre)
                 return (
-                    <span><Link to={'/'}>accueil</Link> / <Link to={"/sessions"}>sessions</Link> / <Link to={`/sessions/${currentSession[1]}`}>session : {currentSession[1]}</Link> / chapitre : {chapitre}
+                    <span><Link to={'/'}>accueil</Link> / <Link to={"/sessions"}>sessions</Link> / <Link to={`/sessions/${currentSession[1]}`}>session : {this.state.session}</Link> / chapitre : {this.state.chapitre}
                     </span>
                 )
             } else {
                 // console.log('chapitre')
                 return (
-                    <span><Link to={'/'}>accueil</Link> / <Link to={"/sessions"}>sessions</Link> / <Link to={`/sessions/${currentSession[1]}`}>session : {currentSession[1]}</Link> / chapitre : {currentSession[2]}
+                    <span><Link to={'/'}>accueil</Link> / <Link to={"/sessions"}>sessions</Link> / <Link to={`/sessions/${currentSession[1]}`}>session : {this.state.session}</Link> / chapitre : {this.state.chapitre}
                     </span>
                 )
             }

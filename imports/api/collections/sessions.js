@@ -27,7 +27,7 @@ Meteor.methods({
      * @param {string} titre - Le titre de la session
      * @param {objet} auteur - Contient le l'id et le nom du créateur de la session sous la forme {auteurId: ObjetId, auteurNom: string}.
      */
-    'sessions.insert' (titre, auteur, description, password) {
+    'sessions.insert'(titre, auteur, description, password) {
 
         if (password === '') {
             password = 'test';
@@ -45,7 +45,7 @@ Meteor.methods({
         });
     },
 
-    'sessions.remove' (sessionId) {
+    'sessions.remove'(sessionId) {
         Meteor.call('documents.remove', sessionId, false)
         Meteor.call('chapitres.remove', sessionId)
         Sessions.remove({
@@ -53,7 +53,7 @@ Meteor.methods({
         })
     },
 
-    'sessions.update' (sessionId, titre) {
+    'sessions.update'(sessionId, titre) {
         Sessions.update(sessionId, {
             $inc: {
                 version: 1
@@ -64,30 +64,30 @@ Meteor.methods({
         });
     },
 
-    'sessions.getVersion' (sessionId) {
+    'sessions.getVersion'(sessionId) {
         return Sessions.findOne(sessionId).revisions.length
     },
     /**
      * Retourne tous les chapitres appartenant à la session sessionId.
      * @param {OdbjectId} sessionId - Identifiant de la session
      */
-    'session.getAllChapitres' (session) {
+    'session.getAllChapitres'(session) {
         return Chapitres.find({
             session: session
         });
     },
 
-    'sessions.deconnexion' (sessionId, utilisateur) {
+    'sessions.deconnexion'(sessionId, utilisateur) {
 
     },
-    
+
     'sessions.etat.update'(sessionId, etat) {
-        Sessions.update({_id: sessionId}, {$set: {etat: etat}});
+        Sessions.update({ _id: sessionId }, { $set: { etat: etat } });
         Meteor.call('chapitres.etat.update', sessionId, etat)
     },
 
     'sessions.connexion'(userId, session, password) {
-        if (password == Sessions.findOne({_id: session}).password) {
+        if (password == Sessions.findOne({ _id: session }).password) {
             Roles.addUsersToRoles(userId, "admis", session);
             return true;
         }
@@ -95,5 +95,13 @@ Meteor.methods({
             return false;
         }
     },
-    
+
+    'sessions.getTitre'(sessionId) {
+        let session = Sessions.findOne(sessionId).titre
+
+        if (session) {
+            return session
+        }
+    },
+
 })
