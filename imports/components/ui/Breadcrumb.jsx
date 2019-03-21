@@ -48,7 +48,7 @@ class Breadcrumb extends Component {
             } else if (chapitre) {
                 let currentChapitre = /\/session\/(.*)\/chapitre\/(.*)/g.exec(pathname);
                 let chapitre = Meteor.call('chapitres.getTitre', currentChapitre[2]);
-                // console.log( chapitre )
+                console.log(chapitre)
             }
 
             this.setState({

@@ -42,10 +42,19 @@ class DocumentsShow extends Component {
                     <td><span>{ data.correction ? 'oui' : 'non' }</span></td>
                     <td><span>{ data.auteur }</span></td>
                     <td><span>{ data.type }</span></td>
-                    <td><span><button onClick={() => {
+                    <td><span>
+
+                        <button onClick={() => {
+                            if (window.confirm('supprimer ce document ?'))
+                            this.handleRemove(data._id)
+                        }}>accepter</button>
+
+                        <button onClick={() => {
                         if (window.confirm('supprimer ce document ?'))
                         this.handleRemove(data._id)
-                    }}>supprimer</button></span></td>
+                         }}>supprimer</button>
+                    
+                    </span></td>
                 
                 </tr>
             )
