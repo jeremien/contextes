@@ -16,12 +16,12 @@ module.exports = {
   
     app: {
       // TODO: change app name and path
-      name: 'contexte',
+      name: 'contextes',
       path: '../',
        // pour stocker les images
   
        volumes:{
-        '/srv/contexte/data/images':'/srv/contexte/data/images'
+        '/srv/contextes/data/images':'/srv/contextes/data/images'
       },
   
       // deployCheckPort: 3000,

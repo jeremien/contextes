@@ -1,14 +1,23 @@
 import { Meteor } from 'meteor/meteor';
 import { FilesCollection } from 'meteor/ostrio:files';
+import fs from 'fs';
 
 import { createSmallImage } from './processImages';
 
 export const Images = new FilesCollection({
-    collectionName: 'Images',
     debug: false,
     storagePath: () => {
-        return `${process.env.PWD}/assets`;
+
+        if (!Meteor.isProduction) {
+            return `${process.env.PWD}/assets`;
+        } else {
+            return `/srv/contextes/data/images`;
+        }
+        
     },
+    permissions: 0o775,
+    parentDirPermissions: 0o775,
+    collectionName: 'images',
     allowClientCode: false, // Disallow remove files from Client
     onBeforeUpload(file) {
         // Allow upload files under 10MB, and only in png/jpg/jpeg formats
@@ -21,7 +30,7 @@ export const Images = new FilesCollection({
 
            if (/png|jpe?g/i.test(file.extension || '')) {
 
-            createSmallImage(file, (error) => {
+            createSmallImage(file, (res, error) => {
       
                 if (error) {
                     console.error(error);
@@ -30,7 +39,6 @@ export const Images = new FilesCollection({
                
             });
       
-            console.log('process image small')
           }
     }
 });

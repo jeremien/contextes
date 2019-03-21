@@ -55,7 +55,13 @@ const createSmallImage = (fileRef, callback) => {
                     Images.update(fileRef._id, upd, (err) => {
                         if (err) {
                             callback(Meteor.Error(err));
-                        }               
+                        }
+                        
+                         fs.chmod(dstPath, 775, (err) => {
+                            if (err) {
+                                callback(Meteor.Error(err));
+                            }
+                        });
 
                     });
 
