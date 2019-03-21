@@ -41,7 +41,7 @@ class DetailsChapitreContainer extends React.Component {
 
     componentWillMount() {
         let sessionOk = false;
-  
+
     }
 
     getOutils(propToPass) {
@@ -55,16 +55,16 @@ class DetailsChapitreContainer extends React.Component {
                     outildroit: <IndexDocumentsContainer {...propToPass} />
                 }
                 break;
-            
+
             case 'iconographe':
                 return {
                     outilgauche: <AjouterImage {...propToPass} />,
-                    outildroit:  <IndexDocumentsContainer {...propToPass} />
+                    outildroit: <IndexDocumentsContainer {...propToPass} />
                 }
 
             case 'correcteur':
                 return {
-                    outilgauche: <IndexDocumentsContainer {...propToPass} /> ,
+                    outilgauche: <IndexDocumentsContainer {...propToPass} />,
                     outildroit: <CorrectionDocument {...propToPass} />
                 }
                 break;
@@ -96,7 +96,7 @@ class DetailsChapitreContainer extends React.Component {
 
 export default withTracker((props) => {
     const connexionsHandle = Meteor.subscribe('connexions')
-    const chapitresHandle = Meteor.subscribe('chapitres', {session: props.match.params.idSession})
+    const chapitresHandle = Meteor.subscribe('chapitres', { session: props.match.params.idSession })
     const sessionsHandle = Meteor.subscribe('sessions');
     const loading = !chapitresHandle.ready() && !connexionsHandle.ready() & !sessionsHandle.ready();; //vaut true si les données ne sont pas encore chargées.
     const session = Sessions.findOne({ _id: props.match.params.sessionId })
@@ -104,7 +104,7 @@ export default withTracker((props) => {
     var connexions = Connexions.find(
         {
             chapitre: props.match.params.idChapitre,
-            role: { $ne: 'editeur' }
+            // role: { $ne: 'editeur' }
         },
     );
     const transcripteurs = Connexions.find({
