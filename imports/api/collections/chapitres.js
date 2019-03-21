@@ -1,7 +1,8 @@
 import { Mongo } from 'meteor/mongo';
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
-import { Documents 
+import {
+    Documents
 } from './documents';
 
 export const Chapitres = new Mongo.Collection('chapitres');
@@ -50,7 +51,7 @@ Meteor.methods({
             etat: 'edition',
             isOpen: true,
             utilisateurs_connectes: [],
-            archive : null
+            archive: null
         });
     },
 
@@ -95,14 +96,11 @@ Meteor.methods({
     },
 
     'chapitres.getTitre'(chapitreId) {
-        // console.log(chapitreId)
-        // let chapitre = Chapitres.find({ _id : chapitreId }).fetch();
         let chapitre = Chapitres.findOne(chapitreId);
-        // console.log(chapitre.titre)
         if (chapitre) {
-            // console.log(chapitre.titre)
             return chapitre.titre
         }
+
     },
 
     'chapitres.getAllCommentaires'(chapitre) {
