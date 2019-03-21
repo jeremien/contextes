@@ -36,7 +36,7 @@ Meteor.methods({
         }
         
         Documents.insert({
-            ref : parseInt(ref),
+            ref : ref,
             session: session,
             chapitre: chapitre,
             contenu: contenu,
@@ -55,11 +55,21 @@ Meteor.methods({
 
     'documents.test.insert'(contenu) {
 
-        let lastDoc = Documents.findOne({}, {sort: {creation: -1}});
+      
+        let lastDoc = Documents.findOne({}, {sort: { ref: -1 }});
         let auteur = 'externe';
 
+        let ref = null;
+
+        if (lastDoc.ref != undefined) {
+            ref = parseInt(lastDoc.ref) + 1;
+        } else {
+            ref = 1;
+        }
+
+
         let newDoc = {
-            ref : parseInt(lastDoc.ref),
+            ref : ref,
             session : lastDoc.session,
             chapitre : lastDoc.chapitre,
             contenu : contenu.contenu,
@@ -78,17 +88,26 @@ Meteor.methods({
 
     'documents.plenty.insert'(contenu) {
 
-        console.log(contenu.type, contenu)
+        // console.log(contenu.type, contenu)
 
-        let lastDoc = Documents.findOne({}, {sort: {creation: -1}});
+        let lastDoc = Documents.findOne({}, {sort: { ref: -1 }});
         let auteur = 'plenty';
+
+        let ref = null;
+
+        if (lastDoc.ref != undefined) {
+            ref = parseInt(lastDoc.ref) + 1;
+        } else {
+            ref = 1;
+        }
+
 
         if (lastDoc) {
 
             if (contenu.type === 'text') {
 
                 let newDoc = {
-                    ref : parseInt(lastDoc.ref),
+                    ref : ref,
                     session : lastDoc.session,
                     chapitre : lastDoc.chapitre,
                     contenu : contenu.data,
@@ -108,7 +127,7 @@ Meteor.methods({
             } else {
 
                 let newDoc = {
-                    ref : parseInt(lastDoc.ref),
+                    ref : ref,
                     session : lastDoc.session,
                     chapitre : lastDoc.chapitre,
                     contenu : contenu.data,
@@ -122,6 +141,7 @@ Meteor.methods({
                     dernireModificationPar: auteur,
                     image: null,
                 }
+
                 
                 Documents.insert(newDoc);
 

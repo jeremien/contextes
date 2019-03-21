@@ -34,6 +34,9 @@ Meteor.methods({
 
     'connexions.insert.local'(idMeteor, utilisateur, role, socketId) {
         // console.log(!!idMeteor)
+
+        //TODO: tester si l'id existe > cf bug id duplicate
+        
         let id = null;
         if (!!idMeteor) {
             id = Connexions.insert({
