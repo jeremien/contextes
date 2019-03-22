@@ -244,7 +244,7 @@ Meteor.methods({
             creation: new Date(),
             correction: false,
             conformation: false,
-            rejete: true,
+            rejete: false,
             type: "image",
             dernireModificationPar: auteur,
             image: image,

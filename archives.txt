@@ -1,6 +1,6 @@
 serveur :
 public
-/opt/contexte/current/bundle/programs/web.browser/app/
+/opt/contextes/current/bundle/programs/web.browser/app/
 
 assets
-/opt/contexte/current/bundle/assets
+/opt/contextes/current/bundle/assets

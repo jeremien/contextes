@@ -77,14 +77,6 @@ Meteor.methods({
         });
     },
 
-    'chapitres.archive'(chapitreId, url) {
-        Chapitres.update(chapitreId, {
-            $set: {
-                archive: url
-            }
-        });
-    },
-
     'chapitres.isOpen'(chapitreId, isOpen) {
         Chapitres.update(chapitreId, {
             $set: {
@@ -132,62 +124,6 @@ Meteor.methods({
                 }
             })
     },
-
-    // 'chapitres.timer.update'(chapitreId, dureeBoucle) {
-    //     const newTimer = (Chapitres.findOne({
-    //         _id: chapitreId
-    //     }).timer) - 1
-    //     if (newTimer == 0) {
-    //         Chapitres.update({
-    //             _id: chapitreId
-    //         }, {
-    //                 $set: {
-    //                     timer: dureeBoucle,
-    //                 }
-    //             })
-    //         Meteor.call('timer.next')
-    //     } else {
-    //         Chapitres.update({
-    //             _id: chapitreId
-    //         }, {
-    //                 $set: {
-    //                     timer: newTimer
-    //                 }
-    //             })
-    //     }
-
-    // },
-
-    // 'chapitres.timer.reset'(chapitreId, debut) {
-    //     Chapitres.update({
-    //         _id: chapitreId
-    //     }, {
-    //             $set: {
-    //                 timer: debut,
-    //                 id_timer: null
-    //             }
-    //         })
-    // },
-
-    // 'chapitres.timer.set'(chapitreId, timerId) {
-    //     Chapitres.update({
-    //         _id: chapitreId
-    //     }, {
-    //             $set: {
-    //                 id_timer: timerId
-    //             }
-    //         })
-    // },
-
-    // 'chapitres.timer.duree'(chapitreId, duree) {
-    //     Chapitres.update({
-    //         _id: chapitreId
-    //     }, {
-    //             $set: {
-    //                 duree_boucle: duree
-    //             }
-    //         })
-    // },
 
     'chapitres.etat.update'(sessionId, etat) {
         Chapitres.update({

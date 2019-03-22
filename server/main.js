@@ -4,7 +4,7 @@ import fs from 'fs';
 import Moment from 'moment';
 import compressing from 'compressing';
 
-import { getImagesPath, getText } from '../imports/components/utils/Archive';
+import { getImagesInfos, getText } from './Archive';
 
 import '../imports/api/collections/documents';
 import '../imports/api/collections/sessions';
@@ -91,88 +91,140 @@ Meteor.methods({
 
   'chapitres.export'(chapitre) {
 
-    const selection = Documents.find({
-        chapitre: chapitre
-    }, { sort: { creation : -1}} ).fetch();
+    if (!Meteor.isProduction) {
 
-    const data = JSON.stringify(selection);
+      /*
+      * fabrication de l'archive local
+      */
 
-    const images = getImagesPath(selection);
-    const text = getText(selection);
+      const selection = Documents.find({
+          chapitre: chapitre
+      }, { sort: { ref : 1}} ).fetch();
 
-    const date = Moment().format('DD-MM-YY');
-    const dir = Meteor.isProduction ? '/opt/contexte/current/bundle/programs/web.browser/app/' : `${process.env.PWD}/public/${date}/`;
-    const imageDir = Meteor.isProduction ? '/opt/contexte/current/bundle/assets/' : `${process.env.PWD}/assets/`;
+      const images = getImagesInfos(selection);
+      const data_json = JSON.stringify(selection);
+      const text = getText(selection);
+      const date = Moment().format('DD-MM-YY');
 
-    try {
-      if (!fs.existsSync(dir)) {
-        fs.mkdirSync(dir);
-      };
-    } catch (error) {
-      console.log(error);
-    }
+      const outDir = `${process.env.PWD}/public/export/`;
 
-    try {
-      if (images.length !== 0) {
-        images.forEach((item) => {
-          fs.copyFile(`${imageDir}${item}`, `${dir}${item}`, (error) => {
-            if (error) {
-              console.log(error);
-              return;
-            }
-          });
-        });
+      try {
+        if (!fs.existsSync(outDir)) {
+          fs.mkdirSync(outDir);
+        };
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
-    }
 
+      try {
+        if (images.length !== 0) {
+          images.forEach((item) => {
+            fs.copyFile(`${item.path}`, `${outDir}${item.name}`, (error) => {
+              if (error) {
+                console.log(error);
+                return;
+              }
+            });
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      }
 
-    if (!Meteor.isProduction) {
-      fs.writeFile(`${process.env.PWD}/public/${date}/data.json`, data, (error) => {
-        if (error) {
-          console.log(error);
-          return;
-        };
-      });
-  
-      fs.writeFile(`${process.env.PWD}/public/${date}/data.txt`, text, (error) => {
-        if (error) {
-          console.log(error);
-          return;
-        };
-      });
+      try {
+        fs.writeFile(`${outDir}${date}-data.json`, data_json, (error) => {
+          if (error) {
+            console.log(error);
+            return;
+          };
+        });
     
-      compressing.tar.compressDir(`${process.env.PWD}/public/${date}`, `${process.env.PWD}/public/${date}.tar`)
-        .then().catch();
+        fs.writeFile(`${outDir}${date}-data.txt`, text, (error) => {
+          if (error) {
+            console.log(error);
+            return;
+          };
+        });
+      } catch (error) {
+        console.log(error);
+      }
+
+      compressing.tar.compressDir(`${process.env.PWD}/public/export`, `${process.env.PWD}/public/export.tar`)
+        .then()
+        .catch((error) => {
+          if (error) {
+            console.log(error);
+          }
+      });
+
+
 
     } else {
 
-      fs.writeFile(`/opt/contexte/current/bundle/programs/web.browser/app/${date}/data.json`, data, (error) => {
-        if (error) {
-          console.log(error);
-          return;
-        };
-      });
-  
-      fs.writeFile(`/opt/contexte/current/bundle/programs/web.browser/app/${date}/data.txt`, text, (error) => {
-        if (error) {
-          console.log(error);
-          return;
-        };
-      });
-    
-      compressing.tar.compressDir(`/opt/contexte/current/bundle/programs/web.browser/app/${date}`, `/opt/contexte/current/bundle/programs/web.browser/app/${date}.tar`)
-        .then().catch();
-    }
-   
 
-    if (!Meteor.isProduction) {
-      Meteor.call('chapitres.archive', chapitre, `${process.env.ROOT_URL}${date}.tar`);
-      return `${process.env.ROOT_URL}${date}.tar`;
-    } else {
-      Meteor.call('chapitres.archive', chapitre, `${process.env.ROOT_URL}/${date}.tar`);
-      return `${process.env.ROOT_URL}/${date}.tar`;
+      /*
+      * fabrication de l'archive serveur
+      */
+
+      const selection = Documents.find({
+        chapitre: chapitre
+      }, { sort: { ref : 1}} ).fetch();
+
+      const images = getImagesInfos(selection);
+      const data_json = JSON.stringify(selection);
+      const text = getText(selection);
+      const date = Moment().format('DD-MM-YY');
+      const outDir = `/opt/contexte/current/bundle/programs/web.browser/app/export/`;
+
+      try {
+        if (!fs.existsSync(outDir)) {
+          fs.mkdirSync(outDir);
+        };
+      } catch (error) {
+        console.log(error);
+      }
+
+      try {
+        if (images.length !== 0) {
+          images.forEach((item) => {
+            fs.copyFile(`${item.path}`, `${outDir}${item.name}`, (error) => {
+              if (error) {
+                console.log(error);
+                return;
+              }
+            });
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      }
+
+      try {
+        fs.writeFile(`${outDir}${date}-data.json`, data_json, (error) => {
+          if (error) {
+            console.log(error);
+            return;
+          };
+        });
+    
+        fs.writeFile(`${outDir}${date}-data.txt`, text, (error) => {
+          if (error) {
+            console.log(error);
+            return;
+          };
+        });
+      } catch (error) {
+        console.log(error);
+      }
+
+      compressing.tar.compressDir(`/opt/contexte/current/bundle/programs/web.browser/app/export`, `/opt/contexte/current/bundle/programs/web.browser/app/export.tar`)
+      .then()
+      .catch((error) => {
+        if (error) {
+          console.log(error);
+        }
+     });
+      
     }
 
   },

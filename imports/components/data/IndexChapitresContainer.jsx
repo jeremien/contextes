@@ -21,7 +21,7 @@ class IndexChapitresContainer extends Component {
             else {
                 this.setState({ badges: result })
             }
-        })
+        });
     }
 
     render() {

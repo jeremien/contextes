@@ -8,11 +8,13 @@ export const Images = new FilesCollection({
     debug: false,
     storagePath: () => {
 
-        if (!Meteor.isProduction) {
-            return `${process.env.PWD}/assets`;
-        } else {
-            return `/srv/contextes/data/images`;
-        }
+        return `${process.env.PWD}/assets`;
+
+        // if (!Meteor.isProduction) {
+        //     return `${process.env.PWD}/assets`;
+        // } else {
+        //     return `/srv/contextes/data/images`;
+        // }
         
     },
     permissions: 0o775,

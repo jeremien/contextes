@@ -4,7 +4,7 @@ module.exports = {
         // TODO: set host address, username, and authentication method
         host: '51.75.140.117',
         username: 'root',
-        password: 'eRwJqo2A'
+        password: 'MCJ2gYfi'
         // pem: '/home/jeremie/.ssh/id_rsa',
         // opts: {
         //   port: 54678
@@ -16,13 +16,13 @@ module.exports = {
   
     app: {
       // TODO: change app name and path
-      name: 'contexte',
+      name: 'contextes',
       path: '../',
        // pour stocker les images
   
-       volumes:{
-        '/srv/contexte/data/images':'/srv/contexte/data/images'
-      },
+      //  volumes:{
+      //   '/srv/contexte/data/images':'/srv/contexte/data/images'
+      // },
   
       // deployCheckPort: 3000,
   

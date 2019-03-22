@@ -8,9 +8,15 @@ class InfosChapitre extends Component {
         super(props);
 
         this.state = {
-            isOpen : props.chapitre.isopen,
-            url : props.chapitre.archive
+            isOpen : null,
+            url : false
         }
+    }
+
+    componentWillMount() {
+        this.setState({
+            isOpen : this.props.chapitre.isOpen
+        })
     }
 
     render() {
@@ -19,15 +25,21 @@ class InfosChapitre extends Component {
 
             <div className='infos-chapitre'>
                 
-                <p>Le chapitre {this.props.chapitre.titre} ({this.props.chapitre.description}) créé par {this.props.chapitre.auteur} contient 0 documents et est actuellement {this.props.chapitre.isopen ? 'fermé' : 'ouvert'} </p>
+                <p>Le chapitre {this.props.chapitre.titre} ({this.props.chapitre.description}) 
+                créé par {this.props.chapitre.auteur} </p>
+                {/* <p>Il contient 0 documents et est actuellement {this.props.chapitre.isOpen ? 'ouvert' : 'fermé'} </p> */}
                 
                 <button onClick={() => {
-                    Meteor.call('chapitres.isOpen', this.props.chapitre._id, true, (error, result) => console.log(error, result) );
+                    Meteor.call('chapitres.isOpen', this.props.chapitre._id, this.state.isOpen);
+                    this.setState({ isOpen : !this.state.isOpen });
                 }
-                }>Fermer le chapitre</button>
+                }>{this.props.chapitre.isOpen ? 'Fermer' : 'Ouvrir'} le chapitre</button>
                 
-                <button onClick={() => {
+                {/* <button onClick={() => {
+                    
+
                     Meteor.call('chapitres.export', this.props.chapitre._id, (error, result) => {
+                        console.log(result)
                         if (error) {
                             console.log(error);
                         }
@@ -36,12 +48,10 @@ class InfosChapitre extends Component {
                         });
                     });
                 }
-                }>Exporter le chapitre</button>
+                }>Exporter le chapitre</button> */}
 
-                <p><a href={this.state.url} target='_blank'>Télécharger</a></p>
-                
-                <ConnexionsCourantesContainer {...this.props} />
-    
+                {/* <p><a href={`http://localhost:3000/export.tar`} target='_blank'>Télécharger</a></p> */}
+                    
             </div>
     
         )
