@@ -66,10 +66,13 @@ Meteor.methods({
         })
     },
 
-    'chapitres.update'(chapitreId, titre) {
+    'chapitres.update'(chapitreId, infos) {
         Chapitres.update(chapitreId, {
             $set: {
-                titre: titre
+                titre: infos.titre,
+                description : infos.description,
+                auteur : infos.auteur,
+                isOpen : infos.isOpen
             }
         });
     },

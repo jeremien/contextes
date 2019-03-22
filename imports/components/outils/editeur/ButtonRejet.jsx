@@ -23,7 +23,7 @@ export default class ButtonRejet extends Component {
             <button onClick={(e) => {
                 this.setState({ rejete : !this.state.rejete });
                 Meteor.call('documents.rejet', this.props.id, this.state.rejete)
-            }}>{ this.state.rejete ? 'rejeter' : 'accepter' }</button>
+            }}>{ this.state.rejete ? 'accepter' : 'rejeter' }</button>
 
         )
     }

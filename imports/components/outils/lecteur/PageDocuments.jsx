@@ -1,16 +1,11 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown/with-html';
-import Moment from 'react-moment';
-
-import ModifierImage from './iconographe/ModifierImage';
-
-import { getImageLink } from '../utils/Images';
+import { getImageLink } from '../../utils/Images';
 
 
-const ListeDocuments = (props) => {
+const PageDocuments = (props) => {
 
     return props.documents.map((item) => {
-
 
         if (!item.rejete) {
 
@@ -18,9 +13,7 @@ const ListeDocuments = (props) => {
 
             return (
                 <div key={item._id} className='wmax'>  
-                    
-                    <p className='cff'><Moment format='HH:mm:ss'>{item.creation}</Moment></p>
-                    
+                                        
                     { link ? <img src={link} /> : undefined } 
                     
                     <ReactMarkdown
@@ -28,16 +21,11 @@ const ListeDocuments = (props) => {
                         escapeHtml={false}
                     />
                     
-                    { props.role === 'iconographe' ? <ModifierImage {...props} documentId={item._id} /> : undefined }
-
                 </div>
             )
-
         }
-        
-        
-    });
 
+    });
 }
 
-export default ListeDocuments;
+export default PageDocuments;

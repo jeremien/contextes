@@ -1,6 +1,8 @@
 import { Mongo } from 'meteor/mongo';
 import { Meteor } from 'meteor/meteor';
 import { Images } from './images';
+import { check } from 'meteor/check';
+
 
 export const Documents = new Mongo.Collection('documents');
 /**
@@ -34,6 +36,8 @@ Meteor.methods({
         } else {
             ref = 1;
         }
+
+        // check(ref, Number)
         
         Documents.insert({
             ref : ref,

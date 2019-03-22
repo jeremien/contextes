@@ -1,15 +1,7 @@
-import {
-    Mongo
-} from 'meteor/mongo';
-import {
-    Meteor
-} from 'meteor/meteor';
-import {
-    check
-} from 'meteor/check';
-import {
-    Chapitres
-} from './chapitres';
+import { Mongo } from 'meteor/mongo';
+import { Meteor } from 'meteor/meteor';
+import { check } from 'meteor/check';
+import { Chapitres } from './chapitres';
 
 export const Sessions = new Mongo.Collection('sessions');
 Sessions.attachCollectionRevisions();
@@ -62,6 +54,16 @@ Meteor.methods({
                 titre: titre
             }
         });
+    },
+
+    'sessions.update.index'(sessionId, infos) {
+        Sessions.update(sessionId, {
+            $set: {
+                titre : infos.titre,
+                description : infos.description,
+                auteur : infos.auteur
+            }
+        })
     },
 
     'sessions.getVersion'(sessionId) {

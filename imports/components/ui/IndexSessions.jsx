@@ -6,6 +6,22 @@ import Moment from 'react-moment'
 import { renderBadges } from '../utils/badges';
 export default class IndexSessions extends Component {
 
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            modifier : false,
+            id : '',
+            titre : '',
+            description : '',
+            auteur : ''
+        }
+
+        this.handleModifier = this.handleModifier.bind(this);
+        this.handleSessionDelete = this.handleSessionDelete.bind(this);
+        this.submitModif = this.submitModif.bind(this);
+    }
+
     handleSessionDelete(sessionId) {
 
         if (this.props.badges.length === 0) {
@@ -31,6 +47,32 @@ export default class IndexSessions extends Component {
        
     }
 
+    handleModifier(id) {
+        
+        let session = this.props.sessions.filter((item) => {
+            return item._id === id;
+        });
+
+        let { _id, titre, description, auteur } = session[0];
+        
+        this.setState({
+            modifier : !this.state.modifier,
+            id : _id,
+            titre : titre,
+            description : description,
+            auteur : auteur
+        });
+    }
+
+    submitModif(e) {
+        e.preventDefault();
+        let { titre, description, auteur } = this.state;
+        Meteor.call('sessions.update.index', this.state.id, { titre, description, auteur });
+        this.setState({
+            modifier : false
+        });
+    }
+
     renderSessions() {
 
         if (this.props.sessions.length != 0) {
@@ -46,16 +88,16 @@ export default class IndexSessions extends Component {
                             
                         <p> N°{key + 1} </p>
                         <p className='cff'><Moment format='DD/MM/YYYY'>{item.creation}</Moment></p>
-                            <p>{item.titre}</p>
-                            <p>{item.auteur}</p>
-                            <p className='cff'>{item.etat}</p>
-                            <p> { badges ? badges : 'pas de' } <span className='cff'>chapitre(s)</span></p>
-                            <p className='lk crs' onClick={() => this.props.history.push(`/sessions/${item._id}`) }>rejoindre</p>
-                            { role === 'editeur' ? <p className='lk crs' onClick={() => {
-                                // if (window.confirm('supprimer cette session ?'))
+                        <p>{item.titre}</p>
+                        <p>{item.auteur}</p>
+                        <p className='cff'>{item.etat}</p>
+                        <p> { badges ? badges : 'pas de' } <span className='cff'>chapitre(s)</span></p>
+                        <p><button onClick={() => this.handleModifier(item._id) }>modifier</button></p>
+                        <p className='lk crs' > <button onClick={() => this.props.history.push(`/sessions/${item._id}`) }>rejoindre</button></p>
+                        { role === 'editeur' ? <p className='lk crs' > <button onClick={() => {
                                 this.handleSessionDelete(item._id)
-                                }}>supprimer</p> : undefined }
-                
+                            }}>supprimer</button></p> : undefined }
+            
                     </div>
                 )
             });
@@ -85,8 +127,15 @@ export default class IndexSessions extends Component {
                 }
 
                 <div id='indexsession--liste' className='py px'>
-
-                   { this.renderSessions() }
+                    <p>Index des sessions</p>
+                    { this.state.modifier ? <form onSubmit={this.submitModif}>
+                                                <input type="texte" value={this.state.titre} onChange={(e) => this.setState({ titre : e.target.value })}/>
+                                                <input type="texte" value={this.state.description} onChange={(e) => this.setState({ description : e.target.value })}/>
+                                                <input type="texte" value={this.state.auteur} onChange={(e) => this.setState({ auteur : e.target.value })}/>
+                                                <input type="submit" value="valider" />
+                                            </form> 
+                                            : undefined}
+                    { this.renderSessions() }
 
                 </div>
             
@@ -94,3 +143,4 @@ export default class IndexSessions extends Component {
         )
     }
 };
+
