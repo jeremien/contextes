@@ -3,7 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
 import { Documents } from '../../api/collections/documents';
 
-import ListeDocuments from '../outils/ListeDocuments';
+import PageDocuments from '../outils/lecteur/PageDocuments';
 import TableDocuments from '../outils/editeur/TableDocuments';
 
 class IndexRefDocumentsContainer extends Component {
@@ -21,13 +21,11 @@ class IndexRefDocumentsContainer extends Component {
 
       } else {
         return (<div className='liste-documents'>
-            <ListeDocuments {...this.props}  documents={this.props.documents} role={role} />
+            <PageDocuments {...this.props}  documents={this.props.documents} role={role} />
           </div>)
 
       }
    
-
-
     } else {
 
       return (
