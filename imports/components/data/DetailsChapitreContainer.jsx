@@ -10,7 +10,6 @@ import { Sessions } from '../../api/collections/sessions';
 
 // editeur
 import InfosChapitre from '../outils/editeur/InfosChapitre';
-import TableDocuments from '../outils/editeur/TableDocuments';
 
 // transcripteur
 import AjouterDocument from '../outils/transcripteur/AjouterDocument';
@@ -24,6 +23,7 @@ import CorrectionDocument from '../outils/correcteur/CorrectionDocument';
 
 // shared
 import IndexDocumentsContainer from '../data/IndexDocumentsContainer';
+import IndexRefDocumentsContainer from '../data/IndexRefDocumentsContainer';
 import DetailsChapitre from '../ui/DetailsChapitre';
 
 class DetailsChapitreContainer extends React.Component {
@@ -69,10 +69,17 @@ class DetailsChapitreContainer extends React.Component {
                 }
                 break;
 
+            case 'lecteur':
+                return {
+                    outilgauche: <div>nombre de signes / de docs</div>,
+                    outildroit: <IndexRefDocumentsContainer {...propToPass} />
+                }
+                break;
+
             case 'editeur':
                 return {
                     outilgauche: <InfosChapitre {...propToPass} />,
-                    outildroit: <IndexDocumentsContainer {...propToPass} />
+                    outildroit: <IndexRefDocumentsContainer {...propToPass} />
                 }
                 break;
 

@@ -5,7 +5,8 @@ import { Documents } from '../../api/collections/documents';
 
 import ListeDocuments from '../outils/ListeDocuments';
 import TableDocuments from '../outils/editeur/TableDocuments';
-class IndexDocumentsContainer extends Component {
+
+class IndexRefDocumentsContainer extends Component {
 
   render() {
 
@@ -37,10 +38,10 @@ class IndexDocumentsContainer extends Component {
   }
 }
 
-export default IndexDocumentsContainer = withTracker((props) => {
+export default IndexRefDocumentsContainer = withTracker((props) => {
   const documentsHandler = Meteor.subscribe('documents');
   const loading = !documentsHandler.ready();
-  const documents = Documents.find( { chapitre: props.chapitre._id }, { sort: { creation : -1 }} ).fetch();
+  const documents = Documents.find( { chapitre: props.chapitre._id }, { sort: { ref : 1 }} ).fetch();
   const images = Documents.find({ chapitre: props.chapitre._id, type: "image" }, { fields: { image : 1 }} ).fetch();
   const documentsExists = !loading && !!documents;
   const imagesExists = !loading && !!document;
@@ -51,4 +52,4 @@ export default IndexDocumentsContainer = withTracker((props) => {
     imagesExists,
     images: imagesExists ? images : {}
   }
-})(IndexDocumentsContainer);
+})(IndexRefDocumentsContainer);

@@ -64,6 +64,9 @@ export default class TopBar extends Component {
             case 'iconographe':
                 role = 'iconographe'
                 break;
+            case 'lecteur':
+                role = 'lecteur.rice'
+                break;
             default:
                 role = ''
         }
@@ -147,6 +150,7 @@ export default class TopBar extends Component {
                             <p className='crs lk' onClick={() => this.handleRole('transcripteur')}>transcripteur.rice</p>
                             <p className='crs lk' onClick={() => this.handleRole('correcteur')}>correcteur.rice</p>
                             <p className='crs lk' onClick={() => this.handleRole('iconographe')}>iconographe</p>
+                            <p className='crs lk' onClick={() => this.handleRole('lecteur')}>lecteur.rice</p>
                         
                         </aside> 
                     
