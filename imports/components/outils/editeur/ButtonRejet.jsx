@@ -17,7 +17,6 @@ export default class ButtonRejet extends Component {
         })
     }
 
-
     render() {
         return (
 
