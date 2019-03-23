@@ -1,0 +1,9 @@
+curl -d '{ "chapitre" : "RRTdnp37DLXf6pCZS" }' -H "Content-Type: application/json" -X POST http://localhost:3000/methods/documents.get.chapitre
+
+curl -H "Content-Type: application/json" -X POST http://localhost:3000/methods/documents.get.documents
+
+- on passe le titre de la session pour récupérer tous les chapitres et docs
+curl -d '{ "session" : "testdede" }' -H "Content-Type: application/json" -X POST http://localhost:3000/methods/documents.get.documents
+
+
+- app cli pour générer texte / json / images

@@ -1,8 +1,10 @@
 import { Mongo } from 'meteor/mongo';
 import { Meteor } from 'meteor/meteor';
 import { Images } from './images';
+
 import { check } from 'meteor/check';
 
+import { ProcessAllDocs } from './processDocuments';
 
 export const Documents = new Mongo.Collection('documents');
 /**
@@ -56,6 +58,15 @@ Meteor.methods({
     },
 
     // methods pour api rest
+
+
+    'documents.get.documents'(sessionTitre) {
+
+        const documents = ProcessAllDocs(sessionTitre);
+
+        return documents
+    },
+
 
     'documents.test.insert'(contenu) {
 
