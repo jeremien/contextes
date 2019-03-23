@@ -8,7 +8,8 @@ export default class DetailsDocumentCorrecteur extends Component {
 
         this.state = {
             revised : false,
-            contenu : undefined
+            contenu : undefined,
+            isTyping : false
         }
 
         this.handleChange = this.handleChange.bind(this);
@@ -17,12 +18,13 @@ export default class DetailsDocumentCorrecteur extends Component {
 
     componentDidMount() {
         this.setState({
-            contenu : this.props.document.contenu
+            contenu : this.props.document.contenu,
+            isTyping : false
         })
     }
 
     handleChange(event) {
-        this.setState({ contenu: event.target.value, revised : true });
+        this.setState({ contenu: event.target.value, revised : true, isTyping : true });
         // Meteor.call('documents.update', this.props.document._id, this.state.contenu, this.props.utilisateur);
 
     }
@@ -32,24 +34,25 @@ export default class DetailsDocumentCorrecteur extends Component {
         if (event.key !== 'Enter' ) {
             return;
         }
-        console.log('enter')
         Meteor.call('documents.update', this.props.document._id, this.state.contenu, this.props.utilisateur);
 
+        this.setState({ isTyping : !this.state.isTyping });
     }
 
     render() {
 
-        let { contenu } = this.state;
+        let { contenu, isTyping } = this.state;
 
         return (
             <form className='details-documents'>
-                {!!this.props.document.image ? <span className='cfbl fscs'> légende de l'image {<Moment format='HH:mm:ss'>{this.props.document.creation}</Moment>}</span> : undefined}
+                {!!this.props.document.image ? <p className='cfbl fscs'> légende de l'image enregistrée à {<Moment format='HH:mm:ss'>{this.props.document.creation}</Moment>}</p> : undefined}
                 <textarea
                     className={!!this.props.document.image ? 'wfull txta py px btt fsc bg bcbb' : 'wfull txta py px btt fsc bg'}
                     value={contenu}
                     onChange={this.handleChange}
                     onKeyPress={this.handleEnter}
                 />
+                { isTyping ? <p className="fscs cfgr">Appuyer sur entrer pour valider</p> : undefined }
             </form>
         )
 

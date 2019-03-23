@@ -82,7 +82,7 @@ export default class ModifierImage extends Component {
                 <form  className='' onSubmit={this.onFileSubmit}>
                 
                     <input  type='file' ref='fileinput' onChange={this.onFileChange} />
-                    <input className='fsc btt py px crs' type="submit" value="modifier" />
+                    <input className='btt bcbb bg cfbl py' type="submit" value="modifier" />
 
                 </form>
 

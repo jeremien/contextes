@@ -101,7 +101,7 @@ class TableDocuments extends Component {
                     <thead>
                         <tr className="table-documents--head" onClick={this.onSortBy}>
                             <td data-id='ref'>réf.</td>
-                            <td data-id='date'>date</td>
+                            <td data-id='date'>heure</td>
                             <td data-id='contenu'>contenu</td>
                             <td data-id='correction'>correction</td>
                             <td data-id='auteur'>auteur</td>

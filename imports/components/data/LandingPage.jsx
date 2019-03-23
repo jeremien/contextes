@@ -48,7 +48,7 @@ class LandingPage extends Component {
 
         if (!this.props.loading) {
 
-                return <ul>
+                return <ul className="landing--list">
 
                             {
                                 this.props.sessions.map((item) => {

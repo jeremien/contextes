@@ -29,7 +29,7 @@ class InfosChapitre extends Component {
                 créé par {this.props.chapitre.auteur} </p>
                 {/* <p>Il contient 0 documents et est actuellement {this.props.chapitre.isOpen ? 'ouvert' : 'fermé'} </p> */}
                 
-                <button onClick={() => {
+                <button className='btt bcbb bg cfbl py txta' onClick={() => {
                     Meteor.call('chapitres.isOpen', this.props.chapitre._id, this.state.isOpen);
                     this.setState({ isOpen : !this.state.isOpen });
                 }

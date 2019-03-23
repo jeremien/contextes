@@ -11,8 +11,6 @@
     justify-content: space-between;
 }
 
-
-
 .r {
     right: 0;
 }
@@ -124,6 +122,18 @@
     background: #e9eaeb;
 }
 
+.bgr {
+    background: red;
+}
+
+.bggr {
+    background:green;
+}
+
+.bgb {
+    background:blue;
+}
+
 .cff {
     color : grey;
 }
@@ -150,4 +160,12 @@
 
 .bcbb {
     border-color: blue;
+}
+
+.bcr {
+    border-color: red;
+}
+
+.bno {
+    border: none;
 }

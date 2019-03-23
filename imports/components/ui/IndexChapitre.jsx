@@ -70,7 +70,7 @@ export default class IndexChapitres extends Component {
         let badges = renderBadges(this.props.badges, item._id);
   
         return (
-          <div className='x jc bb py' key={key}>
+          <div className={item.isOpen ? 'x jc bb py' : 'x jc bb bcbb cfbl py'} key={key}>
                   
                   <p> N°{key + 1} </p>
                   <p className='cff'><Moment format='DD/MM/YYYY'>{item.creation}</Moment></p>
@@ -78,12 +78,12 @@ export default class IndexChapitres extends Component {
                   <p>{item.auteur}</p>
                   <p className='cff'>{item.isOpen ? 'ouvert' : 'fermé'}</p>
                   <p> { badges ? badges : '0' } <span className='cff'>documents</span></p>
-                  <p className='lk crs'><button onClick={() => this.handleModifier(item._id)}>modifier</button></p>
-                  <p className='lk crs'><button onClick={() => this.props.history.push(`/session/${item.session}/chapitre/${item._id}`) }>rejoindre</button></p>
-                  { role === 'editeur' ? <p className='lk crs'><button onClick={() => {
+                  <button className="btt bcbb bg cfbl py" onClick={() => this.handleModifier(item._id)}>modifier</button>
+                  <button className="btt bcg bg cfgr py" onClick={() => this.props.history.push(`/session/${item.session}/chapitre/${item._id}`) }>rejoindre</button>
+                  { role === 'editeur' ? <button className="btt bcr bg fcr py" onClick={() => {
                     // if (window.confirm('supprimer ce chapitre ?'));
                     this.handleChapitreDelete(item._id);
-                    }}>supprimer</button></p> : undefined }
+                    }}>supprimer</button> : undefined }
           
           </div>
         )

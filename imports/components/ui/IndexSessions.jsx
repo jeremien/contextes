@@ -92,11 +92,11 @@ export default class IndexSessions extends Component {
                         <p>{item.auteur}</p>
                         <p className='cff'>{item.etat}</p>
                         <p> { badges ? badges : 'pas de' } <span className='cff'>chapitre(s)</span></p>
-                        <p><button onClick={() => this.handleModifier(item._id) }>modifier</button></p>
-                        <p className='lk crs' > <button onClick={() => this.props.history.push(`/sessions/${item._id}`) }>rejoindre</button></p>
-                        { role === 'editeur' ? <p className='lk crs' > <button onClick={() => {
+                        <button className="btt bcbb bg cfbl py" onClick={() => this.handleModifier(item._id) }>modifier</button>
+                        <button className="btt bcg bg cfgr py" onClick={() => this.props.history.push(`/sessions/${item._id}`) }>rejoindre</button>
+                        { role === 'editeur' ? <button className="btt bcr bg fcr py" onClick={() => {
                                 this.handleSessionDelete(item._id)
-                            }}>supprimer</button></p> : undefined }
+                            }}>supprimer</button> : undefined }
             
                     </div>
                 )

@@ -8,7 +8,8 @@ export default class AjouterImage extends Component {
 
         this.state = {
             url: "",
-            file: null
+            file: null,
+            isLoading : false
         }
 
         this.onFileChange = this.onFileChange.bind(this);
@@ -51,12 +52,16 @@ export default class AjouterImage extends Component {
 
         upload.on('start', function () {
             console.log('debut up')
+            self.setState({
+                isLoading : true
+            })
         });
 
         upload.on('uploaded', function(error, fileRef) {
             self.refs['fileinput'].value = '';
             self.setState({
-                file: null
+                file: null,
+                isLoading: false
             });
         });
 
@@ -84,13 +89,24 @@ export default class AjouterImage extends Component {
 
         <div className='ajouterimage'>
             
-            <form  className='' onSubmit={this.onFileSubmit}>
+            <p>enregistrer une image depuis l'ordinateur</p>
+            <form  onSubmit={this.onFileSubmit}>
                
                 <input  type='file' ref='fileinput' onChange={this.onFileChange} />
-                <input className='wfull fsc btt py px crs' type="submit" value="enregistrer" placeholder="envoyer" />
+
+                { this.state.isLoading ? 'chargement en cours' : undefined}
+                <input className='wfull fsc btt py px crs txta mt' type="submit" value="enregistrer" placeholder="envoyer" />
 
             </form>
 
+            <p>enregistrer une image depuis une url</p>
+            <form className="mt">
+
+                <input className="wfull" type='text' />
+
+                <input className='wfull fsc btt py px crs txta mt' type="submit" value="enregistrer" placeholder="envoyer" />
+
+            </form>
         </div>
        )
 

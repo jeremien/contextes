@@ -20,7 +20,7 @@ class IndexRefDocumentsContainer extends Component {
                 </div>)
 
       } else {
-        return (<div className='liste-documents'>
+        return (<div className='page-documents'>
             <PageDocuments {...this.props}  documents={this.props.documents} role={role} />
           </div>)
 

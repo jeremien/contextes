@@ -9,6 +9,8 @@ export default class AjouterSession extends Component {
         this.state = {
             titre : '',
             description : '',
+            localisation : '',
+            institution : '',
             password : '',
             alert : undefined
         }
@@ -32,15 +34,17 @@ export default class AjouterSession extends Component {
         e.preventDefault();
 
         const auteur = this.props.utilisateur || inconnu;
-        const { titre, description, password } = this.state;
+        const { titre, description, localisation, institution, password } = this.state;
 
-        if (titre && description) {
+        if (titre && description && localisation && institution) {
 
-            Meteor.call('sessions.insert', titre, auteur, description, password);
+            Meteor.call('sessions.insert', titre, auteur, description, localisation, institution, password);
             
             this.setState({ 
                 titre: '',
                 description: '',
+                localisation : '',
+                institution : '',
                 password : '',
                 alert : 'session créée'
             });
@@ -55,7 +59,7 @@ export default class AjouterSession extends Component {
         } else {
 
             this.setState({
-                alert : 'Remplissez le titre et la description'
+                alert : 'Remplissez le formulaire'
             })
             
         }
@@ -64,7 +68,7 @@ export default class AjouterSession extends Component {
 
     render() {
 
-        let { titre, description, password, alert } = this.state;
+        let { titre, description, localisation, institution, password, alert } = this.state;
 
         if (this.props.connecte) {
             return (
@@ -84,6 +88,20 @@ export default class AjouterSession extends Component {
                         value={description}
                         onChange={this.handleInput}
                         placeholder='description'
+                    />
+                    <textarea 
+                        className='wfull txta py px btt fsc mb'
+                        name='localisation'
+                        value={localisation}
+                        onChange={this.handleInput}
+                        placeholder='localisation'
+                    />
+                     <textarea 
+                        className='wfull txta py px btt fsc mb'
+                        name='institution'
+                        value={institution}
+                        onChange={this.handleInput}
+                        placeholder='institution'
                     />
                       {/* <input 
                         className='btt reset py px mb'
