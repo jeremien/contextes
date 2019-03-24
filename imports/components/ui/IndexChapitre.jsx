@@ -78,9 +78,11 @@ export default class IndexChapitres extends Component {
                   <p>{item.auteur}</p>
                   <p className='cff'>{item.isOpen ? 'ouvert' : 'fermé'}</p>
                   <p> { badges ? badges : '0' } <span className='cff'>documents</span></p>
-                  <button className="btt bcbb bg cfbl py" onClick={() => this.handleModifier(item._id)}>modifier</button>
+                  { role === 'editeur' ? <button className="btt bcbb bg cfbl py txta" onClick={() => this.handleModifier(item._id)}>modifier</button> : undefined }
+                 
                   <button className="btt bcg bg cfgr py" onClick={() => this.props.history.push(`/session/${item.session}/chapitre/${item._id}`) }>rejoindre</button>
-                  { role === 'editeur' ? <button className="btt bcr bg fcr py" onClick={() => {
+                  
+                  { role === 'editeur' ? <button className="btt bcr bg fcr py txta" onClick={() => {
                     // if (window.confirm('supprimer ce chapitre ?'));
                     this.handleChapitreDelete(item._id);
                     }}>supprimer</button> : undefined }
