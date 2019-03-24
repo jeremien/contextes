@@ -26,7 +26,7 @@ class Login extends React.Component {
 
     connexion() {
 
-        const { username, role, socketId } = { username: this.state.username, role: this.state.role, socketId: this.props.socketId }
+        const { username, role, socketId, history } = { username: this.state.username, role: this.state.role, socketId: this.props.socketId, history : this.props.history }
         
         Meteor.loginWithPassword(username, this.state.password, function (error) {
 
@@ -42,25 +42,28 @@ class Login extends React.Component {
                 Meteor.call('connexions.insert.local', Meteor.userId(),username, role, socketId, function (error) {
                     if (error) {
                         console.log('erreur', error);
-                        // alert('Erreur à la connection', error);
+                        alert('Erreur à la connection', error);
+                        return;
                     } else {
-                        // alert('Vous êtes connecté');
+                        alert('Vous êtes connecté');
                     }
                 });
+
+                let infos = {
+                    titre: username,
+                    message: `je suis connecté.e comme ${role}`
+                };
+        
+                Meteor.call('notification', infos);
+        
+                if (history) {
+                    history.push('/sessions');
+                }
             }
             
         });
 
-        let infos = {
-            titre: this.state.username,
-            message: `je suis connecté.e comme ${this.state.role}`
-        };
-
-        Meteor.call('notification', infos);
-
-        if (this.props.history) {
-            this.props.history.push('/sessions');
-        }
+       
     }
 
     handleSubmit(event) {
@@ -76,7 +79,9 @@ class Login extends React.Component {
                 Accounts.createUser({ username: username, password: this.state.password, email: this.state.email }, function (error) {
                     if (error) {
                         alert(error);
+                        return;
                     }
+
                     else {
                         self.connexion();
 

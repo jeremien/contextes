@@ -63,7 +63,9 @@ Meteor.methods({
             $set: {
                 titre : infos.titre,
                 description : infos.description,
-                auteur : infos.auteur
+                auteur : infos.auteur,
+                localisation : infos.localisation,
+                institution : infos.institution
             }
         })
     },
