@@ -234,6 +234,12 @@ Meteor.methods({
     if (doc.image !== null) {
       Images.remove({ _id : doc.image });
     }
-  }
+  },
+
+  // 'get.docs'(chapitreId) {
+  //   return Documents.find({
+  //     chapitre: chapitreId
+  //   }, { sort: { ref : 1}} ).fetch();
+  // }
 
 });

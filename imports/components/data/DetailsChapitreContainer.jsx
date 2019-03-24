@@ -21,6 +21,9 @@ import AjouterImage from '../outils/iconographe/AjouterImage';
 // correcteur
 import CorrectionDocument from '../outils/correcteur/CorrectionDocument';
 
+// lecteur
+import InfoTexte from '../outils/lecteur/InfoTexte';
+
 // shared
 import IndexDocumentsContainer from '../data/IndexDocumentsContainer';
 import IndexRefDocumentsContainer from '../data/IndexRefDocumentsContainer';
@@ -71,7 +74,7 @@ class DetailsChapitreContainer extends React.Component {
 
             case 'lecteur':
                 return {
-                    outilgauche: <div>nombre de signes / de docs</div>,
+                    outilgauche: <InfoTexte {...propToPass} />,
                     outildroit: <IndexRefDocumentsContainer {...propToPass} />
                 }
                 break;

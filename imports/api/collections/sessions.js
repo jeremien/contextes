@@ -73,6 +73,13 @@ Meteor.methods({
     'sessions.getVersion'(sessionId) {
         return Sessions.findOne(sessionId).revisions.length
     },
+
+    'sessions.getTitre'(sessionId) {
+        console.log('session titre')
+        console.log(sessionId)
+        // return Sessions.findOne(sessionId).revisions.length
+    },
+
     /**
      * Retourne tous les chapitres appartenant à la session sessionId.
      * @param {OdbjectId} sessionId - Identifiant de la session

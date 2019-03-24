@@ -4,7 +4,6 @@ import { withTracker } from 'meteor/react-meteor-data';
 import { Documents } from '../../api/collections/documents';
 
 import ListeDocuments from '../outils/ListeDocuments';
-import TableDocuments from '../outils/editeur/TableDocuments';
 class IndexDocumentsContainer extends Component {
 
   render() {

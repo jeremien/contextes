@@ -1,12 +1,6 @@
 import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
-
 import ConnexionsCourantes from '../outils/ConnexionsCourantes';
-// import Stream from './Stream'
-// import Chatbox from "../Chatbox";
-// import Login from '../Login';
-// import DetailsDocumentsContainer from '../../data/DetailsDocumentsContainer';
-
 
 export default class DetailsChapitre extends Component {
     constructor(props) {
