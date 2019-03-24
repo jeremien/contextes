@@ -13,6 +13,7 @@ class TableDocuments extends Component {
             sortDate : false,
             sortContenu : false,
             sortCorrection : false,
+            sortRejet : false,
             sortAuteur : false,
             sortType : false
         }
@@ -38,7 +39,7 @@ class TableDocuments extends Component {
     onSortBy(event) {
 
         let id = event.target.dataset.id;
-        let { data, sortRef, sortDate, sortContenu, sortCorrection, sortAuteur, sortType } = this.state;
+        let { data, sortRef, sortDate, sortContenu, sortCorrection, sortRejet, sortAuteur, sortType } = this.state;
 
         switch (id) {
 
@@ -67,6 +68,13 @@ class TableDocuments extends Component {
                 this.setState({
                     data : sortData(data, 'correction', sortCorrection),
                     sortCorrection : !sortCorrection
+                });
+            break;
+
+            case 'rejet':
+                this.setState({
+                    data : sortData(data, 'rejet', sortRejet),
+                    sortRejet : !sortRejet
                 });
             break;
             
@@ -104,6 +112,7 @@ class TableDocuments extends Component {
                             <td data-id='date'>heure</td>
                             <td data-id='contenu'>contenu</td>
                             <td data-id='correction'>correction</td>
+                            <td data-id='rejet'>validation</td>
                             <td data-id='auteur'>auteur</td>
                             <td data-id='type'>type</td>
                             <td data-id='action'>action</td>

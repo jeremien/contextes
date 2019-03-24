@@ -20,7 +20,7 @@ export default class ButtonRejet extends Component {
     render() {
         return (
 
-            <button onClick={(e) => {
+            <button className="btt bcg bg cfgr py txta" onClick={(e) => {
                 this.setState({ rejete : !this.state.rejete });
                 Meteor.call('documents.rejet', this.props.id, this.state.rejete)
             }}>{ this.state.rejete ? 'accepter' : 'rejeter' }</button>

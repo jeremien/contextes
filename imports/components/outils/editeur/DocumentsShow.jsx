@@ -42,13 +42,14 @@ class DocumentsShow extends Component {
                     <td><span><Moment format='HH:mm:ss'>{data.creation}</Moment></span></td>
                     <td><span>{ link ? <img src={link} /> : undefined }   { data.contenu }</span></td>
                     <td><span>{ data.correction ? 'oui' : 'non' }</span></td>
+                    <td><span>{ data.rejete ? 'non' : 'oui' }</span></td>
                     <td><span>{ data.auteur }</span></td>
                     <td><span>{ data.type }</span></td>
                     <td><span>
 
                        <ButtonRejet rejete={data.rejete} id={data._id} />
 
-                        <button onClick={() => {
+                        <button className="btt bcr bg fcr py txta mt" onClick={() => {
                         if (window.confirm('supprimer ce document ?'))
                         this.handleRemove(data._id)
                          }}>supprimer</button>

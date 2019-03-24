@@ -51,6 +51,18 @@ const sortData = (data, type, asc) => {
         }
     }
 
+    if (type === 'rejet') {
+        if (asc) {
+            return data.slice().sort((a, b) => {
+                return (a.rejete > b.rejete) ? 1 : -1;
+            });    
+        } else {
+            return data.slice().sort((a, b) => {
+                return (a.rejete < b.rejete) ? 1 : -1;
+            });    
+        }
+    }
+
     if (type === 'auteur') {
         if (asc) {
             return data.slice().sort((a, b) => {
