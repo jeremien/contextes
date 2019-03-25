@@ -235,6 +235,37 @@ Meteor.methods({
         return Documents.findOne(documentId).revisions.length;
     },
 
+    'documents.addImageUrl'(session, chapitre, auteur, url) {
+        console.log(session, chapitre, auteur, url)
+
+        let imageUrl = `![image](${url})`;
+
+        let ref = null;
+        let lastRef = Documents.findOne({ chapitre : chapitre }, {sort: { ref: -1 }});
+
+        if (lastRef != undefined) {
+            ref = parseInt(lastRef.ref) + 1;
+        } else {
+            ref = 1;
+        }
+
+        Documents.insert({
+            ref : parseInt(ref),
+            session: session,
+            chapitre: chapitre,
+            contenu: imageUrl,
+            auteur: auteur,
+            creation: new Date(),
+            correction: false,
+            conformation: false,
+            rejete: false,
+            type: "texte",
+            dernireModificationPar: auteur,
+            image: null,
+        });
+
+    },
+
     'documents.addImage'(session, chapitre, auteur, image) {
 
         let ref = null;

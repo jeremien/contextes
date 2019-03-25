@@ -12,7 +12,7 @@ const PageDocuments = (props) => {
             let link = getImageLink(item);
 
             return (
-                <div key={item._id} >  
+                <div key={item._id} className="page-documents--element">  
                                         
                     { link ? <img src={link} /> : undefined } 
                     

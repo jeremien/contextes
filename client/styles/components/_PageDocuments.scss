@@ -1,4 +1,4 @@
-.page-documents {
+.page-documents--container {
 
     // margin-left:100%;
     // margin-right: 100%;
@@ -12,4 +12,21 @@
         width : 100%;
     }
 
+    a {
+        color: black;
+    }
+
+}
+
+.page-documents--element {
+
+    h2 {
+        font-size: 2.5rem;
+        font-weight: 500;
+    }
+
+    p {
+        font-size: 1.7rem;
+        margin: 0;
+    }
 }

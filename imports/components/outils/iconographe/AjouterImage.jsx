@@ -9,11 +9,15 @@ export default class AjouterImage extends Component {
         this.state = {
             url: "",
             file: null,
-            isLoading : false
+            isLoading : false,
+            messageFile : null,
+            messageUrl : null
         }
 
         this.onFileChange = this.onFileChange.bind(this);
         this.onFileSubmit = this.onFileSubmit.bind(this);
+        this.onUrlSubmit = this.onUrlSubmit.bind(this);
+        this.onUrlChange = this.onUrlChange.bind(this);
       
     }
 
@@ -21,12 +25,58 @@ export default class AjouterImage extends Component {
      * Méthode à ajouter dans la props data pour uploader
      */
 
+    onUrlSubmit(e) {
+        e.preventDefault();
+
+        let validUrl = new RegExp(/^(?:http(s)?:\/\/)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/)
+
+        if (this.state.url) {
+
+            if (validUrl.test(this.state.url)) {
+                Meteor.call('documents.addImageUrl', this.props.chapitre.session, this.props.chapitre._id, this.props.utilisateur, this.state.url);
+                this.setState({
+                    url : "",
+                    messageUrl : null
+                });
+                let notification = { titre : this.props.utilisateur, message : "j'ajoute une image depuis une url" }
+                Meteor.call('notification', notification);
+            } else {
+                this.setState({
+                    messageUrl : "ajouter une url valide"
+                });
+            }
+
+            
+        } else {
+            this.setState({
+                messageUrl : "ajouter l'url de l'image"
+            });
+        }
+
+    }
+
+    onUrlChange(e) {
+        this.setState({
+            url : e.target.value
+        })
+    }
+
     onFileSubmit(e) {
         e.preventDefault();
 
-        this.fileUpload(this.state.file);
-        let notification = { titre : this.props.utilisateur, message : "j'ajoute une image" }
+        if (this.state.file !== null) {
+            this.fileUpload(this.state.file);
+            let notification = { titre : this.props.utilisateur, message : "j'ajoute une image" }
             Meteor.call('notification', notification);
+            this.setState({
+                messageFile : ""
+            });
+        } else {
+            this.setState({
+                messageFile : "ajouter une image"
+            });
+        }
+        
     }
 
     onFileChange(e) {
@@ -93,17 +143,19 @@ export default class AjouterImage extends Component {
             <form  onSubmit={this.onFileSubmit}>
                
                 <input  type='file' ref='fileinput' onChange={this.onFileChange} />
+                
+                { this.state.messageFile ? <p className="fcr">{this.state.messageFile}</p> : undefined }
+                { this.state.isLoading ? <p>chargement en cours</p> : undefined}
 
-                { this.state.isLoading ? 'chargement en cours' : undefined}
                 <input className='wfull fsc btt py px crs txta mt' type="submit" value="enregistrer" placeholder="envoyer" />
 
             </form>
 
             <p>enregistrer une image depuis une url</p>
-            <form className="mt">
+            <form className="mt" onSubmit={this.onUrlSubmit} >
 
-                <input className="wfull" type='text' />
-
+                <input className="btt reset py px mb txta" value={this.state.url} type='text' onChange={this.onUrlChange}/>
+                { this.state.messageUrl ? <p className="fcr">{this.state.messageUrl}</p> : undefined }
                 <input className='wfull fsc btt py px crs txta mt' type="submit" value="enregistrer" placeholder="envoyer" />
 
             </form>

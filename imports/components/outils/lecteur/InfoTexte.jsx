@@ -87,17 +87,17 @@ class InfoTexte extends Component {
     render() {
 
         return ( 
-            <div>
-                <p>documents : {this.props.documents.length}</p>
-                <p>documents corrigés : {this.renderNbrDocsCorr()}</p>
-                <p>documents acceptés : {this.renderNbrDocs(true)}</p>
-                <p>documents rejetés : {this.renderNbrDocs(false)}</p>
-                <p>images : {this.renderNbrImages(true)}</p>
-                <p>images restantes : {this.renderNbrImages(false)}</p>
-                <p>caractères : {this.renderNbrCaracters(true)} </p>
-                <p>caractères restants : {this.renderNbrCaracters(false)} </p>
-                <p>auteur.rices : {this.renderNbrAuthor()}</p>
-            </div>
+            <ul className="ls reset fscb">
+                <li>documents : {this.props.documents.length}</li>
+                <li>documents corrigés : {this.renderNbrDocsCorr()}</li>
+                <li>documents acceptés : {this.renderNbrDocs(true)}</li>
+                <li>documents rejetés : {this.renderNbrDocs(false)}</li>
+                <li>images : {this.renderNbrImages(true)}</li>
+                <li>images restantes : {this.renderNbrImages(false)}</li>
+                <li>caractères : {this.renderNbrCaracters(true)} </li>
+                <li>caractères restants : {this.renderNbrCaracters(false)} </li>
+                <li>auteur.rices : {this.renderNbrAuthor()}</li>
+            </ul>
             
         )
     }
