@@ -49,7 +49,7 @@ module.exports = {
         ROOT_URL: 'http://vps615848.ovh.net',
         MONGO_URL: 'mongodb://mongodb/meteor',
         MONGO_OPLOG_URL: 'mongodb://mongodb/local',
-        PORT: 80
+        PORT: 3000
       },
   
       docker: {

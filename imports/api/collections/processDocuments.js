@@ -15,6 +15,7 @@ const getLastSessionInfos = (sessionTitre) => {
 
     let { _id, titre, auteur, creation, description } = session[0];
     let chapitres = getAllChapitres(_id);
+    // console.log(chapitres)
 
     let session_infos = [ {
         _id,
@@ -32,19 +33,23 @@ const getAllChapitres = (sessionId) => {
     
     const chapitres = Chapitres.find({ session : sessionId }, { sort : {creation : 1 }}).fetch();
     
+    // console.log('chapitres', chapitres)
+
     let chapitres_infos = []
 
     chapitres.forEach((item) => {
 
         let { _id, titre, auteur, description, isOpen } = item;
 
-        if (!isOpen) {
+        // if (!isOpen) {
             let documents = getAllDocuments(_id);
             let chapitre = { _id, titre, auteur, description, documents };
             chapitres_infos.push(chapitre);
-        }
+        // }
 
     });
+
+    console.log(chapitres_infos)
 
     return chapitres_infos ? chapitres_infos : null;
 
@@ -60,7 +65,7 @@ const getAllDocuments = (chapitresId) => {
 
         let { contenu, rejete, image, correction } = item;
 
-        if ( !rejete && correction ) {
+        if ( !rejete ) {
 
             if (image !== null) {
                 let imageLink = getAllImages(image);

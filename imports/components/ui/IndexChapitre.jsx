@@ -70,7 +70,7 @@ export default class IndexChapitres extends Component {
         let badges = renderBadges(this.props.badges, item._id);
   
         return (
-          <div className={item.isOpen ? 'x jc bb py' : 'x jc bb bcbb cfbl py'} key={key}>
+          <div className='x jc bb py' key={key}>
                   
                   <p> N°{key + 1} </p>
                   <p className='cff'><Moment format='DD/MM/YYYY'>{item.creation}</Moment></p>

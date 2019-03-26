@@ -105,7 +105,9 @@ Meteor.methods({
 
         // console.log(contenu.type, contenu)
 
-        let lastDoc = Documents.findOne({}, {sort: { ref: -1 }});
+        let lastDoc = Documents.findOne({}, {sort: { creation : -1 }});
+        console.log(lastDoc)
+        
         let auteur = 'plenty';
 
         let ref = null;
@@ -141,15 +143,17 @@ Meteor.methods({
             
             } else {
 
+                let contenuSvg = `<svg>${contenu.data}</svg>`;
+
                 let newDoc = {
                     ref : ref,
                     session : lastDoc.session,
                     chapitre : lastDoc.chapitre,
-                    contenu : contenu.data,
+                    contenu : contenuSvg,
                     data : [ contenu.x, contenu.y, contenu.z ],
                     auteur : auteur,
                     creation: new Date(),
-                    correction: false,
+                    correction: true,
                     conformation: false,
                     rejete: false,
                     type: "svg",
@@ -256,7 +260,7 @@ Meteor.methods({
             contenu: imageUrl,
             auteur: auteur,
             creation: new Date(),
-            correction: false,
+            correction: true,
             conformation: false,
             rejete: false,
             type: "texte",
@@ -284,7 +288,7 @@ Meteor.methods({
             contenu: '',
             auteur: auteur,
             creation: new Date(),
-            correction: false,
+            correction: true,
             conformation: false,
             rejete: false,
             type: "image",

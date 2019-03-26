@@ -105,9 +105,10 @@ class TableDocuments extends Component {
 
               return (
 
-                <table>
+                <table className="table-documents--table">
                     <thead>
                         <tr className="table-documents--head" onClick={this.onSortBy}>
+                            <td data-id='action'>action</td>
                             <td data-id='ref'>réf.</td>
                             <td data-id='date'>heure</td>
                             <td data-id='contenu'>contenu</td>
@@ -115,11 +116,11 @@ class TableDocuments extends Component {
                             <td data-id='rejet'>validation</td>
                             <td data-id='auteur'>auteur</td>
                             <td data-id='type'>type</td>
-                            <td data-id='action'>action</td>
+                            
                         </tr>
                     </thead>
                     <tbody className='table-documents--content'>
-                        <DocumentsShow documents={data} />
+                        <DocumentsShow documents={data} verrou={this.props.verrou} />
                     </tbody>
                 </table>
 
