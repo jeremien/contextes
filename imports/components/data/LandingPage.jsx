@@ -21,7 +21,8 @@ class LandingPage extends Component {
     }
 
     dataFilterChapitres(sessionId) {
-        const data = this.dataFilterSessions()
+        const data = this.dataFilterSessions();
+
         const chaps = data.map((session) => {
             return this.props.chapitres.filter((item) => {
                 return sessionId === session._id
@@ -52,8 +53,8 @@ class LandingPage extends Component {
                                 this.props.sessions.map((item) => {
                                     // console.log(item.lastModified)
                                     return (
-                                        <li key={item._id}>
-                                            <Link to={`/sessions/${item._id}`}> {item.titre} ({ <Moment format='DD/MM/YYYY'>{item.creation}</Moment> })</Link>
+                                        <li className="landing--list--session" key={item._id}>
+                                            <Link to={`/sessions/${item._id}`}> {item.titre} ({ <Moment format='DD/MM/YYYY'>{item.creation}</Moment> } { item.etat })</Link>
                                             <ol className="landing--list--chapitre">
                                                 { this.dataFilterChapitres(item._id) }    
                                             </ol>
@@ -78,7 +79,7 @@ export default withTracker(() => {
     const sessionsHandle = Meteor.subscribe('sessions');
     const chapitresHandle = Meteor.subscribe('chapitres', { session: '*' });
     const loading = !sessionsHandle.ready() && !chapitresHandle.ready();
-    const sessions = Sessions.find({}).fetch();
+    const sessions = Sessions.find({}, { sort: { lastModified : -1 }}).fetch();
     const chapitres = Chapitres.find({}).fetch();
     const sessionsExists = !loading && !!sessions;
     const chapitresExists = !loading && !!chapitres;
