@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
-import Moment from 'react-moment'
+import Moment from 'react-moment';
 import { renderBadges } from '../utils/badges';
 export default class IndexSessions extends Component {
 
@@ -86,6 +86,8 @@ export default class IndexSessions extends Component {
             return this.props.sessions.map((item, key) => {
             
                 let badges = renderBadges(this.props.badges, item._id);
+
+                // console.log(item.creation)
 
                 return (
                     <div className='x jc bb py txta' key={key}>

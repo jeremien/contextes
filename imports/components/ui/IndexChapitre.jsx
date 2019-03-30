@@ -100,7 +100,7 @@ export default class IndexChapitres extends Component {
   
   render() {
 
-    console.log(this.props.badges.length)
+    // console.log(this.props.badges.length)
 
     return (
         <div>

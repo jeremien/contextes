@@ -31,33 +31,42 @@ class Breadcrumb extends Component {
         else return null;
     }
 
-    // componentDidUpdate(prevProps, prevState) {
-    //     if (prevProps.location.pathname !== this.props.location.pathname) {
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.location.pathname !== this.props.location.pathname) {
 
-    //         let { pathname } = this.props.location;
+            let { pathname } = this.props.location;
 
-    //         // console.log('update', pathname)
+            let currentSession = /\/sessions\/(.*)/g.exec(pathname);
+            let currentChapitre = /\/session\/(.*)\/chapitre\/(.*)/g.exec(pathname);
 
-    //         let session = regexSessions.test(pathname);
-    //         let chapitre = regexChapitre.test(pathname);
+            if (currentSession) {
+                 Meteor.call('sessions.getTitre', currentSession[1], (error, result) => {
+                    if (error) {
+                        console.log(error);
+                    }
+                    else {
+                        this.setState({
+                            session: result
+                        });
+                    }
+                });
+            }
+ 
+            if (currentChapitre) {
+                Meteor.call('chapitres.getTitre', currentChapitre[2], (error, result) => {
+                    if (error) {
+                        console.log(error);
+                    }
+                    else {
+                        this.setState({
+                            chapitre: result
+                        });
+                    }
+                });
+            }
+        }
+    }
 
-    //         if (session) {
-    //             let currentSession = /\/sessions\/(.*)/g.exec(pathname);
-    //             // console.log(currentSession)
-    //         } else if (chapitre) {
-    //             let currentChapitre = /\/session\/(.*)\/chapitre\/(.*)/g.exec(pathname);
-    //             // let chapitre = Meteor.call('chapitres.getTitre', currentChapitre[2]);
-    //             // console.log('chapitre', chapitre)
-    //         }
-
-    //     }
-    // }
-    /**
-     * To Do:
-     * Afficher nom chapitre & session
-     * 
-     * attention ! le code actuel fait bcp ramer (en dev ?)
-     * */
     renderBreadcrumb() {
 
         let { pathname } = this.props.location;
@@ -71,11 +80,9 @@ class Breadcrumb extends Component {
         let session = regexSessions.test(pathname);
         let chapitre = regexChapitre.test(pathname);
 
-
-
         if (pathname === '/') {
 
-            return <span>accueil</span>;
+            return (<span>accueil</span>);
 
         } else if (pathname === '/sessions') {
 
@@ -83,43 +90,17 @@ class Breadcrumb extends Component {
 
         } else if (session) {
 
-            // let currentSession = /\/sessions\/(.*)/g.exec(pathname);
-            // Meteor.call('sessions.getTitre', currentSession[1], (error, result) => {
-            //     if (error) {
-            //         console.log(error)
-            //     }
-            //     else {
-            //         this.setState({
-            //             session: result
-            //         })
-            //     };
-            // })
             return <span><Link to={'/'}>accueil</Link> / <Link to={"/sessions"}>sessions</Link> / {this.state.session} </span>;
 
         } else if (chapitre) {
             let currentSession = /\/session\/(.*)\/chapitre\/(.*)/g.exec(pathname);
 
-            // let chapitre = Meteor.call('chapitres.getTitre', currentSession[2]);
-
-            // Meteor.call('chapitres.getTitre', currentSession[2], (error, result) => {
-            //     if (error) {
-            //         console.log(error)
-            //     }
-            //     else {
-            //         this.setState({
-            //             chapitre: result
-            //         })
-            //     };
-            // })
-
             if (chapitre) {
-                // console.log(chapitre)
                 return (
                     <span><Link to={'/'}>accueil</Link> / <Link to={"/sessions"}>sessions</Link> / <Link to={`/sessions/${currentSession[1]}`}>{this.state.session}</Link> / {this.state.chapitre}
                     </span>
                 )
             } else {
-                // console.log('chapitre')
                 return (
                     <span><Link to={'/'}>accueil</Link> / <Link to={"/sessions"}>sessions</Link> / <Link to={`/sessions/${currentSession[1]}`}>{this.state.session}</Link> / {this.state.chapitre}
                     </span>
@@ -127,8 +108,6 @@ class Breadcrumb extends Component {
             }
         }
     }
-
-
 
     render() {
         return (

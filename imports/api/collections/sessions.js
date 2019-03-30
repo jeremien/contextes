@@ -110,10 +110,13 @@ Meteor.methods({
     },
 
     'sessions.getTitre'(sessionId) {
-        let session = Sessions.findOne(sessionId).titre
+
+        let session = Sessions.findOne(sessionId).titre;
 
         if (session) {
-            return session
+            return session;
+        } else {
+            return;
         }
     },
 
