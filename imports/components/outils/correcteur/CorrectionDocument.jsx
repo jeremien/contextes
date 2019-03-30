@@ -10,21 +10,22 @@ class CorrectionDocument extends Component {
 
     render() {
 
-        return (
-            <div>
-
-                {this.props.documents.map((document) =>
-                    <div key={document._id}>
-                        <DetailsDocumentsCorrecteur document={document} utilisateur={this.props.utilisateur} />
-                    </div>
-                )}
-
-
-            </div>
-        )
-
+        if (this.props.chapitre.isOpen) {
+            return (
+                <div className="details-documents-container">
+                    {this.props.documents.map((document) =>
+                        <div key={document._id}>
+                            <DetailsDocumentsCorrecteur document={document} utilisateur={this.props.utilisateur} />
+                        </div>
+                    )}
+                </div>
+            )
+        } else {
+            return (
+                <p>le chapitre est fermé</p>
+            )
+        }        
     }
-
 }
 
 export default CorrectionDocumentContainer = withTracker((props) => {

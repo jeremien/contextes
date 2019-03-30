@@ -51,13 +51,19 @@ class DocumentsShow extends Component {
                         }
 
                     </span></td>
-                    <td><span><select value={data.ref} onChange={(event) => this.handleSelectedChange(event, data._id, data.ref, data.chapitre)}>{this.renderRefs(data._id)}</select></span></td>
+                    <td><span className="table-documents-select--container"><select value={data.ref} onChange={(event) => this.handleSelectedChange(event, data._id, data.ref, data.chapitre)}>{this.renderRefs(data._id)}</select></span></td>
                     <td><span><Moment format='HH:mm:ss'>{data.creation}</Moment></span></td>
-                    <td><span>{ link ? <img src={link} /> : undefined }   
+                    <td className="table-documents-contenu"><span >
+                        
+                        { 
+                            data.type === 'screenshot' ? <img src={data.data} /> : undefined
+                        }
+                        { link ? <img src={link} /> : undefined }   
                         <ReactMarkdown
                             source={data.contenu}
-                            escapeHtml={false}
+                            escapeHtml={true}
                         />
+
                     </span></td>
                     <td><span>{ data.correction ? 'oui' : 'non' }</span></td>
                     <td><span>{ data.rejete ? 'non' : 'oui' }</span></td>

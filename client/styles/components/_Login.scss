@@ -1,5 +1,6 @@
 
 .login--modal {
+    z-index: 10;
     position: absolute;
     top: 25%;
     left: 25%;
@@ -11,6 +12,7 @@
 }
 
 .login--overlay {
+    z-index: 10;
     position: fixed;
     top: 0;
     left: 0;
@@ -24,9 +26,9 @@
 .login--form {
 
     width: 100%;
-    outline: none;
 
     input[type=text] {
+        outline: none;
         width: 100%;
         padding: 5px 10px;
         margin: 8px 0;
@@ -35,6 +37,7 @@
     }
 
     input[type=password] {
+        outline: none;
         width: 100%;
         padding: 5px 10px;
         margin: 8px 0;
@@ -43,6 +46,7 @@
     }
 
     input[type=email] {
+        outline: none;
         width: 100%;
         padding: 5px 10px;
         margin: 8px 0;
@@ -50,13 +54,33 @@
         // border: 1px solid red;
     }
 
-    select {
-        width: 100%;
-    }
+ 
 
     label {
         // margin-bottom: 10px;
         margin-top: 2rem;
         margin-bottom: 2rem;
+    }
+}
+
+.login--form--select {
+    border: 1px solid black;
+    // width: 120px;
+    border-radius: 3px;
+    overflow: hidden;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    select {
+        width: 100%;
+        padding: 5px 8px;
+        // width: 130%;
+        border: none;
+        box-shadow: none;
+        background: transparent;
+        background-image: none;
+
+        &:focus {
+            outline: none;
+        }
     }
 }

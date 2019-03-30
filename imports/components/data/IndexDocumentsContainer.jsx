@@ -13,8 +13,8 @@ class IndexDocumentsContainer extends Component {
     if (this.props.documents.length !== 0) {
 
       return (<div className='liste-documents'>
-          <ListeDocuments {...this.props}  documents={this.props.documents} role={role} />
-        </div>)
+                  <ListeDocuments {...this.props}  documents={this.props.documents} role={role} />
+              </div>)
   
     } else {
 

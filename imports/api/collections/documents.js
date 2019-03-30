@@ -106,7 +106,7 @@ Meteor.methods({
         // console.log(contenu.type, contenu)
 
         let lastDoc = Documents.findOne({}, {sort: { creation : -1 }});
-        console.log(lastDoc)
+        // console.log(lastDoc)
         
         let auteur = 'plenty';
 
@@ -119,6 +119,7 @@ Meteor.methods({
         }
 
 
+
         if (lastDoc) {
 
             if (contenu.type === 'text') {
@@ -128,7 +129,8 @@ Meteor.methods({
                     session : lastDoc.session,
                     chapitre : lastDoc.chapitre,
                     contenu : contenu.data,
-                    data : [ contenu.x, contenu.y, contenu.z ],
+                    coord : [ contenu.x, contenu.y, contenu.z ],
+                    data : null,
                     auteur : auteur,
                     creation: new Date(),
                     correction: false,
@@ -138,10 +140,12 @@ Meteor.methods({
                     dernireModificationPar: auteur,
                     image: null,
                 }
+
+                // console.log(newDoc)
                 
                 Documents.insert(newDoc);
             
-            } else {
+            } else if (contenu.type === 'svg') {
 
                 let contenuSvg = `<svg>${contenu.data}</svg>`;
 
@@ -150,7 +154,8 @@ Meteor.methods({
                     session : lastDoc.session,
                     chapitre : lastDoc.chapitre,
                     contenu : contenuSvg,
-                    data : [ contenu.x, contenu.y, contenu.z ],
+                    coord : [ contenu.x, contenu.y, contenu.z ],
+                    data : null,
                     auteur : auteur,
                     creation: new Date(),
                     correction: true,
@@ -161,10 +166,37 @@ Meteor.methods({
                     image: null,
                 }
 
+                // console.log(newDoc)
                 
+                // Documents.insert(newDoc);
+
+            } else if ( contenu.type === 'screenshot') {
+                console.log(contenu)
+
+                let newDoc = {
+                    ref : ref,
+                    session : lastDoc.session,
+                    chapitre : lastDoc.chapitre,
+                    contenu : contenu.comment,
+                    coord : [ contenu.x, contenu.y, contenu.z ],
+                    data : contenu.data,
+                    auteur : auteur,
+                    creation: new Date(),
+                    correction: true,
+                    conformation: false,
+                    rejete: false,
+                    type: "screenshot",
+                    dernireModificationPar: auteur,
+                    image: null,
+                }
+
                 Documents.insert(newDoc);
 
+            } else {
+                console.log('pas de type')
             }
+
+
 
         } else {
             console.log('pas de documents')

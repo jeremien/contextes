@@ -99,11 +99,15 @@ class Application extends Component {
 
         <div className='root--container'>
 
-            <Route path="/" render={(props) => <TopBarContainer {...props} {...propsToPass} />} />
-            <Route path="/" render={() => <AlertMessage alert={this.state.alert} />} />
-            <Route path="/" render={(props) => <Breadcrumb {...props} {...propsToPass} />} />
+            <div id="topbar">
+              <Route path="/" render={(props) => <TopBarContainer {...props} {...propsToPass} />} />
+              <Route path="/" render={() => <AlertMessage alert={this.state.alert} />} />
+              <Route path="/" render={(props) => <Breadcrumb {...props} {...propsToPass} />} />
 
-            <article >
+            </div>
+
+            <article className="content--container">
+
               <Route exact path="/" render={(props) => Meteor.userId() ? <LandingPage {...props} {...propsToPass} /> : <Redirect to={{ pathname: '/login', state: { from: props.location } }} /> } />
 
               <Route path="/login" render={(props) => <Login {...props} {...propsToPass} />} />

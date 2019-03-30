@@ -36,17 +36,19 @@ class TableauDeBord extends Component {
         if (!this.props.loading) {
 
             return (
-                <div className='tableaudebord'>
+                <div className='tableau-de-bord--container'>
                 
                     <InfosSessions session={this.props.session} />
 
-                    <form className='mb'>
+                    <form className='tableau-de-bord--select md'>
                         <select name="statut" value={this.props.session.etat} onChange={this.handleEtat}>
                             <option value='edition'>edition</option>
                             <option value='completee'>completee</option>
                             <option value='archivee'>archivee</option>
                         </select>
                     </form>
+
+                    <p>Ajouter un chapitre :</p>
 
                     <AjouterChapitre {...this.props} />
 

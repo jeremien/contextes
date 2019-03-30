@@ -19,6 +19,7 @@ export default class DetailsDocumentCorrecteur extends Component {
     componentDidMount() {
         this.setState({
             contenu : this.props.document.contenu,
+            revised : this.props.document.correction,
             isTyping : false
         })
     }
@@ -41,13 +42,16 @@ export default class DetailsDocumentCorrecteur extends Component {
 
     render() {
 
-        let { contenu, isTyping } = this.state;
+        console.log(this.props)
+
+        let { contenu, isTyping, revised } = this.state;
 
         return (
-            <form className='details-documents'>
+            <form className='details-documents--elements'>
                 {!!this.props.document.image ? <p className='cfbl fscs'> légende de l'image enregistrée à {<Moment format='HH:mm:ss'>{this.props.document.creation}</Moment>}</p> : undefined}
+                
                 <textarea
-                    className={!!this.props.document.image ? 'wfull txta py px btt fsc bg bcbb' : 'wfull txta py px btt fsc bg'}
+                    className={revised ? 'wfull txta py px btt fsc bg bcg' : 'wfull txta py px btt fsc bcr'}
                     value={contenu}
                     onChange={this.handleChange}
                     onKeyPress={this.handleEnter}

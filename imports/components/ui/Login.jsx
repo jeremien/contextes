@@ -100,7 +100,6 @@ class Login extends React.Component {
     }
 
     handleRoleChange(e) {
-        console.log(e.target.value)
         this.setState({ role: e.target.value });
 
     }
@@ -157,33 +156,35 @@ class Login extends React.Component {
                         <p></p>
                         <label>
                             Nom
-                            <input type='text' name='username' onChange={this.handleInputChange}/>
+                            <input className="btt reset py px mb" type='text' name='username' onChange={this.handleInputChange}/>
                         </label>
 
                         <label>
                             Mot de passe
-                            <input type='password' name='password' onChange={this.handleInputChange}/>
+                            <input className="btt reset py px mb" type='password' name='password' onChange={this.handleInputChange}/>
                         </label>
 
                         { inscription && 
                               <label>
                                 Email
-                                <input type='email' name='email' onChange={this.handleInputChange}/>
+                                <input className="btt reset py px mb" type='email' name='email' onChange={this.handleInputChange}/>
                               </label>
                         }
 
                         <label>
                             Rôle
-                            <select name="role" value={role} onChange={this.handleRoleChange}>
-                                <option value='editeur'>éditeur</option>
-                                <option value='transcripteur'>transcripteur</option>
-                                <option value='correcteur'>correcteur</option>
-                                <option value='iconographe'>iconographe</option>
-                            </select>
+                            <div className="login--form--select">
+                                <select className="mb" name="role" value={role} onChange={this.handleRoleChange}>
+                                    <option value='editeur'>éditeur</option>
+                                    <option value='transcripteur'>transcripteur</option>
+                                    <option value='correcteur'>correcteur</option>
+                                    <option value='iconographe'>iconographe</option>
+                                </select>
+                            </div>
                         </label>
 
                         <label>
-                        <input type='submit' value='connexion' />
+                        <input className="wfull fsc btt py px crs" type='submit' value='connexion' />
                         </label>
 
                     </form>

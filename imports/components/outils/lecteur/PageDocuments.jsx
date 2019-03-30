@@ -15,10 +15,14 @@ const PageDocuments = (props) => {
                 <div key={item._id} className="page-documents--element">  
                                         
                     { link ? <img src={link} /> : undefined } 
+
+                    { 
+                        item.type === 'screenshot' ? <img src={item.data} /> : undefined
+                    }
                     
                     <ReactMarkdown
                         source={item.contenu}
-                        escapeHtml={false}
+                        escapeHtml={true}
                     />
                     
                 </div>

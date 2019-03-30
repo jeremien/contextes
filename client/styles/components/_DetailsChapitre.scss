@@ -1,14 +1,17 @@
 
 
 #detailschapitre--gauche {
-    width: 40%;
+    width: 30%;
     height: calc(100vh - 3rem);
+    position: fixed;
 }
 
 #detailschapitre--droit {
-    width: 100%;
+    width: 60%;
     // position: fixed;
-    overflow: scroll;
+    // overflow: scroll;
+    position: relative;
+    margin-left: 35%;
 }
 
 .ajouterdocument {
@@ -29,8 +32,9 @@
 .liste-documents {
     // background: red;
     // overflow: scroll;
+    max-width: 600px;
     img {
-        width: 200px;
+        width: 100%;
     }
 
     a {
@@ -38,7 +42,12 @@
     }
 }
 
-.details-documents {
+.details-documents-container {
+    padding-top: 2rem;
+    // margin-top: 2rem;
+}
+
+.details-documents--elements {
     // margin: 1.5rem;
 
     height: 200px;

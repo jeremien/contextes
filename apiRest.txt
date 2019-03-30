@@ -7,3 +7,5 @@ curl -d '{ "session" : "testdede" }' -H "Content-Type: application/json" -X POST
 
 
 - app cli pour générer texte / json / images
+
+https://framagit.org/maximebouton/plenty-of-room

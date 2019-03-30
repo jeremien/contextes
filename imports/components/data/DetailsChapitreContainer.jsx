@@ -67,7 +67,7 @@ class DetailsChapitreContainer extends React.Component {
 
             case 'correcteur':
                 return {
-                    outilgauche: <IndexDocumentsContainer {...propToPass} />,
+                    outilgauche: <InfoTexte {...propToPass} />,
                     outildroit: <CorrectionDocument {...propToPass} />
                 }
                 break;

@@ -16,7 +16,7 @@ class IndexRefDocumentsContainer extends Component {
 
       if (this.props.role === 'editeur') {
         return (<div className='table-documents--container'>
-            <TableDocuments  documents={this.props.documents} verrou={false} />
+            <TableDocuments  documents={this.props.documents} verrou={true} />
                 </div>)
 
       } else {

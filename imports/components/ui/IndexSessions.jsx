@@ -22,9 +22,9 @@ export default class IndexSessions extends Component {
         this.submitModif = this.submitModif.bind(this);
     }
 
-    handleSessionDelete(sessionId) {
+    handleSessionDelete(sessionId, badges) {
 
-        if (this.props.badges.length === 0) {
+        if (!badges) {
 
             Meteor.call('sessions.remove', sessionId);
 
@@ -102,7 +102,7 @@ export default class IndexSessions extends Component {
                         <button className="btt bcg bg cfgr py txta" onClick={() => this.props.history.push(`/sessions/${item._id}`) }>rejoindre</button>
                         
                         { role === 'editeur' ? <button className="btt bcr bg fcr py txta" onClick={() => {
-                                this.handleSessionDelete(item._id)
+                                this.handleSessionDelete(item._id, badges)
                             }}>supprimer</button> : undefined }
             
                     </div>

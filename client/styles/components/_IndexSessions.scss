@@ -9,21 +9,31 @@
     
 }
 
-.session {
-    // width: calc(100vh - 1.5rem);
-}
 
 #detailsession--form {
     width: 25%;
     height: calc(100vh - 3rem);
+    // position: fixed;
 }
 
 #detailsession--liste { 
     width: 100%;
 }
 
-.infos-session {
+.tableau-de-bord--select {
+    border: 1px solid black;
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 2rem;
+    select {
+        padding: 5px 8px;
+        border: none;
+        box-shadow: none;
+        background: transparent;
+        background-image: none;
 
-    
-
+        &:focus {
+            outline: none;
+        }
+    }
 }

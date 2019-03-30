@@ -135,32 +135,38 @@ export default class AjouterImage extends Component {
 
     render() {
 
-       return (
+        if (this.props.chapitre.isOpen) {
 
-        <div className='ajouterimage'>
-            
-            <p>enregistrer une image depuis l'ordinateur</p>
-            <form  onSubmit={this.onFileSubmit}>
-               
-                <input  type='file' ref='fileinput' onChange={this.onFileChange} />
-                
-                { this.state.messageFile ? <p className="fcr">{this.state.messageFile}</p> : undefined }
-                { this.state.isLoading ? <p>chargement en cours</p> : undefined}
+            return (
 
-                <input className='wfull fsc btt py px crs txta mt' type="submit" value="enregistrer" placeholder="envoyer" />
+                <div className='ajouterimage'>
+                    
+                    <p>enregistrer une image depuis l'ordinateur</p>
+                    <form  onSubmit={this.onFileSubmit}>
+                       
+                        <input  type='file' ref='fileinput' onChange={this.onFileChange} />
+                        
+                        { this.state.messageFile ? <p className="fcr">{this.state.messageFile}</p> : undefined }
+                        { this.state.isLoading ? <p>chargement en cours</p> : undefined}
+        
+                        <input className='wfull fsc btt py px crs txta mt' type="submit" value="enregistrer" placeholder="envoyer" />
+        
+                    </form>
+        
+                    <p>enregistrer une image depuis une url</p>
+                    <form className="mt" onSubmit={this.onUrlSubmit} >
+        
+                        <input className="btt reset py px mb txta" value={this.state.url} type='text' onChange={this.onUrlChange}/>
+                        { this.state.messageUrl ? <p className="fcr">{this.state.messageUrl}</p> : undefined }
+                        <input className='wfull fsc btt py px crs txta mt' type="submit" value="enregistrer" placeholder="envoyer" />
+        
+                    </form>
+                </div>
+               )
 
-            </form>
-
-            <p>enregistrer une image depuis une url</p>
-            <form className="mt" onSubmit={this.onUrlSubmit} >
-
-                <input className="btt reset py px mb txta" value={this.state.url} type='text' onChange={this.onUrlChange}/>
-                { this.state.messageUrl ? <p className="fcr">{this.state.messageUrl}</p> : undefined }
-                <input className='wfull fsc btt py px crs txta mt' type="submit" value="enregistrer" placeholder="envoyer" />
-
-            </form>
-        </div>
-       )
+        } else {
+           return <p>le chapitre est fermé</p> 
+        }
 
     }
 }

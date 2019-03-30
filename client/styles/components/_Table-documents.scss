@@ -17,16 +17,18 @@
 .table-documents--head {
     padding: 5px;
     height: 25px;
+    
+    color: blue; 
 
     tr,th,td {
-        text-align: center;
+        text-align: left;
         vertical-align: center;
         // color: white;
-        background: lighten(black, 85%);
-        border: 1px solid black;
+        // background: lighten(green, 65%);
+        border: 1px solid blue;
 
         &:hover {
-            background: black;
+            background: blue;
             color: white;
         }
     }
@@ -35,21 +37,49 @@
 .table-documents--content {
     th,td {
         height: 25px;
-        border: 1px solid black;
+        border: 1px solid blue;
 
-        img {
-            width: 200px;
-        }
+        // img {
+        //     width: 200px;
+        // }
     }
 
     tr {    
 
-        text-align: center;
-        // background: lighten(black, 65%);
+        text-align: left;
+        // background: lighten(red, 45%);
 
         &:nth-child(even) {
-            background:lighten(black, 85%);
+            // background:lighten(blue, 45%);
         }
 
+    }
+}
+
+.table-documents-contenu {
+    max-width: 400px;
+    // background-color: rgb(255, 255, 255);
+    img {
+        width: 100%;
+    }
+}
+
+.table-documents-select--container {
+    border: 1px solid black;
+    // width: 120px;
+    border-radius: 3px;
+    overflow: hidden;
+
+    select {
+         padding: 5px 8px;
+        // width: 130%;
+        border: none;
+        box-shadow: none;
+        background: transparent;
+        background-image: none;
+
+        &:focus {
+            outline: none;
+        }
     }
 }

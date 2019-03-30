@@ -87,7 +87,7 @@ class InfoTexte extends Component {
     render() {
 
         return ( 
-            <ul className="ls reset fscb">
+            <ul className="ls reset fsc">
                 <li>documents : {this.props.documents.length}</li>
                 <li>documents corrigés : {this.renderNbrDocsCorr()}</li>
                 <li>documents acceptés : {this.renderNbrDocs(true)}</li>

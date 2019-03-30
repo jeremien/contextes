@@ -51,27 +51,24 @@ export default class AjouterDocument extends Component {
 
     render() {
 
-         let { commentaire, alert } = this.state;
-
-        return (
-
-            <form className='ajouterdocument' onSubmit={this.handleSubmit}>
-
-                <textarea 
-                    className='wfull txta py px btt fsc'
-                    value={commentaire}
-                    rows='10'
-                    onChange={this.handleChange}
-                    onBlur={() => { Meteor.call('connexions.ecrit.pas', this.props.userId) }}
-                    onFocus={() => { Meteor.call('connexions.ecrit', this.props.userId) }}
-                />
-                
-                <p>{alert}</p>
-
-                <input className='wfull fsc btt py px crs' type='submit' value='enregistrer'/>
-
-                
-            </form>
-        )
+        let { commentaire, alert } = this.state;
+        if (this.props.chapitre.isOpen) {
+            return (
+                <form className='ajouterdocument' onSubmit={this.handleSubmit}>
+                    <textarea 
+                        className='wfull txta py px btt fsc'
+                        value={commentaire}
+                        rows='10'
+                        onChange={this.handleChange}
+                        onBlur={() => { Meteor.call('connexions.ecrit.pas', this.props.userId) }}
+                        onFocus={() => { Meteor.call('connexions.ecrit', this.props.userId) }}
+                    />
+                    <p>{alert}</p>
+                    <input className='wfull fsc btt py px crs' type='submit' value='enregistrer'/>
+                </form>
+            )
+        } else {
+            return <p>le chapitre est fermé</p>
+        }
     }
 }

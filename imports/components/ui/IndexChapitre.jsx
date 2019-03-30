@@ -23,9 +23,11 @@ export default class IndexChapitres extends Component {
     this.submitModif = this.submitModif.bind(this);
   }
 
-  handleChapitreDelete(chapitreId) {
+  handleChapitreDelete(chapitreId, badges) {
 
-    if (this.props.badges.length === 0) {
+    console.log(chapitreId, badges)
+
+    if (!badges) {
       Meteor.call('chapitres.remove', chapitreId);
     } else {
       alert('ce chapitre contient des documents');
@@ -84,7 +86,7 @@ export default class IndexChapitres extends Component {
                   
                   { role === 'editeur' ? <button className="btt bcr bg fcr py txta" onClick={() => {
                     // if (window.confirm('supprimer ce chapitre ?'));
-                    this.handleChapitreDelete(item._id);
+                    this.handleChapitreDelete(item._id, badges);
                     }}>supprimer</button> : undefined }
           
           </div>
@@ -101,6 +103,8 @@ export default class IndexChapitres extends Component {
 
   
   render() {
+
+    console.log(this.props.badges.length)
 
     return (
         <div>

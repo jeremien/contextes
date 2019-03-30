@@ -101,7 +101,7 @@ export default class AjouterSession extends Component {
                         name='institution'
                         value={institution}
                         onChange={this.handleInput}
-                        placeholder='institution'
+                        placeholder='éditeur'
                     />
                       {/* <input 
                         className='btt reset py px mb'

@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 import ChatBox from './Chatbox';
+import BreadCrumb from './Breadcrumb';
+
+
 export default class TopBar extends Component {
 
   constructor(props) {
@@ -80,7 +83,7 @@ export default class TopBar extends Component {
     if (!this.props.loading) {
 
       return (
-        <header id='topbar' >
+        // <header id='topbar' >
             <div className='topbar--container fsc'>
                 <div className='topbar--menu bb br bcb py px crs' onClick={() => this.setState({ showMenu : !showMenu})}>
                     { showMenu ? 'Fermer' : 'Menu'}
@@ -172,9 +175,11 @@ export default class TopBar extends Component {
                               : undefined
                 }
                
+
+                
+
             </div>
-           
-        </header>
+        // </header>
       )
 
     } else {
