@@ -31,16 +31,42 @@ export default class TopBar extends Component {
     Meteor.call('connexions.role', this.props.userId, role);
   }
 
+  dataFilterChapitres(sessionId) {
+    const chaps = this.props.sessions.map((session) => {
+        return this.props.chapitres.filter((item) => {
+            return sessionId === session._id
+        });
+    });
+    const openChaps = chaps.map((chap) => {
+        return chap.filter((item) => {
+            return item.isOpen === true;
+        });
+    });
+    const finalData = openChaps.reduce((acc, currValue) => {
+        return acc.concat(currValue)
+    }, []);
+
+    return finalData.map((item) => {
+        return <li key={item._id}><Link to={`/session/${sessionId}/chapitre/${item._id}`}>{item.titre}</Link></li>
+    });
+  }
+
   renderSessions() {
-    return this.props.sessions.map((item, key) => {
+    return this.props.sessions.map((item) => {
       return (
           <li className='lk crs' key={item._id} onClick={() => {
-              this.props.history.push(`/sessions/${item._id}`);
-              this.setState({ showMenu : false });
+                this.setState({ showMenu : false });
               }
             }
           >
+          <Link to={`/sessions/${item._id}`}>
             {item.titre}
+            </Link>
+
+              <ol className="menu--chapitres">
+                { this.dataFilterChapitres(item._id) }
+              </ol>
+
           </li>
       )
     });
@@ -89,10 +115,10 @@ export default class TopBar extends Component {
                     { showMenu ? 'Fermer' : 'Menu'}
                 </div>
 
-                { showMenu ?  <aside id='menu' className='bg br bcb py px active'>                    
+                { showMenu ?  <ul id='menu' className='bg br bcb px py active'>                    
                     
 
-                                    { this.props.connecte ? <p className='lk crs' onClick={() => {
+                                    { this.props.connecte ? <li className='lk crs' onClick={() => {
                                             console.log('logout')
                                             Meteor.call('connexions.remove', this.props.userId);
                                         
@@ -114,28 +140,29 @@ export default class TopBar extends Component {
                                             this.setState({ showMenu : false });
                                             this.props.history.push(`/login`);
                                           }
-                                        }> Déconnexion </p> 
+                                        }> Déconnexion </li> 
                                         : 
                                         <Link to={'/login'} onClick={() => this.setState({ showMenu : false })}>Connection</Link> 
                                     }
 
-                                    <p className='lk crs' onClick={() => {
+                                    <li className='lk crs' onClick={() => {
                                       this.props.history.push(`/`);
                                       this.setState({ showMenu : false });
                                     }
 
-                                    }>Accueil</p>
+                                    }>Accueil</li>
 
-                                    <p className='lk crs' onClick={() => {
+                                    <li className='lk crs' onClick={() => {
                                       this.props.history.push(`/sessions`);
                                       this.setState({ showMenu : false });
                                     }
                                       
-                                      }>Sessions</p>
-                
+                                      }>Sessions</li>
+                                      <ul className="menu--sessions">
                                         { this.renderSessions() }
+                                      </ul>
  
-                                </aside> 
+                                </ul> 
                                 
                           : undefined
                 }

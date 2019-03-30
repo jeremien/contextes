@@ -22,6 +22,8 @@ export default class IndexSessions extends Component {
         this.submitModif = this.submitModif.bind(this);
     }
 
+    
+
     handleSessionDelete(sessionId, badges) {
 
         if (!badges) {

@@ -24,15 +24,11 @@ export default class IndexChapitres extends Component {
   }
 
   handleChapitreDelete(chapitreId, badges) {
-
-    console.log(chapitreId, badges)
-
     if (!badges) {
       Meteor.call('chapitres.remove', chapitreId);
     } else {
       alert('ce chapitre contient des documents');
     }
-
   }
 
   handleModifier(id) {

@@ -38,7 +38,7 @@
 
 
 #menu {
-    top: calc(3rem + 4px);
+    top: calc(2rem);
     width: calc(50% - 31px);
     height: calc(100vh - 3rem);
     // transform: translateX(calc(25vw + 1px));
@@ -48,6 +48,19 @@
     z-index: 9;
     display: block;
     // right: 0;
+    // margin: 0;
+    line-height: 2rem;
+    
+}
+
+.menu--sessions {
+    list-style: none;
+    padding-left: 2rem;
+
+}
+
+.menu--chapitres {
+    padding-left: 2rem;
 }
 
 #role {

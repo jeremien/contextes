@@ -12,39 +12,35 @@ class LandingPage extends Component {
         super(props);
     }
 
-    // dataFilterSessions() {
-    //     return this.props.sessions.filter((item) => {
-    //         return item.etat === 'edition';
-    //     })
-    // }
+    dataFilterSessions() {
+        return this.props.sessions.filter((item) => {
+            return item.etat === 'edition';
+        })
+    }
 
-    // dataFilterChapitres() {
+    dataFilterChapitres(sessionId) {
+        const data = this.dataFilterSessions()
+        const chaps = data.map((session) => {
+            return this.props.chapitres.filter((item) => {
+                return sessionId === session._id
+            });
+        });
+        const openChaps = chaps.map((chap) => {
+            return chap.filter((item) => {
+                return item.isOpen === true;
+            });
+        });
+        const finalData = openChaps.reduce((acc, currValue) => {
+            return acc.concat(currValue)
+        }, []);
 
-    //     const data = this.dataFilterSessions()
-    //     // console.log(data)
+        return finalData.map((item) => {
+            return <li key={item._id}><Link to={`/session/${sessionId}/chapitre/${item._id}`}>{item.titre}</Link></li>
+        });
 
-    //     const chaps = data.map((session) => {
-    //         return this.props.chapitres.filter((item) => {
-    //             return item.session === session._id
-    //         })
-    //     })
-
-    //     const openChaps = chaps.map((chap) => {
-    //         return chap.filter((item) => {
-    //             return item.isOpen === true;
-    //         })
-    //     })
-
-    //     const finalData = openChaps.reduce((acc, currValue) => {
-    //         return acc.concat(currValue)
-    //     }, [])
-
-
-    //     return finalData;
-    // }
+    }
 
     render() {
-
 
         if (!this.props.loading) {
 
@@ -52,7 +48,15 @@ class LandingPage extends Component {
 
                             {
                                 this.props.sessions.map((item) => {
-                                    return <li key={item._id}><Link to={`/sessions/${item._id}`}>{item.titre}</Link></li>
+                                    return (
+                                        <li key={item._id}>
+                                            <Link to={`/sessions/${item._id}`}>{item.titre}</Link>
+                                            <ol className="landing--list--chapitre">
+                                                { this.dataFilterChapitres(item._id) }    
+                                            </ol>
+                                            
+                                        </li>
+                                    )
                                 })
 
                             }
