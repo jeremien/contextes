@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 import ChatBox from './Chatbox';
-import BreadCrumb from './Breadcrumb';
 
 
 export default class TopBar extends Component {
@@ -32,21 +31,15 @@ export default class TopBar extends Component {
   }
 
   dataFilterChapitres(sessionId) {
-    const chaps = this.props.sessions.map((session) => {
-        return this.props.chapitres.filter((item) => {
-            return sessionId === session._id
+    const chaps = this.props.chapitres.filter((item) => {
+            return item.session === sessionId;
         });
-    });
-    const openChaps = chaps.map((chap) => {
-        return chap.filter((item) => {
-            return item.isOpen === true;
-        });
-    });
-    const finalData = openChaps.reduce((acc, currValue) => {
-        return acc.concat(currValue)
-    }, []);
 
-    return finalData.map((item) => {
+    const openChaps = chaps.filter((item) => {
+            return item.isOpen === true;
+    });
+
+    return openChaps.map((item) => {
         return <li key={item._id}><Link to={`/session/${sessionId}/chapitre/${item._id}`}>{item.titre}</Link></li>
     });
   }

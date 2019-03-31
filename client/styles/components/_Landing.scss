@@ -1,8 +1,32 @@
+.landing--container {
+    padding-top: 2rem;
+    // margin: 3rem;
+    // margin : 1rem;
+    width : 60%;
+
+    h4 {
+        font-weight: 500;
+        // margin-bottom: 1rem;
+        // margin-block-start : 0;
+        // margin-block-end : 0;
+    }
+
+    p {
+        margin : 0;
+        padding-top : 0.5rem;
+        padding-bottom : 0.5rem;
+    }
+
+    ul {
+        margin: 0;
+        padding : 0;
+    }
+}
+
 
 .landing--list {
 
     // margin-top: 2rem;
-    padding-top: 2rem;
 
 
     list-style: none;
@@ -21,7 +45,7 @@
 }
 
 .landing--list--session {
-    padding-top: 2rem;
+    padding-top: 1rem;
 }
 
 .landing--list--chapitre {

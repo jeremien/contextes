@@ -4,9 +4,37 @@ import { Link } from 'react-router-dom';
 import { withTracker } from 'meteor/react-meteor-data';
 
 import Moment from 'react-moment';
+import ReactMarkdown from 'react-markdown/with-html';
 
 import { Sessions } from '../../api/collections/sessions';
 import { Chapitres } from '../../api/collections/chapitres';
+
+let manuel = `
+Session
+
+Chaque session correspond à un évenement : une session est à sa création en cours d'édition.
+Lorsqu'une session est considérée comme terminée, elle est soit complétée, soit archivée. 
+
+Chapitre
+
+Les chapitres appartiennent aux sessions, ils sont créés selon le découpage de l'évenement. 
+Un chapitre est à sa création ouvert à la transcription. Lorsqu'un nouveau chapitre est créé, 
+le chapitre précédent peut être fermé. 
+
+Document
+
+Les documents ont plusieurs types (texte, image etc), ils peuvent à tout moment, être corrigés, completés, triés, validés ou rejetés par le groupe. 
+
+Rôle
+
+Chaque rôle (éditeur.rice, transcripteur.rice, correcteur.rice, iconographe, lecteur.rice) est accessible à tout moment 
+et correspond à une action spécifique en lecture et écriture du jeu de documents.
+
+Conversation
+
+Il est possible d'échanger pendant l'évenement sans que les échanges soient intégrés dans la transcription 
+
+`;
 
 class LandingPage extends Component {
     
@@ -44,27 +72,33 @@ class LandingPage extends Component {
     }
 
     render() {
-
+        
         if (!this.props.loading) {
 
-                return <ul className="landing--list">
+                return (<div className="landing--container">
+                            <ReactMarkdown
+                                source={manuel}
+                                escapeHtml={true}
+                            />
+                            <ul className="landing--list">
 
-                            {
-                                this.props.sessions.map((item) => {
-                                    // console.log(item.lastModified)
-                                    return (
-                                        <li className="landing--list--session" key={item._id}>
-                                            <Link to={`/sessions/${item._id}`}> {item.titre} ({ <Moment format='DD/MM/YYYY'>{item.creation}</Moment> } { item.etat })</Link>
-                                            <ol className="landing--list--chapitre">
-                                                { this.dataFilterChapitres(item._id) }    
-                                            </ol>
-                                            
-                                        </li>
-                                    )
-                                })
+                                {
+                                    this.props.sessions.map((item) => {
+                                        // console.log(item.lastModified)
+                                        return (
+                                            <li className="landing--list--session" key={item._id}>
+                                                <Link to={`/sessions/${item._id}`}> {item.titre} ({ <Moment format='DD/MM/YYYY'>{item.creation}</Moment> } { item.etat })</Link>
+                                                <ol className="landing--list--chapitre">
+                                                    { this.dataFilterChapitres(item._id) }    
+                                                </ol>
+                                                
+                                            </li>
+                                        )
+                                    })
 
-                            }
-                        </ul>
+                                }
+                            </ul>
+                        </div>)
 
         } else {
 
