@@ -10,7 +10,7 @@ import { Sessions } from '../../api/collections/sessions';
 import { Chapitres } from '../../api/collections/chapitres';
 
 let manuel = `
-Contextes est un espace partagé d'écriture, de lecture et d'aggrégation de documents
+Contextes est un espace partagé d'écriture, de lecture et d'aggrégation de documents.
 Session
 -------
 Chaque session correspond à un événement : une session est, à sa création, en cours d'édition.
@@ -35,9 +35,13 @@ Conversation
 ------------
 Il est possible d'échanger pendant l'événement sans que les échanges ne soient intégrés dans la transcription. 
 
+Markdown
+--------
+Il est préconisé d'utiliser le balisage [markdown](https://www.markdownguide.org/basic-syntax/) pour ajouter des niveaux de lecture (titre, emphase, légende etc).
+
 Dispositifs connexes
 ---------------------
-[Plenty of room](http://plentyofroom.contextes.io) : écriture, lecture et dessin dans un espace à trois dimensions
+[Plenty of room](http://plentyofroom.contextes.io) : écriture, lecture et dessin dans un espace à trois dimensions développé par Maxime Bouton et Émile Greis.
 
 `;
 
