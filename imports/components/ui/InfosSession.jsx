@@ -9,7 +9,7 @@ export default function InfosSession(props) {
 
     return (
         <div className='infos-session'>
-            <p>la session {titre} ({description}) à le statut : {etat} </p>
+            <p>la session {titre} ({description}) a le statut : {etat} </p>
         </div>
     )
 

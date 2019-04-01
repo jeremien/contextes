@@ -64,7 +64,7 @@ Meteor.methods({
 
         const documents = ProcessAllDocs(sessionTitre);
 
-        return documents
+        return documents;
     },
 
 

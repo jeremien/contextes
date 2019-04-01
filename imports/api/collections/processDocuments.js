@@ -13,7 +13,7 @@ const getLastSessionInfos = (sessionTitre) => {
     // const session = Sessions.find({}, { sort : { creation : -1 }}).fetch();
     const session = Sessions.find({ titre : sessionTitre.session }).fetch();
 
-    let { _id, titre, auteur, creation, description } = session[0];
+    let { _id, titre, auteur, creation, description, localisation, institution, lastModified } = session[0];
     let chapitres = getAllChapitres(_id);
     // console.log(chapitres)
 
@@ -22,7 +22,10 @@ const getLastSessionInfos = (sessionTitre) => {
         titre,
         auteur,
         creation,
+        lastModified,
         description,
+        localisation,
+        institution,
         chapitres
     } ]
 

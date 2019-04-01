@@ -9,3 +9,10 @@ curl -d '{ "session" : "testdede" }' -H "Content-Type: application/json" -X POST
 - app cli pour générer texte / json / images
 
 https://framagit.org/maximebouton/plenty-of-room
+
+- idées :
+news.contextes.io > 
+on liste les postes et on les compare avec les nouvelles du jours (on peut ensuite ajouter une nouvelle à un document)
+
+annotation.contextes.io > 
+on annote les documentes sur le modèles de reddit cf ddr contexte 1

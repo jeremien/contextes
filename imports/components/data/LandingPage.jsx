@@ -4,35 +4,40 @@ import { Link } from 'react-router-dom';
 import { withTracker } from 'meteor/react-meteor-data';
 
 import Moment from 'react-moment';
-import ReactMarkdown from 'react-markdown/with-html';
+import ReactMarkdown from 'react-markdown';
 
 import { Sessions } from '../../api/collections/sessions';
 import { Chapitres } from '../../api/collections/chapitres';
 
 let manuel = `
+Contextes est un espace partagé d'écriture, de lecture et d'aggrégation de documents
 Session
-
-Chaque session correspond à un évenement : une session est à sa création en cours d'édition.
+-------
+Chaque session correspond à un événement : une session est, à sa création, en cours d'édition.
 Lorsqu'une session est considérée comme terminée, elle est soit complétée, soit archivée. 
 
 Chapitre
-
-Les chapitres appartiennent aux sessions, ils sont créés selon le découpage de l'évenement. 
+--------
+Les chapitres appartiennent aux sessions, ils sont créés selon le découpage de l'événement. 
 Un chapitre est à sa création ouvert à la transcription. Lorsqu'un nouveau chapitre est créé, 
-le chapitre précédent peut être fermé. 
+le chapitre précédent est fermé, il est éditable mais n'est plus transcriptible. 
 
 Document
-
-Les documents ont plusieurs types (texte, image etc), ils peuvent à tout moment, être corrigés, completés, triés, validés ou rejetés par le groupe. 
+--------
+Les documents ont plusieurs types (texte, image etc), ils peuvent être à tout moment corrigés, complétés, triés, validés ou rejetés par le groupe. 
 
 Rôle
-
+----
 Chaque rôle (éditeur.rice, transcripteur.rice, correcteur.rice, iconographe, lecteur.rice) est accessible à tout moment 
-et correspond à une action spécifique en lecture et écriture du jeu de documents.
+et correspond à une action spécifique (ajout de texte, d'image, correction, trie) en lecture et écriture du jeu de documents.
 
 Conversation
+------------
+Il est possible d'échanger pendant l'événement sans que les échanges ne soient intégrés dans la transcription. 
 
-Il est possible d'échanger pendant l'évenement sans que les échanges soient intégrés dans la transcription 
+Dispositifs connexes
+---------------------
+[Plenty of room](http://plentyofroom.contextes.io) : écriture, lecture et dessin dans un espace à trois dimensions
 
 `;
 
@@ -40,6 +45,24 @@ class LandingPage extends Component {
     
     constructor(props) {
         super(props);
+    }
+
+
+    showEtat(etat) {
+        
+        switch(etat) {
+            case 'edition':
+                return "est en cours d'édition";
+                break;
+            case 'completee':
+                return "est complétée";
+                break;
+            case 'archivee':
+                return "est archivée";
+                break;
+            default:
+                return undefined;
+        }
     }
 
     dataFilterSessions() {
@@ -76,18 +99,19 @@ class LandingPage extends Component {
         if (!this.props.loading) {
 
                 return (<div className="landing--container">
-                            <ReactMarkdown
-                                source={manuel}
-                                escapeHtml={true}
-                            />
-                            <ul className="landing--list">
-
+                            <div className="landing--manuel">
+                                <ReactMarkdown
+                                    source={manuel}
+                                />
+                            </div>
+                            <div className="landing--list">
+                                <ul>
                                 {
                                     this.props.sessions.map((item) => {
                                         // console.log(item.lastModified)
                                         return (
                                             <li className="landing--list--session" key={item._id}>
-                                                <Link to={`/sessions/${item._id}`}> {item.titre} ({ <Moment format='DD/MM/YYYY'>{item.creation}</Moment> } { item.etat })</Link>
+                                                <Link to={`/sessions/${item._id}`}> {item.titre} ({ <Moment format='DD/MM/YYYY'>{item.creation}</Moment> }) { this.showEtat(item.etat) }</Link>
                                                 <ol className="landing--list--chapitre">
                                                     { this.dataFilterChapitres(item._id) }    
                                                 </ol>
@@ -97,7 +121,8 @@ class LandingPage extends Component {
                                     })
 
                                 }
-                            </ul>
+                                </ul>
+                            </div>
                         </div>)
 
         } else {
