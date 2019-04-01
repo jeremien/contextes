@@ -93,12 +93,6 @@ export default class IndexSessions extends Component {
                     <div className='x jc bb py txta' key={key}>
                             
                         <p> N°{key + 1} </p>
-                        <p className='cff'><Moment format='DD/MM/YYYY'>{item.creation}</Moment></p>
-                        <p>{item.titre}</p>
-                        <p>{item.auteur}</p>
-                        <p className='cff'>{item.etat}</p>
-                        <p> { badges ? badges : 'pas de' } <span className='cff'>chapitre(s)</span></p>
-                        
                         { role === 'editeur' ? <button className="btt bcbb bg cfbl py txta" onClick={() => { 
                                 this.handleModifier(item._id) 
                             }}>modifier</button> : undefined }
@@ -108,6 +102,13 @@ export default class IndexSessions extends Component {
                         { role === 'editeur' ? <button className="btt bcr bg fcr py txta" onClick={() => {
                                 this.handleSessionDelete(item._id, badges)
                             }}>supprimer</button> : undefined }
+                        <p className='cff'><Moment format='DD/MM/YYYY'>{item.creation}</Moment></p>
+                        <p>{item.titre}</p>
+                        <p>{item.auteur}</p>
+                        <p className='cff'>{item.etat}</p>
+                        <p> { badges ? badges : 'pas de' } <span className='cff'>chapitre(s)</span></p>
+                        
+                        
             
                     </div>
                 )

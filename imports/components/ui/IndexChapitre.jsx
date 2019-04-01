@@ -71,19 +71,20 @@ export default class IndexChapitres extends Component {
           <div className='x jc bb py' key={key}>
                   
                   <p> N°{key + 1} </p>
-                  <p className='cff'><Moment format='DD/MM/YYYY'>{item.creation}</Moment></p>
-                  <p>{item.titre}</p>
-                  <p>{item.auteur}</p>
-                  <p className='cff'>{item.isOpen ? 'ouvert' : 'fermé'}</p>
-                  <p> { badges ? badges : '0' } <span className='cff'>documents</span></p>
                   { role === 'editeur' ? <button className="btt bcbb bg cfbl py txta" onClick={() => this.handleModifier(item._id)}>modifier</button> : undefined }
-                 
+                  
                   <button className="btt bcg bg cfgr py" onClick={() => this.props.history.push(`/session/${item.session}/chapitre/${item._id}`) }>rejoindre</button>
                   
                   { role === 'editeur' ? <button className="btt bcr bg fcr py txta" onClick={() => {
                     // if (window.confirm('supprimer ce chapitre ?'));
                     this.handleChapitreDelete(item._id, badges);
                     }}>supprimer</button> : undefined }
+                  <p className='cff'><Moment format='DD/MM/YYYY'>{item.creation}</Moment></p>
+                  <p>{item.titre}</p>
+                  <p>{item.auteur}</p>
+                  <p className='cff'>{item.isOpen ? 'ouvert' : 'fermé'}</p>
+                  <p> { badges ? badges : '0' } <span className='cff'>documents</span></p>
+                 
           
           </div>
         )

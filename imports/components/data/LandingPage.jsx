@@ -11,25 +11,27 @@ import { Chapitres } from '../../api/collections/chapitres';
 
 let manuel = `
 Contextes est un espace partagé d'écriture, de lecture et d'aggrégation de documents.
-Session
--------
-Chaque session correspond à un événement : une session est, à sa création, en cours d'édition.
-Lorsqu'une session est considérée comme terminée, elle est soit complétée, soit archivée. 
-
-Chapitre
---------
-Les chapitres appartiennent aux sessions, ils sont créés selon le découpage de l'événement. 
-Un chapitre est à sa création ouvert à la transcription. Lorsqu'un nouveau chapitre est créé, 
-le chapitre précédent est fermé, il est éditable mais n'est plus transcriptible. 
-
-Document
---------
-Les documents ont plusieurs types (texte, image etc), ils peuvent être à tout moment corrigés, complétés, triés, validés ou rejetés par le groupe. 
 
 Rôle
 ----
 Chaque rôle (éditeur.rice, transcripteur.rice, correcteur.rice, iconographe, lecteur.rice) est accessible à tout moment 
 et correspond à une action spécifique (ajout de texte, d'image, correction, trie) en lecture et écriture du jeu de documents.
+
+[Sessions](http://contextes.io/sessions)
+-------
+Chaque session correspond à un événement : une session est, à sa création (seul le rôle éditeur peut agir sur les sessions), en cours d'édition.
+Lorsqu'une session est considérée comme terminée, elle est soit complétée, soit archivée. 
+
+Chapitre
+--------
+Les chapitres appartiennent aux sessions, ils sont créés (seul le rôle éditeur peut agir sur les chapitres) selon le découpage de l'événement. 
+Un chapitre est à sa création ouvert à la transcription. Lorsqu'un nouveau chapitre est créé, 
+le chapitre précédent est fermé, il est éditable mais n'est plus transcriptible. 
+
+Document
+--------
+Les documents ont plusieurs types (texte, image etc), ils sont créés par le ou la transcripteur.rice et l'iconographe
+et peuvent être à tout moment corrigés, complétés, triés, validés ou rejetés par le ou la correcteur.rice et l'éditeur.rice.
 
 Conversation
 ------------

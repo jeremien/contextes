@@ -57,7 +57,7 @@ class Login extends React.Component {
                 Meteor.call('notification', infos);
         
                 if (history) {
-                    history.push('/sessions');
+                    history.push('/');
                 }
             }
             
