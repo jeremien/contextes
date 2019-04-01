@@ -19,12 +19,12 @@ et correspond à une action spécifique (ajout de texte, d'image, correction, tr
 
 [Sessions](http://contextes.io/sessions)
 -------
-Chaque session correspond à un événement : une session est, à sa création (seul le rôle éditeur peut agir sur les sessions), en cours d'édition.
+Chaque session correspond à un événement : une session est, à sa création , en cours d'édition (l'éditeur.rice peut agir sur les sessions).
 Lorsqu'une session est considérée comme terminée, elle est soit complétée, soit archivée. 
 
 Chapitre
 --------
-Les chapitres appartiennent aux sessions, ils sont créés (seul le rôle éditeur peut agir sur les chapitres) selon le découpage de l'événement. 
+Les chapitres appartiennent aux sessions, ils sont créés selon le découpage de l'événement (l'éditeur.rice peut agir sur les chapitres). 
 Un chapitre est à sa création ouvert à la transcription. Lorsqu'un nouveau chapitre est créé, 
 le chapitre précédent est fermé, il est éditable mais n'est plus transcriptible. 
 
@@ -35,7 +35,7 @@ et peuvent être à tout moment corrigés, complétés, triés, validés ou reje
 
 Conversation
 ------------
-Il est possible d'échanger pendant l'événement sans que les échanges ne soient intégrés dans la transcription. 
+Il est possible de discuter pendant l'événement sans que les échanges ne soient intégrés dans la transcription. 
 
 Markdown
 --------
