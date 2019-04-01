@@ -11,7 +11,7 @@ const AlertMessage = (props) => {
                 <div className='alert--container bb bcb py px'>
 
                    { props.alert ? 
-                        <span className='cff'>À <Moment format='HH:mm'>{Date.now()}</Moment>, {props.alert.titre} dit <span className='cfb'>{props.alert.message}</span> </span> :
+                        <span className='cff'>À <Moment format='HH:mm'>{Date.now()}</Moment>, {props.alert.titre} > <span className='cfb'>{props.alert.message}</span> </span> :
                         <span className='cff'>pas de message</span>
                     } 
 
