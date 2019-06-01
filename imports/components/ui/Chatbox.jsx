@@ -34,8 +34,7 @@ class Chatbox extends Component {
     }
 
     chatList = (datas) => {
-
-        if (datas.length > 40) {
+        if (datas.length > 10) {
             let last = datas.pop();
             Meteor.call('messages.remove', last._id);
         }

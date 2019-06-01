@@ -5,21 +5,18 @@ import { withTracker } from 'meteor/react-meteor-data';
 import { Documents } from '../../../api/collections/documents';
 
 import DetailsDocumentsCorrecteur from './DetailsDocumentsCorrecteur';
-
+import DetailsDocumentsCorrecteurLecture from './DetailsDocumentsCorrecteurLecture';
 class CorrectionDocument extends Component {
 
     render() {
 
         if (this.props.chapitre.isOpen) {
-            return (
-                <div className="details-documents-container">
-                    {this.props.documents.map((document) =>
-                        <div key={document._id}>
+            return this.props.documents.map((document) => {
+                        return <div key={document._id} className="details-documents-container">
                             <DetailsDocumentsCorrecteur document={document} utilisateur={this.props.utilisateur} />
+                            <DetailsDocumentsCorrecteurLecture document={document} />
                         </div>
-                    )}
-                </div>
-            )
+                        })
         } else {
             return (
                 <p>le chapitre est fermé</p>

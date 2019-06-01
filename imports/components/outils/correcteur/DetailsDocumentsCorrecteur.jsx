@@ -26,7 +26,7 @@ export default class DetailsDocumentCorrecteur extends Component {
 
     handleChange(event) {
         this.setState({ contenu: event.target.value, revised : true, isTyping : true });
-        // Meteor.call('documents.update', this.props.document._id, this.state.contenu, this.props.utilisateur);
+        Meteor.call('documents.update', this.props.document._id, this.state.contenu, this.props.utilisateur);
 
     }
 
@@ -42,22 +42,21 @@ export default class DetailsDocumentCorrecteur extends Component {
 
     render() {
 
-        console.log(this.props)
-
         let { contenu, isTyping, revised } = this.state;
 
         return (
-            <form className='details-documents--elements'>
-                {!!this.props.document.image ? <p className='cfbl fscs'> légende de l'image enregistrée à {<Moment format='HH:mm:ss'>{this.props.document.creation}</Moment>}</p> : undefined}
+            <div className="details-documents--elements">
+                
+                {/* {!!this.props.document.image ? <p className='cfbl fscs'> légende de l'image enregistrée à {<Moment format='HH:mm:ss'>{this.props.document.creation}</Moment>}</p> : undefined} */}
                 
                 <textarea
-                    className={revised ? 'wfull txta py px btt fsc bg bcg' : 'wfull txta py px btt fsc bcr'}
+                    // className={revised ? 'wfull txta py px btt fsc bg bcg' : 'wfull txta py px btt fsc bcr'}
                     value={contenu}
                     onChange={this.handleChange}
-                    onKeyPress={this.handleEnter}
+                    // onKeyPress={this.handleEnter}
                 />
-                { isTyping ? <p className="fscs cfgr">Appuyer sur entrer pour valider</p> : undefined }
-            </form>
+                {/* { isTyping ? <p className="fscs cfgr">Appuyer sur entrer pour valider</p> : undefined } */}
+            </div>
         )
 
     }

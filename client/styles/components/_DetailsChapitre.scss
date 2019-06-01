@@ -43,28 +43,24 @@
 }
 
 .details-documents-container {
-    padding-top: 2rem;
-    // margin-top: 2rem;
+    display: flex;
 }
 
 .details-documents--elements {
-    // margin: 1.5rem;
 
-    height: 200px;
+    flex-basis: 100%;
+    margin: 5px;
 
     textarea {
+        width: 100%;
         box-sizing: border-box;
-        height: 80%;
+        height: 100%;
+    }
 
-        &:focus {
-            border-color: red;
-        }
+    img {
+        width: 20%;
     }
 }
-
-// .ajouterimage {
-    
-// }
 
 .ajoutersession {
     

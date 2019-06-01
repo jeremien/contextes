@@ -9,6 +9,8 @@ import ReactMarkdown from 'react-markdown';
 import { Sessions } from '../../api/collections/sessions';
 import { Chapitres } from '../../api/collections/chapitres';
 
+import _ from 'lodash';
+
 let manuel = `
 Contextes est un espace partagé d'écriture, de lecture et d'aggrégation de documents.
 
@@ -77,26 +79,19 @@ class LandingPage extends Component {
         })
     }
 
-    dataFilterChapitres(sessionId) {
-        const data = this.dataFilterSessions();
+    dataFilterChapitres(session) {
 
-        const chaps = data.map((session) => {
-            return this.props.chapitres.filter((item) => {
-                return sessionId === session._id
+        if (session.etat === 'edition') {
+            let filtred_chaps = this.props.chapitres.filter((item) => {
+                if (item.isOpen) {
+                    return item.session === session._id;
+                }
             });
-        });
-        const openChaps = chaps.map((chap) => {
-            return chap.filter((item) => {
-                return item.isOpen === true;
+            
+            return filtred_chaps.map((item) => {
+                return <li key={item._id}><Link to={`/session/${session._id}/chapitre/${item._id}`}>{item.titre} ({ <Moment format='DD/MM/YYYY'>{item.lastModified}</Moment> })</Link></li>
             });
-        });
-        const finalData = openChaps.reduce((acc, currValue) => {
-            return acc.concat(currValue)
-        }, []);
-
-        return finalData.map((item) => {
-        return <li key={item._id}><Link to={`/session/${sessionId}/chapitre/${item._id}`}>{item.titre} ({ <Moment format='DD/MM/YYYY'>{item.lastModified}</Moment> })</Link></li>
-        });
+        }
 
     }
 
@@ -114,12 +109,11 @@ class LandingPage extends Component {
                                 <ul>
                                 {
                                     this.props.sessions.map((item) => {
-                                        // console.log(item.lastModified)
                                         return (
                                             <li className="landing--list--session" key={item._id}>
                                                 <Link to={`/sessions/${item._id}`}> {item.titre} ({ <Moment format='DD/MM/YYYY'>{item.creation}</Moment> }) { this.showEtat(item.etat) }</Link>
                                                 <ol className="landing--list--chapitre">
-                                                    { this.dataFilterChapitres(item._id) }    
+                                                    { this.dataFilterChapitres(item) }    
                                                 </ol>
                                                 
                                             </li>
